@@ -31,11 +31,10 @@ export interface ButtonProps
 
   loading?: boolean;
 
-  size?: "xs" | "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg";
 }
 
 const sizeMap = {
-  xs: clsx(`px-2 py-0.5 text-xs`),
   sm: clsx(`px-3 py-1 text-xs`),
   md: clsx(`px-4 py-2 text-sm`),
   lg: clsx(`px-6 py-3 text-sm`),

@@ -51,6 +51,9 @@ devDependencies:
   "@storybook/testing-library":
     specifier: ^0.1.0
     version: 0.1.0
+  "@tailwindcss/forms":
+    specifier: ^0.5.3
+    version: 0.5.3(tailwindcss@3.3.2)
   "@types/react":
     specifier: ^18.0.28
     version: 18.2.5
@@ -4069,6 +4072,18 @@ packages:
     engines: { node: ">=14.16" }
     dependencies:
       defer-to-connect: 2.0.1
+    dev: true
+
+  /@tailwindcss/forms@0.5.3(tailwindcss@3.3.2):
+    resolution:
+      {
+        integrity: sha512-y5mb86JUoiUgBjY/o6FJSFZSEttfb3Q5gllE4xoKjAAD+vBrnIhE4dViwUuow3va8mpH4s9jyUbUbrRGoRdc2Q==,
+      }
+    peerDependencies:
+      tailwindcss: ">=3.0.0 || >= 3.0.0-alpha.1"
+    dependencies:
+      mini-svg-data-uri: 1.4.4
+      tailwindcss: 3.3.2(ts-node@10.9.1)
     dev: true
 
   /@testing-library/dom@8.20.0:
@@ -11040,6 +11055,14 @@ packages:
         integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==,
       }
     engines: { node: ">=4" }
+    dev: true
+
+  /mini-svg-data-uri@1.4.4:
+    resolution:
+      {
+        integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==,
+      }
+    hasBin: true
     dev: true
 
   /minimatch@3.1.2:
