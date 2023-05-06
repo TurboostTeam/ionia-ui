@@ -11,6 +11,7 @@ semantic-release:
     paths:
       - .pnpm-store
   before_script:
+    - apk add --no-cache git
     - corepack enable
     - corepack prepare pnpm@latest-8 --activate
     - pnpm config set store-dir .pnpm-store
