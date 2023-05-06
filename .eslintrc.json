@@ -1,0 +1,41 @@
+{
+  "env": {
+    "browser": true,
+    "es2020": true
+  },
+  "extends": [
+    "standard-jsx",
+    "standard-react",
+    "standard-with-typescript",
+    "plugin:prettier/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:storybook/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["react-refresh", "simple-import-sort", "tailwindcss"],
+  "rules": {
+     "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "import/order": "off",
+    "import/newline-after-import": "error",
+    "tailwindcss/classnames-order": "error",
+    "react/jsx-sort-props": ["error", {
+      "callbacksLast": true,
+      "shorthandFirst": true
+    }],
+    "react/react-in-jsx-scope": "off",
+    "react-refresh/only-export-components": "warn"
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "parserOptions": {
+        "project": ["./tsconfig.json"]
+      }
+    }
+  ]
+}

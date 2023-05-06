@@ -1,4 +1,4 @@
-import { ReactElement, useMemo } from "react";
+import { type ReactElement, useMemo } from "react";
 import { useTable } from "react-table";
 
 export interface TableColumnProps<T extends object> {
@@ -10,7 +10,7 @@ export interface TableProps<T extends object> {
   /**
    * Is this the principal call to action on the page?
    */
-  columns: TableColumnProps<T>[];
+  columns: Array<TableColumnProps<T>>;
   /**
    * Is this the principal call to action on the page?
    */
@@ -51,64 +51,45 @@ export function Table<T extends Record<string, any>>({
       {...getTableProps()}
     >
       <thead>
-        {
-          // Loop over the header rows
-          headerGroups.map((headerGroup) => (
-            // Apply the header row props
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {
-                // Loop over the headers in each row
-                headerGroup.headers.map((column) => (
-                  // Apply the header cell props
-                  <th
-                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    {...column.getHeaderProps()}
-                  >
-                    {
-                      // Render the header
-                      column.render("Header")
-                    }
-                  </th>
-                ))
-              }
-            </tr>
-          ))
-        }
+        {headerGroups.map((headerGroup) => (
+          // eslint-disable-next-line react/jsx-key
+          <tr {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map((column) => (
+              // eslint-disable-next-line react/jsx-key
+              <th
+                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                {...column.getHeaderProps()}
+              >
+                {column.render("Header")}
+              </th>
+            ))}
+          </tr>
+        ))}
       </thead>
-      {/* Apply the table body props */}
+
       <tbody
         className="divide-y divide-gray-200 bg-white"
         {...getTableBodyProps()}
       >
-        {
-          // Loop over the table rows
-          rows.map((row) => {
-            // Prepare the row for display
-            prepareRow(row);
-            return (
-              // Apply the row props
-              <tr {...row.getRowProps()}>
-                {
-                  // Loop over the rows cells
-                  row.cells.map((cell) => {
-                    // Apply the cell props
-                    return (
-                      <td
-                        className="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-                        {...cell.getCellProps()}
-                      >
-                        {
-                          // Render the cell contents
-                          cell.render("Cell")
-                        }
-                      </td>
-                    );
-                  })
-                }
-              </tr>
-            );
-          })
-        }
+        {rows.map((row) => {
+          prepareRow(row);
+          return (
+            // eslint-disable-next-line react/jsx-key
+            <tr {...row.getRowProps()}>
+              {row.cells.map((cell) => {
+                return (
+                  // eslint-disable-next-line react/jsx-key
+                  <td
+                    className="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
+                    {...cell.getCellProps()}
+                  >
+                    {cell.render("Cell")}
+                  </td>
+                );
+              })}
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );

@@ -1,5 +1,10 @@
-import { ButtonHTMLAttributes, DetailedHTMLProps, FC } from "react";
 import clsx from "clsx";
+import {
+  type ButtonHTMLAttributes,
+  type DetailedHTMLProps,
+  type FC,
+} from "react";
+
 import { Spinner } from "../spinner";
 
 export interface ButtonProps
@@ -52,7 +57,6 @@ export const Button: FC<ButtonProps> = ({
 }) => {
   return (
     <button
-      type="button"
       className={clsx(
         `relative font-semibold shadow-sm`,
         !destructive &&
@@ -60,15 +64,16 @@ export const Button: FC<ButtonProps> = ({
           `bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:bg-gray-100 disabled:text-gray-400`,
         !destructive &&
           primary &&
-          `bg-indigo-600 text-white shadow-sm hover:bg-indigo-500 disabled:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`,
+          `bg-indigo-600 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-indigo-400`,
         destructive &&
           !primary &&
-          `bg-red-600 text-white shadow-sm hover:bg-red-500 disabled:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600`,
+          `bg-red-600 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 disabled:bg-red-400`,
         rounded ? `rounded-full` : `rounded-md`,
         sizeMap[size],
         className
       )}
       disabled={disabled || loading}
+      type="button"
       {...props}
     >
       {loading && (

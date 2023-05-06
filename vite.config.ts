@@ -1,10 +1,10 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import typescript from "@rollup/plugin-typescript";
 import { resolve } from "path";
+import dts from "vite-plugin-dts";
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), dts()],
   build: {
     outDir: "dist",
     lib: {
@@ -20,11 +20,6 @@ export default defineConfig({
           "react-dom": "ReactDOM",
         },
       },
-      plugins: [
-        typescript({
-          outDir: resolve(__dirname, "dist"),
-        }),
-      ],
     },
   },
 });
