@@ -18,7 +18,7 @@
   },
   "plugins": ["react-refresh", "simple-import-sort", "tailwindcss"],
   "rules": {
-     "simple-import-sort/imports": "error",
+    "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "import/order": "off",
     "import/newline-after-import": "error",
