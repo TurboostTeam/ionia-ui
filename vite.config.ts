@@ -9,8 +9,8 @@ export default defineConfig({
     outDir: "dist",
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
-      name: "Ionia",
-      fileName: "ionia",
+      name: "IoniaUI",
+      fileName: "index",
     },
     rollupOptions: {
       external: ["react", "react-dom"],

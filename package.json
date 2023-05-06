@@ -1,26 +1,27 @@
 {
-  "name": "ionia",
-  "private": true,
+  "name": "@ionia-ui/components",
   "version": "0.0.0",
   "type": "module",
   "files": [
     "dist"
   ],
-  "main": "./dist/ionia.umd.cjs",
-  "module": "./dist/ionia.js",
+  "main": "./dist/index.umd.cjs",
+  "types": "./dist/index.d.ts",
+  "module": "./dist/index.js",
   "exports": {
     ".": {
-      "import": "./dist/ionia.js",
-      "require": "./dist/ionia.umd.cjs"
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.cjs"
     }
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
-    "dev": "vite",
+    "dev": "storybook dev -p 6006",
     "build": "tsc && vite build",
+    "build:storybook": "storybook build",
     "lint": "eslint src --ext js,ts,jsx,tsx --fix",
-    "preview": "vite preview",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -64,7 +65,6 @@
     "husky": "^8.0.3",
     "lint-staged": "^13.2.2",
     "postcss": "^8.4.23",
-    "prop-types": "^15.8.1",
     "storybook": "^7.0.8",
     "tailwindcss": "^3.3.2",
     "typescript": "^5.0.2",
