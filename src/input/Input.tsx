@@ -46,7 +46,7 @@ export const Input: FC<InputProps> = ({
           className="block text-sm font-medium leading-6 text-gray-900"
           htmlFor={label}
         >
-          Email
+          {label}
         </label>
       )}
 
