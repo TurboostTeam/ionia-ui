@@ -49,3 +49,17 @@ export const Disabled: Story = {
     disabled: true,
   },
 };
+
+export const Prefix: Story = {
+  args: {
+    label: "Price",
+    prefix: "$",
+  },
+};
+
+export const Suffix: Story = {
+  args: {
+    label: "Price",
+    suffix: "USD",
+  },
+};
