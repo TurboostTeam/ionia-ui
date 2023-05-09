@@ -81,7 +81,7 @@ export const Button: FC<ButtonProps> = ({
     >
       {loading && (
         <span className="absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]">
-          <Spinner size={size} />
+          <Spinner className="text-slate-500" size={size} />
         </span>
       )}
 
