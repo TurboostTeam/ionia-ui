@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { type ElementType, type ReactElement, type ReactNode } from "react";
+import { type ElementType, type ReactElement } from "react";
 
 import { type HTMLProps } from "../common";
 import { Spinner } from "../spinner";
@@ -24,8 +24,6 @@ export type ButtonProps<T extends ElementType> = HTMLProps<T> & {
 
   loading?: boolean;
 
-  icon?: ReactNode;
-
   size?: "sm" | "md" | "lg";
 };
 
@@ -47,7 +45,6 @@ export function Button<T extends ElementType = "button">({
   disabled = false,
   loading = false,
   size = "md",
-  icon,
   className,
   ...props
 }: ButtonProps<T>): ReactElement {
@@ -56,7 +53,7 @@ export function Button<T extends ElementType = "button">({
   return (
     <Component
       className={clsx(
-        `relative font-semibold shadow-sm`,
+        `relative text-center font-semibold shadow-sm`,
         !destructive &&
           !primary &&
           `bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:bg-gray-100 disabled:text-gray-400`,
@@ -80,16 +77,7 @@ export function Button<T extends ElementType = "button">({
         </span>
       )}
 
-      <span
-        className={clsx(
-          loading && `text-transparent`,
-          "flex space-x-1 whitespace-nowrap"
-        )}
-      >
-        <div>{icon}</div>
-
-        <div>{children}</div>
-      </span>
+      <span className={clsx(loading && `text-transparent`)}>{children}</span>
     </Component>
   );
 }

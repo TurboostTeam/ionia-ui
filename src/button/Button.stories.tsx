@@ -60,9 +60,9 @@ export const Link: Story = {
   },
 };
 
-export const Icon: Story = {
+export const Block: Story = {
   args: {
-    icon: <div>icon</div>,
     children: "Button",
+    className: "w-full",
   },
 };
