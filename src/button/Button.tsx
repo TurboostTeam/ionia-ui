@@ -53,16 +53,22 @@ export function Button<T extends ElementType = "button">({
   return (
     <Component
       className={clsx(
+        // 基本类
         `relative text-center font-semibold shadow-sm`,
-        !destructive &&
-          !primary &&
+        // 默认和加载
+        ((!primary && !destructive) || (primary && destructive) || loading) &&
           `bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:bg-gray-100 disabled:text-gray-400`,
-        !destructive &&
+        // 主要
+        !loading &&
           primary &&
+          !destructive &&
           `bg-indigo-600 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-indigo-400`,
-        destructive &&
+        // 危险
+        !loading &&
           !primary &&
+          destructive &&
           `bg-red-600 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 disabled:bg-red-400`,
+        // 其他
         rounded ? `rounded-full` : `rounded-md`,
         sizeMap[size],
         className
