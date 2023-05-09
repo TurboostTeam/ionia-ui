@@ -50,7 +50,7 @@ export const Input: FC<InputProps> = ({
         </label>
       )}
 
-      <div className="mt-2">
+      <div className={clsx(typeof label !== "undefined" && "mt-2")}>
         <input
           className={clsx(
             "block w-full rounded-md border-0 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 disabled:ring-gray-200 sm:text-sm sm:leading-6",
