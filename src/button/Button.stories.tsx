@@ -51,3 +51,10 @@ export const Loading: Story = {
     children: "Button",
   },
 };
+
+export const Icon: Story = {
+  args: {
+    icon: <div>icon</div>,
+    children: "Button",
+  },
+};

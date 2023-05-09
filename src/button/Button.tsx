@@ -3,6 +3,7 @@ import {
   type ButtonHTMLAttributes,
   type DetailedHTMLProps,
   type FC,
+  type ReactNode,
 } from "react";
 
 import { Spinner } from "../spinner";
@@ -31,6 +32,8 @@ export interface ButtonProps
 
   loading?: boolean;
 
+  icon?: ReactNode;
+
   size?: "sm" | "md" | "lg";
 }
 
@@ -51,6 +54,7 @@ export const Button: FC<ButtonProps> = ({
   disabled = false,
   loading = false,
   size = "md",
+  icon,
   className,
   ...props
 }) => {
@@ -81,7 +85,16 @@ export const Button: FC<ButtonProps> = ({
         </span>
       )}
 
-      <span className={clsx(loading && `text-transparent`)}>{children}</span>
+      <span
+        className={clsx(
+          loading && `text-transparent`,
+          "flex space-x-1 whitespace-nowrap"
+        )}
+      >
+        <div>{icon}</div>
+
+        <div>{children}</div>
+      </span>
     </button>
   );
 };
