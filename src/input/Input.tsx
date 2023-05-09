@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import { type FC, type ReactNode } from "react";
+import { twMerge } from "tailwind-merge";
 
 import { type HTMLProps } from "../common";
 
@@ -21,8 +21,8 @@ export interface InputProps
 }
 
 const sizeMap = {
-  md: clsx(`py-1.5`),
-  lg: clsx(`py-2.5`),
+  md: twMerge(`py-1.5`),
+  lg: twMerge(`py-2.5`),
 };
 
 /**
@@ -41,7 +41,7 @@ export const Input: FC<InputProps> = ({
   ...props
 }) => {
   return (
-    <div className="text-sm">
+    <div className={twMerge("text-sm", className)}>
       {typeof label !== "undefined" && (
         <label
           className="block font-medium leading-6 text-gray-900"
@@ -52,10 +52,10 @@ export const Input: FC<InputProps> = ({
       )}
 
       <div
-        className={clsx(
+        className={twMerge(
           "flex gap-2 rounded-md px-3 shadow-sm",
           typeof label !== "undefined" && "mt-2",
-          "block w-full ring-1 focus-within:cursor-not-allowed focus-within:bg-gray-50 focus-within:text-gray-500 focus-within:ring-2 focus-within:ring-inset focus-within:ring-gray-200 sm:leading-6",
+          "w-full ring-1 ring-inset focus-within:cursor-not-allowed focus-within:bg-gray-50 focus-within:text-gray-500 focus-within:ring-2 focus-within:ring-inset",
           typeof error === "undefined"
             ? `ring-gray-300 focus-within:ring-indigo-600`
             : `ring-red-300 focus-within:ring-red-500`,
@@ -69,8 +69,8 @@ export const Input: FC<InputProps> = ({
         )}
 
         <input
-          className={clsx(
-            "my-0.5 flex-1 border-0 bg-inherit p-0 text-sm focus:ring-0 disabled:cursor-not-allowed",
+          className={twMerge(
+            "flex-1 border-0 bg-inherit p-0 text-sm focus:ring-0 disabled:cursor-not-allowed",
             typeof error === "undefined"
               ? `text-gray-900 placeholder:text-gray-400`
               : `text-red-900 placeholder:text-red-300`
@@ -89,7 +89,7 @@ export const Input: FC<InputProps> = ({
 
       {(typeof error !== "undefined" || typeof helperText !== "undefined") && (
         <p
-          className={clsx(
+          className={twMerge(
             `mt-2`,
             typeof error !== "undefined" && `text-red-600`,
             typeof error === "undefined" &&

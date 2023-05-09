@@ -1,9 +1,6 @@
 lockfileVersion: "6.0"
 
 dependencies:
-  clsx:
-    specifier: ^1.2.1
-    version: 1.2.1
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -13,8 +10,14 @@ dependencies:
   react-table:
     specifier: ^7.8.0
     version: 7.8.0(react@18.2.0)
+  tailwind-merge:
+    specifier: ^1.12.0
+    version: 1.12.0
 
 devDependencies:
+  "@heroicons/react":
+    specifier: ^2.0.17
+    version: 2.0.17(react@18.2.0)
   "@semantic-release/commit-analyzer":
     specifier: ^9.0.2
     version: 9.0.2(semantic-release@21.0.2)
@@ -2260,6 +2263,17 @@ packages:
       {
         integrity: sha512-cEee/Z+I12mZcFJshKcCqC8tuX5hG3s+d+9nZ3LabqKF1vKdF41B92pJVCBggjAGORAeOzyyDDKrZwIkLffeOQ==,
       }
+    dev: true
+
+  /@heroicons/react@2.0.17(react@18.2.0):
+    resolution:
+      {
+        integrity: sha512-90GMZktkA53YbNzHp6asVEDevUQCMtxWH+2UK2S8OpnLEu7qckTJPhNxNQG52xIR1WFTwFqtH6bt7a60ZNcLLA==,
+      }
+    peerDependencies:
+      react: ">= 16"
+    dependencies:
+      react: 18.2.0
     dev: true
 
   /@humanwhocodes/config-array@0.11.8:
@@ -6487,14 +6501,6 @@ packages:
       }
     engines: { node: ">=0.8" }
     dev: true
-
-  /clsx@1.2.1:
-    resolution:
-      {
-        integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==,
-      }
-    engines: { node: ">=6" }
-    dev: false
 
   /code-block-writer@12.0.0:
     resolution:
@@ -14499,6 +14505,13 @@ packages:
         integrity: sha512-AsS729u2RHUfEra9xJrE39peJcc2stq2+poBXX8bcM08Y6g9j/i/PUzwNQqkaJde7Ntg1TO7bSREbR5sdosQ+g==,
       }
     dev: true
+
+  /tailwind-merge@1.12.0:
+    resolution:
+      {
+        integrity: sha512-Y17eDp7FtN1+JJ4OY0Bqv9OA41O+MS8c1Iyr3T6JFLnOgLg3EvcyMKZAnQ8AGyvB5Nxm3t9Xb5Mhe139m8QT/g==,
+      }
+    dev: false
 
   /tailwindcss@3.3.2(ts-node@10.9.1):
     resolution:

@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import { type ElementType, type ReactElement } from "react";
+import { twMerge } from "tailwind-merge";
 
 import { type HTMLProps } from "../common";
 import { Spinner } from "../spinner";
@@ -28,9 +28,9 @@ export type ButtonProps<T extends ElementType> = HTMLProps<T> & {
 };
 
 const sizeMap = {
-  sm: clsx(`px-3 py-1 text-xs`),
-  md: clsx(`px-4 py-2 text-sm`),
-  lg: clsx(`px-6 py-3 text-sm`),
+  sm: twMerge(`px-2 py-1 text-xs`),
+  md: twMerge(`px-3 py-1.5 text-sm`),
+  lg: twMerge(`px-6 py-3 text-sm`),
 };
 
 /**
@@ -52,7 +52,7 @@ export function Button<T extends ElementType = "button">({
 
   return (
     <Component
-      className={clsx(
+      className={twMerge(
         // 基本类
         `relative text-center font-semibold shadow-sm`,
         // 默认和加载
@@ -83,7 +83,7 @@ export function Button<T extends ElementType = "button">({
         </span>
       )}
 
-      <span className={clsx(loading && `text-transparent`)}>{children}</span>
+      <span className={twMerge(loading && `text-transparent`)}>{children}</span>
     </Component>
   );
 }
