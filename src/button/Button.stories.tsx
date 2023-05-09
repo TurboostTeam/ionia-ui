@@ -52,6 +52,14 @@ export const Loading: Story = {
   },
 };
 
+export const Link: Story = {
+  args: {
+    as: "a",
+    children: "Button",
+    href: "#",
+  },
+};
+
 export const Icon: Story = {
   args: {
     icon: <div>icon</div>,

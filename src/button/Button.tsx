@@ -1,18 +1,10 @@
 import clsx from "clsx";
-import {
-  type ButtonHTMLAttributes,
-  type DetailedHTMLProps,
-  type FC,
-  type ReactNode,
-} from "react";
+import { type ElementType, type ReactElement, type ReactNode } from "react";
 
+import { type HTMLProps } from "../common";
 import { Spinner } from "../spinner";
 
-export interface ButtonProps
-  extends DetailedHTMLProps<
-    ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  > {
+export type ButtonProps<T extends ElementType> = HTMLProps<T> & {
   /**
    * Provides extra visual weight and identifies the primary action in a set of buttons.
    */
@@ -35,7 +27,7 @@ export interface ButtonProps
   icon?: ReactNode;
 
   size?: "sm" | "md" | "lg";
-}
+};
 
 const sizeMap = {
   sm: clsx(`px-3 py-1 text-xs`),
@@ -46,7 +38,8 @@ const sizeMap = {
 /**
  * 按钮组件
  */
-export const Button: FC<ButtonProps> = ({
+export function Button<T extends ElementType = "button">({
+  as,
   children,
   primary = false,
   destructive = false,
@@ -57,9 +50,11 @@ export const Button: FC<ButtonProps> = ({
   icon,
   className,
   ...props
-}) => {
+}: ButtonProps<T>): ReactElement {
+  const Component = as ?? "button";
+
   return (
-    <button
+    <Component
       className={clsx(
         `relative font-semibold shadow-sm`,
         !destructive &&
@@ -95,6 +90,6 @@ export const Button: FC<ButtonProps> = ({
 
         <div>{children}</div>
       </span>
-    </button>
+    </Component>
   );
-};
+}
