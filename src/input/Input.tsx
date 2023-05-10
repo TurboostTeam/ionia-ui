@@ -7,7 +7,7 @@ export interface InputProps
   extends Omit<HTMLProps<"input">, "size" | "prefix" | "onChange"> {
   label?: string;
 
-  helperText?: string;
+  helpText?: string;
 
   error?: string;
 
@@ -18,6 +18,8 @@ export interface InputProps
   prefix?: ReactNode;
 
   suffix?: ReactNode;
+
+  onChange?: (value?: string) => void;
 }
 
 const sizeMap = {
@@ -30,13 +32,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     {
       children,
       label,
-      helperText,
+      helpText,
       error,
       disabled = false,
       size = "md",
       className,
       prefix,
       suffix,
+      onChange,
       ...props
     },
     ref
@@ -79,6 +82,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             disabled={disabled}
             ref={ref}
             type="text"
+            onChange={(event) => onChange?.(event.target.value)}
             {...props}
           />
 
@@ -89,18 +93,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
 
-        {(typeof error !== "undefined" ||
-          typeof helperText !== "undefined") && (
+        {(typeof error !== "undefined" || typeof helpText !== "undefined") && (
           <p
             className={twMerge(
               `mt-2`,
               typeof error !== "undefined" && `text-red-600`,
               typeof error === "undefined" &&
-                typeof helperText !== "undefined" &&
+                typeof helpText !== "undefined" &&
                 `text-gray-500`
             )}
           >
-            {error ?? helperText}
+            {error ?? helpText}
           </p>
         )}
       </div>

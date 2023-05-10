@@ -21,7 +21,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
           />
         </div>
         <div className="ml-2 text-sm">
-          <label className="font-medium text-gray-900">{label}</label>
+          <label className="text-gray-900">{label}</label>
 
           {typeof helpText !== "undefined" && (
             <p className="mt-2 text-gray-500">{helpText}</p>

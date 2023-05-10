@@ -28,7 +28,7 @@ export const HelpText: Story = {
   args: {
     label: "Email",
     placeholder: "you@example.com",
-    helperText: "Please enter your email address",
+    helpText: "Please enter your email address",
   },
 };
 
@@ -36,7 +36,7 @@ export const Error: Story = {
   args: {
     label: "Email",
     placeholder: "you@example.com",
-    helperText: "Please enter your email address",
+    helpText: "Please enter your email address",
     error: "Email is required",
   },
 };
@@ -45,7 +45,7 @@ export const Disabled: Story = {
   args: {
     label: "Email",
     placeholder: "you@example.com",
-    helperText: "Please enter your email address",
+    helpText: "Please enter your email address",
     disabled: true,
   },
 };
