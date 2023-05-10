@@ -16,7 +16,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   args: {
-    searchPlaceholder: "Search",
+    queryPlaceholder: "Search",
     filters: [
       {
         label: "编号",
@@ -104,6 +104,7 @@ export const Test: FC = () => {
           ),
         },
       ]}
+      queryPlaceholder="搜索"
       values={values}
       onChange={(newValues) => {
         console.log("newValues", newValues);

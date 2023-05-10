@@ -1,6 +1,5 @@
 import { Popover, Transition } from "@headlessui/react";
 import {
-  ArrowsUpDownIcon,
   ChevronDownIcon,
   PlusIcon,
   XMarkIcon,
@@ -9,6 +8,7 @@ import { omitBy } from "lodash";
 import {
   Fragment,
   type ReactElement,
+  type ReactNode,
   useCallback,
   useEffect,
   useMemo,
@@ -43,15 +43,17 @@ export interface FilterItemProps {
 }
 
 export interface FilterProps<T extends FilterObject> {
-  searchPlaceholder?: string;
   filters?: FilterItemProps[];
+  extra?: ReactNode;
+  queryPlaceholder?: string;
   values?: T;
   onChange?: (value: T) => void;
 }
 
 export function Filter<T extends FilterObject>({
-  searchPlaceholder,
   filters = [],
+  extra,
+  queryPlaceholder,
   values,
   onChange,
 }: FilterProps<T>): ReactElement {
@@ -92,7 +94,7 @@ export function Filter<T extends FilterObject>({
           render={({ field }) => (
             <Input
               className="flex-1"
-              placeholder={searchPlaceholder}
+              placeholder={queryPlaceholder}
               value={field.value ?? ""}
               onChange={(value) => {
                 field.onChange(value);
@@ -102,9 +104,7 @@ export function Filter<T extends FilterObject>({
           )}
         />
 
-        <Button className="p-2">
-          <ArrowsUpDownIcon className="h-4 w-4" />
-        </Button>
+        {extra}
       </div>
 
       <div className="mt-2 flex gap-1">
