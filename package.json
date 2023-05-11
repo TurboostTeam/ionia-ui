@@ -6,7 +6,8 @@
     "lib"
   ],
   "exports": {
-    ".": "./lib/index.js"
+    ".": "./lib/index.js",
+    "./*": "./lib/*/index.js"
   },
   "sideEffects": false,
   "publishConfig": {
