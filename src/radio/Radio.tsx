@@ -1,5 +1,7 @@
-import { type DetailedHTMLProps, forwardRef } from "react";
+import { type DetailedHTMLProps } from "react";
 import { twMerge } from "tailwind-merge";
+
+import { forwardRef } from "../common";
 
 export type RadioProps = DetailedHTMLProps<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -9,7 +11,7 @@ export type RadioProps = DetailedHTMLProps<
   helpText?: string;
 };
 
-export const Radio = forwardRef<HTMLInputElement, RadioProps>(
+export const Radio = forwardRef<RadioProps, "input">(
   ({ label, helpText, className, ...props }, ref) => {
     return (
       <div className={twMerge("relative flex items-start py-1.5", className)}>

@@ -1,9 +1,9 @@
-import { type FC, type MouseEventHandler, useCallback } from "react";
+import { type MouseEventHandler, useCallback } from "react";
 import { twMerge } from "tailwind-merge";
 
-import { type HTMLProps } from "../common";
+import { forwardRef } from "../common";
 
-export interface BadgeProps extends HTMLProps<"span"> {
+export interface BadgeProps {
   color?:
     | "gray"
     | "red"
@@ -55,57 +55,59 @@ const badgeRemoveIconColorMap = {
 /**
  * 标记组件
  */
-export const Badge: FC<BadgeProps> = ({
-  children,
-  color = "gray",
-  rounded = false,
-  onClick,
-  onRemove,
-  className,
-  ...props
-}) => {
-  const handleRemove = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      event.stopPropagation();
-      onRemove?.(event);
-    },
-    [onRemove]
-  );
+export const Badge = forwardRef<BadgeProps, "span">(
+  ({
+    children,
+    color = "gray",
+    rounded = false,
+    onClick,
+    onRemove,
+    className,
+    ...props
+  }) => {
+    const handleRemove = useCallback(
+      (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.stopPropagation();
+        onRemove?.(event);
+      },
+      [onRemove]
+    );
 
-  return (
-    <span
-      className={twMerge(
-        "inline-flex items-center  px-2 py-1 text-xs font-medium ring-1 ring-inset",
-        rounded ? "rounded-full" : "rounded-md",
-        typeof onClick !== "undefined" && "cursor-pointer",
-        badgeColorMap[color],
-        className
-      )}
-      onClick={onClick}
-      {...props}
-    >
-      {children}
+    return (
+      <span
+        className={twMerge(
+          "inline-flex items-center  px-2 py-1 text-xs font-medium ring-1 ring-inset",
+          rounded ? "rounded-full" : "rounded-md",
+          typeof onClick !== "undefined" && "cursor-pointer",
+          badgeColorMap[color],
+          className
+        )}
+        onClick={onClick}
+        {...props}
+      >
+        {children}
 
-      {typeof onRemove !== "undefined" && (
-        <button
-          className={twMerge(
-            "group relative -mr-1 h-3.5 w-3.5",
-            rounded ? "rounded-full" : "rounded-sm",
-            badgeRemoveButtonColorMap[color]
-          )}
-          type="button"
-          onClick={handleRemove}
-        >
-          <span className="sr-only">Remove</span>
-          <svg
-            className={twMerge("h-3.5 w-3.5", badgeRemoveIconColorMap[color])}
-            viewBox="0 0 14 14"
+        {typeof onRemove !== "undefined" && (
+          <button
+            className={twMerge(
+              "group relative -mr-1 h-3.5 w-3.5",
+              rounded ? "rounded-full" : "rounded-sm",
+              badgeRemoveButtonColorMap[color]
+            )}
+            type="button"
+            onClick={handleRemove}
           >
-            <path d="M4 4l6 6m0-6l-6 6" />
-          </svg>
-          <span className="absolute -inset-1" />
-        </button>
-      )}
-    </span>
-  );
-};
+            <span className="sr-only">Remove</span>
+            <svg
+              className={twMerge("h-3.5 w-3.5", badgeRemoveIconColorMap[color])}
+              viewBox="0 0 14 14"
+            >
+              <path d="M4 4l6 6m0-6l-6 6" />
+            </svg>
+            <span className="absolute -inset-1" />
+          </button>
+        )}
+      </span>
+    );
+  }
+);

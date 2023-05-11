@@ -1,10 +1,9 @@
-import { forwardRef, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
-import { type HTMLProps } from "../common";
+import { forwardRef } from "../common";
 
-export interface InputProps
-  extends Omit<HTMLProps<"input">, "size" | "prefix" | "onChange"> {
+export interface InputProps {
   label?: string;
 
   helpText?: string;
@@ -27,7 +26,7 @@ const sizeMap = {
   lg: twMerge(`py-2.5`),
 };
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(
+export const Input = forwardRef<InputProps, "input">(
   (
     {
       children,
