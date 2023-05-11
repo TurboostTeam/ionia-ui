@@ -56,15 +56,18 @@ const badgeRemoveIconColorMap = {
  * 标记组件
  */
 export const Badge = forwardRef<BadgeProps, "span">(
-  ({
-    children,
-    color = "gray",
-    rounded = false,
-    onClick,
-    onRemove,
-    className,
-    ...props
-  }) => {
+  (
+    {
+      children,
+      color = "gray",
+      rounded = false,
+      onClick,
+      onRemove,
+      className,
+      ...props
+    },
+    ref
+  ) => {
     const handleRemove = useCallback(
       (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.stopPropagation();
@@ -82,6 +85,7 @@ export const Badge = forwardRef<BadgeProps, "span">(
           badgeColorMap[color],
           className
         )}
+        ref={ref}
         onClick={onClick}
         {...props}
       >
