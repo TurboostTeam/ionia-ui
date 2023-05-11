@@ -54,7 +54,7 @@ export function Button<T extends ElementType = "button">({
     <Component
       className={twMerge(
         // 基本类
-        `relative text-center font-semibold shadow-sm`,
+        `relative text-center font-semibold shadow-sm cursor-pointer`,
         // 默认和加载
         ((!primary && !destructive) || (primary && destructive) || loading) &&
           `bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:bg-gray-100 disabled:text-gray-400`,
