@@ -19,8 +19,9 @@ export const Base: Story = {
 
 export const Checked: Story = {
   args: {
-    checked: true,
     label: "Checkbox",
+    checked: true,
+    onChange: () => {},
   },
 };
 
