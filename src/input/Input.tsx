@@ -18,7 +18,7 @@ export interface InputProps {
 
   suffix?: ReactNode;
 
-  onChange?: (value?: string) => void;
+  onChange?: (value: string) => void;
 }
 
 const sizeMap = {

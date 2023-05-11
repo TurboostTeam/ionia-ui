@@ -6,7 +6,8 @@ import {
 
 import { Toast } from "./Toast";
 
-interface ToastOptions extends Pick<HotToastOptions, "position" | "duration"> {}
+export interface ToastOptions
+  extends Pick<HotToastOptions, "position" | "duration"> {}
 
 export const toast = (
   content: ReactNode,
