@@ -1,6 +1,8 @@
 import { defineConfig } from "father";
 
 export default defineConfig({
-  cjs: {},
-  esm: {},
+  esm: {
+    output: "lib",
+    ignores: ["**/*.stories.*", "**/*.css"],
+  },
 });
