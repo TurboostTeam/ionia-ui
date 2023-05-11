@@ -50,33 +50,38 @@ export const ChoiceList: FC<ChoiceListProps> = ({
         </label>
       )}
 
-      {multiple === true
-        ? choices.map((choice) => (
-            <Checkbox
-              checked={value?.includes(choice.value)}
-              key={choice.label}
-              label={choice.label}
-              onChange={(event) => {
-                if (event.target.checked) {
-                  onChange?.([...(value ?? []), choice.value]);
-                } else {
-                  if (typeof value !== "undefined") {
-                    onChange?.(value.filter((item) => item !== choice.value));
-                  }
-                }
-              }}
-            />
-          ))
-        : choices.map((choice) => (
-            <Radio
-              checked={value === choice.value}
-              key={choice.label}
-              label={choice.label}
-              onChange={(event) => {
-                onChange?.(event.target.value);
-              }}
-            />
-          ))}
+      <ul>
+        {multiple === true
+          ? choices.map((choice) => (
+              <li key={choice.label}>
+                <Checkbox
+                  checked={value?.includes(choice.value)}
+                  label={choice.label}
+                  onChange={(event) => {
+                    if (event.target.checked) {
+                      onChange?.([...(value ?? []), choice.value]);
+                    } else {
+                      if (typeof value !== "undefined") {
+                        onChange?.(
+                          value.filter((item) => item !== choice.value)
+                        );
+                      }
+                    }
+                  }}
+                />
+              </li>
+            ))
+          : choices.map((choice) => (
+              <Radio
+                checked={value === choice.value}
+                key={choice.label}
+                label={choice.label}
+                onChange={(event) => {
+                  onChange?.(event.target.value);
+                }}
+              />
+            ))}
+      </ul>
 
       {(typeof error !== "undefined" || typeof helpText !== "undefined") && (
         <p
