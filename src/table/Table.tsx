@@ -7,22 +7,9 @@ export interface TableColumnProps<T extends object> {
 }
 
 export interface TableProps<T extends object> {
-  /**
-   * Is this the principal call to action on the page?
-   */
   columns: Array<TableColumnProps<T>>;
-  /**
-   * Is this the principal call to action on the page?
-   */
+
   data: T[];
-  /**
-   * Is this the principal call to action on the page?
-   */
-  selectedRows?: T[];
-  /**
-   * Is this the principal call to action on the page?
-   */
-  onSelectedRowsChange: (rows: T[]) => void;
 }
 
 /**

@@ -7,4 +7,5 @@ export * from "./input";
 export * from "./provider";
 export * from "./radio";
 export * from "./spinner";
+export * from "./table";
 export * from "./toast";
