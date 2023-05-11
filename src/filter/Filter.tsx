@@ -149,7 +149,7 @@ export function Filter<T extends FilterObject>({
                     leaveTo="opacity-0 translate-y-1"
                   >
                     <Popover.Panel className="absolute z-10 mt-3 w-screen max-w-[240px] transform px-0">
-                      <div className="overflow-hidden rounded-md p-2 shadow-md ring-1 ring-black ring-opacity-5">
+                      <div className="overflow-hidden rounded-md bg-white p-2 shadow-md ring-1 ring-black ring-opacity-5">
                         <Controller
                           control={control}
                           name={field}
