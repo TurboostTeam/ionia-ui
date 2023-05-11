@@ -1,13 +1,20 @@
 {
-  "type": "module",
   "name": "@ionia-ui/components",
   "version": "0.0.0",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "files": [
     "lib"
   ],
   "exports": {
-    ".": "./lib/index.js",
-    "./*": "./lib/*/index.js"
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js"
+    },
+    "./*": {
+      "types": "./lib/*/index.d.ts",
+      "import": "./lib/*/index.js"
+    }
   },
   "sideEffects": false,
   "publishConfig": {
