@@ -4,7 +4,7 @@ import {
   PlusIcon,
   XMarkIcon,
 } from "@heroicons/react/20/solid";
-import { omitBy } from "lodash";
+import omitBy from "lodash-es/omitBy";
 import {
   Fragment,
   type ReactElement,
