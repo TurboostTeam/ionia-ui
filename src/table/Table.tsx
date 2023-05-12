@@ -2,22 +2,19 @@ import omit from "lodash-es/omit";
 import { type ReactElement, useMemo } from "react";
 import { useTable } from "react-table";
 
-export interface TableColumnProps<T extends object> {
+import { type Field } from "../common";
+
+export interface TableColumnProps<T> {
   title: string;
-  field: keyof T;
+  field: Field<T>;
 }
 
-export interface TableProps<T extends object> {
+export interface TableProps<T> {
   columns: Array<TableColumnProps<T>>;
-
   data: T[];
 }
 
-/**
- * Table
- * 表格
- */
-export function Table<T extends Record<string, any>>({
+export function Table<T>({
   columns: _columns,
   data,
   ...props
@@ -30,7 +27,7 @@ export function Table<T extends Record<string, any>>({
   }, [_columns]);
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable<T>({ columns, data });
+    useTable<any>({ columns, data });
 
   return (
     <table

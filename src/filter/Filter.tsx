@@ -4,7 +4,10 @@ import {
   PlusIcon,
   XMarkIcon,
 } from "@heroicons/react/20/solid";
+import forEach from "lodash-es/forEach";
+import isPlainObject from "lodash-es/isPlainObject";
 import omitBy from "lodash-es/omitBy";
+import transform from "lodash-es/transform";
 import {
   Fragment,
   type ReactElement,
@@ -17,6 +20,7 @@ import { Controller, useForm } from "react-hook-form";
 import { type ControllerProps } from "react-hook-form/dist/types";
 
 import { Button } from "../button";
+import { type Field } from "../common";
 import { Input } from "../input";
 
 const isEmpty = (value: unknown): boolean => {
@@ -29,35 +33,46 @@ const isEmpty = (value: unknown): boolean => {
 
 const omitEmpty = (obj: any): any => omitBy(obj, isEmpty);
 
-export type FilterValue = string | number | boolean | string[];
+const flattenObject = (obj: any): any => {
+  return transform<any, any>(
+    obj,
+    (result, value, key) => {
+      if (typeof key === "string" && isPlainObject(value)) {
+        const nested = flattenObject(value);
+        forEach(nested, (nestedValue, nestedKey) => {
+          result[`${key}.${nestedKey}`] = nestedValue;
+        });
+      } else {
+        result[key] = value;
+      }
+    },
+    {}
+  );
+};
 
-export type FilterObject = { query?: string } & Partial<
-  Record<string, FilterValue>
->;
-
-export interface FilterItemProps {
+export interface FilterItemProps<T> {
   label: string;
-  field: string;
+  field: Field<T>;
   render: ControllerProps["render"];
   pinned?: boolean;
 }
 
-export interface FilterProps<T extends FilterObject> {
-  filters?: FilterItemProps[];
+export interface FilterProps<T> {
+  filters?: Array<FilterItemProps<T>>;
   extra?: ReactNode;
   queryPlaceholder?: string;
-  values?: T;
-  onChange?: (value: T) => void;
+  values?: Record<Field<T>, any> & { query?: string };
+  onChange?: (value: Record<Field<T>, any> & { query?: string }) => void;
 }
 
-export function Filter<T extends FilterObject>({
+export function Filter<T extends object>({
   filters = [],
   extra,
   queryPlaceholder,
   values,
   onChange,
 }: FilterProps<T>): ReactElement {
-  const { control, setValue, resetField, watch } = useForm<any>({});
+  const { control, setValue, watch } = useForm<any>();
 
   const fixedFilters = useMemo(
     () =>
@@ -70,7 +85,7 @@ export function Filter<T extends FilterObject>({
   );
 
   const handleChange = useCallback(() => {
-    onChange?.(omitEmpty(watch()));
+    onChange?.(omitEmpty(flattenObject(watch())));
   }, [onChange, watch]);
 
   useEffect(() => {
@@ -78,8 +93,8 @@ export function Filter<T extends FilterObject>({
 
     if (typeof values !== "undefined") {
       for (const key in values) {
-        if (values[key] !== oldValues[key]) {
-          setValue(key, values[key] as any);
+        if ((values as any)[key] !== oldValues[key]) {
+          setValue(key, (values as any)[key]);
         }
       }
     }
@@ -130,7 +145,7 @@ export function Filter<T extends FilterObject>({
                             onClick={(event) => {
                               event.stopPropagation();
                               close();
-                              resetField(field);
+                              setValue(field, undefined as any);
                               handleChange();
                             }}
                           />

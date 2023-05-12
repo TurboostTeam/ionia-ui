@@ -5,7 +5,7 @@ import {
   type ComponentWithAs,
   type PropsOf,
   type RightJoinProps,
-} from "./types";
+} from "./component.types";
 
 export function forwardRef<Props extends object, Component extends As>(
   component: React.ForwardRefRenderFunction<
