@@ -95,7 +95,7 @@ export function Filter<T extends FilterObject>({
             <Input
               className="flex-1"
               placeholder={queryPlaceholder}
-              value={field.value ?? ""}
+              value={field.value}
               onChange={(value) => {
                 field.onChange(value);
                 handleChange();

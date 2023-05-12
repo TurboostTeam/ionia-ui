@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { type FC, useEffect, useState } from "react";
 
 import { Input } from "./Input";
 
@@ -62,4 +63,14 @@ export const Suffix: Story = {
     label: "Price",
     suffix: "USD",
   },
+};
+
+export const Controlled: FC = () => {
+  const [value, onChange] = useState<string>();
+
+  useEffect(() => {
+    console.log("value change:", value);
+  }, [value]);
+
+  return <Input value={value} onChange={onChange} />;
 };

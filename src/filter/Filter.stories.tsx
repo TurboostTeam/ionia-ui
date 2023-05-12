@@ -71,7 +71,7 @@ export const Test: FC = () => {
           label: "编号",
           field: "id",
           pinned: true,
-          render: ({ field }) => <Input {...field} value={field.value ?? ""} />,
+          render: ({ field }) => <Input {...field} value={field.value} />,
         },
         {
           label: "状态",
@@ -98,7 +98,7 @@ export const Test: FC = () => {
                   value: "failed",
                 },
               ]}
-              value={value ?? []}
+              value={value}
               onChange={onChange}
             />
           ),

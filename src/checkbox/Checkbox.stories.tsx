@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { type FC, useState } from "react";
 
 import { Checkbox } from "./Checkbox";
 
@@ -30,4 +31,20 @@ export const Description: Story = {
     label: "Checkbox",
     helpText: "This is a description",
   },
+};
+
+export const Controlled: FC = () => {
+  const [checked, setChecked] = useState(false);
+
+  return (
+    <Checkbox
+      checked={checked}
+      helpText="This is a description"
+      label="Checkbox"
+      onChange={(event) => {
+        console.log("checked = ", event.target.checked);
+        setChecked(event.target.checked);
+      }}
+    />
+  );
 };

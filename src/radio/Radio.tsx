@@ -1,15 +1,11 @@
-import { type DetailedHTMLProps } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { forwardRef } from "../common";
 
-export type RadioProps = DetailedHTMLProps<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  HTMLInputElement
-> & {
+export interface RadioProps {
   label: string;
   helpText?: string;
-};
+}
 
 export const Radio = forwardRef<RadioProps, "input">(
   ({ label, helpText, className, ...props }, ref) => {

@@ -1,15 +1,11 @@
-import { type DetailedHTMLProps } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { forwardRef } from "../common";
 
-export type CheckboxProps = DetailedHTMLProps<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  HTMLInputElement
-> & {
+export interface CheckboxProps {
   label: string;
   helpText?: string;
-};
+}
 
 export const Checkbox = forwardRef<CheckboxProps, "input">(
   ({ label, helpText, className, ...props }, ref) => {

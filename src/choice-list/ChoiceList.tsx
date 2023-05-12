@@ -10,6 +10,7 @@ export interface ChoiceListItem {
 }
 
 export interface ChoiceListBaseProps {
+  name?: string;
   label?: string;
   helpText?: string;
   error?: string;
@@ -31,6 +32,7 @@ export interface ChoiceListMultipleProps extends ChoiceListBaseProps {
 export type ChoiceListProps = ChoiceListSingleProps | ChoiceListMultipleProps;
 
 export const ChoiceList: FC<ChoiceListProps> = ({
+  name,
   label,
   helpText,
   error,
@@ -55,30 +57,48 @@ export const ChoiceList: FC<ChoiceListProps> = ({
           ? choices.map((choice) => (
               <li key={choice.label}>
                 <Checkbox
-                  checked={value?.includes(choice.value)}
+                  checked={
+                    typeof onChange !== "undefined"
+                      ? value?.includes(choice.value) ?? false
+                      : undefined
+                  }
                   label={choice.label}
-                  onChange={(event) => {
-                    if (event.target.checked) {
-                      onChange?.([...(value ?? []), choice.value]);
-                    } else {
-                      if (typeof value !== "undefined") {
-                        onChange?.(
-                          value.filter((item) => item !== choice.value)
-                        );
-                      }
-                    }
-                  }}
+                  onChange={
+                    typeof onChange !== "undefined"
+                      ? (event) => {
+                          if (event.target.checked) {
+                            onChange([...(value ?? []), choice.value]);
+                          } else {
+                            if (typeof value !== "undefined") {
+                              onChange(
+                                value.filter((item) => item !== choice.value)
+                              );
+                            }
+                          }
+                        }
+                      : undefined
+                  }
                 />
               </li>
             ))
           : choices.map((choice) => (
               <Radio
-                checked={value === choice.value}
+                checked={
+                  typeof onChange !== "undefined"
+                    ? value === choice.value
+                    : undefined
+                }
                 key={choice.label}
                 label={choice.label}
-                onChange={(event) => {
-                  onChange?.(event.target.value);
-                }}
+                name={name}
+                value={choice.value}
+                onChange={
+                  typeof onChange !== "undefined"
+                    ? (event) => {
+                        onChange(event.target.value);
+                      }
+                    : undefined
+                }
               />
             ))}
       </ul>

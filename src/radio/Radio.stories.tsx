@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { type FC, useState } from "react";
 
 import { Radio } from "./Radio";
 
@@ -30,4 +31,21 @@ export const Description: Story = {
     label: "Radio",
     helpText: "This is a description",
   },
+};
+
+export const Controlled: FC = () => {
+  const [checked, setChecked] = useState(false);
+
+  return (
+    <Radio
+      checked={checked}
+      helpText="This is a description"
+      label="Radio"
+      name="status"
+      onChange={(event) => {
+        console.log("checked = ", event.target.checked);
+        setChecked(event.target.checked);
+      }}
+    />
+  );
 };

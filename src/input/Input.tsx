@@ -38,6 +38,7 @@ export const Input = forwardRef<InputProps, "input">(
       className,
       prefix,
       suffix,
+      value,
       onChange,
       ...props
     },
@@ -81,6 +82,7 @@ export const Input = forwardRef<InputProps, "input">(
             disabled={disabled}
             ref={ref}
             type="text"
+            value={value ?? ""}
             onChange={(event) => onChange?.(event.target.value)}
             {...props}
           />
