@@ -1,3 +1,4 @@
+import omit from "lodash-es/omit";
 import { type ReactElement, useMemo } from "react";
 import { useTable } from "react-table";
 
@@ -38,20 +39,27 @@ export function Table<T extends Record<string, any>>({
       {...getTableProps()}
     >
       <thead>
-        {headerGroups.map((headerGroup) => (
-          // eslint-disable-next-line react/jsx-key
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => (
-              // eslint-disable-next-line react/jsx-key
-              <th
-                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                {...column.getHeaderProps()}
-              >
-                {column.render("Header")}
-              </th>
-            ))}
-          </tr>
-        ))}
+        {headerGroups.map((headerGroup) => {
+          const headerGroupProps = headerGroup.getHeaderGroupProps();
+
+          return (
+            <tr key={headerGroupProps.key} {...omit(headerGroupProps, ["key"])}>
+              {headerGroup.headers.map((column) => {
+                const headerProps = column.getHeaderProps();
+
+                return (
+                  <th
+                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    key={headerProps.key}
+                    {...omit(headerProps, ["key"])}
+                  >
+                    {column.render("Header")}
+                  </th>
+                );
+              })}
+            </tr>
+          );
+        })}
       </thead>
 
       <tbody
@@ -60,15 +68,19 @@ export function Table<T extends Record<string, any>>({
       >
         {rows.map((row) => {
           prepareRow(row);
+
+          const rowProps = row.getRowProps();
+
           return (
-            // eslint-disable-next-line react/jsx-key
-            <tr {...row.getRowProps()}>
+            <tr key={rowProps.key} {...omit(rowProps, "key")}>
               {row.cells.map((cell) => {
+                const cellProps = cell.getCellProps();
+
                 return (
-                  // eslint-disable-next-line react/jsx-key
                   <td
                     className="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-                    {...cell.getCellProps()}
+                    key={cellProps.key}
+                    {...omit(cellProps, ["key"])}
                   >
                     {cell.render("Cell")}
                   </td>
