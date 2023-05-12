@@ -52,7 +52,7 @@ export const ChoiceList: FC<ChoiceListProps> = ({
         </label>
       )}
 
-      <ul>
+      <ul className={twMerge(typeof label !== "undefined" && "mt-2")}>
         {multiple === true
           ? choices.map((choice) => (
               <li key={choice.label}>

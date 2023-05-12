@@ -10,7 +10,7 @@ export interface CheckboxProps {
 export const Checkbox = forwardRef<CheckboxProps, "input">(
   ({ label, helpText, className, ...props }, ref) => {
     return (
-      <div className={twMerge("relative flex items-start py-1.5", className)}>
+      <div className={twMerge("relative flex items-start py-1", className)}>
         <div className="flex h-5 items-center">
           <input
             className="h-4 w-4 cursor-pointer rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"

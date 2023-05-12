@@ -12,7 +12,7 @@ export interface InputProps {
 
   disabled?: boolean;
 
-  size?: "md" | "lg";
+  size?: "sm" | "md" | "lg";
 
   prefix?: ReactNode;
 
@@ -22,8 +22,9 @@ export interface InputProps {
 }
 
 const sizeMap = {
-  md: twMerge(`py-1.5`),
-  lg: twMerge(`py-2.5`),
+  sm: twMerge(`py-1`),
+  md: twMerge(`py-2`),
+  lg: twMerge(`py-2`),
 };
 
 export const Input = forwardRef<InputProps, "input">(
