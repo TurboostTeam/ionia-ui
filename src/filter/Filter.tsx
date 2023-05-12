@@ -65,7 +65,7 @@ export interface FilterProps<T> {
   onChange?: (value: Record<Field<T>, any> & { query?: string }) => void;
 }
 
-export function Filter<T extends object>({
+export function Filter<T>({
   filters = [],
   extra,
   queryPlaceholder,
