@@ -4,7 +4,7 @@ import { type FC, useState } from "react";
 import { Checkbox } from "./Checkbox";
 
 const meta = {
-  title: "Base/Checkbox",
+  title: "Form/Checkbox",
   component: Checkbox,
   tags: ["autodocs"],
 } satisfies Meta<typeof Checkbox>;

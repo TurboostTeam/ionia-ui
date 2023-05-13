@@ -130,7 +130,12 @@ export function Filter<T>({
             <Popover className="relative" key={field}>
               {({ close }) => (
                 <>
-                  <Button rounded as={Popover.Button} size="sm">
+                  <Button
+                    rounded
+                    as={Popover.Button}
+                    className="pr-2"
+                    size="sm"
+                  >
                     <span className="flex items-center">
                       {isEmpty(fieldValue) ? (
                         <>
@@ -164,7 +169,7 @@ export function Filter<T>({
                     leaveTo="opacity-0 translate-y-1"
                   >
                     <Popover.Panel className="absolute z-10 mt-3 w-screen max-w-[240px] transform px-0">
-                      <div className="overflow-hidden rounded-md bg-white p-2 shadow-md ring-1 ring-black ring-opacity-5">
+                      <div className="overflow-hidden rounded-md bg-white p-3 shadow-md ring-1 ring-black ring-opacity-5">
                         <Controller
                           control={control}
                           name={field}

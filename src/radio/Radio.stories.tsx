@@ -4,7 +4,7 @@ import { type FC, useState } from "react";
 import { Radio } from "./Radio";
 
 const meta = {
-  title: "Base/Radio",
+  title: "Form/Radio",
   component: Radio,
   tags: ["autodocs"],
 } satisfies Meta<typeof Radio>;

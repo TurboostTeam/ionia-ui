@@ -1,8 +1,15 @@
+import { type Meta } from "@storybook/react";
 import { type FC } from "react";
 
 import { Table } from "./Table";
 
-export default { component: Table };
+const meta = {
+  title: "Advanced/Table",
+  component: Table,
+  tags: ["autodocs"],
+} satisfies Meta<typeof Table>;
+
+export default meta;
 
 interface Task {
   name: string;

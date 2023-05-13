@@ -28,7 +28,7 @@ export interface ButtonProps {
 }
 
 const sizeMap = {
-  sm: twMerge(`px-2 py-1 text-xs font-normal`),
+  sm: twMerge(`px-3 py-1.5 text-xs font-normal`),
   md: twMerge(`px-3 py-2 text-sm`),
   lg: twMerge(`px-6 py-3 text-sm`),
 };

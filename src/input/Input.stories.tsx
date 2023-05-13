@@ -4,12 +4,13 @@ import { type FC, useEffect, useState } from "react";
 import { Input } from "./Input";
 
 const meta = {
-  title: "Base/Input",
+  title: "Form/Input",
   component: Input,
   tags: ["autodocs"],
 } satisfies Meta<typeof Input>;
 
 export default meta;
+
 type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {

@@ -1,10 +1,17 @@
+import { type Meta } from "@storybook/react";
 import { type FC, useState } from "react";
 
-import { ChoiceList } from "../choice-list";
+import { CheckboxGroup } from "../checkbox-group";
 import { Input } from "../input";
 import { Filter } from "./Filter";
 
-export default { component: Filter };
+const meta = {
+  title: "Advanced/Filter",
+  component: Filter,
+  tags: ["autodocs"],
+} satisfies Meta<typeof Filter>;
+
+export default meta;
 
 interface Task {
   status: string;
@@ -31,9 +38,8 @@ export const Controlled: FC = () => {
           field: "status",
           pinned: true,
           render: ({ field: { value, onChange } }) => (
-            <ChoiceList
-              multiple
-              choices={[
+            <CheckboxGroup
+              options={[
                 {
                   label: "等待中",
                   value: "waiting",

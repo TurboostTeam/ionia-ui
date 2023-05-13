@@ -2,6 +2,7 @@ import { type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { forwardRef } from "../common";
+import { FormItem } from "../form-item";
 
 export interface InputProps {
   label?: string;
@@ -46,16 +47,12 @@ export const Input = forwardRef<InputProps, "input">(
     ref
   ) => {
     return (
-      <div className={twMerge("text-sm", className)}>
-        {typeof label !== "undefined" && (
-          <label
-            className="block font-medium leading-6 text-gray-900"
-            htmlFor={label}
-          >
-            {label}
-          </label>
-        )}
-
+      <FormItem
+        className={className}
+        error={error}
+        helpText={helpText}
+        label={label}
+      >
         <div
           className={twMerge(
             "flex gap-2 rounded-md px-3 shadow-sm",
@@ -94,21 +91,7 @@ export const Input = forwardRef<InputProps, "input">(
             </div>
           )}
         </div>
-
-        {(typeof error !== "undefined" || typeof helpText !== "undefined") && (
-          <p
-            className={twMerge(
-              `mt-2`,
-              typeof error !== "undefined" && `text-red-600`,
-              typeof error === "undefined" &&
-                typeof helpText !== "undefined" &&
-                `text-gray-500`
-            )}
-          >
-            {error ?? helpText}
-          </p>
-        )}
-      </div>
+      </FormItem>
     );
   }
 );
