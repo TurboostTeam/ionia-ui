@@ -1,11 +1,9 @@
 "use client";
 
 import { Popover, Transition } from "@headlessui/react";
-import {
-  ArrowsUpDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "@heroicons/react/24/outline";
+import ArrowsUpDownIcon from "@heroicons/react/24/outline/ArrowsUpDownIcon";
+import ChevronLeftIcon from "@heroicons/react/24/outline/ChevronLeftIcon";
+import ChevronRightIcon from "@heroicons/react/24/outline/ChevronRightIcon";
 import compact from "lodash-es/compact";
 import get from "lodash-es/get";
 import pick from "lodash-es/pick";
@@ -14,7 +12,6 @@ import {
   Fragment,
   type ReactElement,
   useCallback,
-  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -22,9 +19,9 @@ import useUpdateEffect from "react-use/esm/useUpdateEffect";
 
 import { Button } from "../button";
 import { type Field } from "../common";
+import { EmptyState, type EmptyStateProps } from "../empty-state";
 import { Filter, type FilterItemProps } from "../filter";
 import { RadioGroup, type RadioGroupOption } from "../radio-group";
-import { Spinner } from "../spinner";
 import { Table, type TableColumnProps } from "../table";
 import { OrderDirection } from "./OrderDirection";
 import { OrderDirectionList } from "./OrderDirectionList";
@@ -36,8 +33,9 @@ import {
 } from "./types";
 
 export interface GraphQLTableProps<Node, OrderField> {
+  emptyState?: EmptyStateProps;
   edges?: Array<GraphQLTableEdge<Node>>;
-  filters: Array<FilterItemProps<Node>>;
+  filters?: Array<FilterItemProps<Node>>;
   orderOptions?: Array<RadioGroupOption<OrderField>>;
   columns: Array<TableColumnProps<any>>;
   pageSize?: number;
@@ -48,13 +46,14 @@ export interface GraphQLTableProps<Node, OrderField> {
 }
 
 export function GraphQLTable<Node, OrderField extends string>({
+  emptyState,
+  filters = [],
+  columns = [],
   edges,
-  filters,
-  columns,
   orderOptions,
   pageSize = 10,
   pageInfo,
-  loading,
+  loading = false,
   value = {},
   onChange,
 }: GraphQLTableProps<Node, OrderField>): ReactElement {
@@ -108,10 +107,6 @@ export function GraphQLTable<Node, OrderField extends string>({
   }, [filterValues, filters]);
   /* eslint-enable @typescript-eslint/restrict-template-expressions */
 
-  useEffect(() => {
-    console.log("query", query);
-  }, [query]);
-
   const handlePrevClick = useCallback(() => {
     setPagination({ last: pageSize, before: pageInfo?.startCursor });
   }, [pageSize, pageInfo?.startCursor]);
@@ -121,7 +116,6 @@ export function GraphQLTable<Node, OrderField extends string>({
   }, [pageSize, pageInfo?.endCursor]);
 
   useUpdateEffect(() => {
-    console.log("!!");
     onChange?.({
       query,
       ...(Object.keys(pagination).length > 0
@@ -137,6 +131,8 @@ export function GraphQLTable<Node, OrderField extends string>({
         : {}),
     });
   }, [query, pagination, pageSize, orderField, orderDirection]);
+
+  console.log(typeof edges !== "undefined" && edges.length > 0);
 
   return (
     <div className="divide-y divide-gray-300 rounded-md bg-white pt-3 shadow">
@@ -184,37 +180,37 @@ export function GraphQLTable<Node, OrderField extends string>({
             ) : undefined
           }
           filters={filters}
+          loading={loading}
           values={filterValues}
           onChange={setFilterValues}
         />
       </div>
 
-      {loading === false ? (
-        <div className="h-48 w-full">
-          <Spinner />
-        </div>
-      ) : typeof edges !== "undefined" && edges.length > 0 ? (
+      {typeof edges !== "undefined" && edges.length > 0 ? (
         <Table columns={columns} data={edges.map((edge) => edge.node)} />
       ) : (
-        <div>No Data</div>
+        <EmptyState className="py-10" {...emptyState} />
       )}
 
-      <div className="flex justify-center gap-2 p-5">
-        <Button
-          className="p-2"
-          disabled={pageInfo?.hasPreviousPage !== true}
-          onClick={handlePrevClick}
-        >
-          <ChevronLeftIcon className="h-5 w-5" />
-        </Button>
-        <Button
-          className="p-2"
-          disabled={pageInfo?.hasNextPage !== true}
-          onClick={handleNextClick}
-        >
-          <ChevronRightIcon className="h-5 w-5" />
-        </Button>
-      </div>
+      {(pageInfo?.hasPreviousPage === true ||
+        pageInfo?.hasNextPage === true) && (
+        <div className="flex justify-center gap-2 p-5">
+          <Button
+            className="p-2"
+            disabled={!pageInfo?.hasPreviousPage}
+            onClick={handlePrevClick}
+          >
+            <ChevronLeftIcon className="h-5 w-5" />
+          </Button>
+          <Button
+            className="p-2"
+            disabled={!pageInfo?.hasNextPage}
+            onClick={handleNextClick}
+          >
+            <ChevronRightIcon className="h-5 w-5" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
