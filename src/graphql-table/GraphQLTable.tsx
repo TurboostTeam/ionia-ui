@@ -33,7 +33,10 @@ import {
 } from "./types";
 
 export interface GraphQLTableProps<Node, OrderField> {
-  emptyState?: EmptyStateProps;
+  emptyStateIcon?: EmptyStateProps["icon"];
+  emptyStateTitle?: EmptyStateProps["title"];
+  emptyStateDescription?: EmptyStateProps["description"];
+
   edges?: Array<GraphQLTableEdge<Node>>;
   filters?: Array<FilterItemProps<Node>>;
   orderOptions?: Array<RadioGroupOption<OrderField>>;
@@ -46,7 +49,9 @@ export interface GraphQLTableProps<Node, OrderField> {
 }
 
 export function GraphQLTable<Node, OrderField extends string>({
-  emptyState,
+  emptyStateIcon,
+  emptyStateTitle,
+  emptyStateDescription,
   filters = [],
   columns = [],
   edges,
@@ -132,8 +137,6 @@ export function GraphQLTable<Node, OrderField extends string>({
     });
   }, [query, pagination, pageSize, orderField, orderDirection]);
 
-  console.log(typeof edges !== "undefined" && edges.length > 0);
-
   return (
     <div className="divide-y divide-gray-300 rounded-md bg-white pt-3 shadow">
       <div className="px-3 pb-3">
@@ -189,7 +192,12 @@ export function GraphQLTable<Node, OrderField extends string>({
       {typeof edges !== "undefined" && edges.length > 0 ? (
         <Table columns={columns} data={edges.map((edge) => edge.node)} />
       ) : (
-        <EmptyState className="py-10" {...emptyState} />
+        <EmptyState
+          className="py-10"
+          description={emptyStateDescription}
+          icon={emptyStateIcon}
+          title={emptyStateTitle}
+        />
       )}
 
       {(pageInfo?.hasPreviousPage === true ||

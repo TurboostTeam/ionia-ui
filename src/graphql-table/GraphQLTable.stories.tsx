@@ -17,7 +17,8 @@ export const Controlled: FC = () => {
       loading
       columns={[]}
       edges={[]}
-      emptyState={{ title: "暂无数据", description: "没有找到相关记录" }}
+      emptyStateDescription="没有找到相关记录"
+      emptyStateTitle="暂无数据"
     />
   );
 };
