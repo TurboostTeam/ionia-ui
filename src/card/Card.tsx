@@ -18,17 +18,13 @@ export const Card = forwardRef<CardProps, "div">(
           className
         )}
       >
-        {typeof header !== "undefined" && (
-          <div className="px-4 py-5 sm:px-6">{header}</div>
-        )}
+        {typeof header !== "undefined" && <div className="p-3">{header}</div>}
 
         {typeof children !== "undefined" && (
-          <div className="px-4 py-5 sm:p-6">{children}</div>
+          <div className="p-3">{children}</div>
         )}
 
-        {typeof footer !== "undefined" && (
-          <div className="px-4 py-4 sm:px-6">{footer}</div>
-        )}
+        {typeof footer !== "undefined" && <div className="p-3">{footer}</div>}
       </div>
     );
   }

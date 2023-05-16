@@ -1,7 +1,9 @@
 import { type FC, type ReactNode } from "react";
+import { twMerge } from "tailwind-merge";
 
 export interface PageProps {
   title: string;
+  fullWidth?: boolean;
   children?: ReactNode;
   primaryButton?: ReactNode;
   secondaryButtons?: ReactNode[];
@@ -9,12 +11,13 @@ export interface PageProps {
 
 export const Page: FC<PageProps> = ({
   title,
+  fullWidth = false,
   children,
   primaryButton,
   secondaryButtons = [],
 }) => {
   return (
-    <div className="p-6">
+    <div className={twMerge(`p-6 mx-auto`, fullWidth && `max-w-5xl`)}>
       <div className="mb-6 md:flex md:items-center md:justify-between">
         <div className="min-w-0 flex-1">
           <h2 className="text-xl font-bold text-gray-900">{title}</h2>
