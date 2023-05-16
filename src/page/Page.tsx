@@ -17,7 +17,7 @@ export const Page: FC<PageProps> = ({
   secondaryButtons = [],
 }) => {
   return (
-    <div className={twMerge(`p-4 mx-auto`, fullWidth && `max-w-5xl`)}>
+    <div className={twMerge(`p-4 mx-auto`, !fullWidth && `max-w-5xl`)}>
       <div className="mb-4 md:flex md:items-center md:justify-between">
         <div className="min-w-0 flex-1">
           <h2 className="text-xl font-bold text-gray-900">{title}</h2>
