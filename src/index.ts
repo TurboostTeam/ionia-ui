@@ -7,6 +7,7 @@ export * from "./filter";
 export * from "./form-item";
 export * from "./graphql-table";
 export * from "./input";
+export * from "./page";
 export * from "./provider";
 export * from "./radio";
 export * from "./radio-group";
