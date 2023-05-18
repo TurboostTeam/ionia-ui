@@ -1,0 +1,52 @@
+import type { Meta, StoryObj } from "@storybook/react";
+import { type FC, useEffect, useState } from "react";
+
+import { Select } from "./Select";
+
+const meta = {
+  title: "Form/Select",
+  component: Select,
+  tags: ["autodocs"],
+} satisfies Meta<typeof Select>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Base: Story = {
+  args: {
+    label: "Select",
+    options: [
+      { label: "Hidden", value: "hidden" },
+      { label: "Optional", value: "optional" },
+      { label: "Required", value: "required" },
+    ],
+    size: "lg",
+  },
+};
+
+enum TaskStatus {
+  COMPLETED = "COMPLETED",
+  FAILED = "FAILED",
+}
+
+export const Controlled: FC = () => {
+  const [value, onChange] = useState<TaskStatus>();
+
+  useEffect(() => {
+    console.log("value change:", value);
+  }, [value]);
+
+  return (
+    <Select
+      helpText="This is a description"
+      label="Checkbox Group"
+      options={[
+        { label: "Completed", value: TaskStatus.COMPLETED },
+        { label: "Failed", value: TaskStatus.FAILED },
+      ]}
+      value={value}
+      onChange={onChange}
+    />
+  );
+};

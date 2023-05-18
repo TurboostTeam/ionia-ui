@@ -13,6 +13,7 @@ export * from "./page";
 export * from "./provider";
 export * from "./radio";
 export * from "./radio-group";
+export * from "./select";
 export * from "./spinner";
 export * from "./table";
 export * from "./toast";
