@@ -133,7 +133,7 @@ export function Filter<T>({
       </div>
 
       {filters.length > 0 && (
-        <div className="mt-3 flex gap-1">
+        <div className="mt-3 flex gap-2">
           {fixedFilters.map(({ field, label, render }) => {
             const fieldValue = watch(field);
 
