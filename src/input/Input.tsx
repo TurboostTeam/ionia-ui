@@ -72,7 +72,7 @@ export const Input = forwardRef<InputProps, "input">(
 
           <input
             className={twMerge(
-              "flex-1 border-0 bg-inherit p-0 text-sm focus:ring-0 disabled:cursor-not-allowed",
+              "flex-1 min-w-0 border-0 bg-inherit p-0 text-sm focus:ring-0 disabled:cursor-not-allowed",
               typeof error === "undefined"
                 ? `text-gray-900 placeholder:text-gray-400`
                 : `text-red-900 placeholder:text-red-300`
