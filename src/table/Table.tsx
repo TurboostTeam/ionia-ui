@@ -1,12 +1,12 @@
 import omit from "lodash-es/omit";
-import { type ReactElement, useMemo } from "react";
-import { useTable } from "react-table";
+import { type ReactElement, type ReactNode, useMemo } from "react";
+import { type Accessor, useTable } from "react-table";
 
 import { type Field } from "../common";
 
 export interface TableColumnProps<T> {
   title: string;
-  field: Field<T>;
+  field: Field<T> | ((data: T) => ReactNode);
 }
 
 export interface TableProps<T> {
@@ -22,7 +22,7 @@ export function Table<T>({
   const columns = useMemo(() => {
     return _columns.map((column) => ({
       Header: column.title,
-      accessor: column.field,
+      accessor: column.field as Accessor<any>,
     }));
   }, [_columns]);
 
