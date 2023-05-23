@@ -228,7 +228,6 @@ export const DatePicker: FC<DatePickerProps> = ({
         <div
           className="h-4 w-4 cursor-pointer select-none"
           onClick={() => {
-            console.log(1);
             handleMonthChangeClick(showPreviousMonth, showPreviousYear);
           }}
         >
