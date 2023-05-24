@@ -1,19 +1,19 @@
 import type { Meta } from "@storybook/react";
 import { type FC } from "react";
 
-import { SingleDatePicker } from "./SingleDatePicker";
+import { DateSinglePicker } from "./DateSinglePicker";
 
 const meta = {
-  title: "Form/SingleDatePicker",
-  component: SingleDatePicker,
+  title: "Form/DateSinglePicker",
+  component: DateSinglePicker,
   tags: ["autodocs"],
-} satisfies Meta<typeof SingleDatePicker>;
+} satisfies Meta<typeof DateSinglePicker>;
 
 export default meta;
 
 export const Controlled: FC = () => {
   return (
-    <SingleDatePicker
+    <DateSinglePicker
       onChange={(res) => {
         console.log(res);
       }}

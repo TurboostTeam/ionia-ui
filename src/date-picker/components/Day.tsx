@@ -65,12 +65,12 @@ export const Day = memo(function Day({
 
   const dayCellClassName = twMerge(
     "w-1/7 bg-transparent m-0 p-0 rounded",
-    selected === true && "bg-indigo-600 text-white",
+    selected === true && "bg-indigo-600 text-white ",
     (inRange === true || inHoveringRange === true) &&
       disabled === false &&
       "rounded-none bg-indigo-50",
-    isLastSelectedDay === true && "rounded-l-none rounded-r-full",
-    isFirstSelectedDay === true && "rounded-r-none rounded-l-full"
+    isFirstSelectedDay === true && "rounded-r-none rounded-l-full",
+    isLastSelectedDay === true && "rounded-l-none rounded-r-full"
   );
 
   const dayClassName = twMerge(
@@ -80,10 +80,10 @@ export const Day = memo(function Day({
       "bg-transparent text-gray-300 hover:bg-transparent hover:text-gray-300 cursor-not-allowed",
     today && "font-semibold",
     (inRange === true || inHoveringRange === true) &&
-      disabled == null &&
+      disabled === false &&
       "bg-indigo-50 rounded-none",
-    isLastSelectedDay === true && "rounded-l-none rounded-r-full",
-    isFirstSelectedDay === true && "rounded-r-none rounded-l-full"
+    isFirstSelectedDay === true && "rounded-r-none rounded-l-full",
+    isLastSelectedDay === true && "rounded-l-none rounded-r-full"
   );
 
   const date = day.getDate();

@@ -113,9 +113,11 @@ export const Month = ({
           isDateAfter(hoverDate, selected.start) &&
           isSameDay(day, hoverDate) &&
           !isFirstSelectedDay));
+
     const rangeIsDifferent = !(
       typeof selected !== "undefined" && isSameDay(selected.start, selected.end)
     );
+
     const isHoveringRight =
       typeof hoverDate !== "undefined" && isDateBefore(day, hoverDate);
 

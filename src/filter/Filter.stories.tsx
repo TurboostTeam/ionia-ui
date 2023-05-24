@@ -2,6 +2,7 @@ import { type Meta } from "@storybook/react";
 import { type FC, useState } from "react";
 
 import { CheckboxGroup } from "../checkbox-group";
+import { DateSinglePicker } from "../date-single-picker";
 import { Input } from "../input";
 import { Filter } from "./Filter";
 
@@ -16,12 +17,14 @@ export default meta;
 interface Task {
   status: string;
   user: { id: string };
+  commentedAt: Date;
 }
 
 export const Controlled: FC = () => {
   const [values, setValues] = useState({
     "user.id": "123",
     status: ["waiting"],
+    commentedAt: new Date(2023, 5, 21),
   });
 
   return (
@@ -61,6 +64,14 @@ export const Controlled: FC = () => {
               onChange={onChange}
             />
           ),
+        },
+        {
+          label: "评论时间",
+          field: "commentedAt",
+          pinned: true,
+          render: ({ field: { value, onChange } }) => {
+            return <DateSinglePicker date={value} onChange={onChange} />;
+          },
         },
       ]}
       queryPlaceholder="搜索"
