@@ -78,6 +78,7 @@ export const Modal = forwardRef<ModalProps, "div">(
                             onClick={(e) => {
                               e.stopPropagation();
                               e.preventDefault();
+
                               onClose?.();
                             }}
                           >
@@ -116,7 +117,10 @@ export const Modal = forwardRef<ModalProps, "div">(
                                 })}
 
                               {typeof primaryAction !== "undefined" && (
-                                <Button primary>
+                                <Button
+                                  primary
+                                  {...omit(primaryAction, "content")}
+                                >
                                   {primaryAction?.content}
                                 </Button>
                               )}

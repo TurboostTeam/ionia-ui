@@ -102,19 +102,20 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
           <div className="flex space-x-2">
             {typeof presetRange !== "undefined" && presetRange.length > 0 ? (
               <div className="space-y-1">
-                {presetRange.map((range, index) => {
+                {presetRange.map((preset, index) => {
                   return (
                     <div
                       className={twMerge(
                         "cursor-pointer text-gray-600 whitespace-nowrap rounded p-1 text-sm hover:bg-gray-100",
-                        range.title === activeDateRange?.title && "bg-gray-100"
+                        preset.title === activeDateRange?.title && "bg-gray-100"
                       )}
                       key={index}
                       onClick={() => {
-                        setActiveDateRange(range);
+                        setActiveDateRange(preset);
+                        onChange?.(preset.range);
                       }}
                     >
-                      {range.title}
+                      {preset.title}
                     </div>
                   );
                 })}
