@@ -2,6 +2,7 @@ import { type Meta } from "@storybook/react";
 import { type FC, useState } from "react";
 
 import { CheckboxGroup } from "../checkbox-group";
+import { DateRangePicker } from "../date-range-picker";
 import { DateSinglePicker } from "../date-single-picker";
 import { Input } from "../input";
 import { Filter } from "./Filter";
@@ -18,13 +19,20 @@ interface Task {
   status: string;
   user: { id: string };
   commentedAt: Date;
+  createdAt: Date;
 }
 
 export const Controlled: FC = () => {
+  const today = new Date(new Date().setHours(0, 0, 0, 0));
+  const yesterday = new Date(
+    new Date(new Date().setDate(today.getDate() - 1)).setHours(0, 0, 0, 0)
+  );
+
   const [values, setValues] = useState({
     "user.id": "123",
     status: ["waiting"],
-    commentedAt: new Date(2023, 5, 21),
+    commentedAt: today,
+    createdAt: [yesterday, today],
   });
 
   return (
@@ -71,6 +79,15 @@ export const Controlled: FC = () => {
           pinned: true,
           render: ({ field: { value, onChange } }) => {
             return <DateSinglePicker date={value} onChange={onChange} />;
+          },
+        },
+        {
+          label: "创建时间",
+          field: "createdAt",
+          pinned: true,
+          render: ({ field: { value, onChange } }) => {
+            console.log(111, value);
+            return <DateRangePicker range={value} onChange={onChange} />;
           },
         },
       ]}
