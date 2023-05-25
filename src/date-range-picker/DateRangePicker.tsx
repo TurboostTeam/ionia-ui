@@ -5,43 +5,43 @@ import { twMerge } from "tailwind-merge";
 
 import { Card } from "../card";
 import { DatePicker } from "../date-picker";
-import { type Range } from "../date-picker/utils/dates";
 import { Input } from "../input";
 
 export interface PresetRange {
   title: string;
-  period: {
-    since: Date;
-    until: Date;
-  };
+  range: [Date, Date];
 }
 
 export interface DateRangePickerProps {
-  ranges?: PresetRange[];
+  range?: [Date, Date];
+  presetRange?: PresetRange[];
   disabled?: boolean;
   disableDatesBefore?: Date;
   disableDatesAfter?: Date;
   disableSpecificDates?: Date[];
-  onChange?: (range: Range) => void;
+  onChange?: (range: Date[]) => void;
 }
 
 export const DateRangePicker: FC<DateRangePickerProps> = ({
-  ranges,
+  range,
+  presetRange,
   disableDatesBefore,
   disableDatesAfter,
   disableSpecificDates,
   disabled,
   onChange,
 }) => {
-  const [activeDateRange, setActiveDateRange] = useState(ranges?.[0]);
+  const [activeDateRange, setActiveDateRange] = useState(
+    typeof range !== "undefined" ? { title: "custom", range } : presetRange?.[0]
+  );
   const [{ month, year }, setDate] = useState({
     month:
       activeDateRange != null
-        ? activeDateRange.period.since.getMonth()
+        ? activeDateRange.range[0].getMonth()
         : new Date().getMonth(),
     year:
       activeDateRange != null
-        ? activeDateRange.period.since.getFullYear()
+        ? activeDateRange.range[0].getFullYear()
         : new Date().getFullYear(),
   });
 
@@ -64,7 +64,7 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
           }
           value={
             activeDateRange != null
-              ? dayjs(activeDateRange?.period?.since).format("YYYY-MM-DD")
+              ? dayjs(activeDateRange.range[0]).format("YYYY-MM-DD")
               : undefined
           }
         />
@@ -90,8 +90,8 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
             </svg>
           }
           value={
-            activeDateRange?.period?.until != null
-              ? dayjs(activeDateRange?.period?.until).format("YYYY-MM-DD")
+            activeDateRange != null
+              ? dayjs(activeDateRange.range[1]).format("YYYY-MM-DD")
               : undefined
           }
         />
@@ -100,9 +100,9 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
       <Popover.Panel className="z-1000 absolute left-1/2 top-12 w-full -translate-x-1/2">
         <Card>
           <div className="flex space-x-2">
-            {typeof ranges !== "undefined" && ranges.length > 0 ? (
+            {typeof presetRange !== "undefined" && presetRange.length > 0 ? (
               <div className="space-y-1">
-                {ranges.map((range, index) => {
+                {presetRange.map((range, index) => {
                   return (
                     <div
                       className={twMerge(
@@ -132,19 +132,19 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
                 selected={
                   typeof activeDateRange !== "undefined"
                     ? {
-                        start: activeDateRange.period.since,
-                        end: activeDateRange.period.until,
+                        start: activeDateRange.range[0],
+                        end: activeDateRange.range[1],
                       }
                     : undefined
                 }
                 year={year}
                 onChange={({ start, end }) => {
                   const preset = (
-                    typeof ranges !== "undefined" ? ranges : []
+                    typeof presetRange !== "undefined" ? presetRange : []
                   ).find((range) => {
                     return (
-                      range.period.since.valueOf() === start.valueOf() &&
-                      range.period.until.valueOf() === end.valueOf()
+                      range.range[0].valueOf() === start.valueOf() &&
+                      range.range[1].valueOf() === end.valueOf()
                     );
                   });
 
@@ -153,14 +153,11 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
                       ? preset
                       : {
                           title: "Custom",
-                          period: {
-                            since: start,
-                            until: end,
-                          },
+                          range: [start, end],
                         };
 
-                  setActiveDateRange(newDateRange);
-                  onChange?.({ start, end });
+                  setActiveDateRange(newDateRange as PresetRange);
+                  onChange?.([start, end]);
                 }}
                 onMonthChange={(month, year) => {
                   setDate({ month, year });

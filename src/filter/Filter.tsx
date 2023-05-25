@@ -133,7 +133,7 @@ export function Filter<T>({
       </div>
 
       {filters.length > 0 && (
-        <div className="mt-3 flex gap-2">
+        <div className="mt-3 flex flex-wrap gap-2">
           {fixedFilters.map(({ field, label, render }) => {
             const fieldValue = watch(field);
 
@@ -147,7 +147,7 @@ export function Filter<T>({
                       className="pr-2"
                       size="sm"
                     >
-                      <span className="flex items-center">
+                      <span className="flex items-center whitespace-nowrap">
                         {isEmpty(fieldValue) ? (
                           <>
                             {label}
@@ -180,7 +180,7 @@ export function Filter<T>({
                       leaveTo="opacity-0 translate-y-1"
                     >
                       <Popover.Panel className="absolute z-10 mt-2 w-auto transform px-0">
-                        <div className="rounded-md bg-white p-3 shadow-md ring-1 ring-black ring-opacity-5">
+                        <div className="whitespace-nowrap rounded-md bg-white p-3 shadow-md ring-1 ring-black ring-opacity-5">
                           <Controller
                             control={control}
                             name={field}

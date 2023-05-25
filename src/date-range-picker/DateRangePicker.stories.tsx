@@ -19,25 +19,19 @@ const yesterday = new Date(
 export const Controlled: FC = () => {
   return (
     <DateRangePicker
-      ranges={[
+      presetRange={[
         {
           title: "Today",
-          period: {
-            since: today,
-            until: today,
-          },
+          range: [today, today],
         },
         {
           title: "Yesterday",
-          period: {
-            since: yesterday,
-            until: yesterday,
-          },
+          range: [yesterday, yesterday],
         },
         {
           title: "Last 7 days",
-          period: {
-            since: new Date(
+          range: [
+            new Date(
               new Date(new Date().setDate(today.getDate() - 7)).setHours(
                 0,
                 0,
@@ -45,10 +39,11 @@ export const Controlled: FC = () => {
                 0
               )
             ),
-            until: yesterday,
-          },
+            yesterday,
+          ],
         },
       ]}
+      range={[yesterday, today]}
       onChange={(res) => {
         console.log(res);
       }}
