@@ -25,6 +25,8 @@ export interface ButtonProps {
   loading?: boolean;
 
   size?: "sm" | "md" | "lg";
+
+  type?: "button" | "reset" | "submit";
 }
 
 const sizeMap = {
@@ -45,6 +47,7 @@ export const Button = forwardRef<ButtonProps, "button">(
       loading = false,
       size = "md",
       className,
+      type = "button",
       ...props
     },
     ref
@@ -76,7 +79,7 @@ export const Button = forwardRef<ButtonProps, "button">(
         )}
         disabled={disabled || loading}
         ref={ref}
-        type="button"
+        type={type}
         {...props}
       >
         {loading && (
