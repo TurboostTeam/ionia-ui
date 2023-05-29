@@ -97,9 +97,12 @@ export function Table<T>({
           className={twMerge(
             loading === true
               ? "overflow-hidden pointer-events-none select-none"
-              : "overflow-x-auto overflow-y-scroll",
-            typeof bodyHeight !== "undefined" && `h-[${bodyHeight}px]`
+              : "overflow-x-auto overflow-y-scroll"
           )}
+          style={{
+            height:
+              typeof bodyHeight !== "undefined" ? `${bodyHeight}px` : undefined,
+          }}
           onScroll={(e) => {
             const scrollLeft = (e.target as HTMLElement).scrollLeft;
 
