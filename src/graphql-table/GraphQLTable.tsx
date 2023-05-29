@@ -189,18 +189,16 @@ export function GraphQLTable<Node, OrderField extends string>({
         />
       </div>
 
-      <div className="overflow-x-auto">
-        {typeof edges !== "undefined" && edges.length > 0 ? (
-          <Table columns={columns} data={edges.map((edge) => edge.node)} />
-        ) : (
-          <EmptyState
-            className="py-10"
-            description={emptyStateDescription}
-            icon={emptyStateIcon}
-            title={emptyStateTitle}
-          />
-        )}
-      </div>
+      {typeof edges !== "undefined" && edges.length > 0 ? (
+        <Table columns={columns} data={edges.map((edge) => edge.node)} />
+      ) : (
+        <EmptyState
+          className="py-10"
+          description={emptyStateDescription}
+          icon={emptyStateIcon}
+          title={emptyStateTitle}
+        />
+      )}
 
       {(pageInfo?.hasPreviousPage === true ||
         pageInfo?.hasNextPage === true) && (

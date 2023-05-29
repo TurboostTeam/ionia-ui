@@ -26,28 +26,33 @@ interface Person {
 export const Base: FC = () => {
   return (
     <Table<Person>
+      bodyHeight={100}
       columns={[
         {
           header: "Name",
           align: "right",
           accessorKey: "name",
+          size: 100,
           footer: () => "123",
         },
         {
           header: "Age",
           accessorKey: "age",
+          size: 100,
           footer: () => "123",
         },
         {
           header: "Visits",
           accessorKey: "visits",
+          size: 100,
           align: "center",
           footer: () => "123",
         },
         {
-          header: "Status",
+          header: "Status asasad",
+          size: 100,
           accessorKey: "status",
-          footer: () => "123",
+          footer: () => "123 as d  ",
         },
         {
           header: "Progress",
