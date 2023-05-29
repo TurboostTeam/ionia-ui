@@ -47,7 +47,11 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
 
   return (
     <Popover className="relative">
-      <Popover.Button as="div" className="flex space-x-1" disabled={disabled}>
+      <Popover.Button
+        as="div"
+        className="flex max-h-9 space-x-1"
+        disabled={disabled}
+      >
         <Input
           disabled={disabled}
           prefix={
@@ -97,7 +101,7 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
         />
       </Popover.Button>
 
-      <Popover.Panel className="z-1000 absolute left-1/2 top-12 w-full -translate-x-1/2">
+      <Popover.Panel className="absolute left-1/2 top-12 z-[1000] w-full -translate-x-1/2">
         <Card>
           <div className="flex space-x-2">
             {typeof presetRange !== "undefined" && presetRange.length > 0 ? (
