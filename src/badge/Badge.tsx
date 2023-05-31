@@ -16,6 +16,8 @@ export interface BadgeProps {
 
   rounded?: boolean;
 
+  disabled?: boolean;
+
   onRemove?: MouseEventHandler<HTMLSpanElement>;
 }
 
@@ -64,6 +66,7 @@ export const Badge = forwardRef<BadgeProps, "span">(
       onClick,
       onRemove,
       className,
+      disabled = false,
       ...props
     },
     ref
@@ -96,10 +99,17 @@ export const Badge = forwardRef<BadgeProps, "span">(
             className={twMerge(
               "group relative -mr-1 h-3.5 w-3.5",
               rounded ? "rounded-full" : "rounded-sm",
-              badgeRemoveButtonColorMap[color]
+              !disabled
+                ? badgeRemoveButtonColorMap[color]
+                : "cursor-not-allowed"
             )}
+            disabled={disabled}
             type="button"
-            onClick={handleRemove}
+            onClick={(e) => {
+              if (!disabled) {
+                handleRemove(e);
+              }
+            }}
           >
             <span className="sr-only">Remove</span>
             <svg
