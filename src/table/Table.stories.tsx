@@ -87,6 +87,13 @@ export const Base: FC = () => {
           progress: 10,
         },
       ]}
+      onRow={(record) => {
+        return {
+          onClick: () => {
+            console.log(record);
+          },
+        };
+      }}
     />
   );
 };

@@ -30,6 +30,9 @@ export interface TableProps<T> {
   data: T[];
   bodyHeight?: number;
   loading?: boolean;
+  onRow?: (record: T) => {
+    onClick?: (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => void;
+  };
 }
 
 export function Table<T>({
@@ -37,6 +40,7 @@ export function Table<T>({
   data,
   bodyHeight,
   loading,
+  onRow,
 }: TableProps<T>): ReactElement {
   const table = useReactTable({
     data,
@@ -117,7 +121,16 @@ export function Table<T>({
           <table className="w-full table-fixed">
             <tbody className="divide-y divide-gray-200 bg-white">
               {table.getRowModel().rows.map((row) => (
-                <tr key={row.id}>
+                <tr
+                  className={twMerge(
+                    "hover:bg-gray-50",
+                    onRow != null && "cursor-pointer"
+                  )}
+                  key={row.id}
+                  onClick={(e) => {
+                    onRow?.(row.original)?.onClick?.(e);
+                  }}
+                >
                   {row.getVisibleCells().map((cell) => (
                     <td
                       className={twMerge(

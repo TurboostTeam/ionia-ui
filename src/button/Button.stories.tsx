@@ -17,6 +17,13 @@ export const Base: Story = {
   },
 };
 
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+    children: "Button",
+  },
+};
+
 export const Primary: Story = {
   args: {
     primary: true,
