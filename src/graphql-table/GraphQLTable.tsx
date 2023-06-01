@@ -6,12 +6,15 @@ import ChevronLeftIcon from "@heroicons/react/24/outline/ChevronLeftIcon";
 import ChevronRightIcon from "@heroicons/react/24/outline/ChevronRightIcon";
 import compact from "lodash-es/compact";
 import get from "lodash-es/get";
+import omit from "lodash-es/omit";
 import pick from "lodash-es/pick";
 import trim from "lodash-es/trim";
 import {
   Fragment,
   type ReactElement,
+  type RefObject,
   useCallback,
+  useImperativeHandle,
   useMemo,
   useState,
 } from "react";
@@ -22,7 +25,7 @@ import { type Field } from "../common";
 import { EmptyState, type EmptyStateProps } from "../empty-state";
 import { Filter, type FilterItemProps } from "../filter";
 import { RadioGroup, type RadioGroupOption } from "../radio-group";
-import { Table, type TableColumnProps } from "../table";
+import { Table, type TableColumnProps, type TableProps } from "../table";
 import { OrderDirection } from "./OrderDirection";
 import { OrderDirectionList } from "./OrderDirectionList";
 import {
@@ -32,11 +35,15 @@ import {
   type GraphQLTableValue,
 } from "./types";
 
+export interface ActionType {
+  reloadAndRest: () => void;
+}
+
 export interface GraphQLTableProps<Node, OrderField> {
   emptyStateIcon?: EmptyStateProps["icon"];
   emptyStateTitle?: EmptyStateProps["title"];
   emptyStateDescription?: EmptyStateProps["description"];
-
+  actionRef?: RefObject<ActionType>;
   edges?: Array<GraphQLTableEdge<Node>>;
   filters?: Array<FilterItemProps<Node>>;
   orderOptions?: Array<RadioGroupOption<OrderField>>;
@@ -46,11 +53,13 @@ export interface GraphQLTableProps<Node, OrderField> {
   loading?: boolean;
   value?: GraphQLTableValue<OrderField>;
   onChange?: (value: GraphQLTableValue<OrderField>) => void;
+  onRow?: TableProps<Node>["onRow"];
 }
 
 export function GraphQLTable<Node, OrderField extends string>({
   emptyStateIcon,
   emptyStateTitle,
+  actionRef,
   emptyStateDescription,
   filters = [],
   columns = [],
@@ -61,6 +70,7 @@ export function GraphQLTable<Node, OrderField extends string>({
   loading = false,
   value = {},
   onChange,
+  onRow,
 }: GraphQLTableProps<Node, OrderField>): ReactElement {
   const [filterValues, setFilterValues] = useState<Record<Field<Node>, any>>();
   const [pagination, setPagination] = useState<GraphQLTablePagination>(
@@ -69,6 +79,17 @@ export function GraphQLTable<Node, OrderField extends string>({
   const [orderField, setOrderField] = useState(value?.orderBy?.field);
   const [orderDirection, setOrderDirection] = useState(
     value?.orderBy?.direction
+  );
+
+  // 一些可以手动触发的特殊操作
+  useImperativeHandle(
+    actionRef,
+    () => ({
+      reloadAndRest: () => {
+        setPagination((prev) => ({ ...omit(prev, ["before", "after"]) }));
+      },
+    }),
+    []
   );
 
   /* eslint-disable @typescript-eslint/restrict-template-expressions */
@@ -110,7 +131,6 @@ export function GraphQLTable<Node, OrderField extends string>({
       .map((item) => `(${item})`)
       .join(" ");
   }, [filterValues, filters]);
-  /* eslint-enable @typescript-eslint/restrict-template-expressions */
 
   const handlePrevClick = useCallback(() => {
     setPagination({ last: pageSize, before: pageInfo?.startCursor });
@@ -190,7 +210,11 @@ export function GraphQLTable<Node, OrderField extends string>({
       </div>
 
       {typeof edges !== "undefined" && edges.length > 0 ? (
-        <Table columns={columns} data={edges.map((edge) => edge.node)} />
+        <Table
+          columns={columns}
+          data={edges.map((edge) => edge.node)}
+          onRow={onRow}
+        />
       ) : (
         <EmptyState
           className="py-10"

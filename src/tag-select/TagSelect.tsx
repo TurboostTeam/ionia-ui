@@ -1,5 +1,6 @@
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
+import pick from "lodash-es/pick";
 import uniqBy from "lodash-es/uniqBy";
 import { Fragment, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -43,6 +44,7 @@ export const TagSelect = forwardRef<TagSelectProps<string>, "input">(
       value = [],
       onSearch,
       onChange,
+      ...props
     },
     ref
   ) => {
@@ -129,6 +131,7 @@ export const TagSelect = forwardRef<TagSelectProps<string>, "input">(
                     }
                   }
                 }}
+                {...pick(props, ["placeholder", "maxLength", "minLength"])}
               />
 
               <Transition

@@ -74,6 +74,7 @@ export const Button = forwardRef<ButtonProps, "button">(
             `bg-red-600 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 disabled:bg-red-400`,
           // 其他
           rounded ? `rounded-full` : `rounded-md`,
+          disabled && "cursor-not-allowed",
           sizeMap[size],
           className
         )}

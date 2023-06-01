@@ -21,7 +21,6 @@ export const Base: Story = {
       { label: "Optional", value: "optional" },
       { label: "Required", value: "required" },
     ],
-    size: "lg",
   },
 };
 
@@ -45,6 +44,7 @@ export const Controlled: FC = () => {
         { label: "Completed", value: TaskStatus.COMPLETED },
         { label: "Failed", value: TaskStatus.FAILED },
       ]}
+      placeholder="Please"
       value={value}
       onChange={onChange}
     />

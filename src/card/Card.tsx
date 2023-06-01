@@ -14,7 +14,7 @@ export const Card = forwardRef<CardProps, "div">(
     return (
       <div
         className={twMerge(
-          "divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow",
+          "divide-y divide-gray-200 rounded-lg bg-white shadow",
           className
         )}
       >

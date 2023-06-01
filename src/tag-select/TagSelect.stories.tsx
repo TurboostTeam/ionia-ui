@@ -105,8 +105,10 @@ export const MultipleMode: FC = () => {
               helpText="This is a description"
               label="Checkbox Group"
               loading={loading}
+              maxLength={10}
               mode="multiple"
               options={options}
+              placeholder="123"
               onSearch={handleSearch}
               {...field}
             />
