@@ -26,7 +26,6 @@ interface Person {
 export const Base: FC = () => {
   return (
     <Table<Person>
-      bodyHeight={100}
       columns={[
         {
           header: "Name",
@@ -59,7 +58,10 @@ export const Base: FC = () => {
           accessorKey: "progress",
           footer: () => "123",
         },
-        { header: "Payload", accessorKey: "payload.a" },
+        {
+          header: "Payload",
+          accessorKey: "payload.a",
+        },
       ]}
       data={[
         {
@@ -87,13 +89,13 @@ export const Base: FC = () => {
           progress: 10,
         },
       ]}
-      onRow={(record) => {
-        return {
-          onClick: () => {
-            console.log(record);
-          },
-        };
-      }}
+      // onRow={(record) => {
+      //   return {
+      //     onClick: () => {
+      //       console.log(record);
+      //     },
+      //   };
+      // }}
     />
   );
 };
