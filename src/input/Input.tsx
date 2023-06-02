@@ -57,7 +57,7 @@ export const Input = forwardRef<InputProps, "input">(
           className={twMerge(
             "flex gap-2 rounded-md px-3 shadow-sm",
             typeof label !== "undefined" && "mt-2",
-            "w-full ring-1 ring-inset focus-within:cursor-not-allowed focus-within:bg-gray-50 focus-within:text-gray-500 focus-within:ring-2 focus-within:ring-inset",
+            "w-full ring-1 ring-inset focus-within:bg-gray-50 focus-within:text-gray-500 focus-within:ring-2 focus-within:ring-inset",
             typeof error === "undefined"
               ? `ring-gray-300 focus-within:ring-indigo-600`
               : `ring-red-300 focus-within:ring-red-500`,

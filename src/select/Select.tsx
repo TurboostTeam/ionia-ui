@@ -83,7 +83,7 @@ export function Select<T extends string>({
               leaveTo="opacity-0"
               show={open}
             >
-              <Listbox.Options className="absolute z-10 mt-2 max-h-60 w-full overflow-auto rounded-md bg-white py-2 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              <Listbox.Options className="absolute z-[1000] mt-2 max-h-60 w-full overflow-auto rounded-md bg-white py-2 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                 {options.map((option) => (
                   <Listbox.Option
                     className={({ active }) =>

@@ -25,7 +25,6 @@ export const Controlled: FC = () => {
   return (
     <div>
       <GraphQLTable
-        loading
         actionRef={actionRef}
         columns={columns}
         edges={[
@@ -36,6 +35,7 @@ export const Controlled: FC = () => {
         ]}
         emptyStateDescription="没有找到相关记录"
         emptyStateTitle="暂无数据"
+        search={{ placeholder: "search" }}
         onChange={(variables) => {
           console.log(variables);
         }}

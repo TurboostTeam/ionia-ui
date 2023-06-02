@@ -46,6 +46,7 @@ export interface GraphQLTableProps<Node, OrderField> {
   actionRef?: RefObject<ActionType>;
   edges?: Array<GraphQLTableEdge<Node>>;
   filters?: Array<FilterItemProps<Node>>;
+  search?: { placeholder?: string };
   orderOptions?: Array<RadioGroupOption<OrderField>>;
   columns: Array<TableColumnProps<Node>>;
   pageSize?: number;
@@ -63,6 +64,7 @@ export function GraphQLTable<Node, OrderField extends string>({
   emptyStateDescription,
   filters = [],
   columns = [],
+  search,
   edges,
   orderOptions,
   pageSize = 10,
@@ -204,6 +206,7 @@ export function GraphQLTable<Node, OrderField extends string>({
           }
           filters={filters}
           loading={loading}
+          queryPlaceholder={search?.placeholder}
           values={filterValues}
           onChange={setFilterValues}
         />
