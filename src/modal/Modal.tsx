@@ -21,20 +21,16 @@ export interface ModalProps {
 }
 
 export const Modal = forwardRef<ModalProps, "div">(
-  ({
-    open,
-    title,
-    children,
-    footer,
-    primaryAction,
-    secondaryActions,
-    onClose,
-  }) => {
+  (
+    { open, title, children, footer, primaryAction, secondaryActions, onClose },
+    ref
+  ) => {
     return (
       <Transition appear as={Fragment} show={open}>
         <Dialog
           as="div"
           className="z-1000 relative"
+          ref={ref}
           onClose={() => {
             onClose?.();
           }}
