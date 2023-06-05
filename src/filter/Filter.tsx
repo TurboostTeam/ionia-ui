@@ -33,6 +33,35 @@ const isEmpty = (value: unknown): boolean => {
 
 const omitEmpty = (obj: any): any => omitBy(obj, isEmpty);
 
+const formatRenderValue = (obj: any): any => {
+  return transform<any, any>(
+    obj,
+    (result, value, key) => {
+      if (isPlainObject(value) || Array.isArray(value)) {
+        forEach(formatRenderValue(value), (flattenedValue, flattenedKey) => {
+          if (Array.isArray(value)) {
+            if (typeof result[key] === "undefined") {
+              result[key] = [];
+            }
+          } else {
+            if (typeof result[key] === "undefined") {
+              result[key] = {};
+            }
+          }
+
+          result[key][flattenedKey] =
+            flattenedValue instanceof Date
+              ? flattenedValue.toISOString()
+              : flattenedValue;
+        });
+      } else {
+        result[key] = value instanceof Date ? value.toISOString() : value;
+      }
+    },
+    {}
+  );
+};
+
 const flattenObject = (obj: any): any => {
   return transform<any, any>(
     obj,
@@ -155,7 +184,9 @@ export function Filter<T>({
                           </>
                         ) : (
                           <>
-                            {`${label}: ${String(fieldValue)}`}
+                            {`${label}: ${String(
+                              formatRenderValue({ [field]: fieldValue })[field]
+                            )}`}
                             <XMarkIcon
                               className="h-4 w-4"
                               onClick={(event) => {

@@ -86,7 +86,6 @@ export const Controlled: FC = () => {
           field: "createdAt",
           pinned: true,
           render: ({ field: { value, onChange } }) => {
-            console.log(111, value);
             return <DateRangePicker range={value} onChange={onChange} />;
           },
         },

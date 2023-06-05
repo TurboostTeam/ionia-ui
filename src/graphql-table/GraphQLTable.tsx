@@ -112,6 +112,19 @@ export function GraphQLTable<Node, OrderField extends string>({
                 return result;
               }
 
+              if (
+                filterValue[0] instanceof Date &&
+                filterValue[1] instanceof Date
+              ) {
+                return `${result} (${filterValue
+                  .map((item: Date, index) => {
+                    return `${filter.field}:${
+                      index === 0 ? ">=" : "<="
+                    }"${item.toISOString()}"`;
+                  })
+                  .join(" ")})`;
+              }
+
               return `${result} (${filterValue
                 .map((item) => {
                   if (typeof item === "string") {
@@ -123,7 +136,11 @@ export function GraphQLTable<Node, OrderField extends string>({
                 .join(" OR ")})`;
             }
 
-            return `${result} ${filter.field}: ${filterValue}`;
+            return `${result} ${filter.field}: ${
+              filterValue instanceof Date
+                ? filterValue.toISOString()
+                : filterValue
+            }`;
           }
 
           return result;
