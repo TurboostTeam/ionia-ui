@@ -3,6 +3,7 @@ import ChevronDownIcon from "@heroicons/react/20/solid/ChevronDownIcon";
 import PlusIcon from "@heroicons/react/20/solid/PlusIcon";
 import XMarkIcon from "@heroicons/react/20/solid/XMarkIcon";
 import MagnifyingGlassIcon from "@heroicons/react/24/outline/MagnifyingGlassIcon";
+import dayjs from "dayjs";
 import forEach from "lodash-es/forEach";
 import isPlainObject from "lodash-es/isPlainObject";
 import omitBy from "lodash-es/omitBy";
@@ -51,11 +52,12 @@ const formatRenderValue = (obj: any): any => {
 
           result[key][flattenedKey] =
             flattenedValue instanceof Date
-              ? flattenedValue.toISOString()
+              ? dayjs(flattenedValue).format("YYYY-MM-DD")
               : flattenedValue;
         });
       } else {
-        result[key] = value instanceof Date ? value.toISOString() : value;
+        result[key] =
+          value instanceof Date ? dayjs(value).format("YYYY-MM-DD") : value;
       }
     },
     {}
