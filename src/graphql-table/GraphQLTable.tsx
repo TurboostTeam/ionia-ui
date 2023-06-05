@@ -4,6 +4,7 @@ import { Popover, Transition } from "@headlessui/react";
 import ArrowsUpDownIcon from "@heroicons/react/24/outline/ArrowsUpDownIcon";
 import ChevronLeftIcon from "@heroicons/react/24/outline/ChevronLeftIcon";
 import ChevronRightIcon from "@heroicons/react/24/outline/ChevronRightIcon";
+import dayjs from "dayjs";
 import compact from "lodash-es/compact";
 import get from "lodash-es/get";
 import omit from "lodash-es/omit";
@@ -118,9 +119,11 @@ export function GraphQLTable<Node, OrderField extends string>({
               ) {
                 return `${result} (${filterValue
                   .map((item: Date, index) => {
-                    return `${filter.field}:${
-                      index === 0 ? ">=" : "<="
-                    }"${item.toISOString()}"`;
+                    return `${filter.field}:${index === 0 ? ">=" : "<="}"${
+                      index === 0
+                        ? dayjs(item).toISOString()
+                        : dayjs(item).endOf("day").toISOString()
+                    }"`;
                   })
                   .join(" ")})`;
               }
