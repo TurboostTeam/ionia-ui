@@ -16,6 +16,7 @@ type Story = StoryObj<typeof meta>;
 export const Base: Story = {
   args: {
     label: "Select",
+    value: "hidden",
     options: [
       { label: "Hidden", value: "hidden" },
       { label: "Optional", value: "optional" },
@@ -39,7 +40,7 @@ export const Controlled: FC = () => {
   return (
     <Select
       helpText="This is a description"
-      label="Checkbox Group"
+      label="Select"
       options={[
         {
           label: <span className="text-green-600">Completed</span>,
