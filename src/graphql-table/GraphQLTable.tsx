@@ -54,6 +54,7 @@ export interface GraphQLTableProps<Node, OrderField> {
   pageInfo?: GraphQLTablePageInfo;
   loading?: boolean;
   value?: GraphQLTableValue<OrderField>;
+  defaultFilterValue?: Record<Field<Node>, any>;
   onChange?: (value: GraphQLTableValue<OrderField>) => void;
   onRow?: TableProps<Node>["onRow"];
 }
@@ -63,6 +64,7 @@ export function GraphQLTable<Node, OrderField extends string>({
   emptyStateTitle,
   actionRef,
   emptyStateDescription,
+  defaultFilterValue,
   filters = [],
   columns = [],
   search,
@@ -75,7 +77,9 @@ export function GraphQLTable<Node, OrderField extends string>({
   onChange,
   onRow,
 }: GraphQLTableProps<Node, OrderField>): ReactElement {
-  const [filterValues, setFilterValues] = useState<Record<Field<Node>, any>>();
+  const [filterValues, setFilterValues] = useState<
+    Record<Field<Node>, any> | undefined
+  >(defaultFilterValue);
   const [pagination, setPagination] = useState<GraphQLTablePagination>(
     pick(value, ["first", "after", "last", "before"])
   );
