@@ -1,13 +1,13 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
-import { Fragment, type ReactElement } from "react";
+import { Fragment, type ReactElement, type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { FormItem, type FormItemProps } from "../form-item";
 import { Spinner } from "../spinner";
 
 export interface SelectOption<T> {
-  label: string;
+  label: ReactNode;
   value: T;
 }
 

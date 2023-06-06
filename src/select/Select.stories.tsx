@@ -41,8 +41,14 @@ export const Controlled: FC = () => {
       helpText="This is a description"
       label="Checkbox Group"
       options={[
-        { label: "Completed", value: TaskStatus.COMPLETED },
-        { label: "Failed", value: TaskStatus.FAILED },
+        {
+          label: <span className="text-green-600">Completed</span>,
+          value: TaskStatus.COMPLETED,
+        },
+        {
+          label: <span className="text-red-600">Failed</span>,
+          value: TaskStatus.FAILED,
+        },
       ]}
       placeholder="Please"
       value={value}
