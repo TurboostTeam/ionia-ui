@@ -33,7 +33,7 @@ export const TagMode: FC = () => {
           return (
             <TagSelect
               helpText="This is a description"
-              label="Checkbox Group"
+              label="Tag Select"
               mode="tag"
               options={[
                 { label: "a", value: "a" },
@@ -103,7 +103,7 @@ export const MultipleMode: FC = () => {
           return (
             <TagSelect
               helpText="This is a description"
-              label="Checkbox Group"
+              label="Tag Select"
               loading={loading}
               maxLength={10}
               mode="multiple"

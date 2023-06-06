@@ -83,36 +83,24 @@ export function Select<T extends string>({
               leaveTo="opacity-0"
               show={open}
             >
-              <Listbox.Options className="absolute z-[1000] mt-2 max-h-60 w-full overflow-auto rounded-md bg-white py-2 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              <Listbox.Options className="absolute z-[1000] mt-2 max-h-60 w-full overflow-auto rounded-md bg-white py-2 text-base text-gray-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                 {options.map((option) => (
                   <Listbox.Option
                     className={({ active }) =>
                       twMerge(
-                        active ? "bg-indigo-600 text-white" : "text-gray-900",
+                        active && "bg-gray-100",
                         "relative cursor-default select-none py-2 pl-3 pr-9"
                       )
                     }
                     key={option.value}
                     value={option.value}
                   >
-                    {({ selected, active }) => (
+                    {({ selected }) => (
                       <>
-                        <span
-                          className={twMerge(
-                            selected ? "font-semibold" : "font-normal",
-                            "block truncate"
-                          )}
-                        >
-                          {option.label}
-                        </span>
+                        <span className="block truncate">{option.label}</span>
 
                         {selected ? (
-                          <span
-                            className={twMerge(
-                              active ? "text-white" : "text-indigo-600",
-                              "absolute inset-y-0 right-0 flex items-center pr-4"
-                            )}
-                          >
+                          <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600">
                             <CheckIcon aria-hidden="true" className="h-5 w-5" />
                           </span>
                         ) : null}

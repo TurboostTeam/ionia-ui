@@ -154,28 +154,21 @@ export const TagSelect = forwardRef<TagSelectProps<string>, "input">(
                       <Combobox.Option
                         className={({ active }) =>
                           twMerge(
-                            active
-                              ? "bg-indigo-600 text-white"
-                              : "text-gray-900",
+                            active && "bg-gray-100",
                             "relative cursor-default select-none py-2 pl-3 pr-9"
                           )
                         }
                         key={item.value}
                         value={item.value}
                       >
-                        {({ selected, active }) => (
+                        {({ selected }) => (
                           <>
                             <span className={twMerge("block truncate text-sm")}>
                               {item.label}
                             </span>
 
                             {selected ? (
-                              <span
-                                className={twMerge(
-                                  active ? "text-white" : "text-indigo-600",
-                                  "absolute inset-y-0 right-0 flex items-center pr-4"
-                                )}
-                              >
+                              <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600">
                                 <CheckIcon
                                   aria-hidden="true"
                                   className="h-5 w-5"
