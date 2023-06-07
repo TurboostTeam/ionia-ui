@@ -92,6 +92,7 @@ export const Controlled: FC = () => {
             },
           },
         ]}
+        footer={<div>summary</div>}
         search={{ placeholder: "search" }}
         onChange={(variables) => {
           console.log(variables);

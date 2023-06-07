@@ -13,6 +13,7 @@ import trim from "lodash-es/trim";
 import {
   Fragment,
   type ReactElement,
+  type ReactNode,
   type RefObject,
   useCallback,
   useImperativeHandle,
@@ -48,6 +49,7 @@ export interface GraphQLTableProps<Node, OrderField> {
   edges?: Array<GraphQLTableEdge<Node>>;
   filters?: Array<FilterItemProps<Node>>;
   search?: { placeholder?: string };
+  footer?: ReactNode;
   orderOptions?: Array<RadioGroupOption<OrderField>>;
   columns: Array<TableColumnProps<Node>>;
   pageSize?: number;
@@ -65,6 +67,7 @@ export function GraphQLTable<Node, OrderField extends string>({
   actionRef,
   emptyStateDescription,
   defaultFilterValue,
+  footer,
   filters = [],
   columns = [],
   search,
@@ -250,6 +253,8 @@ export function GraphQLTable<Node, OrderField extends string>({
           title={emptyStateTitle}
         />
       )}
+
+      {footer}
 
       {(pageInfo?.hasPreviousPage === true ||
         pageInfo?.hasNextPage === true) && (
