@@ -1,4 +1,7 @@
-import { forwardRef as forwardReactRef } from "react";
+import {
+  forwardRef as forwardReactRef,
+  type ForwardRefRenderFunction,
+} from "react";
 
 import {
   type As,
@@ -8,7 +11,7 @@ import {
 } from "./component.types";
 
 export function forwardRef<Props extends object, Component extends As>(
-  component: React.ForwardRefRenderFunction<
+  component: ForwardRefRenderFunction<
     any,
     RightJoinProps<PropsOf<Component>, Props> & {
       as?: As;
