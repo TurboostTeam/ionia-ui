@@ -1,8 +1,17 @@
-import { type FC } from "react";
+import {
+  type DetailedHTMLProps,
+  type FC,
+  type HTMLAttributes,
+  type ReactNode,
+} from "react";
 import { twMerge } from "tailwind-merge";
 
-export interface FormItemProps {
-  children?: React.ReactNode;
+export interface FormItemProps
+  extends Omit<
+    DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
+    "value" | "onChange"
+  > {
+  children?: ReactNode;
   className?: string;
   label?: string;
   helpText?: string;
@@ -15,9 +24,10 @@ export const FormItem: FC<FormItemProps> = ({
   label,
   helpText,
   error,
+  ...props
 }) => {
   return (
-    <div className="w-full">
+    <div className="w-full" {...props}>
       {typeof label !== "undefined" && (
         <label
           className={twMerge(

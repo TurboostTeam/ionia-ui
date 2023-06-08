@@ -24,6 +24,7 @@ export function RadioGroup<T extends string>({
   options,
   value,
   onChange,
+  ...props
 }: RadioGroupProps<T>): ReactElement {
   return (
     <FormItem
@@ -31,6 +32,7 @@ export function RadioGroup<T extends string>({
       error={error}
       helpText={helpText}
       label={label}
+      {...props}
     >
       {options.map((option) => (
         <Radio

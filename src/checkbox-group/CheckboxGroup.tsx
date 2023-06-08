@@ -22,6 +22,7 @@ export function CheckboxGroup<T extends string>({
   options,
   value,
   onChange,
+  ...props
 }: CheckboxGroupProps<T>): ReactElement {
   return (
     <FormItem
@@ -29,6 +30,7 @@ export function CheckboxGroup<T extends string>({
       error={error}
       helpText={helpText}
       label={label}
+      {...props}
     >
       {options.map((option) => (
         <Checkbox
