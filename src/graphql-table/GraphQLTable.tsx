@@ -235,7 +235,10 @@ export function GraphQLTable<Node, OrderField extends string>({
           loading={loading}
           queryPlaceholder={search?.placeholder}
           values={filterValues}
-          onChange={setFilterValues}
+          onChange={(result) => {
+            setFilterValues(result);
+            setPagination((prev) => ({ ...omit(prev, ["before", "after"]) }));
+          }}
         />
       </div>
 
