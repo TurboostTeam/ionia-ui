@@ -1,9 +1,9 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
-import { forwardRef } from "lib/common";
 import { Fragment, type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
+import { forwardRef } from "../common";
 import { FormItem, type FormItemProps } from "../form-item";
 import { Spinner } from "../spinner";
 
