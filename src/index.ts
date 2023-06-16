@@ -6,6 +6,7 @@ export * from "./checkbox-group";
 export * from "./common";
 export * from "./filter";
 export * from "./form";
+export * from "./form-group";
 export * from "./form-item";
 export * from "./graphql-table";
 export * from "./input";
