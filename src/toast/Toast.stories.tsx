@@ -1,8 +1,8 @@
 import type { Meta } from "@storybook/react";
 import { type FC } from "react";
 
-import { Button } from "../button";
-import { Provider } from "../provider";
+import { Button } from "../Button";
+import { Provider } from "../Provider";
 import { toast } from "./Toast";
 
 const meta = {
