@@ -6,16 +6,20 @@
           "@swc/plugin-transform-imports",
           {
             "@heroicons/react/20/solid": {
-              "transform": "@heroicons/react/20/solid/{{member}}"
+              "transform": "@heroicons/react/20/solid/{{member}}",
+              "preventFullImport": true
             },
             "@heroicons/react/24/outline": {
-              "transform": "@heroicons/react/24/outline/{{member}}"
+              "transform": "@heroicons/react/24/outline/{{member}}",
+              "preventFullImport": true
             },
             "lodash": {
-              "transform": "lodash/{{member}}"
+              "transform": "lodash/{{member}}",
+              "preventFullImport": true
             },
             "react-use": {
-              "transform": "react-use/lib/{{member}}"
+              "transform": "react-use/lib/{{member}}",
+              "preventFullImport": true
             }
           }
         ]
