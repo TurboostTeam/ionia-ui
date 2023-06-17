@@ -1,7 +1,6 @@
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
-import pick from "lodash-es/pick";
-import uniqBy from "lodash-es/uniqBy";
+import { pick, uniqBy } from "lodash";
 import { Fragment, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 

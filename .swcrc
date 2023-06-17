@@ -1,0 +1,25 @@
+{
+  "jsc": {
+    "experimental": {
+      "plugins": [
+        [
+          "@swc/plugin-transform-imports",
+          {
+            "@heroicons/react/20/solid": {
+              "transform": "@heroicons/react/20/solid/{{member}}"
+            },
+            "@heroicons/react/24/outline": {
+              "transform": "@heroicons/react/24/outline/{{member}}"
+            },
+            "lodash": {
+              "transform": "lodash/{{member}}"
+            },
+            "react-use": {
+              "transform": "react-use/lib/{{member}}"
+            }
+          }
+        ]
+      ]
+    }
+  }
+}

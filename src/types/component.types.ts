@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
-import { type ComponentPropsWithoutRef, type ElementType } from "react";
+import {
+  type ComponentProps,
+  type ComponentPropsWithoutRef,
+  type ElementType,
+  type ValidationMap,
+  type WeakValidationMap,
+} from "react";
 
 export type As = ElementType;
 
@@ -41,16 +47,16 @@ export interface ComponentWithAs<
 > {
   <AsComponent extends As = Component>(
     props: MergeWithAs<
-      React.ComponentProps<Component>,
-      React.ComponentProps<AsComponent>,
+      ComponentProps<Component>,
+      ComponentProps<AsComponent>,
       Props,
       AsComponent
     >
   ): JSX.Element;
 
   displayName?: string;
-  propTypes?: React.WeakValidationMap<any>;
-  contextTypes?: React.ValidationMap<any>;
+  propTypes?: WeakValidationMap<any>;
+  contextTypes?: ValidationMap<any>;
   defaultProps?: Partial<any>;
   id?: string;
 }

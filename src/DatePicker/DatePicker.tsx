@@ -101,7 +101,7 @@ export const DatePicker: FC<DatePickerProps> = ({
   );
 
   const handleKeyUp = useCallback(
-    (event: React.KeyboardEvent<HTMLElement>) => {
+    (event: KeyboardEvent<HTMLElement>) => {
       const { key } = event;
 
       const range = deriveRange(selected);
@@ -277,7 +277,7 @@ export const DatePicker: FC<DatePickerProps> = ({
   );
 };
 
-function handleKeyDown(event: React.KeyboardEvent<HTMLElement>): void {
+function handleKeyDown(event: KeyboardEvent<HTMLElement>): void {
   const { key } = event;
 
   if (

@@ -31,7 +31,7 @@ export interface TableProps<T> {
   bodyHeight?: number;
   loading?: boolean;
   onRow?: (record: T) => {
-    onClick?: (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => void;
+    onClick?: (e: MouseEvent<HTMLTableRowElement, MouseEvent>) => void;
   };
 }
 

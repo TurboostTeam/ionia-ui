@@ -1,13 +1,12 @@
 import { Popover, Transition } from "@headlessui/react";
-import ChevronDownIcon from "@heroicons/react/20/solid/ChevronDownIcon";
-import PlusIcon from "@heroicons/react/20/solid/PlusIcon";
-import XMarkIcon from "@heroicons/react/20/solid/XMarkIcon";
-import MagnifyingGlassIcon from "@heroicons/react/24/outline/MagnifyingGlassIcon";
+import {
+  ChevronDownIcon,
+  PlusIcon,
+  XMarkIcon,
+} from "@heroicons/react/20/solid";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import dayjs from "dayjs";
-import forEach from "lodash-es/forEach";
-import isPlainObject from "lodash-es/isPlainObject";
-import omitBy from "lodash-es/omitBy";
-import transform from "lodash-es/transform";
+import { forEach, isPlainObject, omitBy, transform } from "lodash";
 import {
   Fragment,
   type ReactElement,

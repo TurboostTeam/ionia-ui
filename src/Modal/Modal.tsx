@@ -1,13 +1,13 @@
 import { Dialog, Transition } from "@headlessui/react";
-import omit from "lodash-es/omit";
-import { Fragment, type ReactNode } from "react";
+import { omit } from "lodash";
+import { Fragment, type MouseEventHandler, type ReactNode } from "react";
 
 import { Button, type ButtonProps as BaseButtonProps } from "../Button";
 import { forwardRef } from "../utils";
 
 interface ButtonProps extends BaseButtonProps {
   content?: string;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
 export interface ModalProps {

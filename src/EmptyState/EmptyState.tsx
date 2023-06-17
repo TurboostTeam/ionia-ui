@@ -1,4 +1,4 @@
-import DocumentIcon from "@heroicons/react/24/outline/DocumentIcon";
+import { DocumentIcon } from "@heroicons/react/24/outline";
 import { type FC, type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 

@@ -1,15 +1,13 @@
 "use client";
 
 import { Popover, Transition } from "@headlessui/react";
-import ArrowsUpDownIcon from "@heroicons/react/24/outline/ArrowsUpDownIcon";
-import ChevronLeftIcon from "@heroicons/react/24/outline/ChevronLeftIcon";
-import ChevronRightIcon from "@heroicons/react/24/outline/ChevronRightIcon";
+import {
+  ArrowsUpDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/24/outline";
 import dayjs from "dayjs";
-import compact from "lodash-es/compact";
-import get from "lodash-es/get";
-import omit from "lodash-es/omit";
-import pick from "lodash-es/pick";
-import trim from "lodash-es/trim";
+import { compact, get, omit, pick, trim } from "lodash";
 import {
   Fragment,
   type ReactElement,
@@ -20,7 +18,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import useUpdateEffect from "react-use/esm/useUpdateEffect";
+import { useUpdateEffect } from "react-use";
 
 import { Button } from "../Button";
 import { EmptyState, type EmptyStateProps } from "../EmptyState";
@@ -50,7 +48,7 @@ export interface GraphQLTableProps<Node, OrderField> {
   filters?: Array<FilterItemProps<Node>>;
   search?: { placeholder?: string };
   footer?: ReactNode;
-  orderOptions?: Array<RadioGroupOption<OrderField>>;
+  orderOptions?: RadioGroupOption[];
   columns: Array<TableColumnProps<Node>>;
   pageSize?: number;
   pageInfo?: GraphQLTablePageInfo;
@@ -214,7 +212,7 @@ export function GraphQLTable<Node, OrderField extends string>({
                           value={orderField}
                           onChange={(value) => {
                             setPagination({});
-                            setOrderField(value);
+                            setOrderField(value as OrderField);
                           }}
                         />
                         <OrderDirectionList
