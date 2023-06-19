@@ -10,7 +10,7 @@ import { Input } from "../Input";
 import { Spinner } from "../Spinner";
 import { forwardRef } from "../utils";
 
-export interface SelectOption<T> {
+export interface TagSelectOption<T> {
   label: string;
   value: T;
 }
@@ -24,7 +24,7 @@ export interface TagSelectProps<T> extends FormItemProps {
   loading?: boolean;
   onSearch?: (value: string) => void;
   disabled?: boolean;
-  options: Array<SelectOption<T>>;
+  options: Array<TagSelectOption<T>>;
   value?: T[];
   onChange?: (value: T[]) => void;
 }
