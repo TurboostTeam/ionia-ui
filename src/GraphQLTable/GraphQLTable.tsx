@@ -124,11 +124,11 @@ export function GraphQLTable<Node, OrderField extends string>({
               ) {
                 return `${result} (${filterValue
                   .map((item: Date, index) => {
-                    return `${filter.field}:${index === 0 ? ">=" : "<="}"${
+                    return `${filter.field}:${index === 0 ? ">=" : "<="}${
                       index === 0
                         ? dayjs(item).toISOString()
                         : dayjs(item).endOf("day").toISOString()
-                    }"`;
+                    }`;
                   })
                   .join(" ")})`;
               }
