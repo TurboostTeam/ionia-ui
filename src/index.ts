@@ -13,6 +13,7 @@ export * from "./FormItem";
 export * from "./GraphQLTable";
 export * from "./Input";
 export * from "./Modal";
+export * from "./NumberInput";
 export * from "./Page";
 export * from "./Provider";
 export * from "./Radio";
