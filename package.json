@@ -18,7 +18,7 @@
     "build:storybook": "storybook build",
     "lint": "eslint src --ext js,ts,jsx,tsx --fix",
     "storybook": "storybook dev -p 6006",
-    "semantic-release": "semantic-release"
+    "release": "semantic-release"
   },
   "dependencies": {
     "@babel/runtime": "^7.21.5",
