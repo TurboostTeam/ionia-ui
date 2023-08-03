@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { type FC, Fragment, type ReactNode } from "react";
+import { type FC, Fragment, type ReactNode, useRef } from "react";
 
 import { Button, type ButtonProps } from "../Button";
 
@@ -9,7 +9,7 @@ export interface ModalProps {
   onClose: () => void;
   title?: ReactNode;
   children: ReactNode;
-  primaryAction?: ButtonProps;
+  primaryAction: ButtonProps;
   secondaryActions?: ButtonProps[];
 }
 
@@ -21,9 +21,16 @@ export const Modal: FC<ModalProps> = ({
   secondaryActions,
   onClose,
 }) => {
+  const initialFocus = useRef(null);
+
   return (
     <Transition.Root as={Fragment} show={open}>
-      <Dialog as="div" className="relative z-10" onClose={onClose}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        initialFocus={initialFocus}
+        onClose={onClose}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -75,7 +82,7 @@ export const Modal: FC<ModalProps> = ({
                 </div>
 
                 <div className="mt-5 gap-2 sm:mt-4 sm:flex sm:flex-row-reverse">
-                  <Button primary {...primaryAction} />
+                  <Button primary ref={initialFocus} {...primaryAction} />
 
                   {secondaryActions?.map((action, index) => (
                     <Button key={index} {...action} />
