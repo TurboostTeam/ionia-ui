@@ -1,135 +1,91 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { omit } from "lodash";
-import { Fragment, type MouseEventHandler, type ReactNode } from "react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import { type FC, Fragment, type ReactNode } from "react";
 
-import { Button, type ButtonProps as BaseButtonProps } from "../Button";
-import { forwardRef } from "../utils";
-
-interface ButtonProps extends BaseButtonProps {
-  content?: string;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
-}
+import { Button, type ButtonProps } from "../Button";
 
 export interface ModalProps {
   open: boolean;
+  onClose: () => void;
   title?: ReactNode;
-  footer?: ReactNode;
-  loading?: boolean;
+  children: ReactNode;
   primaryAction?: ButtonProps;
   secondaryActions?: ButtonProps[];
-  onClose?: () => void;
 }
 
-export const Modal = forwardRef<ModalProps, "div">(
-  (
-    { open, title, children, footer, primaryAction, secondaryActions, onClose },
-    ref
-  ) => {
-    return (
-      <Transition appear as={Fragment} show={open}>
-        <Dialog
-          as="div"
-          className="z-1000 relative"
-          ref={ref}
-          onClose={() => {
-            onClose?.();
-          }}
+export const Modal: FC<ModalProps> = ({
+  open,
+  title,
+  children,
+  primaryAction,
+  secondaryActions,
+  onClose,
+}) => {
+  return (
+    <Transition.Root as={Fragment} show={open}>
+      <Dialog as="div" className="relative z-10" onClose={onClose}>
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
         >
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+        </Transition.Child>
 
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-lg bg-white align-middle shadow-xl transition-all">
-                  {typeof title !== "undefined" && (
-                    <Dialog.Title
-                      as="h3"
-                      className="border-b text-lg font-medium leading-6 text-gray-900"
-                    >
-                      <div className="mr-1 flex items-center p-4">
-                        <div>{title}</div>
+        <div className="fixed inset-0 z-10 overflow-y-auto">
+          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enterTo="opacity-100 translate-y-0 sm:scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            >
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                <div className="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
+                  <button
+                    className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    type="button"
+                    onClick={onClose}
+                  >
+                    <span className="sr-only">Close</span>
+                    <XMarkIcon aria-hidden="true" className="h-6 w-6" />
+                  </button>
+                </div>
 
-                        <div className="ml-auto">
-                          <button
-                            className="rounded-lg p-2 text-white hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              e.preventDefault();
+                <div className="sm:flex sm:items-start">
+                  <div className="mt-3 text-center sm:mt-0 sm:text-left">
+                    {typeof title !== "undefined" && (
+                      <Dialog.Title
+                        as="h3"
+                        className="text-base font-semibold leading-6 text-gray-900"
+                      >
+                        {title}
+                      </Dialog.Title>
+                    )}
 
-                              onClose?.();
-                            }}
-                          >
-                            <svg className="h-5 w-5" viewBox="0 0 20 20">
-                              <path d="m11.414 10 6.293-6.293a1 1 0 1 0-1.414-1.414l-6.293 6.293-6.293-6.293a1 1 0 0 0-1.414 1.414l6.293 6.293-6.293 6.293a1 1 0 1 0 1.414 1.414l6.293-6.293 6.293 6.293a.998.998 0 0 0 1.707-.707.999.999 0 0 0-.293-.707l-6.293-6.293z" />
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
-                    </Dialog.Title>
-                  )}
+                    <div className="mt-2 text-sm text-gray-500">{children}</div>
+                  </div>
+                </div>
 
-                  {typeof children !== "undefined" && (
-                    <div className="p-4">{children}</div>
-                  )}
+                <div className="mt-5 gap-2 sm:mt-4 sm:flex sm:flex-row-reverse">
+                  <Button primary {...primaryAction} />
 
-                  {(typeof footer !== "undefined" ||
-                    typeof primaryAction !== "undefined" ||
-                    typeof secondaryActions !== "undefined") && (
-                    <div className="border-t p-4">
-                      {typeof footer !== "undefined"
-                        ? footer
-                        : (typeof primaryAction !== "undefined" ||
-                            typeof secondaryActions !== "undefined") && (
-                            <div className="flex justify-end space-x-1">
-                              {typeof secondaryActions !== "undefined" &&
-                                secondaryActions?.map((buttonProps, index) => {
-                                  return (
-                                    <Button
-                                      key={index}
-                                      {...omit(buttonProps, "content")}
-                                    >
-                                      {buttonProps?.content}
-                                    </Button>
-                                  );
-                                })}
-
-                              {typeof primaryAction !== "undefined" && (
-                                <Button
-                                  primary
-                                  {...omit(primaryAction, "content")}
-                                >
-                                  {primaryAction?.content}
-                                </Button>
-                              )}
-                            </div>
-                          )}
-                    </div>
-                  )}
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
+                  {secondaryActions?.map((action, index) => (
+                    <Button key={index} {...action} />
+                  ))}
+                </div>
+              </Dialog.Panel>
+            </Transition.Child>
           </div>
-        </Dialog>
-      </Transition>
-    );
-  }
-);
+        </div>
+      </Dialog>
+    </Transition.Root>
+  );
+};

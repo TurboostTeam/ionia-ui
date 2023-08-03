@@ -1,4 +1,4 @@
-import { type ReactElement } from "react";
+import { type ReactElement, type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Spinner } from "../Spinner";
@@ -14,6 +14,8 @@ export interface ButtonProps {
    * Indicates a dangerous or potentially negative action.
    */
   destructive?: boolean;
+
+  content?: ReactNode;
 
   /**
    * 是否为圆角按钮
@@ -39,6 +41,7 @@ export const Button = forwardRef<ButtonProps, "button">(
   (
     {
       as,
+      content,
       children,
       primary = false,
       destructive = false,
@@ -90,7 +93,7 @@ export const Button = forwardRef<ButtonProps, "button">(
         )}
 
         <span className={twMerge(loading && `text-transparent`)}>
-          {children}
+          {children ?? content}
         </span>
       </Component>
     );
