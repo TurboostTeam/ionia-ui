@@ -5,6 +5,7 @@ import { Controller, useForm } from "react-hook-form";
 import { CheckboxGroup } from "../CheckboxGroup";
 import { Input } from "../Input";
 import { RadioGroup } from "../RadioGroup";
+import { Switch } from "../Switch";
 import { Form } from "./Form";
 
 const meta = {
@@ -18,6 +19,7 @@ export default meta;
 export const Controlled: FC = () => {
   const { control, handleSubmit } = useForm({
     defaultValues: {
+      enable: true,
       username: "",
       password: "",
       sex: "male",
@@ -33,6 +35,22 @@ export const Controlled: FC = () => {
         });
       }}
     >
+      <Controller
+        control={control}
+        name="enable"
+        render={({ field, fieldState }) => {
+          return (
+            <Switch
+              checked={field.value}
+              error={fieldState.error?.message}
+              label="启用"
+              /* eslint-disable-next-line react/jsx-handler-names */
+              onChange={field.onChange}
+            />
+          );
+        }}
+      />
+
       <Controller
         control={control}
         name="username"
