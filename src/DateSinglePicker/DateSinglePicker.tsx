@@ -58,7 +58,7 @@ export const DateSinglePicker: FC<DateSinglePickerProps> = ({
         />
       </Popover.Button>
 
-      <Popover.Panel className="z-1000 absolute left-1/2 top-12 w-full min-w-[254px] -translate-x-1/2">
+      <Popover.Panel className="absolute left-1/2 top-12 z-10 w-full min-w-[254px] -translate-x-1/2">
         {({ close }) => (
           <Card>
             <DatePicker
