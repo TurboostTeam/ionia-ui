@@ -4,9 +4,8 @@ import { type FC, useEffect, useState } from "react";
 import { Textarea } from "./Textarea";
 
 const meta = {
-  title: "Form/Textarea",
+  title: "Form 表单/Textarea 文本域",
   component: Textarea,
-  tags: ["autodocs"],
 } satisfies Meta<typeof Textarea>;
 
 export default meta;

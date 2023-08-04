@@ -4,9 +4,8 @@ import { type FC, useEffect, useState } from "react";
 import { Select } from "./Select";
 
 const meta = {
-  title: "Form/Select",
+  title: "Form 表单/Select 选择器",
   component: Select,
-  tags: ["autodocs"],
 } satisfies Meta<typeof Select>;
 
 export default meta;

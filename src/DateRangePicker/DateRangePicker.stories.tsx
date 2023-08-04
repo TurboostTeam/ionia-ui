@@ -4,16 +4,15 @@ import { type FC } from "react";
 import { DateRangePicker } from "./DateRangePicker";
 
 const meta = {
-  title: "Form/DateRangePicker",
+  title: "Form 表单/DateRangePicker 日期范围选择器",
   component: DateRangePicker,
-  tags: ["autodocs"],
 } satisfies Meta<typeof DateRangePicker>;
 
 export default meta;
 
 const today = new Date(new Date().setHours(0, 0, 0, 0));
 const yesterday = new Date(
-  new Date(new Date().setDate(today.getDate() - 1)).setHours(0, 0, 0, 0)
+  new Date(new Date().setDate(today.getDate() - 1)).setHours(0, 0, 0, 0),
 );
 
 export const Controlled: FC = () => {
@@ -36,8 +35,8 @@ export const Controlled: FC = () => {
                 0,
                 0,
                 0,
-                0
-              )
+                0,
+              ),
             ),
             yesterday,
           ],

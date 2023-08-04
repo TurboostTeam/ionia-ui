@@ -4,9 +4,8 @@ import { type FC, useState } from "react";
 import { Radio } from "./Radio";
 
 const meta = {
-  title: "Form/Radio",
+  title: "Form 表单/Radio 单选框",
   component: Radio,
-  tags: ["autodocs"],
 } satisfies Meta<typeof Radio>;
 
 export default meta;

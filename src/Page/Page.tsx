@@ -1,6 +1,8 @@
 import { type FC, type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
+import { ButtonGroup } from "../ButtonGroup";
+
 export interface PageProps {
   title: string;
   fullWidth?: boolean;
@@ -23,10 +25,10 @@ export const Page: FC<PageProps> = ({
           <h2 className="text-xl font-bold text-gray-900">{title}</h2>
         </div>
 
-        <div className="mt-4 flex md:ml-4 md:mt-0">
+        <ButtonGroup className="mt-4 md:ml-4 md:mt-0">
           {secondaryButtons}
           {primaryButton}
-        </div>
+        </ButtonGroup>
       </div>
 
       <div>{children}</div>

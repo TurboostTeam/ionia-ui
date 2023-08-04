@@ -1,0 +1,20 @@
+import { Story, ArgsTable, Canvas } from "@storybook/blocks";
+import * as PageStories from "./Page.stories";
+
+# Page 页面
+
+用于构建页面布局的组件，包括页面标题和相关操作。
+
+<Canvas>
+  <Story of={PageStories.Default} />
+</Canvas>
+
+## 全宽
+
+<Canvas>
+  <Story of={PageStories.FullWidth} />
+</Canvas>
+
+## 组件 API
+
+<ArgsTable />

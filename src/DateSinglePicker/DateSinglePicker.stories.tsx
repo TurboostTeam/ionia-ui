@@ -4,9 +4,8 @@ import { type FC } from "react";
 import { DateSinglePicker } from "./DateSinglePicker";
 
 const meta = {
-  title: "Form/DateSinglePicker",
+  title: "Form 表单/DateSinglePicker 日期单独选择器",
   component: DateSinglePicker,
-  tags: ["autodocs"],
 } satisfies Meta<typeof DateSinglePicker>;
 
 export default meta;

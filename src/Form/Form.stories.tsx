@@ -9,9 +9,8 @@ import { Switch } from "../Switch";
 import { Form } from "./Form";
 
 const meta = {
-  title: "Form/Form",
+  title: "Form 表单/Form 表单",
   component: Form,
-  tags: ["autodocs"],
 } satisfies Meta<typeof Form>;
 
 export default meta;

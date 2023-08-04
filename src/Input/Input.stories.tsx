@@ -4,9 +4,8 @@ import { type FC, useEffect, useState } from "react";
 import { Input } from "./Input";
 
 const meta = {
-  title: "Form/Input",
+  title: "Form 表单/Input 输入框",
   component: Input,
-  tags: ["autodocs"],
 } satisfies Meta<typeof Input>;
 
 export default meta;

@@ -6,9 +6,8 @@ import { Button } from "../Button";
 import { TagSelect } from "./TagSelect";
 
 const meta = {
-  title: "Form/TagSelect",
+  title: "Form 表单/TagSelect 标签选择器",
   component: TagSelect,
-  tags: ["autodocs"],
 } satisfies Meta<typeof TagSelect>;
 
 export default meta;
@@ -20,7 +19,7 @@ export const TagMode: FC = () => {
     async (input) => {
       console.log(input);
     },
-    []
+    [],
   );
 
   return (
@@ -72,7 +71,7 @@ export const MultipleMode: FC = () => {
     async (input) => {
       console.log(input);
     },
-    []
+    [],
   );
 
   const handleSearch = useCallback(
@@ -90,7 +89,7 @@ export const MultipleMode: FC = () => {
         setOptions([...options, { label: val, value: val }]);
       }, 1000);
     },
-    [options]
+    [options],
   );
 
   return (

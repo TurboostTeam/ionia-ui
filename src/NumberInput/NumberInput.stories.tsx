@@ -4,7 +4,7 @@ import { type FC, useEffect, useState } from "react";
 import { NumberInput } from "./NumberInput";
 
 const meta = {
-  title: "Form/NumberInput",
+  title: "Form 表单/NumberInput 数字输入框",
   component: NumberInput,
   tags: ["autodocs"],
 } satisfies Meta<typeof NumberInput>;

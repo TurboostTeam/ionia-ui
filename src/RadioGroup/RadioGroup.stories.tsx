@@ -4,7 +4,7 @@ import { type FC, useEffect, useState } from "react";
 import { RadioGroup } from "./RadioGroup";
 
 const meta = {
-  title: "Form/RadioGroup",
+  title: "Form 表单/RadioGroup 单选框组",
   component: RadioGroup,
   tags: ["autodocs"],
 } satisfies Meta<typeof RadioGroup>;

@@ -4,9 +4,8 @@ import { type FC, useEffect, useState } from "react";
 import { CheckboxGroup } from "./CheckboxGroup";
 
 const meta = {
-  title: "Form/CheckboxGroup",
+  title: "Form 表单/CheckboxGroup 多选框组",
   component: CheckboxGroup,
-  tags: ["autodocs"],
 } satisfies Meta<typeof CheckboxGroup>;
 
 export default meta;

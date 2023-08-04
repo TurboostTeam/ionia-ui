@@ -3,9 +3,8 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Card } from "./Card";
 
 const meta = {
-  title: "Base/Card",
+  title: "Layout 布局/Card 卡片",
   component: Card,
-  tags: ["autodocs"],
   parameters: {
     backgrounds: {
       default: "gray",

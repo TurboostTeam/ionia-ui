@@ -5,9 +5,8 @@ import { Badge } from "../Badge";
 import { Tooltip } from "./Tooltip";
 
 const meta = {
-  title: "Base/Tooltip",
+  title: "Feedback 反馈/Tooltip 工具提示",
   component: Tooltip,
-  tags: ["autodocs"],
 } satisfies Meta<typeof Tooltip>;
 
 export default meta;
