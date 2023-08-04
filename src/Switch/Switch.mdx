@@ -1,16 +1,20 @@
-import { Story, ArgsTable, Canvas } from '@storybook/blocks';
-import * as SwitchStories from './Switch.stories';
+import { Story, ArgsTable, Canvas } from "@storybook/blocks";
+import * as SwitchStories from "./Switch.stories";
 
 # Switch 开关
 
 开关是用于切换两种互斥状态的交互形式。
 
+## 尺寸
+
 <Canvas>
+  <Story of={SwitchStories.Small} />
   <Story of={SwitchStories.Default} />
+  <Story of={SwitchStories.Large} />
 </Canvas>
 
-
 ## 带标签
+
 <Canvas>
   <Story of={SwitchStories.WithLabel} />
 </Canvas>
@@ -18,4 +22,3 @@ import * as SwitchStories from './Switch.stories';
 ## 组件 API
 
 <ArgsTable />
-

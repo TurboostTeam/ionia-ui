@@ -29,6 +29,38 @@ export const Default: FC = (args) => {
   );
 };
 
+export const Small: FC = (args) => {
+  const [checked, setChecked] = useState(false);
+
+  return (
+    <Switch
+      checked={checked}
+      size="sm"
+      onChange={(value) => {
+        console.log("checked =", value);
+        setChecked(value);
+      }}
+      {...args}
+    />
+  );
+};
+
+export const Large: FC = (args) => {
+  const [checked, setChecked] = useState(false);
+
+  return (
+    <Switch
+      checked={checked}
+      size="lg"
+      onChange={(value) => {
+        console.log("checked =", value);
+        setChecked(value);
+      }}
+      {...args}
+    />
+  );
+};
+
 export const WithLabel: FC = (args) => {
   const [checked, setChecked] = useState(false);
 
