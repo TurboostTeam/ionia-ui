@@ -5,7 +5,7 @@ import { Button } from "../Button";
 import { Modal } from "./Modal";
 
 const meta = {
-  title: "Overlays/Modal",
+  title: "Feedback 反馈/Modal 模态框",
   component: Modal,
   tags: ["autodocs"],
 } satisfies Meta<typeof Modal>;

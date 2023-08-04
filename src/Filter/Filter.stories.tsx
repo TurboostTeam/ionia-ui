@@ -8,7 +8,7 @@ import { Input } from "../Input";
 import { Filter } from "./Filter";
 
 const meta = {
-  title: "Advanced/Filter",
+  title: "Advanced 高级/Filter 过滤器",
   component: Filter,
   tags: ["autodocs"],
 } satisfies Meta<typeof Filter>;
@@ -25,7 +25,7 @@ interface Task {
 export const Controlled: FC = () => {
   const today = new Date(new Date().setHours(0, 0, 0, 0));
   const yesterday = new Date(
-    new Date(new Date().setDate(today.getDate() - 1)).setHours(0, 0, 0, 0)
+    new Date(new Date().setDate(today.getDate() - 1)).setHours(0, 0, 0, 0),
   );
 
   const [values, setValues] = useState({

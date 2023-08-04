@@ -10,7 +10,7 @@ import { type TableColumnProps } from "../Table";
 import { type ActionType, GraphQLTable } from "./GraphQLTable";
 
 const meta = {
-  title: "Advanced/GraphQLTable",
+  title: "Advanced 高级/GraphQLTable",
   component: GraphQLTable,
   tags: ["autodocs"],
 } satisfies Meta<typeof GraphQLTable>;

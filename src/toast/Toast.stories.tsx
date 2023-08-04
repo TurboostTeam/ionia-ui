@@ -6,7 +6,7 @@ import { Provider } from "../Provider";
 import { toast } from "./Toast";
 
 const meta = {
-  title: "Feedback/Toast",
+  title: "Feedback 反馈/Toast 提示",
   tags: ["autodocs"],
 } satisfies Meta<typeof toast>;
 

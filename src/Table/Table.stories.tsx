@@ -4,7 +4,7 @@ import { type FC } from "react";
 import { Table } from "./Table";
 
 const meta = {
-  title: "Advanced/Table",
+  title: "Advanced 高级/Table 表格",
   component: Table,
   tags: ["autodocs"],
 } satisfies Meta<typeof Table>;

@@ -1,40 +1,35 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta } from "@storybook/react";
 import { type FC, useState } from "react";
 
 import { Switch } from "./Switch";
+import page from "./Switch.mdx";
 
-const meta = {
-  title: "Form/Switch",
+export default {
+  title: "Form 表单/Switch 开关",
   component: Switch,
-  tags: ["autodocs"],
+  parameters: {
+    docs: {
+      page,
+    },
+  },
 } satisfies Meta<typeof Switch>;
 
-export default meta;
+export const Default: FC = (args) => {
+  const [checked, setChecked] = useState(false);
 
-type Story = StoryObj<typeof meta>;
-
-export const Base: Story = {
-  args: {
-    label: "Switch",
-  },
+  return (
+    <Switch
+      checked={checked}
+      onChange={(value) => {
+        console.log("checked =", value);
+        setChecked(value);
+      }}
+      {...args}
+    />
+  );
 };
 
-export const Checked: Story = {
-  args: {
-    label: "Switch",
-    checked: true,
-    onChange: () => {},
-  },
-};
-
-export const Description: Story = {
-  args: {
-    label: "Switch",
-    helpText: "This is a description",
-  },
-};
-
-export const Controlled: FC = () => {
+export const WithLabel: FC = (args) => {
   const [checked, setChecked] = useState(false);
 
   return (
@@ -46,6 +41,7 @@ export const Controlled: FC = () => {
         console.log("checked =", value);
         setChecked(value);
       }}
+      {...args}
     />
   );
 };
