@@ -1,4 +1,4 @@
-import { type ReactElement, type ReactNode } from "react";
+import { type ReactElement } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Spinner } from "../Spinner";
@@ -31,8 +31,6 @@ export interface ButtonProps {
   size?: "sm" | "md" | "lg";
 
   type?: "button" | "reset" | "submit";
-
-  content?: ReactNode;
 }
 
 const sizeMap = {
@@ -45,7 +43,6 @@ export const Button = forwardRef<ButtonProps, "button">(
   (
     {
       as,
-      content,
       children,
       primary = false,
       destructive = false,
@@ -113,7 +110,7 @@ export const Button = forwardRef<ButtonProps, "button">(
         )}
 
         <span className={twMerge(loading && !link && `text-transparent`)}>
-          {children ?? content}
+          {children}
         </span>
       </Component>
     );

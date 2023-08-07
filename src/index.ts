@@ -1,3 +1,4 @@
+export type { ActionProps } from "./Action";
 export * from "./Badge";
 export * from "./Button";
 export * from "./ButtonGroup";

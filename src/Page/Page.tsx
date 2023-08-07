@@ -1,22 +1,23 @@
 import { type FC, type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
+import { Action, type ActionProps } from "../Action";
 import { ButtonGroup } from "../ButtonGroup";
 
 export interface PageProps {
   title: string;
   fullWidth?: boolean;
   children?: ReactNode;
-  primaryButton?: ReactNode;
-  secondaryButtons?: ReactNode[];
+  primaryAction?: ActionProps;
+  secondaryActions?: ActionProps[];
 }
 
 export const Page: FC<PageProps> = ({
   title,
   fullWidth = false,
   children,
-  primaryButton,
-  secondaryButtons = [],
+  primaryAction,
+  secondaryActions = [],
 }) => {
   return (
     <div className={twMerge(`p-4 mx-auto`, !fullWidth && `max-w-5xl`)}>
@@ -26,8 +27,13 @@ export const Page: FC<PageProps> = ({
         </div>
 
         <ButtonGroup className="mt-4 md:ml-4 md:mt-0">
-          {secondaryButtons}
-          {primaryButton}
+          {secondaryActions.map((action, index) => (
+            <Action key={index} {...action} />
+          ))}
+
+          {typeof primaryAction !== "undefined" && (
+            <Action primary {...primaryAction} />
+          )}
         </ButtonGroup>
       </div>
 

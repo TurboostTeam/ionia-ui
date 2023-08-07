@@ -2,15 +2,15 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { type FC, Fragment, type ReactNode, useRef } from "react";
 
-import { Button, type ButtonProps } from "../Button";
+import { Action, type ActionProps } from "../Action";
 
 export interface ModalProps {
   open: boolean;
   onClose: () => void;
   title?: ReactNode;
   children: ReactNode;
-  primaryAction: ButtonProps;
-  secondaryActions?: ButtonProps[];
+  primaryAction: ActionProps;
+  secondaryActions?: ActionProps[];
 }
 
 export const Modal: FC<ModalProps> = ({
@@ -82,10 +82,10 @@ export const Modal: FC<ModalProps> = ({
                 </div>
 
                 <div className="mt-5 gap-2 sm:mt-4 sm:flex sm:flex-row-reverse">
-                  <Button primary ref={initialFocus} {...primaryAction} />
+                  <Action primary ref={initialFocus} {...primaryAction} />
 
                   {secondaryActions?.map((action, index) => (
-                    <Button key={index} {...action} />
+                    <Action key={index} {...action} />
                   ))}
                 </div>
               </Dialog.Panel>
