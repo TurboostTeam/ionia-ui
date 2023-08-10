@@ -23,7 +23,7 @@ export const Toast: FC<ToastProps> = ({ content, duration = 5000 }) => {
       {active && (
         <motion.div
           animate={{ opacity: 1 }}
-          className="rounded-md bg-gray-800 px-3 py-2 text-sm text-white md:py-3"
+          className="rounded-md bg-gray-800 px-3 py-2 text-sm text-white shadow md:py-3"
           exit={{ opacity: 0 }}
           initial={{ opacity: 0 }}
         >
