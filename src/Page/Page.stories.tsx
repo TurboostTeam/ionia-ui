@@ -23,6 +23,7 @@ export const Default: FC = (args) => {
   return (
     <div className="bg-gray-100">
       <Page
+        backAction={{}}
         primaryAction={{ content: "创建" }}
         secondaryActions={[{ content: "设置" }]}
         title="标题"

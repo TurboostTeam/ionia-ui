@@ -1,18 +1,13 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta } from "@storybook/react";
+import { type FC } from "react";
 
 import { Spinner } from "./Spinner";
 
-const meta = {
+export default {
   title: "Base 基础/Spinner 加载",
   component: Spinner,
-  tags: ["autodocs"],
 } satisfies Meta<typeof Spinner>;
 
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-export const Medium: Story = {
-  args: {
-    size: "md",
-  },
+export const Default: FC = (args) => {
+  return <Spinner {...args} />;
 };

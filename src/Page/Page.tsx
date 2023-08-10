@@ -1,41 +1,64 @@
-import { type FC, type ReactNode } from "react";
+import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
+import { type FC, type PropsWithChildren } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Action, type ActionProps } from "../Action";
 import { ButtonGroup } from "../ButtonGroup";
 
-export interface PageProps {
+export interface PageHeaderProps {
   title: string;
-  fullWidth?: boolean;
-  children?: ReactNode;
+  backAction?: Pick<ActionProps, "onAction">;
   primaryAction?: ActionProps;
   secondaryActions?: ActionProps[];
 }
 
-export const Page: FC<PageProps> = ({
+export const PageHeader: FC<PageHeaderProps> = ({
   title,
-  fullWidth = false,
-  children,
+  backAction,
   primaryAction,
   secondaryActions = [],
 }) => {
   return (
+    <div className="mb-4 flex items-center justify-between gap-2">
+      {typeof backAction !== "undefined" && (
+        <Action icon={ArrowUturnLeftIcon} {...backAction} />
+      )}
+
+      <h2 className=" flex-1 text-xl font-bold text-gray-900">{title}</h2>
+
+      <ButtonGroup>
+        {secondaryActions.map((action, index) => (
+          <Action key={index} {...action} />
+        ))}
+
+        {typeof primaryAction !== "undefined" && (
+          <Action primary {...primaryAction} />
+        )}
+      </ButtonGroup>
+    </div>
+  );
+};
+
+export interface PageProps extends PageHeaderProps {
+  fullWidth?: boolean;
+}
+
+export const Page: FC<PropsWithChildren<PageProps>> = ({
+  title,
+  fullWidth = false,
+  children,
+  backAction,
+  primaryAction,
+  secondaryActions,
+}) => {
+  return (
     <div className={twMerge(`p-4 mx-auto`, !fullWidth && `max-w-5xl`)}>
-      <div className="mb-4 md:flex md:items-center md:justify-between">
-        <div className="min-w-0 flex-1">
-          <h2 className="text-xl font-bold text-gray-900">{title}</h2>
-        </div>
-
-        <ButtonGroup className="mt-4 md:ml-4 md:mt-0">
-          {secondaryActions.map((action, index) => (
-            <Action key={index} {...action} />
-          ))}
-
-          {typeof primaryAction !== "undefined" && (
-            <Action primary {...primaryAction} />
-          )}
-        </ButtonGroup>
-      </div>
+      <PageHeader
+        backAction={backAction}
+        primaryAction={primaryAction}
+        secondaryActions={secondaryActions}
+        title={title}
+      />
 
       <div>{children}</div>
     </div>

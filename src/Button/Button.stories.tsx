@@ -1,3 +1,7 @@
+import {
+  ArrowUturnLeftIcon,
+  DocumentDuplicateIcon,
+} from "@heroicons/react/24/outline";
 import type { Meta } from "@storybook/react";
 import { type FC } from "react";
 
@@ -106,6 +110,26 @@ export const Block: FC = (args) => {
   );
 };
 
+export const SmallIcon: FC = (args) => {
+  return <Button icon={ArrowUturnLeftIcon} size="sm" {...args} />;
+};
+
+export const MiddleIcon: FC = (args) => {
+  return <Button icon={ArrowUturnLeftIcon} {...args} />;
+};
+
+export const LargeIcon: FC = (args) => {
+  return <Button icon={ArrowUturnLeftIcon} size="lg" {...args} />;
+};
+
+export const IconWithContent: FC = (args) => {
+  return (
+    <Button icon={DocumentDuplicateIcon} {...args}>
+      复制
+    </Button>
+  );
+};
+
 export const DefaultWithDisabled: FC = (args) => {
   return (
     <Button disabled {...args}>
@@ -148,7 +172,7 @@ export const DestructiveLinkWithDisabled: FC = (args) => {
 
 export const DefaultWithLoading: FC = (args) => {
   return (
-    <Button loading {...args}>
+    <Button loading size="sm" {...args}>
       默认加载按钮
     </Button>
   );
@@ -164,7 +188,7 @@ export const PrimaryWithLoading: FC = (args) => {
 
 export const DestructiveWithLoading: FC = (args) => {
   return (
-    <Button destructive loading {...args}>
+    <Button destructive loading size="lg" {...args}>
       破坏加载按钮
     </Button>
   );

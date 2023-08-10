@@ -1,6 +1,13 @@
-import { type ReactElement } from "react";
+import {
+  type ForwardRefExoticComponent,
+  type PropsWithoutRef,
+  type ReactElement,
+  type SVGProps,
+} from "react";
+import * as React from "react";
 import { twMerge } from "tailwind-merge";
 
+import { Icon } from "../Icon";
 import { Spinner } from "../Spinner";
 import { forwardRef } from "../utils";
 
@@ -18,6 +25,8 @@ export interface ButtonProps {
   block?: boolean;
 
   link?: boolean;
+
+  icon?: ForwardRefExoticComponent<PropsWithoutRef<SVGProps<SVGSVGElement>>>;
 
   /**
    * 是否为圆角按钮
@@ -39,11 +48,18 @@ const sizeMap = {
   lg: twMerge(`px-6 py-3 text-sm font-semibold`),
 };
 
+const withoutContentSizeMap = {
+  sm: twMerge(`p-1.5`),
+  md: twMerge(`p-2`),
+  lg: twMerge(`p-3`),
+};
+
 export const Button = forwardRef<ButtonProps, "button">(
   (
     {
       as,
       children,
+      icon,
       primary = false,
       destructive = false,
       link = false,
@@ -64,8 +80,9 @@ export const Button = forwardRef<ButtonProps, "button">(
       <Component
         className={twMerge(
           // 基本类
-          `relative text-center cursor-pointer`,
+          `relative cursor-pointer`,
           sizeMap[size],
+          typeof children === "undefined" && withoutContentSizeMap[size],
           link
             ? `font-normal text-indigo-600 hover:text-indigo-400`
             : `shadow-sm`,
@@ -109,8 +126,17 @@ export const Button = forwardRef<ButtonProps, "button">(
           </span>
         )}
 
-        <span className={twMerge(loading && !link && `text-transparent`)}>
-          {children}
+        <span
+          className={twMerge(
+            `flex w-full justify-center items-center gap-1`,
+            loading && !link && `text-transparent`,
+          )}
+        >
+          {typeof icon !== "undefined" && <Icon as={icon} size={size} />}
+
+          {typeof children !== "undefined" && (
+            <span className="text-center">{children}</span>
+          )}
         </span>
       </Component>
     );

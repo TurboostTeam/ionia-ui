@@ -1,0 +1,26 @@
+import { Story, ArgsTable, Canvas } from "@storybook/blocks";
+import * as IconStories from "./Icon.stories";
+
+# Icon 图标
+
+图标用于直观地传达产品的核心部分和可用的操作。帮助用户更容易理解他们在产品中的位置，以及可用的常见交互模式。
+
+<Canvas>
+  <Story of={IconStories.Default} />
+</Canvas>
+
+## 使用方法
+
+```tsx
+import { FC } from "react";
+import { TrashIcon } from "@heroicons/react/24/outline";
+import { Icon } from "ionia-ui";
+
+const Page: FC = () => {
+  return <Icon as={TrashIcon} size="md" />;
+};
+```
+
+## 组件 API
+
+<ArgsTable />
