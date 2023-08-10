@@ -27,7 +27,7 @@ export * from "./Switch";
 export * from "./Table";
 export * from "./TagSelect";
 export * from "./Textarea";
-export * from "./toast";
+export * from "./Toast";
 export * from "./Tooltip";
 export * from "./types";
 export * from "./utils";
