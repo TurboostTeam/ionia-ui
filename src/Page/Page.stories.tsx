@@ -1,7 +1,6 @@
 import type { Meta } from "@storybook/react";
 import { type FC } from "react";
 
-import { Button } from "../Button";
 import { Card } from "../Card";
 import { Page } from "./Page";
 import page from "./Page.mdx";
@@ -22,27 +21,31 @@ export default {
 
 export const Default: FC = (args) => {
   return (
-    <Page
-      primaryButton={<Button primary>创建</Button>}
-      secondaryButtons={[<Button key="settings">设置</Button>]}
-      title="标题"
-      {...args}
-    >
-      <Card className="h-72">页面内容</Card>
-    </Page>
+    <div className="bg-gray-100">
+      <Page
+        primaryAction={{ content: "创建" }}
+        secondaryActions={[{ content: "设置" }]}
+        title="标题"
+        {...args}
+      >
+        <Card className="h-72">页面内容</Card>
+      </Page>
+    </div>
   );
 };
 
 export const FullWidth: FC = (args) => {
   return (
-    <Page
-      fullWidth
-      primaryButton={<Button primary>创建</Button>}
-      secondaryButtons={[<Button key="settings">设置</Button>]}
-      title="标题"
-      {...args}
-    >
-      <Card className="h-72">页面内容</Card>
-    </Page>
+    <div className="bg-gray-100">
+      <Page
+        fullWidth
+        primaryAction={{ content: "创建" }}
+        secondaryActions={[{ content: "设置" }]}
+        title="标题"
+        {...args}
+      >
+        <Card className="h-72">页面内容</Card>
+      </Page>
+    </div>
   );
 };
