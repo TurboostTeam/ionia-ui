@@ -38,6 +38,14 @@ export const Destructive: FC = (args) => {
   );
 };
 
+export const Ghost: FC = (args) => {
+  return (
+    <Button ghost {...args}>
+      幽灵按钮
+    </Button>
+  );
+};
+
 export const Link: FC = (args) => {
   return (
     <Button link {...args}>

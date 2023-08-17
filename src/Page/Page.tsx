@@ -21,7 +21,7 @@ export const PageHeader: FC<PageHeaderProps> = ({
   return (
     <div className="mb-4 flex items-center justify-between gap-2">
       {typeof backAction !== "undefined" && (
-        <Action icon={ArrowUturnLeftIcon} {...backAction} />
+        <Action ghost icon={ArrowUturnLeftIcon} {...backAction} />
       )}
 
       <h2 className=" flex-1 text-xl font-bold text-gray-900">{title}</h2>
