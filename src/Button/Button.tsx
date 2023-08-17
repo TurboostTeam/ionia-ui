@@ -12,15 +12,11 @@ import { Spinner } from "../Spinner";
 import { forwardRef } from "../utils";
 
 export interface ButtonProps {
-  /**
-   * Provides extra visual weight and identifies the primary action in a set of buttons.
-   */
   primary?: boolean;
 
-  /**
-   * Indicates a dangerous or potentially negative action.
-   */
   destructive?: boolean;
+
+  ghost?: boolean;
 
   block?: boolean;
 
@@ -62,6 +58,7 @@ export const Button = forwardRef<ButtonProps, "button">(
       icon,
       primary = false,
       destructive = false,
+      ghost = false,
       link = false,
       block = false,
       rounded = false,
@@ -105,6 +102,9 @@ export const Button = forwardRef<ButtonProps, "button">(
             !primary &&
             destructive &&
             `bg-red-600 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 disabled:bg-red-400`,
+          // 透明
+          ghost &&
+            `bg-transparent text-gray-900 hover:bg-gray-100 ring-0 shadow-none`,
           // 其他
           block && `block w-full`,
           rounded ? `rounded-full` : `rounded-md`,

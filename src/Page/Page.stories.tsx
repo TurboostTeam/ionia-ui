@@ -21,7 +21,7 @@ export default {
 
 export const Default: FC = (args) => {
   return (
-    <div className="bg-gray-100">
+    <div className="bg-gray-50">
       <Page
         backAction={{}}
         primaryAction={{ content: "创建" }}
