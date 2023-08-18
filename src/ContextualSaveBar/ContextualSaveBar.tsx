@@ -21,13 +21,15 @@ export const ContextualSaveBar: FC<ContextualSaveBarProps> = ({
     <div className="fixed left-0 top-0 z-50 w-full bg-black">
       <div
         className={twMerge(
-          `flex h-14 items-center justify-between  px-4 mx-auto`,
+          `flex h-14 items-center justify-end  px-4 mx-auto`,
           !fullWidth && `max-w-5xl`,
+          typeof message !== "undefined" && `justify-between`,
         )}
       >
         {typeof message !== "undefined" && (
           <h2 className="text-gray-50">{message}</h2>
         )}
+
         <ButtonGroup>
           {discardAction != null && <Action {...discardAction} />}
           <Action primary {...saveAction} />

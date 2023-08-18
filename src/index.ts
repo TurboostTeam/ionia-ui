@@ -5,6 +5,7 @@ export * from "./ButtonGroup";
 export * from "./Card";
 export * from "./Checkbox";
 export * from "./CheckboxGroup";
+export * from "./ContextualSaveBar";
 export * from "./DatePicker";
 export * from "./DateRangePicker";
 export * from "./DateSinglePicker";

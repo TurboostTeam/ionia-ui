@@ -21,7 +21,6 @@ export const Default: FC = (args) => {
   return (
     <div className="bg-gray-100">
       <ContextualSaveBar
-        {...args}
         discardAction={{
           content: "放弃",
           onAction: () => {
@@ -35,6 +34,7 @@ export const Default: FC = (args) => {
             console.log("保存");
           },
         }}
+        {...args}
       />
       <div className="mt-14">
         <Page
@@ -54,7 +54,6 @@ export const FullWidth: FC = (args) => {
   return (
     <div className="bg-gray-100">
       <ContextualSaveBar
-        {...args}
         fullWidth
         discardAction={{
           content: "放弃",
@@ -69,6 +68,41 @@ export const FullWidth: FC = (args) => {
             console.log("保存");
           },
         }}
+        {...args}
+      />
+      <div className="mt-14">
+        <Page
+          fullWidth
+          backAction={{}}
+          primaryAction={{ content: "创建" }}
+          secondaryActions={[{ content: "设置" }]}
+          title="标题"
+        >
+          <Card className="h-72">页面内容</Card>
+        </Page>
+      </div>
+    </div>
+  );
+};
+
+export const NoMessage: FC = (args) => {
+  return (
+    <div className="bg-gray-100">
+      <ContextualSaveBar
+        fullWidth
+        discardAction={{
+          content: "放弃",
+          onAction: () => {
+            console.log("放弃");
+          },
+        }}
+        saveAction={{
+          content: "保存",
+          onAction: () => {
+            console.log("保存");
+          },
+        }}
+        {...args}
       />
       <div className="mt-14">
         <Page
