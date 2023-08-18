@@ -18,6 +18,7 @@ export * from "./Input";
 export * from "./Modal";
 export * from "./NumberInput";
 export * from "./Page";
+export * from "./PageActions";
 export * from "./Provider";
 export * from "./Radio";
 export * from "./RadioGroup";
