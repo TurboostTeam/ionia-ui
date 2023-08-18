@@ -15,14 +15,14 @@ export const ContextualSaveBar: FC<ContextualSaveBarProps> = ({
   message,
   saveAction,
   discardAction,
-  fullWidth,
+  fullWidth = false,
 }) => {
   return (
-    <div className="fixed top-0 z-50 w-full">
+    <div className="fixed left-0 top-0 z-50 w-full bg-black">
       <div
         className={twMerge(
-          "flex h-14 items-center justify-between bg-black ",
-          fullWidth === true ? "px-8" : "px-4",
+          `flex h-14 items-center justify-between  px-4 mx-auto`,
+          !fullWidth && `max-w-5xl`,
         )}
       >
         {typeof message !== "undefined" && (
