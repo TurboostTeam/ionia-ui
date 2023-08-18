@@ -6,7 +6,7 @@ import { Page } from "../Page";
 import { ContextualSaveBar } from "./ContextualSaveBar";
 import page from "./ContextualSaveBar.mdx";
 
-const meta = {
+export default {
   title: "Layout 布局/ContextualSaveBar 上下文保存条",
   component: ContextualSaveBar,
   parameters: {
@@ -16,7 +16,6 @@ const meta = {
   },
 } satisfies Meta<typeof ContextualSaveBar>;
 
-export default meta;
 export const Default: FC = (args) => {
   return (
     <div className="bg-gray-100">
