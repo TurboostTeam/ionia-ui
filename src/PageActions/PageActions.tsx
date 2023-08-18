@@ -13,7 +13,7 @@ export const PageActions: FC<PageActionsProps> = ({
   secondaryActions = [],
 }) => {
   return (
-    <div className="mx-auto flex h-16 w-full items-center justify-end">
+    <div className="mx-auto mt-4 flex w-full justify-end">
       <ButtonGroup>
         {secondaryActions?.map((action, index) => (
           <Action key={index} {...action} />

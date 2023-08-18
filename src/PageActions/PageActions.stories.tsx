@@ -4,14 +4,19 @@ import { type FC } from "react";
 import { Card } from "../Card";
 import { Page } from "../Page";
 import { PageActions } from "./PageActions";
+import page from "./PageActions.mdx";
 
-const meta = {
+export default {
   title: "Layout 布局/PageActions 页面操作",
   component: PageActions,
+  parameters: {
+    docs: {
+      page,
+    },
+  },
 } satisfies Meta<typeof PageActions>;
 
-export default meta;
-export const Default: FC = () => {
+export const Default: FC = (args) => {
   return (
     <div className="bg-gray-50">
       <Page
@@ -23,6 +28,7 @@ export const Default: FC = () => {
         <PageActions
           primaryAction={{ content: "保存" }}
           secondaryActions={[{ content: "删除", destructive: true }]}
+          {...args}
         />
       </Page>
     </div>
@@ -37,12 +43,12 @@ export const FullWidth: FC = (args) => {
         primaryAction={{ content: "创建" }}
         secondaryActions={[{ content: "设置" }]}
         title="标题"
-        {...args}
       >
         <Card className="h-72">页面内容</Card>
         <PageActions
           primaryAction={{ content: "保存" }}
           secondaryActions={[{ content: "删除", destructive: true }]}
+          {...args}
         />
       </Page>
     </div>
