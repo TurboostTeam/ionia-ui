@@ -1,0 +1,34 @@
+import { Story, ArgsTable, Canvas } from "@storybook/blocks";
+import * as PageLayoutStories from "./PageLayout.stories";
+
+# PageLayout 页面布局
+
+页面布局组件用于在页面上创建布局。页面布局具有三种主要配置。一栏、两栏和带注释。一栏和两栏布局可以组合在同一页面中。带注释的布局应单独使用，并且仅在设置页面上使用。
+
+## 一栏布局
+
+用于在全宽容器中拥有单独的一个部分。用于简单页面并用作横幅和其他全角内容的容器。此布局将列堆叠在小屏幕上。
+
+<Canvas>
+  <Story of={PageLayoutStories.OneColumn} />
+</Canvas>
+
+## 双栏布局
+
+用于在正常部分后面添加辅助部分，以在详细信息页面（例如单个产品或订单页面）上创建 2/3 + 1/3 布局。也可以用于任何需要构建大量内容的页面。此布局将列堆叠在小屏幕上。
+
+<Canvas>
+  <Story of={PageLayoutStories.TwoColumns} />
+</Canvas>
+
+## 带注释布局
+
+用于设置页面。当设置按主题分组到带注释的部分时，每个部分的标题和说明可帮助用户快速找到他们正在寻找的设置。
+
+<Canvas>
+  <Story of={PageLayoutStories.TwoColumns} />
+</Canvas>
+
+## 组件 API
+
+<ArgsTable />

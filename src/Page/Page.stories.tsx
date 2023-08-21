@@ -2,6 +2,9 @@ import type { Meta } from "@storybook/react";
 import { type FC } from "react";
 
 import { Card } from "../Card";
+import { PageActions } from "../PageActions";
+import { PageLayout } from "../PageLayout";
+import { PageLayoutSection } from "../PageLayoutSection";
 import { Page } from "./Page";
 import page from "./Page.mdx";
 
@@ -29,7 +32,18 @@ export const Default: FC = (args) => {
         title="标题"
         {...args}
       >
-        <Card className="h-72">页面内容</Card>
+        <PageLayout>
+          <PageLayoutSection>
+            <Card className="h-72">页面内容</Card>
+          </PageLayoutSection>
+
+          <PageLayoutSection>
+            <PageActions
+              primaryAction={{ content: "保存" }}
+              secondaryActions={[{ content: "删除", destructive: true }]}
+            />
+          </PageLayoutSection>
+        </PageLayout>
       </Page>
     </div>
   );

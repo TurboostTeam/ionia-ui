@@ -6,7 +6,7 @@ import { Action, type ActionProps } from "../Action";
 import { ButtonGroup } from "../ButtonGroup";
 
 export interface PageHeaderProps {
-  title: string;
+  title?: string;
   backAction?: Pick<ActionProps, "onAction">;
   primaryAction?: ActionProps;
   secondaryActions?: ActionProps[];
@@ -24,7 +24,9 @@ export const PageHeader: FC<PageHeaderProps> = ({
         <Action ghost icon={ArrowUturnLeftIcon} {...backAction} />
       )}
 
-      <h2 className=" flex-1 text-xl font-bold text-gray-900">{title}</h2>
+      {typeof title !== "undefined" && (
+        <h2 className="flex-1 text-xl font-bold text-gray-900">{title}</h2>
+      )}
 
       <ButtonGroup>
         {secondaryActions.map((action, index) => (
