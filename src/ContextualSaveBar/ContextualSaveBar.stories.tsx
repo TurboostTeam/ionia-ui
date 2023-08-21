@@ -2,6 +2,7 @@ import type { Meta } from "@storybook/react";
 import { type FC } from "react";
 
 import { Card } from "../Card";
+import { Frame } from "../Frame";
 import { Page } from "../Page";
 import { ContextualSaveBar } from "./ContextualSaveBar";
 import page from "./ContextualSaveBar.mdx";
@@ -10,6 +11,7 @@ const meta = {
   title: "Layout 布局/ContextualSaveBar 上下文保存条",
   component: ContextualSaveBar,
   parameters: {
+    layout: "fullscreen",
     docs: {
       page,
     },
@@ -19,24 +21,25 @@ const meta = {
 export default meta;
 export const Default: FC = (args) => {
   return (
-    <div className="bg-gray-100">
-      <ContextualSaveBar
-        discardAction={{
-          content: "放弃",
-          onAction: () => {
-            console.log("放弃");
-          },
-        }}
-        message="保存条"
-        saveAction={{
-          content: "保存",
-          onAction: () => {
-            console.log("保存");
-          },
-        }}
-        {...args}
-      />
-      <div className="mt-14">
+    <div className="h-screen w-screen bg-gray-50">
+      <Frame>
+        <ContextualSaveBar
+          discardAction={{
+            content: "放弃",
+            onAction: () => {
+              console.log("放弃");
+            },
+          }}
+          message="保存条"
+          saveAction={{
+            content: "保存",
+            onAction: () => {
+              console.log("保存");
+            },
+          }}
+          {...args}
+        />
+
         <Page
           backAction={{}}
           primaryAction={{ content: "创建" }}
@@ -45,32 +48,32 @@ export const Default: FC = (args) => {
         >
           <Card className="h-72">页面内容</Card>
         </Page>
-      </div>
+      </Frame>
     </div>
   );
 };
 
 export const FullWidth: FC = (args) => {
   return (
-    <div className="bg-gray-100">
-      <ContextualSaveBar
-        fullWidth
-        discardAction={{
-          content: "放弃",
-          onAction: () => {
-            console.log("放弃");
-          },
-        }}
-        message="保存条"
-        saveAction={{
-          content: "保存",
-          onAction: () => {
-            console.log("保存");
-          },
-        }}
-        {...args}
-      />
-      <div className="mt-14">
+    <div className="h-screen w-screen bg-gray-50">
+      <Frame>
+        <ContextualSaveBar
+          fullWidth
+          discardAction={{
+            content: "放弃",
+            onAction: () => {
+              console.log("放弃");
+            },
+          }}
+          message="保存条"
+          saveAction={{
+            content: "保存",
+            onAction: () => {
+              console.log("保存");
+            },
+          }}
+          {...args}
+        />
         <Page
           fullWidth
           backAction={{}}
@@ -80,31 +83,32 @@ export const FullWidth: FC = (args) => {
         >
           <Card className="h-72">页面内容</Card>
         </Page>
-      </div>
+      </Frame>
     </div>
   );
 };
 
 export const NoMessage: FC = (args) => {
   return (
-    <div className="bg-gray-100">
-      <ContextualSaveBar
-        fullWidth
-        discardAction={{
-          content: "放弃",
-          onAction: () => {
-            console.log("放弃");
-          },
-        }}
-        saveAction={{
-          content: "保存",
-          onAction: () => {
-            console.log("保存");
-          },
-        }}
-        {...args}
-      />
-      <div className="mt-14">
+    <div className="h-screen w-screen bg-gray-50">
+      <Frame>
+        <ContextualSaveBar
+          fullWidth
+          discardAction={{
+            content: "放弃",
+            onAction: () => {
+              console.log("放弃");
+            },
+          }}
+          saveAction={{
+            content: "保存",
+            onAction: () => {
+              console.log("保存");
+            },
+          }}
+          {...args}
+        />
+
         <Page
           fullWidth
           backAction={{}}
@@ -114,7 +118,7 @@ export const NoMessage: FC = (args) => {
         >
           <Card className="h-72">页面内容</Card>
         </Page>
-      </div>
+      </Frame>
     </div>
   );
 };
