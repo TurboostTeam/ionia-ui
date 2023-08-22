@@ -1,7 +1,7 @@
 import { twMerge } from "tailwind-merge";
 
-import { ButtonGroup } from "../../lib";
 import { Action, type ActionProps } from "../Action";
+import { ButtonGroup } from "../ButtonGroup";
 import { forwardRef } from "../utils";
 
 export interface CardProps {
