@@ -55,7 +55,7 @@ export const FullWidth: FC = (args) => {
       <Page
         fullWidth
         primaryAction={{ content: "创建" }}
-        secondaryActions={[{ content: "设置" }]}
+        secondaryActions={[{ content: <div>下载</div>, link: true }]}
         title="标题"
         {...args}
       >
