@@ -44,6 +44,12 @@ const sizeMap = {
   lg: twMerge(`px-6 py-3 text-sm font-semibold`),
 };
 
+const linkSizeMap = {
+  sm: twMerge(`-mx-3 -my-1.5`),
+  md: twMerge(`-mx-3 -my-2`),
+  lg: twMerge(`-mx-6 -my-3`),
+};
+
 const withoutContentSizeMap = {
   sm: twMerge(`p-1.5`),
   md: twMerge(`p-2`),
@@ -80,6 +86,7 @@ export const Button = forwardRef<ButtonProps, "button">(
           `relative cursor-pointer`,
           sizeMap[size],
           typeof children === "undefined" && withoutContentSizeMap[size],
+          link && linkSizeMap[size],
           link
             ? `font-normal text-indigo-600 hover:text-indigo-400`
             : `shadow-sm`,

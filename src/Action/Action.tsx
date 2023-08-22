@@ -4,6 +4,7 @@ import { Button, type ButtonProps } from "../Button";
 import { forwardRef } from "../utils";
 
 export interface ActionProps extends ButtonProps {
+  className?: string;
   content?: ReactNode;
   onAction?: () => Promise<void> | void;
 }
