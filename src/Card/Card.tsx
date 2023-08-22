@@ -1,32 +1,38 @@
-import { type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
+import { ButtonGroup } from "../../lib";
+import { Action, type ActionProps } from "../Action";
 import { forwardRef } from "../utils";
 
 export interface CardProps {
-  className?: string;
-  header?: ReactNode;
-  footer?: ReactNode;
+  title?: string;
+  actions?: ActionProps[];
 }
 
 export const Card = forwardRef<CardProps, "div">(
-  ({ className, header, footer, children }, ref) => {
+  ({ className, title, actions = [], children }, ref) => {
     return (
       <div
         className={twMerge(
-          "divide-y divide-gray-200 rounded-lg bg-white shadow",
-          className
+          "flex flex-col gap-2 sm:rounded-lg bg-white shadow py-4",
+          className,
         )}
         ref={ref}
       >
-        {typeof header !== "undefined" && <div className="p-3">{header}</div>}
+        {(typeof title !== "undefined" || actions.length > 0) && (
+          <div className="flex justify-between px-4">
+            <h2 className="text-sm font-semibold">{title}</h2>
 
-        {typeof children !== "undefined" && (
-          <div className="p-3">{children}</div>
+            <ButtonGroup>
+              {actions.map((action, index) => (
+                <Action link className="-m-1 p-1" key={index} {...action} />
+              ))}
+            </ButtonGroup>
+          </div>
         )}
 
-        {typeof footer !== "undefined" && <div className="p-3">{footer}</div>}
+        <div className="px-4">{children}</div>
       </div>
     );
-  }
+  },
 );

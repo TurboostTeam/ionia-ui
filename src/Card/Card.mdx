@@ -1,0 +1,20 @@
+import { Story, ArgsTable, Canvas } from "@storybook/blocks";
+import * as CardStories from "./Card.stories";
+
+# Card 卡片
+
+卡片用于将相似的概念和任务分组在一起，供用户浏览。它以熟悉且可识别的风格显示内容。
+
+<Canvas>
+  <Story of={CardStories.Default} />
+</Canvas>
+
+## 标题和操作
+
+<Canvas>
+  <Story of={CardStories.TitleAndActions} />
+</Canvas>
+
+## 组件 API
+
+<ArgsTable />
