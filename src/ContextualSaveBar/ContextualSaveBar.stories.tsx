@@ -8,7 +8,7 @@ import { ContextualSaveBar } from "./ContextualSaveBar";
 import page from "./ContextualSaveBar.mdx";
 
 const meta = {
-  title: "Layout 布局/ContextualSaveBar 上下文保存条",
+  title: "Layout 布局/ContextualSaveBar 上下文保存栏",
   component: ContextualSaveBar,
   parameters: {
     layout: "fullscreen",
@@ -21,7 +21,7 @@ const meta = {
 export default meta;
 export const Default: FC = (args) => {
   return (
-    <div className="h-screen w-screen bg-gray-50">
+    <div className="h-full w-full bg-gray-50">
       <Frame>
         <ContextualSaveBar
           discardAction={{
@@ -55,7 +55,7 @@ export const Default: FC = (args) => {
 
 export const FullWidth: FC = (args) => {
   return (
-    <div className="h-screen w-screen bg-gray-50">
+    <div className="h-full w-full bg-gray-50">
       <Frame>
         <ContextualSaveBar
           fullWidth
@@ -90,7 +90,7 @@ export const FullWidth: FC = (args) => {
 
 export const NoMessage: FC = (args) => {
   return (
-    <div className="h-screen w-screen bg-gray-50">
+    <div className="h-full w-full bg-gray-50">
       <Frame>
         <ContextualSaveBar
           fullWidth

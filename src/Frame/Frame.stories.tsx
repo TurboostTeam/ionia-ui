@@ -24,7 +24,7 @@ export const Default: FC = () => {
   }, []);
 
   return (
-    <div className="h-screen w-screen bg-gray-50">
+    <div className="h-full w-full bg-gray-50">
       <Frame
         navigation={<Navigation />}
         showMobileNavigation={mobileNavigationActive}
