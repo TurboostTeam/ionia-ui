@@ -3,9 +3,7 @@ import { twMerge } from "tailwind-merge";
 
 import { Icon, type IconProps } from "../Icon";
 
-export interface SpinnerProps extends Omit<IconProps, "as"> {
-  className?: string;
-}
+export interface SpinnerProps extends Omit<IconProps, "as"> {}
 
 const SpinnerIcon: FC<SVGProps<SVGSVGElement>> = ({ className, ...props }) => (
   <svg

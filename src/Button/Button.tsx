@@ -1,7 +1,7 @@
 import {
-  type ForwardRefExoticComponent,
   type PropsWithoutRef,
   type ReactElement,
+  type ReactNode,
   type SVGProps,
 } from "react";
 import * as React from "react";
@@ -22,7 +22,7 @@ export interface ButtonProps {
 
   link?: boolean;
 
-  icon?: ForwardRefExoticComponent<PropsWithoutRef<SVGProps<SVGSVGElement>>>;
+  icon?: (props: PropsWithoutRef<SVGProps<SVGSVGElement>>) => ReactNode;
 
   /**
    * 是否为圆角按钮

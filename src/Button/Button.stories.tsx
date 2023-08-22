@@ -4,6 +4,7 @@ import {
 } from "@heroicons/react/24/outline";
 import type { Meta } from "@storybook/react";
 import { type FC } from "react";
+import { BiLogoGithub } from "react-icons/bi";
 
 import { Button } from "./Button";
 import page from "./Button.mdx";
@@ -128,6 +129,10 @@ export const MiddleIcon: FC = (args) => {
 
 export const LargeIcon: FC = (args) => {
   return <Button icon={ArrowUturnLeftIcon} size="lg" {...args} />;
+};
+
+export const ReactIcon: FC = (args) => {
+  return <Button icon={BiLogoGithub} {...args} />;
 };
 
 export const IconWithContent: FC = (args) => {

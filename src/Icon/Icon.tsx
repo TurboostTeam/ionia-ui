@@ -5,6 +5,7 @@ import { forwardRef } from "../utils";
 
 export interface IconProps {
   as: ElementType;
+  className?: string;
   size?: keyof typeof sizeMap;
 }
 
