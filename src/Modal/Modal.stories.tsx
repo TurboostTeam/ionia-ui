@@ -3,16 +3,22 @@ import { type FC, useState } from "react";
 
 import { Button } from "../Button";
 import { Modal } from "./Modal";
+import page from "./Modal.mdx";
 
 const meta = {
   title: "Feedback 反馈/Modal 模态框",
   component: Modal,
   tags: ["autodocs"],
+  parameters: {
+    docs: {
+      page,
+    },
+  },
 } satisfies Meta<typeof Modal>;
 
 export default meta;
 
-export const Controlled: FC = () => {
+export const Default: FC = (args) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -22,23 +28,228 @@ export const Controlled: FC = () => {
           setOpen(!open);
         }}
       >
-        open modal
+        打开模态框
       </Button>
 
       <Modal
         open={open}
         primaryAction={{
-          content: "ok",
+          content: "确定",
+          onAction: () => {
+            setOpen(!open);
+          },
         }}
         secondaryActions={[
           {
-            content: "cancel",
+            content: "取消",
+            onAction: () => {
+              setOpen(!open);
+            },
           },
         ]}
         title="标题"
         onClose={() => {
           setOpen(!open);
         }}
+        {...args}
+      >
+        内容
+      </Modal>
+    </div>
+  );
+};
+
+export const Large: FC = (args) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div>
+      <Button
+        onClick={() => {
+          setOpen(!open);
+        }}
+      >
+        打开模态框
+      </Button>
+
+      <Modal
+        open={open}
+        primaryAction={{
+          content: "确定",
+          onAction: () => {
+            setOpen(!open);
+          },
+        }}
+        secondaryActions={[
+          {
+            content: "取消",
+            onAction: () => {
+              setOpen(!open);
+            },
+          },
+        ]}
+        size="lg"
+        title="标题"
+        onClose={() => {
+          setOpen(!open);
+        }}
+        {...args}
+      >
+        内容
+      </Modal>
+    </div>
+  );
+};
+
+export const Small: FC = (args) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div>
+      <Button
+        onClick={() => {
+          setOpen(!open);
+        }}
+      >
+        打开模态框
+      </Button>
+
+      <Modal
+        open={open}
+        primaryAction={{
+          content: "确定",
+          onAction: () => {
+            setOpen(!open);
+          },
+        }}
+        secondaryActions={[
+          {
+            content: "取消",
+            onAction: () => {
+              setOpen(!open);
+            },
+          },
+        ]}
+        size="sm"
+        title="标题"
+        onClose={() => {
+          setOpen(!open);
+        }}
+        {...args}
+      >
+        内容
+      </Modal>
+    </div>
+  );
+};
+
+export const WithPrimaryAction: FC = (args) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div>
+      <Button
+        onClick={() => {
+          setOpen(!open);
+        }}
+      >
+        打开模态框
+      </Button>
+
+      <Modal
+        open={open}
+        primaryAction={{
+          content: "确定",
+          onAction: () => {
+            setOpen(!open);
+          },
+        }}
+        title="标题"
+        onClose={() => {
+          setOpen(!open);
+        }}
+        {...args}
+      >
+        内容
+      </Modal>
+    </div>
+  );
+};
+
+export const WithPrimaryAndSecondaryActions: FC = (args) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div>
+      <Button
+        onClick={() => {
+          setOpen(!open);
+        }}
+      >
+        打开模态框
+      </Button>
+
+      <Modal
+        open={open}
+        primaryAction={{
+          content: "确定",
+          onAction: () => {
+            setOpen(!open);
+          },
+        }}
+        secondaryActions={[
+          {
+            content: "取消",
+            onAction: () => {
+              setOpen(!open);
+            },
+          },
+        ]}
+        title="标题"
+        onClose={() => {
+          setOpen(!open);
+        }}
+        {...args}
+      >
+        内容
+      </Modal>
+    </div>
+  );
+};
+
+export const WithoutATitle: FC = (args) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div>
+      <Button
+        onClick={() => {
+          setOpen(!open);
+        }}
+      >
+        打开模态框
+      </Button>
+
+      <Modal
+        open={open}
+        primaryAction={{
+          content: "确定",
+          onAction: () => {
+            setOpen(!open);
+          },
+        }}
+        secondaryActions={[
+          {
+            content: "取消",
+            onAction: () => {
+              setOpen(!open);
+            },
+          },
+        ]}
+        onClose={() => {
+          setOpen(!open);
+        }}
+        {...args}
       >
         内容
       </Modal>
