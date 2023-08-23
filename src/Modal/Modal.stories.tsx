@@ -12,7 +12,7 @@ const meta = {
 
 export default meta;
 
-export const Controlled: FC = () => {
+export const Controlled: FC = (args) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -39,6 +39,7 @@ export const Controlled: FC = () => {
         onClose={() => {
           setOpen(!open);
         }}
+        {...args}
       >
         内容
       </Modal>
