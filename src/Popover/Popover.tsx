@@ -61,7 +61,7 @@ export const Popover: FC<PropsWithChildren<PopoverProps>> = ({
         {...attributes.popper}
       >
         <div className="m-2">
-          <div className={twMerge("rounded-md bg-white shadow-md", className)}>
+          <div className={twMerge("rounded-md bg-white shadow", className)}>
             {children}
           </div>
         </div>
