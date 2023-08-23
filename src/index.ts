@@ -25,6 +25,7 @@ export * from "./PageActions";
 export * from "./PageLayout";
 export * from "./PageLayoutAnnotatedSection";
 export * from "./PageLayoutSection";
+export * from "./Popover";
 export * from "./Provider";
 export * from "./Radio";
 export * from "./RadioGroup";
