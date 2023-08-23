@@ -31,6 +31,10 @@ export const Default: FC = () => {
         topBar={
           <TopBar
             showNavigationToggle
+            userMenu={{
+              name: "张三",
+              avatar: "https://avatars.githubusercontent.com/u/20628079?v=4",
+            }}
             onNavigationToggle={toggleMobileNavigationActive}
           />
         }
