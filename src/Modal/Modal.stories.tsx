@@ -22,17 +22,17 @@ export const Controlled: FC = (args) => {
           setOpen(!open);
         }}
       >
-        open modal
+        打开模态框
       </Button>
 
       <Modal
         open={open}
         primaryAction={{
-          content: "ok",
+          content: "确定",
         }}
         secondaryActions={[
           {
-            content: "cancel",
+            content: "取消",
           },
         ]}
         title="标题"

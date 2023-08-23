@@ -4,6 +4,8 @@ import { type FC, Fragment, type ReactNode, useRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Action, type ActionProps } from "../Action";
+import { Button } from "../Button";
+import { ButtonGroup } from "../ButtonGroup";
 
 export interface ModalProps {
   open: boolean;
@@ -66,11 +68,11 @@ export const Modal: FC<ModalProps> = ({
               <Dialog.Panel
                 className={twMerge(
                   sizeMap[size],
-                  `w-full relative transform overflow-hidden rounded-lg bg-white px-5  py-4 text-left shadow-xl transition-all max-sm:rounded-none max-sm:max-w-full`,
+                  `w-full relative transform overflow-hidden rounded-lg bg-white p-4 flex flex-col gap-4 text-left shadow-xl transition-all max-sm:rounded-none max-sm:max-w-full`,
                 )}
               >
                 {/* header */}
-                <div className="mb-4 flex items-center justify-between gap-5">
+                <div className="flex items-center justify-between gap-2">
                   {typeof title !== "undefined" && (
                     <Dialog.Title
                       as="h3"
@@ -80,29 +82,25 @@ export const Modal: FC<ModalProps> = ({
                     </Dialog.Title>
                   )}
 
-                  <button
-                    className="-mr-2 rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    type="button"
-                    onClick={onClose}
-                  >
-                    <span className="sr-only">Close</span>
-                    <XMarkIcon aria-hidden="true" className="h-5 w-5" />
-                  </button>
+                  <Button ghost icon={XMarkIcon} onClick={onClose} />
                 </div>
+
                 {/* main */}
-                <div className="flex items-start ">
+                <div className="flex items-start">
                   <div className=" w-full text-left text-sm text-gray-500">
                     {children}
                   </div>
                 </div>
 
                 {/* footer */}
-                <div className="mt-4 flex flex-row-reverse gap-2">
-                  <Action primary ref={initialFocus} {...primaryAction} />
+                <div className="flex justify-end">
+                  <ButtonGroup>
+                    {secondaryActions?.map((action, index) => (
+                      <Action key={index} {...action} />
+                    ))}
 
-                  {secondaryActions?.map((action, index) => (
-                    <Action key={index} {...action} />
-                  ))}
+                    <Action primary ref={initialFocus} {...primaryAction} />
+                  </ButtonGroup>
                 </div>
               </Dialog.Panel>
             </Transition.Child>
