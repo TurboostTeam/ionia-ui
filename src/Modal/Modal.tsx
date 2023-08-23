@@ -72,7 +72,12 @@ export const Modal: FC<ModalProps> = ({
                 )}
               >
                 {/* header */}
-                <div className="flex items-center justify-between gap-2">
+                <div
+                  className={twMerge(
+                    typeof title !== "undefined" && `justify-between`,
+                    `flex items-center gap-2 justify-end`,
+                  )}
+                >
                   {typeof title !== "undefined" && (
                     <Dialog.Title
                       as="h3"
