@@ -6,7 +6,7 @@ import { Popover } from "./Popover";
 import page from "./Popover.mdx";
 
 export default {
-  title: "Layout 布局/Popover 弹出窗口",
+  title: "Overlay 叠层/Popover 弹出窗口",
   component: Popover,
   parameters: {
     docs: {
