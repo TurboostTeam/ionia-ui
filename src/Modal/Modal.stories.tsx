@@ -3,16 +3,22 @@ import { type FC, useState } from "react";
 
 import { Button } from "../Button";
 import { Modal } from "./Modal";
+import page from "./Modal.mdx";
 
 const meta = {
   title: "Feedback 反馈/Modal 模态框",
   component: Modal,
   tags: ["autodocs"],
+  parameters: {
+    docs: {
+      page,
+    },
+  },
 } satisfies Meta<typeof Modal>;
 
 export default meta;
 
-export const Controlled: FC = (args) => {
+export const Default: FC = (args) => {
   const [open, setOpen] = useState(false);
 
   return (
