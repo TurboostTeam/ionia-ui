@@ -4,13 +4,10 @@ import { type FC, useState } from "react";
 import { Button } from "../Button";
 import { Modal } from "./Modal";
 
-const meta = {
-  title: "Feedback 反馈/Modal 模态框",
+export default {
+  title: "Overlay 叠层/Modal 模态框",
   component: Modal,
-  tags: ["autodocs"],
 } satisfies Meta<typeof Modal>;
-
-export default meta;
 
 export const Controlled: FC = () => {
   const [open, setOpen] = useState(false);

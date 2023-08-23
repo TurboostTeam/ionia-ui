@@ -38,5 +38,6 @@ export * from "./Textarea";
 export * from "./Toast";
 export * from "./Tooltip";
 export * from "./TopBar";
+export * from "./TopBarUserMenu";
 export * from "./types";
 export * from "./utils";
