@@ -66,36 +66,38 @@ export const Modal: FC<ModalProps> = ({
               <Dialog.Panel
                 className={twMerge(
                   sizeMap[size],
-                  `w-full relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all max-sm:rounded-none max-sm:max-w-full`,
+                  `w-full relative transform overflow-hidden rounded-lg bg-white px-5  py-4 text-left shadow-xl transition-all max-sm:rounded-none max-sm:max-w-full`,
                 )}
               >
-                <div className="absolute right-0 top-0 block pr-4 pt-4">
+                {/* header */}
+                <div className="mb-4 flex items-center justify-between gap-5">
+                  {typeof title !== "undefined" && (
+                    <Dialog.Title
+                      as="h3"
+                      className="text-base font-semibold leading-6 text-gray-900"
+                    >
+                      {title}
+                    </Dialog.Title>
+                  )}
+
                   <button
-                    className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="-mr-2 rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     type="button"
                     onClick={onClose}
                   >
                     <span className="sr-only">Close</span>
-                    <XMarkIcon aria-hidden="true" className="h-6 w-6" />
+                    <XMarkIcon aria-hidden="true" className="h-5 w-5" />
                   </button>
                 </div>
-
-                <div className="flex items-start">
-                  <div className="mt-3 w-full text-left">
-                    {typeof title !== "undefined" && (
-                      <Dialog.Title
-                        as="h3"
-                        className="mr-5 text-base font-semibold leading-6 text-gray-900"
-                      >
-                        {title}
-                      </Dialog.Title>
-                    )}
-
-                    <div className="mt-2 text-sm text-gray-500">{children}</div>
+                {/* main */}
+                <div className="flex items-start ">
+                  <div className=" w-full text-left text-sm text-gray-500">
+                    {children}
                   </div>
                 </div>
 
-                <div className="mt-5 flex flex-row-reverse gap-2 sm:mt-4">
+                {/* footer */}
+                <div className="mt-4 flex flex-row-reverse gap-2">
                   <Action primary ref={initialFocus} {...primaryAction} />
 
                   {secondaryActions?.map((action, index) => (
