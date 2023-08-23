@@ -73,29 +73,20 @@ export const Modal: FC<ModalProps> = ({
               >
                 {/* header */}
                 <div
-                  className={twMerge(
-                    typeof title !== "undefined" && `justify-between`,
-                    `flex items-center gap-2 justify-end`,
-                  )}
+                  className={twMerge(`flex items-center gap-2 justify-between`)}
                 >
-                  {typeof title !== "undefined" && (
-                    <Dialog.Title
-                      as="h3"
-                      className="text-base font-semibold leading-6 text-gray-900"
-                    >
-                      {title}
-                    </Dialog.Title>
-                  )}
+                  <Dialog.Title
+                    as="h3"
+                    className="text-base font-semibold leading-6 text-gray-900"
+                  >
+                    {title}
+                  </Dialog.Title>
 
                   <Button ghost icon={XMarkIcon} onClick={onClose} />
                 </div>
 
                 {/* main */}
-                <div className="flex items-start">
-                  <div className=" w-full text-left text-sm text-gray-500">
-                    {children}
-                  </div>
-                </div>
+                <div className="w-full">{children}</div>
 
                 {/* footer */}
                 <div className="flex justify-end">
