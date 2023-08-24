@@ -1,12 +1,17 @@
-import { type FC } from "react";
+import { type FC, type PropsWithChildren } from "react";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface NavigationProps {}
+import { NavigationContext } from "./NavigationContext";
+import { type NavigationProps } from "./NavigationProps";
 
-export const Navigation: FC<NavigationProps> = () => {
+export const Navigation: FC<PropsWithChildren<NavigationProps>> = ({
+  children,
+  ...props
+}) => {
   return (
-    <div className="h-full w-60 border-r bg-white">
-      <div />
-    </div>
+    <NavigationContext.Provider value={props}>
+      <div className="flex h-full w-60 flex-col gap-4 border-r bg-white py-4">
+        {children}
+      </div>
+    </NavigationContext.Provider>
   );
 };
