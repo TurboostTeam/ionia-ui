@@ -1,9 +1,10 @@
-import { type ComponentType, type ReactElement, type SVGProps } from "react";
+import { type ReactElement } from "react";
 import * as React from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Icon } from "../Icon";
 import { Spinner } from "../Spinner";
+import { type SVGComponent } from "../types/SVGComponent";
 import { forwardRef } from "../utils";
 
 export interface ButtonProps {
@@ -17,7 +18,7 @@ export interface ButtonProps {
 
   link?: boolean;
 
-  icon?: ComponentType<SVGProps<SVGSVGElement>>;
+  icon?: SVGComponent;
 
   rounded?: boolean;
 

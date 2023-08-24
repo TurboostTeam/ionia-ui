@@ -1,9 +1,10 @@
-import { type ComponentType, type FC, type SVGProps } from "react";
+import { type FC } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { useAppProviderProps } from "../AppProvider";
 import { Icon } from "../Icon";
 import { useNavigationProps } from "../Navigation";
+import { type SVGComponent } from "../types/SVGComponent";
 
 export interface NavigationItemProps {
   href?: string;
@@ -11,7 +12,7 @@ export interface NavigationItemProps {
   excludePaths?: string[];
   selected?: boolean;
   label: string;
-  icon?: ComponentType<SVGProps<SVGSVGElement>>;
+  icon?: SVGComponent;
   onAction?: () => void;
 }
 
@@ -51,7 +52,7 @@ export const NavigationItem: FC<NavigationItemProps> = ({
 };
 
 export interface NavigationSectionActionProps {
-  icon: ComponentType<SVGProps<SVGSVGElement>>;
+  icon: SVGComponent;
   onAction: () => void;
 }
 
