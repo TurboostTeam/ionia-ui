@@ -125,7 +125,7 @@ export const Default: FC = () => {
         }
         onNavigationDismiss={toggleMobileNavigationActive}
       >
-        <Page title="页面">
+        <Page primaryAction={{ content: "创建" }} title="页面">
           <Card className="h-72" />
         </Page>
       </Frame>
