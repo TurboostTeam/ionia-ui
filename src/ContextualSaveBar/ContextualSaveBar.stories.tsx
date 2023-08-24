@@ -8,7 +8,7 @@ import { ContextualSaveBar } from "./ContextualSaveBar";
 import page from "./ContextualSaveBar.mdx";
 
 const meta = {
-  title: "Layout 布局/ContextualSaveBar 上下文保存栏",
+  title: "Feedback 反馈/ContextualSaveBar 上下文保存栏",
   component: ContextualSaveBar,
   parameters: {
     layout: "fullscreen",
