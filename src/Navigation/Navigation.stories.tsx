@@ -28,27 +28,27 @@ export default {
 export const Default: FC = (args) => {
   return (
     <div className="h-96">
-      <Navigation location="/code" {...args}>
+      <Navigation location={window.location.hash} {...args}>
         <NavigationSection
           items={[
             {
-              href: "/",
+              href: "#/",
               exactMatch: true,
               label: "概览",
               icon: BiHome,
             },
             {
-              href: "/code",
+              href: "#/code",
               label: "仓库",
               icon: BiCodeAlt,
             },
             {
-              href: "/issues",
+              href: "#/issues",
               label: "议题",
               icon: BiConversation,
             },
             {
-              href: "/pull-requests",
+              href: "#/pull-requests",
               label: "合并请求",
               icon: BiGitPullRequest,
             },
@@ -57,12 +57,12 @@ export const Default: FC = (args) => {
         <NavigationSection
           items={[
             {
-              href: "/members",
+              href: "#/members",
               label: "成员",
               icon: BiUser,
             },
             {
-              href: "/deployments",
+              href: "#/deployments",
               label: "部署",
               icon: BiServer,
             },
