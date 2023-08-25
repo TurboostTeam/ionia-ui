@@ -2,18 +2,11 @@ import type { Meta } from "@storybook/react";
 import { type FC, useState } from "react";
 
 import { Button } from "../Button";
-import { Toast, ToastProvider } from "./";
+import { Toast } from "./Toast";
 import { useToast } from "./useToast";
 
 const meta: Meta<typeof Toast> = {
   title: "Feedback 反馈/Toast 提示",
-  decorators: [
-    (Story) => (
-      <ToastProvider>
-        <Story />
-      </ToastProvider>
-    ),
-  ],
 };
 
 export default meta;

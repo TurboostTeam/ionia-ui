@@ -1,14 +1,10 @@
-import {
-  type PropsWithoutRef,
-  type ReactElement,
-  type ReactNode,
-  type SVGProps,
-} from "react";
+import { type ReactElement } from "react";
 import * as React from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Icon } from "../Icon";
 import { Spinner } from "../Spinner";
+import { type SVGComponent } from "../types/SVGComponent";
 import { forwardRef } from "../utils";
 
 export interface ButtonProps {
@@ -22,11 +18,8 @@ export interface ButtonProps {
 
   link?: boolean;
 
-  icon?: (props: PropsWithoutRef<SVGProps<SVGSVGElement>>) => ReactNode;
+  icon?: SVGComponent;
 
-  /**
-   * 是否为圆角按钮
-   */
   rounded?: boolean;
 
   disabled?: boolean;
