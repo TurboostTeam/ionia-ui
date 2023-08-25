@@ -74,7 +74,7 @@ export function Table<T>({
                           columnWrapClass[
                             (header.column.columnDef as TableColumnProps<T>)
                               .wordWrap as unknown as keyof typeof columnWrapClass
-                          ]
+                          ],
                       )}
                       key={header.id}
                       style={{ width: header.getSize() }}
@@ -83,7 +83,7 @@ export function Table<T>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </th>
                   );
@@ -98,7 +98,7 @@ export function Table<T>({
         className={twMerge(
           loading === true
             ? "overflow-hidden pointer-events-none select-none"
-            : "overflow-x-auto overflow-y-scroll"
+            : "overflow-x-auto overflow-y-auto",
         )}
         style={{
           height:
@@ -121,7 +121,7 @@ export function Table<T>({
               <tr
                 className={twMerge(
                   "hover:bg-gray-50",
-                  onRow != null && "cursor-pointer"
+                  onRow != null && "cursor-pointer",
                 )}
                 key={row.id}
                 onClick={(e) => {
@@ -143,7 +143,7 @@ export function Table<T>({
                         columnWrapClass[
                           (cell.column.columnDef as TableColumnProps<T>)
                             .wordWrap as unknown as keyof typeof columnWrapClass
-                        ]
+                        ],
                     )}
                     key={cell.id}
                     style={{ width: cell.column.getSize() }}
@@ -180,7 +180,7 @@ export function Table<T>({
                           columnWrapClass[
                             (header.column.columnDef as TableColumnProps<T>)
                               .wordWrap as unknown as keyof typeof columnWrapClass
-                          ]
+                          ],
                       )}
                       key={header.id}
                       style={{ width: header.column.getSize() }}
@@ -189,7 +189,7 @@ export function Table<T>({
                         ? null
                         : flexRender(
                             header.column.columnDef.footer,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </th>
                   ))}
