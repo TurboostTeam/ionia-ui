@@ -77,6 +77,7 @@ export const Default: FC = (args) => {
           items={[
             {
               label: "Example App 1",
+              badge: "20",
             },
             {
               label: "Example App 2",
