@@ -187,13 +187,13 @@ export function GraphQLTable<Node, OrderField extends string>({
   }, [query, pagination, pageSize, orderField, orderDirection]);
 
   return (
-    <div className="overflow-x-hidden rounded-md bg-white pt-3 shadow">
+    <div className="divide-y divide-gray-300 overflow-x-hidden rounded-md bg-white pt-3 shadow">
       <div>
         {typeof toolBarRender !== "undefined" && (
           <div className="px-3 pb-3">{toolBarRender()}</div>
         )}
 
-        <div className="w-full divide-y divide-gray-300 px-3 pb-3">
+        <div className="w-full px-3 pb-3">
           <Filter<Node>
             extra={
               typeof orderOptions !== "undefined" && orderOptions.length > 0 ? (
