@@ -94,6 +94,7 @@ export const Controlled: FC = () => {
         ]}
         footer={<div>summary</div>}
         search={{ placeholder: "search" }}
+        toolBarRender={() => <div>toolbar</div>}
         onChange={(variables) => {
           console.log(variables);
         }}

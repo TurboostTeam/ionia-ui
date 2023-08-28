@@ -55,6 +55,7 @@ export interface GraphQLTableProps<Node, OrderField> {
   loading?: boolean;
   value?: GraphQLTableValue<OrderField>;
   defaultFilterValue?: Record<Field<Node>, any>;
+  toolBarRender?: () => ReactNode;
   onChange?: (value: GraphQLTableValue<OrderField>) => void;
   onRow?: TableProps<Node>["onRow"];
 }
@@ -75,6 +76,7 @@ export function GraphQLTable<Node, OrderField extends string>({
   pageInfo,
   loading = false,
   value = {},
+  toolBarRender,
   onChange,
   onRow,
 }: GraphQLTableProps<Node, OrderField>): ReactElement {
@@ -82,11 +84,11 @@ export function GraphQLTable<Node, OrderField extends string>({
     Record<Field<Node>, any> | undefined
   >(defaultFilterValue);
   const [pagination, setPagination] = useState<GraphQLTablePagination>(
-    pick(value, ["first", "after", "last", "before"])
+    pick(value, ["first", "after", "last", "before"]),
   );
   const [orderField, setOrderField] = useState(value?.orderBy?.field);
   const [orderDirection, setOrderDirection] = useState(
-    value?.orderBy?.direction
+    value?.orderBy?.direction,
   );
 
   // 一些可以手动触发的特殊操作
@@ -97,7 +99,7 @@ export function GraphQLTable<Node, OrderField extends string>({
         setPagination((prev) => ({ ...omit(prev, ["before", "after"]) }));
       },
     }),
-    []
+    [],
   );
 
   /* eslint-disable @typescript-eslint/restrict-template-expressions */
@@ -152,7 +154,7 @@ export function GraphQLTable<Node, OrderField extends string>({
           }
 
           return result;
-        }, "")
+        }, ""),
       ),
     ])
       .map((item) => `(${item})`)
@@ -186,58 +188,64 @@ export function GraphQLTable<Node, OrderField extends string>({
 
   return (
     <div className="divide-y divide-gray-300 overflow-x-hidden rounded-md bg-white pt-3 shadow">
-      <div className="w-full px-3 pb-3">
-        <Filter<Node>
-          extra={
-            typeof orderOptions !== "undefined" && orderOptions.length > 0 ? (
-              <Popover className="relative">
-                <>
-                  <Button as={Popover.Button} className="p-2">
-                    <ArrowsUpDownIcon className="h-5 w-5" />
-                  </Button>
+      <div>
+        {typeof toolBarRender !== "undefined" && (
+          <div className="px-3 pb-3">{toolBarRender()}</div>
+        )}
 
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-200"
-                    enterFrom="opacity-0 translate-y-1"
-                    enterTo="opacity-100 translate-y-0"
-                    leave="transition ease-in duration-150"
-                    leaveFrom="opacity-100 translate-y-0"
-                    leaveTo="opacity-0 translate-y-1"
-                  >
-                    <Popover.Panel className="absolute right-0 z-10 mt-3 w-auto min-w-[160px] transform px-0">
-                      <div className="flex flex-col gap-1 divide-y overflow-hidden rounded-md bg-white p-3 shadow-md ring-1 ring-black ring-opacity-5">
-                        <RadioGroup
-                          options={orderOptions}
-                          value={orderField}
-                          onChange={(value) => {
-                            setPagination({});
-                            setOrderField(value as OrderField);
-                          }}
-                        />
-                        <OrderDirectionList
-                          value={orderDirection}
-                          onChange={(value) => {
-                            setPagination({});
-                            setOrderDirection(value);
-                          }}
-                        />
-                      </div>
-                    </Popover.Panel>
-                  </Transition>
-                </>
-              </Popover>
-            ) : undefined
-          }
-          filters={filters}
-          loading={loading}
-          queryPlaceholder={search?.placeholder}
-          values={filterValues}
-          onChange={(result) => {
-            setFilterValues(result);
-            setPagination((prev) => ({ ...omit(prev, ["before", "after"]) }));
-          }}
-        />
+        <div className="w-full px-3 pb-3">
+          <Filter<Node>
+            extra={
+              typeof orderOptions !== "undefined" && orderOptions.length > 0 ? (
+                <Popover className="relative">
+                  <>
+                    <Button as={Popover.Button} className="p-2">
+                      <ArrowsUpDownIcon className="h-5 w-5" />
+                    </Button>
+
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-200"
+                      enterFrom="opacity-0 translate-y-1"
+                      enterTo="opacity-100 translate-y-0"
+                      leave="transition ease-in duration-150"
+                      leaveFrom="opacity-100 translate-y-0"
+                      leaveTo="opacity-0 translate-y-1"
+                    >
+                      <Popover.Panel className="absolute right-0 z-10 mt-3 w-auto min-w-[160px] transform px-0">
+                        <div className="flex flex-col gap-1 divide-y overflow-hidden rounded-md bg-white p-3 shadow-md ring-1 ring-black ring-opacity-5">
+                          <RadioGroup
+                            options={orderOptions}
+                            value={orderField}
+                            onChange={(value) => {
+                              setPagination({});
+                              setOrderField(value as OrderField);
+                            }}
+                          />
+                          <OrderDirectionList
+                            value={orderDirection}
+                            onChange={(value) => {
+                              setPagination({});
+                              setOrderDirection(value);
+                            }}
+                          />
+                        </div>
+                      </Popover.Panel>
+                    </Transition>
+                  </>
+                </Popover>
+              ) : undefined
+            }
+            filters={filters}
+            loading={loading}
+            queryPlaceholder={search?.placeholder}
+            values={filterValues}
+            onChange={(result) => {
+              setFilterValues(result);
+              setPagination((prev) => ({ ...omit(prev, ["before", "after"]) }));
+            }}
+          />
+        </div>
       </div>
 
       {typeof edges !== "undefined" && edges.length > 0 ? (
