@@ -2,6 +2,7 @@ import { type FC } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { useAppProviderProps } from "../AppProvider";
+import { Badge } from "../Badge";
 import { Icon } from "../Icon";
 import { useNavigationProps } from "../Navigation";
 import { type SVGComponent } from "../types/SVGComponent";
@@ -14,6 +15,7 @@ export interface NavigationItemProps {
   label: string;
   icon?: SVGComponent;
   onAction?: () => void;
+  badge?: string;
 }
 
 export const NavigationItem: FC<NavigationItemProps> = ({
@@ -24,6 +26,7 @@ export const NavigationItem: FC<NavigationItemProps> = ({
   excludePaths = [],
   selected = false,
   onAction,
+  badge,
 }) => {
   const { location } = useNavigationProps();
   const { linkComponent: Link } = useAppProviderProps();
@@ -46,6 +49,8 @@ export const NavigationItem: FC<NavigationItemProps> = ({
       >
         {typeof Icon !== "undefined" && <Icon className="h-5 w-5" />}
         <div className="flex-1 font-semibold">{label}</div>
+
+        {typeof badge !== "undefined" && <Badge rounded>{badge}</Badge>}
       </Link>
     </li>
   );
