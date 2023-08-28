@@ -1,4 +1,4 @@
-import { type FC, type ReactNode } from "react";
+import { type FC } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { useAppProviderProps } from "../AppProvider";
@@ -15,7 +15,7 @@ export interface NavigationItemProps {
   label: string;
   icon?: SVGComponent;
   onAction?: () => void;
-  badge?: ReactNode;
+  badge?: string;
 }
 
 export const NavigationItem: FC<NavigationItemProps> = ({
@@ -37,13 +37,6 @@ export const NavigationItem: FC<NavigationItemProps> = ({
       !excludePaths.includes(href) &&
       (exactMatch ? href === location : location.startsWith(href)));
 
-  let badgeMarkup: ReactNode = null;
-  if (typeof badge === "string") {
-    badgeMarkup = <Badge rounded>{badge}</Badge>;
-  } else {
-    badgeMarkup = badge;
-  }
-
   return (
     <li className="px-2">
       <Link
@@ -57,7 +50,7 @@ export const NavigationItem: FC<NavigationItemProps> = ({
         {typeof Icon !== "undefined" && <Icon className="h-5 w-5" />}
         <div className="flex-1 font-semibold">{label}</div>
 
-        {badgeMarkup}
+        {typeof badge !== "undefined" && <Badge rounded>{badge}</Badge>}
       </Link>
     </li>
   );
