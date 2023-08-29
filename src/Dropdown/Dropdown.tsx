@@ -32,13 +32,14 @@ export const Dropdown: FC<DropdownProps> = ({
               )}
 
               <div className="flex flex-col gap-1">
-                {section.items.map((item, itemIndex) => {
+                {section.items.map(({ content, ...itemProps }, itemIndex) => {
                   return (
                     <div
                       className="flex h-8 cursor-pointer items-center rounded-md p-2 text-sm hover:bg-gray-100"
                       key={itemIndex}
+                      {...itemProps}
                     >
-                      {item.content}
+                      {content}
                     </div>
                   );
                 })}
