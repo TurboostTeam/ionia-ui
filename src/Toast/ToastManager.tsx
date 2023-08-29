@@ -13,7 +13,7 @@ export const ToastManager: FC = () => {
   const { toasts } = context;
 
   return (
-    <div className="pointer-events-none fixed bottom-0 left-0 right-0 flex transform flex-col items-center gap-5 pb-5">
+    <div className="pointer-events-none fixed bottom-0 left-0 right-0 z-120 flex transform flex-col items-center gap-5 pb-5">
       {toasts.map((toast, index) => {
         return <Toast key={index} {...toast} />;
       })}
