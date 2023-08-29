@@ -10,6 +10,7 @@ export * from "./ContextualSaveBar";
 export * from "./DatePicker";
 export * from "./DateRangePicker";
 export * from "./DateSinglePicker";
+export * from "./Dropdown";
 export * from "./Filter";
 export * from "./Form";
 export * from "./FormGroup";
