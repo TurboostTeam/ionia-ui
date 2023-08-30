@@ -5,15 +5,21 @@ import { forwardRef } from "../utils";
 export interface CheckboxProps {
   label: string;
   helpText?: string;
+  disabled?: boolean;
 }
 
 export const Checkbox = forwardRef<CheckboxProps, "input">(
-  ({ label, helpText, className, ...props }, ref) => {
+  ({ label, helpText, disabled, className, ...props }, ref) => {
     return (
       <div className={twMerge("relative flex items-start py-1", className)}>
         <div className="flex h-5 items-center">
           <input
-            className="h-4 w-4 cursor-pointer rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+            className={twMerge(
+              "h-4 w-4 cursor-pointer rounded border-gray-300 text-indigo-600 focus:ring-indigo-600",
+              disabled === true &&
+                "cursor-not-allowed bg-gray-100 checked:bg-gray-300 checked:hover:bg-gray-300",
+            )}
+            disabled={disabled}
             ref={ref}
             type="checkbox"
             {...props}
@@ -21,7 +27,14 @@ export const Checkbox = forwardRef<CheckboxProps, "input">(
         </div>
 
         <div className="ml-2 text-sm">
-          <label className="text-gray-900">{label}</label>
+          <label
+            className={twMerge(
+              "text-gray-900",
+              disabled === true && "text-gray-400",
+            )}
+          >
+            {label}
+          </label>
 
           {typeof helpText !== "undefined" && (
             <p className="mt-2 text-gray-500">{helpText}</p>
@@ -29,5 +42,5 @@ export const Checkbox = forwardRef<CheckboxProps, "input">(
         </div>
       </div>
     );
-  }
+  },
 );

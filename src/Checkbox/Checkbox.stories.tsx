@@ -1,50 +1,73 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta } from "@storybook/react";
 import { type FC, useState } from "react";
 
 import { Checkbox } from "./Checkbox";
+import page from "./Checkbox.mdx";
 
-const meta = {
+export default {
   title: "Form 表单/Checkbox 多选框",
   component: Checkbox,
-  tags: ["autodocs"],
+  parameters: {
+    docs: {
+      page,
+    },
+  },
 } satisfies Meta<typeof Checkbox>;
 
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-export const Base: Story = {
-  args: {
-    label: "Checkbox",
-  },
-};
-
-export const Checked: Story = {
-  args: {
-    label: "Checkbox",
-    checked: true,
-    onChange: () => {},
-  },
-};
-
-export const Description: Story = {
-  args: {
-    label: "Checkbox",
-    helpText: "This is a description",
-  },
-};
-
-export const Controlled: FC = () => {
+export const Default: FC = (args) => {
   const [checked, setChecked] = useState(false);
 
   return (
     <Checkbox
       checked={checked}
-      helpText="This is a description"
       label="Checkbox"
       onChange={(event) => {
         console.log("checked = ", event.target.checked);
         setChecked(event.target.checked);
       }}
+      {...args}
     />
+  );
+};
+
+export const Checked: FC = (args) => {
+  const [checked, setChecked] = useState(true);
+
+  return (
+    <Checkbox
+      checked={checked}
+      label="Checkbox"
+      onChange={(event) => {
+        console.log("checked = ", event.target.checked);
+        setChecked(event.target.checked);
+      }}
+      {...args}
+    />
+  );
+};
+
+export const HelpText: FC = (args) => {
+  const [checked, setChecked] = useState(false);
+
+  return (
+    <Checkbox
+      checked={checked}
+      helpText="Please select"
+      label="Checkbox"
+      onChange={(event) => {
+        console.log("checked = ", event.target.checked);
+        setChecked(event.target.checked);
+      }}
+      {...args}
+    />
+  );
+};
+
+export const Disabled: FC = (args) => {
+  return (
+    <div>
+      <Checkbox disabled checked={false} label="Checkbox" {...args} />
+      <Checkbox checked disabled label="Checkbox" {...args} />
+    </div>
   );
 };
