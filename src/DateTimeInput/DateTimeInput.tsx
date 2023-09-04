@@ -1,5 +1,10 @@
 import CalendarIcon from "@heroicons/react/24/outline/CalendarIcon";
-import { format as formatFn, subDays } from "date-fns";
+import {
+  format as formatFn,
+  max as maxFn,
+  min as minFn,
+  subDays,
+} from "date-fns";
 import { useEffect, useState } from "react";
 
 import { DatePicker } from "../DatePicker";
@@ -75,17 +80,20 @@ export const DateTimeInput = forwardRef<DateTimeInputProps, "input">(
                 year: end.getFullYear(),
               });
 
-              const newValue = new Date(value ?? end);
+              let newValue = new Date(value ?? end);
               newValue.setFullYear(end.getFullYear());
               newValue.setMonth(end.getMonth());
               newValue.setDate(end.getDate());
 
-              if (typeof min === "undefined") {
-                onChange?.(newValue);
-                return;
+              if (typeof min !== "undefined") {
+                newValue = maxFn([min, newValue]);
               }
 
-              onChange?.(newValue.getTime() > min.getTime() ? newValue : min);
+              if (typeof max !== "undefined") {
+                newValue = minFn([max, newValue]);
+              }
+
+              onChange?.(newValue);
             }}
             onMonthChange={(month, year) => {
               setDate({ month, year });
