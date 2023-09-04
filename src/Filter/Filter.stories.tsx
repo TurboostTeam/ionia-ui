@@ -3,7 +3,7 @@ import { type FC, useState } from "react";
 
 import { CheckboxGroup } from "../CheckboxGroup";
 import { DateRangePicker } from "../DateRangePicker";
-import { DateSinglePicker } from "../DateSinglePicker";
+import { DateTimeInput } from "../DateTimeInput";
 import { Input } from "../Input";
 import { Filter } from "./Filter";
 
@@ -78,7 +78,7 @@ export const Controlled: FC = () => {
           field: "commentedAt",
           pinned: true,
           render: ({ field: { value, onChange } }) => {
-            return <DateSinglePicker date={value} onChange={onChange} />;
+            return <DateTimeInput value={value} onChange={onChange} />;
           },
         },
         {
