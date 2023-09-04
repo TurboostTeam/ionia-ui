@@ -1,25 +1,48 @@
+import { useArgs } from "@storybook/preview-api";
 import type { Meta, StoryObj } from "@storybook/react";
-import { type FC, useEffect, useState } from "react";
 
 import { Input } from "./Input";
 
-const meta = {
+const meta: Meta<typeof Input> = {
   title: "Form 表单/Input 输入框",
   component: Input,
-} satisfies Meta<typeof Input>;
+  decorators: [
+    function Component(Story, ctx) {
+      const [, setArgs] = useArgs<typeof ctx.args>();
+
+      return (
+        <Story
+          args={{
+            ...ctx.args,
+            onChange: (value: string) => {
+              ctx.args.onChange?.(value);
+
+              // Check if the component is controlled
+              if (ctx.args.value !== undefined) {
+                setArgs({ value });
+              }
+            },
+          }}
+        />
+      );
+    },
+  ],
+};
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Base: Story = {
+export const Default: Story = {
   args: {
+    value: "",
     placeholder: "you@example.com",
   },
 };
 
 export const Label: Story = {
   args: {
+    value: "",
     label: "Email",
     placeholder: "you@example.com",
   },
@@ -27,6 +50,7 @@ export const Label: Story = {
 
 export const HelpText: Story = {
   args: {
+    value: "",
     label: "Email",
     placeholder: "you@example.com",
     helpText: "Please enter your email address",
@@ -35,6 +59,7 @@ export const HelpText: Story = {
 
 export const Error: Story = {
   args: {
+    value: "",
     label: "Email",
     placeholder: "you@example.com",
     helpText: "Please enter your email address",
@@ -44,6 +69,7 @@ export const Error: Story = {
 
 export const Disabled: Story = {
   args: {
+    value: "",
     label: "Email",
     placeholder: "you@example.com",
     helpText: "Please enter your email address",
@@ -53,6 +79,7 @@ export const Disabled: Story = {
 
 export const Prefix: Story = {
   args: {
+    value: "",
     label: "Price",
     prefix: "$",
   },
@@ -60,17 +87,8 @@ export const Prefix: Story = {
 
 export const Suffix: Story = {
   args: {
+    value: "",
     label: "Price",
     suffix: "USD",
   },
-};
-
-export const Controlled: FC = () => {
-  const [value, onChange] = useState<string>();
-
-  useEffect(() => {
-    console.log("value change:", value);
-  }, [value]);
-
-  return <Input value={value} onChange={onChange} />;
 };

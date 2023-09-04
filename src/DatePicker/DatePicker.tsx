@@ -1,5 +1,14 @@
-import { type FC, useCallback, useEffect, useMemo, useState } from "react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
+import {
+  type FC,
+  type KeyboardEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
+import { Button } from "../Button";
 import { Month } from "./components/Month";
 import {
   getNextDisplayMonth,
@@ -75,7 +84,7 @@ export const DatePicker: FC<DatePickerProps> = ({
       setHoverDate(date);
       setFocusDate(date);
     },
-    [onMonthChange]
+    [onMonthChange],
   );
 
   const handleDateSelection = useCallback(
@@ -86,7 +95,7 @@ export const DatePicker: FC<DatePickerProps> = ({
       setFocusDate(new Date(end));
       onChange?.(range);
     },
-    [onChange]
+    [onChange],
   );
 
   const handleMonthChangeClick = useCallback(
@@ -97,11 +106,11 @@ export const DatePicker: FC<DatePickerProps> = ({
       setFocusDate(undefined);
       onMonthChange(month, year);
     },
-    [onMonthChange]
+    [onMonthChange],
   );
 
   const handleKeyUp = useCallback(
-    (event: KeyboardEvent<HTMLElement>) => {
+    (event: KeyboardEvent<HTMLDivElement>) => {
       const { key } = event;
 
       const range = deriveRange(selected);
@@ -183,7 +192,7 @@ export const DatePicker: FC<DatePickerProps> = ({
       focusDate,
       selected,
       setFocusDateAndHandleMonthChange,
-    ]
+    ],
   );
 
   useEffect(() => {
@@ -224,38 +233,26 @@ export const DatePicker: FC<DatePickerProps> = ({
       onKeyDown={handleKeyDown}
       onKeyUp={handleKeyUp}
     >
-      <div className="absolute top-5 flex w-full justify-between">
-        <div
-          className="h-4 w-4 cursor-pointer select-none"
+      <div className="absolute top-0 flex w-full justify-between">
+        <Button
+          ghost
+          icon={ChevronLeftIcon}
+          size="sm"
           onClick={() => {
             handleMonthChangeClick(showPreviousMonth, showPreviousYear);
           }}
-        >
-          <svg
-            className="fill-gray-500 hover:fill-gray-700"
-            focusable="false"
-            viewBox="0 0 20 20"
-          >
-            <path d="M17 9h-11.586l3.293-3.293a.999.999 0 1 0-1.414-1.414l-5 5a.999.999 0 0 0 0 1.414l5 5a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414l-3.293-3.293h11.586a1 1 0 1 0 0-2z" />
-          </svg>
-        </div>
+        />
 
-        <div
-          className="h-4 w-4 cursor-pointer select-none"
+        <Button
+          ghost
+          icon={ChevronRightIcon}
+          size="sm"
           onClick={() => {
             handleMonthChangeClick(showNextMonth, showNextYear);
           }}
-        >
-          <svg
-            className="fill-gray-500 hover:fill-gray-700"
-            focusable="false"
-            viewBox="0 0 20 20"
-          >
-            <path d="m17.707 9.293-5-5a.999.999 0 1 0-1.414 1.414l3.293 3.293h-11.586a1 1 0 1 0 0 2h11.586l-3.293 3.293a.999.999 0 1 0 1.414 1.414l5-5a.999.999 0 0 0 0-1.414z" />
-          </svg>
-        </div>
+        />
       </div>
-      <div className="-ml-4 -mt-4 flex flex-wrap">
+      <div className="flex flex-wrap">
         <Month
           allowRange={allowRange}
           disableDatesAfter={disableDatesAfter}

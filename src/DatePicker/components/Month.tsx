@@ -56,7 +56,7 @@ export const Month = ({
 
   const weeks = useMemo(
     () => getWeeksForMonth(month, year, weekStartsOn),
-    [month, weekStartsOn, year]
+    [month, weekStartsOn, year],
   );
   const weekdays = getOrderedWeekdays(weekStartsOn).map((weekday) => (
     <Weekday
@@ -69,15 +69,15 @@ export const Month = ({
   const handleDateClick = useCallback(
     (selectedDate: Date) => {
       onChange(
-        getNewRange(allowRange === true ? selected : undefined, selectedDate)
+        getNewRange(allowRange === true ? selected : undefined, selectedDate),
       );
     },
-    [allowRange, onChange, selected]
+    [allowRange, onChange, selected],
   );
 
   const lastDayOfMonth = useMemo(
     () => new Date(year, month + 1, 0),
-    [month, year]
+    [month, year],
   );
 
   function renderWeek(day: Date, dayIndex: number): JSX.Element {
@@ -154,7 +154,7 @@ export const Month = ({
   ));
 
   return (
-    <div className=" ml-4 mt-4 min-w-[230px] max-w-full flex-1 basis-[230px]">
+    <div className="min-w-[230px] max-w-full flex-1 basis-[230px]">
       <table
         className="w-full table-fixed border-collapse border-spacing-0 border-none"
         role="grid"
@@ -162,7 +162,7 @@ export const Month = ({
         <caption
           className={twMerge(
             "flex-1 pb-1 text-center space-x-1",
-            current && "font-semibold"
+            current && "font-semibold",
           )}
         >
           <span>{monthName(month)}</span>
@@ -180,7 +180,7 @@ export const Month = ({
 function hoveringDateIsInRange(
   day: Date | null,
   range: Range,
-  hoverEndDate: Date
+  hoverEndDate: Date,
 ): boolean {
   if (day == null) {
     return false;

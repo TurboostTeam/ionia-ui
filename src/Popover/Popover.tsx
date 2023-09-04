@@ -1,6 +1,7 @@
 import { Popover as HeadlessPopover } from "@headlessui/react";
 import {
   type FC,
+  Fragment,
   type PropsWithChildren,
   type ReactElement,
   useState,
@@ -46,12 +47,8 @@ export const Popover: FC<PropsWithChildren<PopoverProps>> = ({
   });
 
   return (
-    <HeadlessPopover>
-      <HeadlessPopover.Button
-        as="div"
-        className="inline-block"
-        ref={setReferenceElement}
-      >
+    <HeadlessPopover as={Fragment}>
+      <HeadlessPopover.Button as={Fragment} ref={setReferenceElement}>
         {activator}
       </HeadlessPopover.Button>
 

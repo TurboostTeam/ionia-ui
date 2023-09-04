@@ -1,16 +1,10 @@
 import { type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
-import { FormItem } from "../FormItem";
+import { FormItem, type FormItemProps } from "../FormItem";
 import { forwardRef } from "../utils";
 
-export interface InputProps {
-  label?: string;
-
-  helpText?: string;
-
-  error?: string;
-
+export interface InputProps extends FormItemProps {
   disabled?: boolean;
 
   size?: "sm" | "md" | "lg";
@@ -18,6 +12,10 @@ export interface InputProps {
   prefix?: ReactNode;
 
   suffix?: ReactNode;
+
+  placeholder?: string;
+
+  value?: string;
 
   onChange?: (value: string) => void;
 }
@@ -44,7 +42,7 @@ export const Input = forwardRef<InputProps, "input">(
       onChange,
       ...props
     },
-    ref
+    ref,
   ) => {
     return (
       <FormItem
@@ -60,8 +58,9 @@ export const Input = forwardRef<InputProps, "input">(
             typeof label !== "undefined" && "mt-2",
             typeof error !== "undefined" &&
               `ring-red-300 focus-within:ring-red-500`,
-            sizeMap[size]
+            sizeMap[size],
           )}
+          ref={ref}
         >
           {typeof prefix !== "undefined" && (
             <div className="pointer-events-none flex items-center">
@@ -73,10 +72,9 @@ export const Input = forwardRef<InputProps, "input">(
             className={twMerge(
               "flex-1 min-w-0 border-0 bg-inherit p-0 text-sm focus:ring-0 disabled:cursor-not-allowed text-gray-900 placeholder:text-gray-400",
               typeof error !== "undefined" &&
-                `text-red-900 placeholder:text-red-300`
+                `text-red-900 placeholder:text-red-300`,
             )}
             disabled={disabled}
-            ref={ref}
             type="text"
             value={value ?? ""}
             onChange={(event) => onChange?.(event.target.value)}
@@ -91,5 +89,5 @@ export const Input = forwardRef<InputProps, "input">(
         </div>
       </FormItem>
     );
-  }
+  },
 );
