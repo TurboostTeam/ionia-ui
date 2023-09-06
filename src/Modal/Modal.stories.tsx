@@ -4,6 +4,7 @@ import { type FC, useState } from "react";
 import { Button } from "../Button";
 import { Modal } from "./Modal";
 import page from "./Modal.mdx";
+import { useModal } from "./useModal";
 
 export default {
   title: "Overlay 叠层/Modal 模态框",
@@ -52,6 +53,31 @@ export const Default: FC = (args) => {
       >
         内容
       </Modal>
+    </div>
+  );
+};
+
+export const Hook: FC = (args) => {
+  const modal = useModal();
+
+  return (
+    <div>
+      <Button
+        onClick={() => {
+          const close = modal({
+            title: "标题",
+            content: "内容",
+            primaryAction: {
+              content: "确定",
+              onAction: () => {
+                close();
+              },
+            },
+          });
+        }}
+      >
+        打开模态框
+      </Button>
     </div>
   );
 };
