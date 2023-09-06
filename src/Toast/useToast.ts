@@ -1,9 +1,9 @@
 import { useCallback, useContext } from "react";
 
+import { type ToastProps } from "./Toast";
 import { ToastContext } from "./ToastContext";
-import { type ToastProps } from "./ToastProps";
 
-export type ToastFunction = (props: ToastProps) => void;
+export type ToastFunction = (props: ToastProps) => () => void;
 
 export const useToast = (): ToastFunction => {
   const context = useContext(ToastContext);
@@ -11,12 +11,25 @@ export const useToast = (): ToastFunction => {
   return useCallback(
     (props) => {
       if (context === null) {
-        return;
+        throw new Error("useToast must be used within a ToastProvider");
       }
 
       const { setToasts } = context;
 
-      setToasts((toasts) => [...toasts, props]);
+      props.id =
+        props.id ??
+        Array.from(window.crypto.getRandomValues(new Uint8Array(16)))
+          .map((byte) => byte.toString(16).padStart(2, "0"))
+          .join("");
+
+      const onDismiss = (): void => {
+        setToasts((toasts) => toasts.filter((item) => item.id !== props.id));
+        props.onDismiss?.();
+      };
+
+      setToasts((toasts) => [...toasts, { ...props, onDismiss }]);
+
+      return onDismiss;
     },
     [context],
   );

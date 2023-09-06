@@ -7,21 +7,21 @@ import { Action, type ActionProps } from "../Action";
 import { Button } from "../Button";
 import { ButtonGroup } from "../ButtonGroup";
 
-export interface ModalProps {
-  open: boolean;
-  onClose: () => void;
-  title?: ReactNode;
-  children: ReactNode;
-  primaryAction: ActionProps;
-  secondaryActions?: ActionProps[];
-  size?: "sm" | "md" | "lg";
-}
-
 const sizeMap = {
   sm: twMerge(`max-w-[380px]`),
   md: twMerge(`max-w-[620px]`),
   lg: twMerge(`max-w-[980px] md:max-w-[calc(100%-2rem)] lg:max-w-[980px]`),
 };
+
+export interface ModalProps {
+  open: boolean;
+  onClose: () => void;
+  title?: ReactNode;
+  children?: ReactNode;
+  primaryAction: ActionProps;
+  secondaryActions?: ActionProps[];
+  size?: "sm" | "md" | "lg";
+}
 
 export const Modal: FC<ModalProps> = ({
   open,
