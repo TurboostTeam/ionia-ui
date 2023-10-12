@@ -91,6 +91,7 @@ export interface FilterSearchConfig {
   querySuffix?: ReactNode;
   queryPrefix?: ReactNode;
   queryPlaceholder?: string;
+  disabled?: boolean;
 }
 
 export interface FilterProps<T> {
@@ -148,6 +149,7 @@ export function Filter<T>({
             render={({ field }) => (
               <Input
                 className="flex-1"
+                disabled={field?.disabled ?? search?.disabled}
                 placeholder={search?.queryPlaceholder}
                 prefix={
                   search?.queryPrefix ?? (
