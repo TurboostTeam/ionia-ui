@@ -1,0 +1,54 @@
+import { Story, ArgsTable, Canvas } from "@storybook/blocks";
+import * as InputStories from "./Input.stories";
+
+# Input 输入框
+
+ 通过鼠标或键盘输入内容。
+
+<Canvas>
+  <Story of={InputStories.Default} />
+</Canvas>
+
+## Label
+<Canvas>
+  <Story of={InputStories.Label} />
+</Canvas>
+
+## 帮助文本
+<Canvas>
+  <Story of={InputStories.HelpText} />
+</Canvas>
+
+## 禁用
+<Canvas>
+  <Story of={InputStories.Disabled} />
+</Canvas>
+
+
+## 前缀
+<Canvas>
+  <Story of={InputStories.Prefix} />
+</Canvas>
+
+## 后缀
+<Canvas>
+  <Story of={InputStories.Suffix} />
+</Canvas>
+
+
+## 清除按钮
+
+<Canvas>
+  <Story of={InputStories.ClearButton} />
+</Canvas>
+
+
+## 字符数
+
+<Canvas>
+  <Story of={InputStories.ShowCharacterCount} />
+</Canvas>
+
+## 组件 API
+
+<ArgsTable />

@@ -22,6 +22,10 @@ export interface InputProps extends FormItemProps {
   onChange?: (value: string) => void;
 
   clearButton?: boolean;
+
+  showCharacterCount?: boolean;
+
+  maxLength?: number;
 }
 
 const sizeMap = {
@@ -41,10 +45,12 @@ export const Input = forwardRef<InputProps, "input">(
       size = "md",
       className,
       prefix,
+      maxLength,
       suffix,
       value,
       onChange,
       clearButton = false,
+      showCharacterCount = false,
       ...props
     },
     ref,
@@ -80,6 +86,7 @@ export const Input = forwardRef<InputProps, "input">(
                 `text-red-900 placeholder:text-red-300`,
             )}
             disabled={disabled}
+            maxLength={maxLength}
             type="text"
             value={value ?? ""}
             onChange={(event) => onChange?.(event.target.value)}
@@ -95,6 +102,14 @@ export const Input = forwardRef<InputProps, "input">(
             >
               <Icon as={XCircleIcon} className="text-gray-400" />
             </button>
+          )}
+
+          {showCharacterCount && (
+            <div className="flex items-center text-gray-400">
+              {typeof maxLength === "undefined"
+                ? value?.length ?? 0
+                : `${maxLength} / ${value?.length ?? 0}`}
+            </div>
           )}
 
           {typeof suffix !== "undefined" && (

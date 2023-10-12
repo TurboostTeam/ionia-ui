@@ -1,102 +1,149 @@
-import { useArgs } from "@storybook/preview-api";
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta } from "@storybook/react";
+import { type FC, useState } from "react";
 
 import { Input } from "./Input";
+import page from "./Input.mdx";
 
-const meta: Meta<typeof Input> = {
+export default {
   title: "Form 表单/Input 输入框",
   component: Input,
-  decorators: [
-    function Component(Story, ctx) {
-      const [, setArgs] = useArgs<typeof ctx.args>();
-
-      return (
-        <Story
-          args={{
-            ...ctx.args,
-            onChange: (value: string) => {
-              ctx.args.onChange?.(value);
-
-              // Check if the component is controlled
-              if (ctx.args.value !== undefined) {
-                setArgs({ value });
-              }
-            },
-          }}
-        />
-      );
+  parameters: {
+    backgrounds: {
+      default: "gray",
+      values: [{ name: "gray", value: "rgb(249, 250, 251)" }],
     },
-  ],
+    docs: {
+      page,
+    },
+  },
+} satisfies Meta<typeof Input>;
+
+export const Default: FC = (args) => {
+  const [value, setValue] = useState("");
+  return (
+    <Input
+      placeholder="you@example.com"
+      value={value}
+      onChange={(e) => {
+        setValue(e);
+      }}
+    />
+  );
 };
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-export const Default: Story = {
-  args: {
-    value: "",
-    placeholder: "you@example.com",
-  },
+export const Label: FC = (args) => {
+  const [value, setValue] = useState("");
+  return (
+    <Input
+      label="Email"
+      placeholder="you@example.com"
+      value={value}
+      onChange={(e) => {
+        setValue(e);
+      }}
+    />
+  );
 };
 
-export const Label: Story = {
-  args: {
-    value: "",
-    label: "Email",
-    placeholder: "you@example.com",
-  },
+export const HelpText: FC = (args) => {
+  const [value, setValue] = useState("");
+  return (
+    <Input
+      helpText="Please enter your email address"
+      label="Email"
+      placeholder="you@example.com"
+      value={value}
+      onChange={(e) => {
+        setValue(e);
+      }}
+    />
+  );
 };
 
-export const HelpText: Story = {
-  args: {
-    value: "",
-    label: "Email",
-    placeholder: "you@example.com",
-    helpText: "Please enter your email address",
-  },
+export const Error: FC = (args) => {
+  const [value, setValue] = useState("");
+  return (
+    <Input
+      error="Email is required"
+      helpText="Please enter your email address"
+      label="Email"
+      placeholder="you@example.com"
+      value={value}
+      onChange={(e) => {
+        setValue(e);
+      }}
+    />
+  );
 };
 
-export const Error: Story = {
-  args: {
-    value: "",
-    label: "Email",
-    placeholder: "you@example.com",
-    helpText: "Please enter your email address",
-    error: "Email is required",
-  },
+export const Disabled: FC = (args) => {
+  const [value, setValue] = useState("");
+  return (
+    <Input
+      disabled
+      label="Email"
+      placeholder="you@example.com"
+      value={value}
+      onChange={(e) => {
+        setValue(e);
+      }}
+    />
+  );
 };
 
-export const Disabled: Story = {
-  args: {
-    value: "",
-    label: "Email",
-    placeholder: "you@example.com",
-    helpText: "Please enter your email address",
-    disabled: true,
-  },
+export const Prefix: FC = (args) => {
+  const [value, setValue] = useState("");
+  return (
+    <Input
+      label="Price"
+      prefix="$"
+      value={value}
+      onChange={(e) => {
+        setValue(e);
+      }}
+    />
+  );
 };
 
-export const Prefix: Story = {
-  args: {
-    value: "",
-    label: "Price",
-    prefix: "$",
-  },
+export const Suffix: FC = (args) => {
+  const [value, setValue] = useState("");
+  return (
+    <Input
+      label="Price"
+      suffix="USD"
+      value={value}
+      onChange={(e) => {
+        setValue(e);
+      }}
+    />
+  );
 };
 
-export const Suffix: Story = {
-  args: {
-    value: "",
-    label: "Price",
-    suffix: "USD",
-  },
+export const ClearButton: FC = (args) => {
+  const [value, setValue] = useState("");
+  return (
+    <Input
+      clearButton
+      label="Price"
+      value={value}
+      onChange={(e) => {
+        setValue(e);
+      }}
+    />
+  );
 };
 
-export const ClearButton: Story = {
-  args: {
-    value: "",
-    label: "Price",
-    clearButton: true,
-  },
+export const ShowCharacterCount: FC = (args) => {
+  const [value, setValue] = useState("");
+  return (
+    <Input
+      showCharacterCount
+      label="Price"
+      maxLength={5}
+      value={value}
+      onChange={(e) => {
+        setValue(e);
+      }}
+    />
+  );
 };
