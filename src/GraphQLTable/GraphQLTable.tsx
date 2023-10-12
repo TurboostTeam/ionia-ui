@@ -22,7 +22,11 @@ import { useUpdateEffect } from "react-use";
 
 import { Button } from "../Button";
 import { EmptyState, type EmptyStateProps } from "../EmptyState";
-import { Filter, type FilterItemProps } from "../Filter";
+import {
+  Filter,
+  type FilterItemProps,
+  type FilterSearchConfig,
+} from "../Filter";
 import { RadioGroup, type RadioGroupOption } from "../RadioGroup";
 import { Table, type TableColumnProps, type TableProps } from "../Table";
 import { type Field } from "../types";
@@ -46,7 +50,7 @@ export interface GraphQLTableProps<Node, OrderField> {
   actionRef?: RefObject<ActionType>;
   edges?: Array<GraphQLTableEdge<Node>>;
   filters?: Array<FilterItemProps<Node>>;
-  search?: { placeholder?: string };
+  search?: false | FilterSearchConfig;
   footer?: ReactNode;
   orderOptions?: RadioGroupOption[];
   columns: Array<TableColumnProps<Node>>;
@@ -238,7 +242,7 @@ export function GraphQLTable<Node, OrderField extends string>({
             }
             filters={filters}
             loading={loading}
-            queryPlaceholder={search?.placeholder}
+            search={search}
             values={filterValues}
             onChange={(result) => {
               setFilterValues(result);

@@ -59,7 +59,7 @@ const formatRenderValue = (obj: any): any => {
           value instanceof Date ? dayjs(value).format("YYYY-MM-DD") : value;
       }
     },
-    {}
+    {},
   );
 };
 
@@ -76,7 +76,7 @@ const flattenObject = (obj: any): any => {
         result[key] = value;
       }
     },
-    {}
+    {},
   );
 };
 
@@ -87,13 +87,17 @@ export interface FilterItemProps<T> {
   pinned?: boolean;
 }
 
+export interface FilterSearchConfig {
+  querySuffix?: ReactNode;
+  queryPrefix?: ReactNode;
+  queryPlaceholder?: string;
+}
+
 export interface FilterProps<T> {
   loading?: boolean;
   filters?: Array<FilterItemProps<T>>;
   extra?: ReactNode;
-  querySuffix?: ReactNode;
-  queryPrefix?: ReactNode;
-  queryPlaceholder?: string;
+  search?: false | FilterSearchConfig;
   values?: Record<Field<T>, any> & { query?: string };
   onChange?: (value: Record<Field<T>, any> & { query?: string }) => void;
 }
@@ -102,9 +106,7 @@ export function Filter<T>({
   loading = false,
   filters = [],
   extra,
-  querySuffix,
-  queryPrefix,
-  queryPlaceholder,
+  search,
   values,
   onChange,
 }: FilterProps<T>): ReactElement {
@@ -117,7 +119,7 @@ export function Filter<T>({
         .map((item) => ({
           ...item,
         })),
-    [filters]
+    [filters],
   );
 
   const handleChange = useCallback(() => {
@@ -139,25 +141,29 @@ export function Filter<T>({
   return (
     <div>
       <div className="flex gap-2">
-        <Controller<{ query: string }>
-          control={control}
-          name="query"
-          render={({ field }) => (
-            <Input
-              className="flex-1"
-              placeholder={queryPlaceholder}
-              prefix={
-                queryPrefix ?? <MagnifyingGlassIcon className="h-5 w-5" />
-              }
-              suffix={loading ? <Spinner /> : querySuffix}
-              value={field.value}
-              onChange={(value) => {
-                field.onChange(value);
-                handleChange();
-              }}
-            />
-          )}
-        />
+        {typeof search !== "undefined" && search !== false && (
+          <Controller<{ query: string }>
+            control={control}
+            name="query"
+            render={({ field }) => (
+              <Input
+                className="flex-1"
+                placeholder={search?.queryPlaceholder}
+                prefix={
+                  search?.queryPrefix ?? (
+                    <MagnifyingGlassIcon className="h-5 w-5" />
+                  )
+                }
+                suffix={loading ? <Spinner /> : search?.querySuffix}
+                value={field.value}
+                onChange={(value) => {
+                  field.onChange(value);
+                  handleChange();
+                }}
+              />
+            )}
+          />
+        )}
 
         {extra}
       </div>
@@ -186,7 +192,7 @@ export function Filter<T>({
                         ) : (
                           <>
                             {`${label}: ${String(
-                              formatRenderValue({ [field]: fieldValue })[field]
+                              formatRenderValue({ [field]: fieldValue })[field],
                             )}`}
                             <XMarkIcon
                               className="h-4 w-4"
