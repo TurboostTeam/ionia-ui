@@ -1,7 +1,9 @@
+import { XCircleIcon } from "@heroicons/react/24/outline";
 import { type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { FormItem, type FormItemProps } from "../FormItem";
+import { Icon } from "../Icon";
 import { forwardRef } from "../utils";
 
 export interface InputProps extends FormItemProps {
@@ -18,6 +20,8 @@ export interface InputProps extends FormItemProps {
   value?: string;
 
   onChange?: (value: string) => void;
+
+  clearButton?: boolean;
 }
 
 const sizeMap = {
@@ -40,10 +44,13 @@ export const Input = forwardRef<InputProps, "input">(
       suffix,
       value,
       onChange,
+      clearButton = false,
       ...props
     },
     ref,
   ) => {
+    const clearButtonVisible = value !== "";
+
     return (
       <FormItem
         className={className}
@@ -70,7 +77,7 @@ export const Input = forwardRef<InputProps, "input">(
 
           <input
             className={twMerge(
-              "flex-1 min-w-0 border-0 bg-inherit p-0 text-sm focus:ring-0 disabled:cursor-not-allowed text-gray-900 placeholder:text-gray-400",
+              "flex-1 min-w-0 border-0 bg-inherit p-0 text-sm focus:ring-0 disabled:cursor-not-allowed text-gray-900 placeholder:text-gray-400 peer",
               typeof error !== "undefined" &&
                 `text-red-900 placeholder:text-red-300`,
             )}
@@ -80,6 +87,19 @@ export const Input = forwardRef<InputProps, "input">(
             onChange={(event) => onChange?.(event.target.value)}
             {...props}
           />
+
+          {typeof clearButton !== "undefined" &&
+            clearButton &&
+            clearButtonVisible && (
+              <button
+                className="hidden peer-focus:block"
+                onClick={() => {
+                  onChange?.("");
+                }}
+              >
+                <Icon as={XCircleIcon} className="text-gray-400" />
+              </button>
+            )}
 
           {typeof suffix !== "undefined" && (
             <div className="pointer-events-none flex items-center">

@@ -92,3 +92,11 @@ export const Suffix: Story = {
     suffix: "USD",
   },
 };
+
+export const ClearButton: Story = {
+  args: {
+    value: "",
+    label: "Price",
+    clearButton: true,
+  },
+};
