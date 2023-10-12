@@ -56,3 +56,31 @@ export const Controlled: FC = () => {
     />
   );
 };
+
+export const ClearButton: FC = () => {
+  const [value, onChange] = useState<TaskStatus>();
+
+  useEffect(() => {
+    console.log("value change:", value);
+  }, [value]);
+
+  return (
+    <Select
+      clearButton
+      label="Select"
+      options={[
+        {
+          label: <span className="text-green-600">Completed</span>,
+          value: TaskStatus.COMPLETED,
+        },
+        {
+          label: <span className="text-red-600">Failed</span>,
+          value: TaskStatus.FAILED,
+        },
+      ]}
+      placeholder="Please"
+      value={value}
+      onChange={onChange}
+    />
+  );
+};
