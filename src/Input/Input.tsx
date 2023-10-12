@@ -49,8 +49,6 @@ export const Input = forwardRef<InputProps, "input">(
     },
     ref,
   ) => {
-    const clearButtonVisible = value !== "";
-
     return (
       <FormItem
         className={className}
@@ -88,7 +86,7 @@ export const Input = forwardRef<InputProps, "input">(
             {...props}
           />
 
-          {clearButton && clearButtonVisible && (
+          {clearButton && value !== "" && (
             <button
               className="hidden peer-focus:block"
               onClick={() => {
