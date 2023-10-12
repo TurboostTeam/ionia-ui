@@ -88,18 +88,16 @@ export const Input = forwardRef<InputProps, "input">(
             {...props}
           />
 
-          {typeof clearButton !== "undefined" &&
-            clearButton &&
-            clearButtonVisible && (
-              <button
-                className="hidden peer-focus:block"
-                onClick={() => {
-                  onChange?.("");
-                }}
-              >
-                <Icon as={XCircleIcon} className="text-gray-400" />
-              </button>
-            )}
+          {clearButton && clearButtonVisible && (
+            <button
+              className="hidden peer-focus:block"
+              onClick={() => {
+                onChange?.("");
+              }}
+            >
+              <Icon as={XCircleIcon} className="text-gray-400" />
+            </button>
+          )}
 
           {typeof suffix !== "undefined" && (
             <div className="pointer-events-none flex items-center">
