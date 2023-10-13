@@ -147,3 +147,23 @@ export const ShowCharacterCount: FC = (args) => {
     />
   );
 };
+
+export const AllAttribute: FC = (args) => {
+  const [value, setValue] = useState("");
+  return (
+    <Input
+      clearButton
+      showCharacterCount
+      error="Email is required"
+      helpText="Please enter your email address"
+      label="Price"
+      maxLength={5}
+      prefix="$"
+      suffix="USD"
+      value={value}
+      onChange={(e) => {
+        setValue(e);
+      }}
+    />
+  );
+};

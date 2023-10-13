@@ -108,7 +108,7 @@ export const Input = forwardRef<InputProps, "input">(
             <div className="flex items-center text-gray-400">
               {typeof maxLength === "undefined"
                 ? value?.length ?? 0
-                : `${maxLength} / ${value?.length ?? 0}`}
+                : `${value?.length ?? 0}/${maxLength} `}
             </div>
           )}
 
