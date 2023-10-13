@@ -21,13 +21,12 @@ export const Loading: FC = () => {
   };
 
   return (
-    <div className="fixed left-0 top-0 z-100 w-full" style={{ height: "3px" }}>
+    <div className="fixed left-0 top-0 z-100 h-[3px] w-full">
       <div
-        className="h-full w-full bg-gray-600"
+        className="transformOrigin-0 h-full w-full bg-indigo-600 "
         style={{
           ...customStyles,
           transformOrigin: "0",
-          backgroundColor: "#64748b",
           transitionDuration: "500ms",
         }}
         onTransitionEnd={() => {
