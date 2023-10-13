@@ -1,7 +1,9 @@
+import { XCircleIcon } from "@heroicons/react/24/outline";
 import { type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { FormItem, type FormItemProps } from "../FormItem";
+import { Icon } from "../Icon";
 import { forwardRef } from "../utils";
 
 export interface InputProps extends FormItemProps {
@@ -18,6 +20,12 @@ export interface InputProps extends FormItemProps {
   value?: string;
 
   onChange?: (value: string) => void;
+
+  clearButton?: boolean;
+
+  showCharacterCount?: boolean;
+
+  maxLength?: number;
 }
 
 const sizeMap = {
@@ -37,9 +45,12 @@ export const Input = forwardRef<InputProps, "input">(
       size = "md",
       className,
       prefix,
+      maxLength,
       suffix,
       value,
       onChange,
+      clearButton = false,
+      showCharacterCount = false,
       ...props
     },
     ref,
@@ -70,16 +81,36 @@ export const Input = forwardRef<InputProps, "input">(
 
           <input
             className={twMerge(
-              "flex-1 min-w-0 border-0 bg-inherit p-0 text-sm focus:ring-0 disabled:cursor-not-allowed text-gray-900 placeholder:text-gray-400",
+              "flex-1 min-w-0 border-0 bg-inherit p-0 text-sm focus:ring-0 disabled:cursor-not-allowed text-gray-900 placeholder:text-gray-400 peer",
               typeof error !== "undefined" &&
                 `text-red-900 placeholder:text-red-300`,
             )}
             disabled={disabled}
+            maxLength={maxLength}
             type="text"
             value={value ?? ""}
             onChange={(event) => onChange?.(event.target.value)}
             {...props}
           />
+
+          {clearButton && value !== "" && (
+            <button
+              className="hidden peer-focus:block"
+              onClick={() => {
+                onChange?.("");
+              }}
+            >
+              <Icon as={XCircleIcon} className="text-gray-400" />
+            </button>
+          )}
+
+          {showCharacterCount && (
+            <div className="flex items-center text-gray-400">
+              {typeof maxLength === "undefined"
+                ? value?.length ?? 0
+                : `${value?.length ?? 0}/${maxLength} `}
+            </div>
+          )}
 
           {typeof suffix !== "undefined" && (
             <div className="pointer-events-none flex items-center">

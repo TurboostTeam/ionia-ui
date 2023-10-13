@@ -1,9 +1,14 @@
 import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
+import {
+  CheckIcon,
+  ChevronUpDownIcon,
+  XCircleIcon,
+} from "@heroicons/react/24/outline";
 import { Fragment, type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { FormItem, type FormItemProps } from "../FormItem";
+import { Icon } from "../Icon";
 import { Spinner } from "../Spinner";
 import { forwardRef } from "../utils";
 
@@ -24,6 +29,7 @@ export interface SelectProps extends FormItemProps {
   options: SelectOption[];
   value?: string;
   onChange?: (value: string) => void;
+  clearButton?: boolean;
 }
 
 const sizeMap = {
@@ -46,8 +52,9 @@ export const Select = forwardRef<SelectProps, "div">(
       options = [],
       value,
       onChange,
+      clearButton = false,
     },
-    ref
+    ref,
   ) => {
     return (
       <FormItem error={error} helpText={helpText} label={label}>
@@ -61,12 +68,12 @@ export const Select = forwardRef<SelectProps, "div">(
             <div className="relative">
               <Listbox.Button
                 className={twMerge(
-                  "relative w-full cursor-default rounded-md pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 text-sm",
+                  "relative w-full cursor-default rounded-md pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 text-sm group",
                   sizeMap[size],
                   disabled || loading
                     ? "cursor-not-allowed bg-gray-50"
                     : "bg-white",
-                  className
+                  className,
                 )}
               >
                 <span className="block h-5 truncate">
@@ -74,6 +81,19 @@ export const Select = forwardRef<SelectProps, "div">(
                     <span className="text-gray-400">{placeholder}</span>
                   )}
                 </span>
+                {clearButton && value !== "" && (
+                  <button
+                    className="absolute inset-y-0 right-6  hidden cursor-pointer items-center pr-2 group-focus-within:flex"
+                    type="button"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      onChange?.("");
+                    }}
+                  >
+                    <Icon as={XCircleIcon} className="text-gray-400" />
+                  </button>
+                )}
+
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   {loading ? (
                     <Spinner />
@@ -85,7 +105,6 @@ export const Select = forwardRef<SelectProps, "div">(
                   )}
                 </span>
               </Listbox.Button>
-
               <Transition
                 as={Fragment}
                 leave="transition ease-in duration-100"
@@ -99,7 +118,7 @@ export const Select = forwardRef<SelectProps, "div">(
                       className={({ active }) =>
                         twMerge(
                           active && "bg-gray-100",
-                          "relative cursor-default select-none py-2 pl-3 pr-9"
+                          "relative cursor-default select-none py-2 pl-3 pr-9",
                         )
                       }
                       key={option.value}
@@ -128,5 +147,5 @@ export const Select = forwardRef<SelectProps, "div">(
         </Listbox>
       </FormItem>
     );
-  }
+  },
 );
