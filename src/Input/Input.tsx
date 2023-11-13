@@ -60,7 +60,6 @@ export const Input = forwardRef<InputProps, "input">(
               `ring-red-300 focus-within:ring-red-500`,
             sizeMap[size],
           )}
-          ref={ref}
         >
           {typeof prefix !== "undefined" && (
             <div className="pointer-events-none flex items-center">
@@ -78,6 +77,7 @@ export const Input = forwardRef<InputProps, "input">(
             type="text"
             value={value ?? ""}
             onChange={(event) => onChange?.(event.target.value)}
+            ref={ref}
             {...props}
           />
 
