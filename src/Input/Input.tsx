@@ -18,6 +18,30 @@ export interface InputProps extends FormItemProps {
   value?: string;
 
   onChange?: (value: string) => void;
+
+  type?:
+    | "button"
+    | "checkbox"
+    | "color"
+    | "date"
+    | "datetime-local"
+    | "email"
+    | "file"
+    | "hidden"
+    | "image"
+    | "month"
+    | "number"
+    | "password"
+    | "radio"
+    | "range"
+    | "reset"
+    | "search"
+    | "submit"
+    | "tel"
+    | "text"
+    | "time"
+    | "url"
+    | "week";
 }
 
 const sizeMap = {
@@ -39,6 +63,7 @@ export const Input = forwardRef<InputProps, "input">(
       prefix,
       suffix,
       value,
+      type = "text",
       onChange,
       ...props
     },
@@ -74,10 +99,10 @@ export const Input = forwardRef<InputProps, "input">(
                 `text-red-900 placeholder:text-red-300`,
             )}
             disabled={disabled}
-            type="text"
+            ref={ref}
+            type={type}
             value={value ?? ""}
             onChange={(event) => onChange?.(event.target.value)}
-            ref={ref}
             {...props}
           />
 
