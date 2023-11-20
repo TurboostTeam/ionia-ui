@@ -1,5 +1,3 @@
-import { useCallback, useState } from "react";
-
 import { Input, type InputProps } from "../Input";
 import { forwardRef } from "../utils";
 
@@ -9,6 +7,7 @@ export interface NumberInputProps
   max?: number;
   value?: number;
   onChange?: (value: number) => void;
+  onBlur?: (value: number) => void;
 }
 
 export const NumberInput = forwardRef<NumberInputProps, "input">(
@@ -18,38 +17,34 @@ export const NumberInput = forwardRef<NumberInputProps, "input">(
       max = Number.MAX_SAFE_INTEGER,
       value,
       onChange,
+      onBlur,
       ...props
     },
-    ref
+    ref,
   ) => {
-    const [inputValue, setInputValue] = useState(value?.toString());
-
-    const handleBlur = useCallback(() => {
-      const numberValue = Number(inputValue);
-
-      if (typeof onChange !== "undefined") {
-        if (isNaN(numberValue)) {
-          setInputValue(value?.toString());
-          return;
-        }
-
-        if (numberValue >= min && numberValue <= max) {
-          onChange(numberValue);
-          setInputValue(numberValue.toString());
-        } else {
-          setInputValue(Math.max(min, Math.min(max, numberValue)).toString());
-        }
-      }
-    }, [inputValue, max, min, onChange, value]);
-
     return (
       <Input
+        max={max}
+        min={min}
         ref={ref}
+        value={value?.toString()}
+        onBlur={(e) => {
+          const val = Number(e.target.value);
+
+          if (val <= min) {
+            onChange?.(min);
+          }
+
+          onBlur?.(val);
+        }}
+        onChange={(value) => {
+          const val = Number(value);
+
+          onChange?.(val >= max ? max : val);
+        }}
         {...props}
-        value={inputValue}
-        onBlur={handleBlur}
-        onChange={setInputValue}
+        type="number"
       />
     );
-  }
+  },
 );

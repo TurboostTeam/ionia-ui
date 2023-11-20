@@ -73,5 +73,5 @@ export const Controlled: FC = () => {
     console.log("value change:", value);
   }, [value]);
 
-  return <NumberInput value={value} onChange={onChange} />;
+  return <NumberInput max={100} value={value} onChange={onChange} />;
 };
