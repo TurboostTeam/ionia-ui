@@ -28,6 +28,8 @@ export const NumberInput = forwardRef<NumberInputProps, "input">(
         min={min}
         ref={ref}
         value={value?.toString()}
+        {...props}
+        type="number"
         onBlur={(e) => {
           const val = Number(e.target.value);
 
@@ -42,8 +44,6 @@ export const NumberInput = forwardRef<NumberInputProps, "input">(
 
           onChange?.(val >= max ? max : val);
         }}
-        {...props}
-        type="number"
       />
     );
   },
