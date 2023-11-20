@@ -97,6 +97,8 @@ export const Input = forwardRef<InputProps, "input">(
               "flex-1 min-w-0 border-0 bg-inherit p-0 text-sm focus:ring-0 disabled:cursor-not-allowed text-gray-900 placeholder:text-gray-400",
               typeof error !== "undefined" &&
                 `text-red-900 placeholder:text-red-300`,
+              type === "number" &&
+                "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
             )}
             disabled={disabled}
             ref={ref}
