@@ -7,6 +7,7 @@ export interface NumberInputProps
   max?: number;
   value?: number;
   onChange?: (value: number) => void;
+  onBlur?: (value: number) => void;
 }
 
 export const NumberInput = forwardRef<NumberInputProps, "input">(
@@ -16,6 +17,7 @@ export const NumberInput = forwardRef<NumberInputProps, "input">(
       max = Number.MAX_SAFE_INTEGER,
       value,
       onChange,
+      onBlur,
       ...props
     },
     ref,
@@ -26,8 +28,19 @@ export const NumberInput = forwardRef<NumberInputProps, "input">(
         min={min}
         ref={ref}
         value={value?.toString()}
-        onChange={(val) => {
-          onChange?.(Number(val));
+        onBlur={(e) => {
+          const val = Number(e.target.value);
+
+          if (val <= min) {
+            onChange?.(min);
+          }
+
+          onBlur?.(val);
+        }}
+        onChange={(value) => {
+          const val = Number(value);
+
+          onChange?.(val >= max ? max : val);
         }}
         {...props}
         type="number"
