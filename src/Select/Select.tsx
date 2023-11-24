@@ -73,7 +73,14 @@ export const Select = forwardRef<SelectProps, "div">(
               >
                 <span className="block h-5 truncate">
                   {options.find((item) => item.value === value)?.label ?? (
-                    <span className="text-gray-400">{placeholder}</span>
+                    <span
+                      className={twMerge(
+                        "text-gray-400",
+                        typeof error !== "undefined" && "text-red-300",
+                      )}
+                    >
+                      {placeholder}
+                    </span>
                   )}
                 </span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
