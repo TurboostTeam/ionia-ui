@@ -47,7 +47,7 @@ export const Select = forwardRef<SelectProps, "div">(
       value,
       onChange,
     },
-    ref
+    ref,
   ) => {
     return (
       <FormItem error={error} helpText={helpText} label={label}>
@@ -66,7 +66,9 @@ export const Select = forwardRef<SelectProps, "div">(
                   disabled || loading
                     ? "cursor-not-allowed bg-gray-50"
                     : "bg-white",
-                  className
+                  typeof error !== "undefined" &&
+                    `ring-red-300 focus-within:ring-red-500`,
+                  className,
                 )}
               >
                 <span className="block h-5 truncate">
@@ -99,7 +101,7 @@ export const Select = forwardRef<SelectProps, "div">(
                       className={({ active }) =>
                         twMerge(
                           active && "bg-gray-100",
-                          "relative cursor-default select-none py-2 pl-3 pr-9"
+                          "relative cursor-default select-none py-2 pl-3 pr-9",
                         )
                       }
                       key={option.value}
@@ -128,5 +130,5 @@ export const Select = forwardRef<SelectProps, "div">(
         </Listbox>
       </FormItem>
     );
-  }
+  },
 );
