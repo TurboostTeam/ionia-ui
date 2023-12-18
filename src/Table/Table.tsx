@@ -4,7 +4,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { type ReactElement, useMemo, useRef, useState } from "react";
+import { type ReactElement, useEffect, useMemo, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Checkbox } from "../Checkbox";
@@ -35,6 +35,7 @@ export interface TableProps<T> {
   onRow?: (record: T) => {
     onClick?: (e: MouseEvent<HTMLTableRowElement, MouseEvent>) => void;
   };
+  onRowSelectionChange?: (rows: T[]) => void;
 }
 
 export function Table<T>({
@@ -44,8 +45,9 @@ export function Table<T>({
   bodyHeight,
   loading,
   onRow,
+  onRowSelectionChange,
 }: TableProps<T>): ReactElement {
-  const [rowSelection, setRowSelection] = useState({});
+  const [rowSelection, setRowSelection] = useState<Record<string, any>>({});
 
   const memoColumns = useMemo(() => {
     if (enableRowSelection) {
@@ -88,10 +90,16 @@ export function Table<T>({
     onRowSelectionChange: setRowSelection,
   });
 
-  console.log(111, rowSelection);
-
   const tableHeaderRef = useRef<HTMLTableElement>(null);
   const tableFooterRef = useRef<HTMLTableElement>(null);
+
+  useEffect(() => {
+    if (onRowSelectionChange != null) {
+      onRowSelectionChange(
+        table.getSelectedRowModel().flatRows.map((item) => item.original),
+      );
+    }
+  }, [table, rowSelection, onRowSelectionChange]);
 
   return (
     <div className="min-w-full">

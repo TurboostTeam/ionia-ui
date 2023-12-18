@@ -89,6 +89,9 @@ export const Base: FC = () => {
           progress: 10,
         },
       ]}
+      onRowSelectionChange={(record) => {
+        console.log("row select change:", record);
+      }}
       // onRow={(record) => {
       //   return {
       //     onClick: () => {
