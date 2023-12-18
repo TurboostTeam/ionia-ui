@@ -46,6 +46,7 @@ export interface ActionType {
 export interface GraphQLTableProps<Node, OrderField> {
   emptyStateIcon?: EmptyStateProps["icon"];
   emptyStateTitle?: EmptyStateProps["title"];
+  enableRowSelection?: boolean;
   emptyStateDescription?: EmptyStateProps["description"];
   actionRef?: RefObject<ActionType>;
   edges?: Array<GraphQLTableEdge<Node>>;
@@ -60,6 +61,7 @@ export interface GraphQLTableProps<Node, OrderField> {
   value?: GraphQLTableValue<OrderField>;
   defaultFilterValue?: Record<Field<Node>, any>;
   toolBarRender?: () => ReactNode;
+  onRowSelectionChange?: (rows: Node[]) => void;
   onChange?: (value: GraphQLTableValue<OrderField>) => void;
   onRow?: TableProps<Node>["onRow"];
 }
@@ -80,6 +82,8 @@ export function GraphQLTable<Node, OrderField extends string>({
   pageInfo,
   loading = false,
   value = {},
+  enableRowSelection = false,
+  onRowSelectionChange,
   toolBarRender,
   onChange,
   onRow,
@@ -256,7 +260,9 @@ export function GraphQLTable<Node, OrderField extends string>({
         <Table
           columns={columns}
           data={edges.map((edge) => edge.node)}
+          enableRowSelection={enableRowSelection}
           onRow={onRow}
+          onRowSelectionChange={onRowSelectionChange}
         />
       ) : (
         <EmptyState

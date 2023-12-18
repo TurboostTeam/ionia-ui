@@ -28,6 +28,7 @@ export const Controlled: FC = () => {
   return (
     <div>
       <GraphQLTable
+        enableRowSelection
         actionRef={actionRef}
         columns={columns}
         edges={[
@@ -103,6 +104,9 @@ export const Controlled: FC = () => {
               console.log(record);
             },
           };
+        }}
+        onRowSelectionChange={(rows) => {
+          console.log("rows", rows);
         }}
       />
 

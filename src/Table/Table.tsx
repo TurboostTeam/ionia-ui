@@ -4,6 +4,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { cloneDeep } from "lodash";
 import { type ReactElement, useEffect, useMemo, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -47,22 +48,40 @@ export function Table<T>({
   onRow,
   onRowSelectionChange,
 }: TableProps<T>): ReactElement {
+  const tableHeaderRef = useRef<HTMLTableElement>(null);
+  const tableFooterRef = useRef<HTMLTableElement>(null);
+
   const [rowSelection, setRowSelection] = useState<Record<string, any>>({});
 
   const memoColumns = useMemo(() => {
+    const cloneColumns = cloneDeep(columns);
+
     if (enableRowSelection) {
-      columns.unshift({
+      cloneColumns.unshift({
         id: "rowSelect",
         size: 34,
-        header: ({ table }) => (
-          <Checkbox
-            {...{
-              label: "",
-              checked: table.getIsAllRowsSelected(),
-              onChange: table.getToggleAllRowsSelectedHandler(),
-            }}
-          />
-        ),
+        header: ({ table }) => {
+          const hasRowSelected = Object.keys(rowSelection).length > 0;
+
+          return (
+            <div
+              className={twMerge(
+                hasRowSelected &&
+                  "absolute inset-0 pl-3 h-full w-full bg-red-500 flex items-center",
+              )}
+            >
+              <Checkbox
+                {...{
+                  label: "",
+                  checked: table.getIsAllRowsSelected(),
+                  onChange: table.getToggleAllRowsSelectedHandler(),
+                }}
+              />
+
+              {hasRowSelected && <div className="font-normal">123</div>}
+            </div>
+          );
+        },
         cell: ({ row }) => (
           <Checkbox
             {...{
@@ -76,10 +95,8 @@ export function Table<T>({
       });
     }
 
-    return columns;
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enableRowSelection]);
+    return cloneColumns;
+  }, [columns, enableRowSelection, rowSelection]);
 
   const table = useReactTable({
     data,
@@ -89,9 +106,6 @@ export function Table<T>({
     getCoreRowModel: getCoreRowModel(),
     onRowSelectionChange: setRowSelection,
   });
-
-  const tableHeaderRef = useRef<HTMLTableElement>(null);
-  const tableFooterRef = useRef<HTMLTableElement>(null);
 
   useEffect(() => {
     if (onRowSelectionChange != null) {
@@ -107,7 +121,12 @@ export function Table<T>({
         <table className="w-full table-fixed" ref={tableHeaderRef}>
           <thead className="t-0 sticky border-b">
             {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
+              <tr
+                className={twMerge(
+                  Object.keys(rowSelection).length > 0 && "relative",
+                )}
+                key={headerGroup.id}
+              >
                 {headerGroup.headers.map((header) => {
                   return (
                     <th
