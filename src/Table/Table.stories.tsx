@@ -26,10 +26,10 @@ interface Person {
 export const Base: FC = () => {
   return (
     <Table<Person>
+      enableRowSelection
       columns={[
         {
           header: "Name",
-          align: "right",
           accessorKey: "name",
           size: 100,
           footer: () => "123",

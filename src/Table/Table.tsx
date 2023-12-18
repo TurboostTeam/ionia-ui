@@ -4,9 +4,10 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { type ReactElement, useRef } from "react";
+import { type ReactElement, useMemo, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
+import { Checkbox } from "../Checkbox";
 import { Spinner } from "../Spinner";
 
 const columnAlignClass = {
@@ -27,6 +28,7 @@ export type TableColumnProps<T> = ColumnDef<T> & {
 
 export interface TableProps<T> {
   columns: Array<TableColumnProps<T>>;
+  enableRowSelection?: boolean;
   data: T[];
   bodyHeight?: number;
   loading?: boolean;
@@ -38,15 +40,55 @@ export interface TableProps<T> {
 export function Table<T>({
   columns,
   data,
+  enableRowSelection = false,
   bodyHeight,
   loading,
   onRow,
 }: TableProps<T>): ReactElement {
+  const [rowSelection, setRowSelection] = useState({});
+
+  const memoColumns = useMemo(() => {
+    if (enableRowSelection) {
+      columns.unshift({
+        id: "rowSelect",
+        size: 34,
+        header: ({ table }) => (
+          <Checkbox
+            {...{
+              label: "",
+              checked: table.getIsAllRowsSelected(),
+              onChange: table.getToggleAllRowsSelectedHandler(),
+            }}
+          />
+        ),
+        cell: ({ row }) => (
+          <Checkbox
+            {...{
+              label: "",
+              checked: row.getIsSelected(),
+              disabled: !row.getCanSelect(),
+              onChange: row.getToggleSelectedHandler(),
+            }}
+          />
+        ),
+      });
+    }
+
+    return columns;
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enableRowSelection]);
+
   const table = useReactTable({
     data,
-    columns,
+    columns: memoColumns,
+    state: { rowSelection },
+    enableRowSelection,
     getCoreRowModel: getCoreRowModel(),
+    onRowSelectionChange: setRowSelection,
   });
+
+  console.log(111, rowSelection);
 
   const tableHeaderRef = useRef<HTMLTableElement>(null);
   const tableFooterRef = useRef<HTMLTableElement>(null);
