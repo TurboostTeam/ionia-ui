@@ -100,11 +100,13 @@ export const Button = forwardRef<ButtonProps, "button">(
           !link &&
             !loading &&
             !primary &&
+            !ghost &&
             destructive &&
             `bg-red-600 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 disabled:bg-red-400`,
           // 透明
           ghost &&
             `bg-transparent text-gray-900 hover:bg-gray-100 ring-0 shadow-none`,
+          ghost && disabled && destructive && "text-red-600",
           // 其他
           block && `block w-full`,
           rounded ? `rounded-full` : `rounded-md`,

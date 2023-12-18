@@ -2,6 +2,7 @@ import { type FC } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { type ActionProps } from "../Action";
+import { Button } from "../Button";
 import { Popover, type PopoverProps } from "../Popover";
 
 export interface DropdownSectionProps {
@@ -35,14 +36,16 @@ export const Dropdown: FC<DropdownProps> = ({
                 {section.items.map(
                   ({ content, onAction, ...itemProps }, itemIndex) => {
                     return (
-                      <div
-                        className="flex h-8 cursor-pointer items-center rounded-md p-2 text-sm hover:bg-gray-100"
+                      <Button
+                        destructive
+                        disabled
+                        ghost
                         key={itemIndex}
                         onClick={onAction}
                         {...itemProps}
                       >
                         {content}
-                      </div>
+                      </Button>
                     );
                   },
                 )}
