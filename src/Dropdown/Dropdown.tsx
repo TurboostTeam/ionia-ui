@@ -37,8 +37,6 @@ export const Dropdown: FC<DropdownProps> = ({
                   ({ content, onAction, ...itemProps }, itemIndex) => {
                     return (
                       <Button
-                        destructive
-                        disabled
                         ghost
                         key={itemIndex}
                         onClick={onAction}
