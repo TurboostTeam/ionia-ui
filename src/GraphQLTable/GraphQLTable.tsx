@@ -20,6 +20,7 @@ import {
 } from "react";
 import { useUpdateEffect } from "react-use";
 
+import { type ActionProps } from "../Action";
 import { Button } from "../Button";
 import { EmptyState, type EmptyStateProps } from "../EmptyState";
 import {
@@ -46,8 +47,11 @@ export interface ActionType {
 export interface GraphQLTableProps<Node, OrderField> {
   emptyStateIcon?: EmptyStateProps["icon"];
   emptyStateTitle?: EmptyStateProps["title"];
+  enableRowSelection?: boolean;
+  selectedItemsCountLabel?: string;
   emptyStateDescription?: EmptyStateProps["description"];
   actionRef?: RefObject<ActionType>;
+  bulkActions?: ActionProps[];
   edges?: Array<GraphQLTableEdge<Node>>;
   filters?: Array<FilterItemProps<Node>>;
   search?: false | FilterSearchConfig;
@@ -60,6 +64,7 @@ export interface GraphQLTableProps<Node, OrderField> {
   value?: GraphQLTableValue<OrderField>;
   defaultFilterValue?: Record<Field<Node>, any>;
   toolBarRender?: () => ReactNode;
+  onRowSelectionChange?: (rows: Node[]) => void;
   onChange?: (value: GraphQLTableValue<OrderField>) => void;
   onRow?: TableProps<Node>["onRow"];
 }
@@ -70,6 +75,8 @@ export function GraphQLTable<Node, OrderField extends string>({
   actionRef,
   emptyStateDescription,
   defaultFilterValue,
+  selectedItemsCountLabel,
+  bulkActions = [],
   footer,
   filters = [],
   columns = [],
@@ -80,6 +87,8 @@ export function GraphQLTable<Node, OrderField extends string>({
   pageInfo,
   loading = false,
   value = {},
+  enableRowSelection = false,
+  onRowSelectionChange,
   toolBarRender,
   onChange,
   onRow,
@@ -254,9 +263,13 @@ export function GraphQLTable<Node, OrderField extends string>({
 
       {typeof edges !== "undefined" && edges.length > 0 ? (
         <Table
+          bulkActions={bulkActions}
           columns={columns}
           data={edges.map((edge) => edge.node)}
+          enableRowSelection={enableRowSelection}
+          selectedItemsCountLabel={selectedItemsCountLabel}
           onRow={onRow}
+          onRowSelectionChange={onRowSelectionChange}
         />
       ) : (
         <EmptyState

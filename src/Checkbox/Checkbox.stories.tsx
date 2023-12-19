@@ -46,6 +46,10 @@ export const Checked: FC = (args) => {
   );
 };
 
+export const Indeterminate: FC = (args) => {
+  return <Checkbox indeterminate label="Checkbox" {...args} />;
+};
+
 export const HelpText: FC = (args) => {
   const [checked, setChecked] = useState(false);
 
@@ -67,6 +71,13 @@ export const Disabled: FC = (args) => {
   return (
     <div>
       <Checkbox disabled checked={false} label="Checkbox" {...args} />
+      <Checkbox
+        disabled
+        indeterminate
+        checked={false}
+        label="Checkbox"
+        {...args}
+      />
       <Checkbox checked disabled label="Checkbox" {...args} />
     </div>
   );

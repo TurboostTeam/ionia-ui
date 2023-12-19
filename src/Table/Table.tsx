@@ -4,9 +4,12 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { type ReactElement, useRef } from "react";
+import { cloneDeep } from "lodash";
+import { type ReactElement, useEffect, useMemo, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
+import { Action, type ActionProps } from "../Action";
+import { Checkbox } from "../Checkbox";
 import { Spinner } from "../Spinner";
 
 const columnAlignClass = {
@@ -27,35 +30,118 @@ export type TableColumnProps<T> = ColumnDef<T> & {
 
 export interface TableProps<T> {
   columns: Array<TableColumnProps<T>>;
+  enableRowSelection?: boolean;
+  bulkActions?: ActionProps[];
+  selectedItemsCountLabel?: string;
   data: T[];
   bodyHeight?: number;
   loading?: boolean;
   onRow?: (record: T) => {
     onClick?: (e: MouseEvent<HTMLTableRowElement, MouseEvent>) => void;
   };
+  onRowSelectionChange?: (rows: T[]) => void;
 }
 
 export function Table<T>({
   columns,
   data,
+  enableRowSelection = false,
+  selectedItemsCountLabel,
+  bulkActions = [],
   bodyHeight,
   loading,
   onRow,
+  onRowSelectionChange,
 }: TableProps<T>): ReactElement {
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
-
   const tableHeaderRef = useRef<HTMLTableElement>(null);
   const tableFooterRef = useRef<HTMLTableElement>(null);
+
+  const [rowSelection, setRowSelection] = useState<Record<string, any>>({});
+
+  const memoColumns = useMemo(() => {
+    const cloneColumns = cloneDeep(columns);
+
+    if (enableRowSelection) {
+      cloneColumns.unshift({
+        id: "rowSelect",
+        size: 34,
+        header: ({ table }) => {
+          return (
+            <Checkbox
+              {...{
+                label: "",
+                indeterminate: Object.keys(rowSelection).length > 0,
+                checked: table.getIsAllRowsSelected(),
+                onChange: table.getToggleAllRowsSelectedHandler(),
+              }}
+            />
+          );
+        },
+        cell: ({ row }) => (
+          <Checkbox
+            {...{
+              label: "",
+              checked: row.getIsSelected(),
+              disabled: !row.getCanSelect(),
+              onChange: row.getToggleSelectedHandler(),
+            }}
+          />
+        ),
+      });
+    }
+
+    return cloneColumns;
+  }, [columns, enableRowSelection, rowSelection]);
+
+  const table = useReactTable({
+    data,
+    columns: memoColumns,
+    state: { rowSelection },
+    enableRowSelection,
+    getCoreRowModel: getCoreRowModel(),
+    onRowSelectionChange: setRowSelection,
+  });
+
+  useEffect(() => {
+    if (enableRowSelection) {
+      onRowSelectionChange?.(
+        table.getSelectedRowModel().flatRows.map((item) => item.original),
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [table, enableRowSelection, rowSelection]);
 
   return (
     <div className="min-w-full">
       <div className="overflow-hidden">
         <table className="w-full table-fixed" ref={tableHeaderRef}>
-          <thead className="t-0 sticky border-b">
+          <thead className={twMerge("t-0 sticky border-b")}>
+            {Object.keys(rowSelection).length > 0 && bulkActions.length > 0 && (
+              <tr className="absolute z-10 flex h-full w-full items-center space-x-2 bg-white px-3 py-3.5">
+                <td>
+                  <Checkbox
+                    {...{
+                      label: "",
+                      indeterminate: Object.keys(rowSelection).length > 0,
+                      checked: table.getIsAllRowsSelected(),
+                      onChange: table.getToggleAllRowsSelectedHandler(),
+                    }}
+                  />
+                </td>
+
+                {typeof selectedItemsCountLabel !== "undefined" && (
+                  <td className="text-sm text-gray-500">
+                    {selectedItemsCountLabel}
+                  </td>
+                )}
+
+                <td className="flex space-x-0.5">
+                  {bulkActions?.map((action, index) => (
+                    <Action key={index} {...action} link />
+                  ))}
+                </td>
+              </tr>
+            )}
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {

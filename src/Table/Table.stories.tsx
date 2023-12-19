@@ -26,10 +26,16 @@ interface Person {
 export const Base: FC = () => {
   return (
     <Table<Person>
+      enableRowSelection
+      bulkActions={[
+        {
+          content: "123",
+        },
+        { content: "24" },
+      ]}
       columns={[
         {
           header: "Name",
-          align: "right",
           accessorKey: "name",
           size: 100,
           footer: () => "123",
@@ -89,6 +95,10 @@ export const Base: FC = () => {
           progress: 10,
         },
       ]}
+      selectedItemsCountLabel="123"
+      onRowSelectionChange={(record) => {
+        console.log("row select change:", record);
+      }}
       // onRow={(record) => {
       //   return {
       //     onClick: () => {
