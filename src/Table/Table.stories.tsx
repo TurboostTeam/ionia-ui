@@ -27,6 +27,12 @@ export const Base: FC = () => {
   return (
     <Table<Person>
       enableRowSelection
+      bulkActions={[
+        {
+          content: "123",
+        },
+        { content: "24" },
+      ]}
       columns={[
         {
           header: "Name",
@@ -89,6 +95,7 @@ export const Base: FC = () => {
           progress: 10,
         },
       ]}
+      selectedItemsCountLabel="123"
       onRowSelectionChange={(record) => {
         console.log("row select change:", record);
       }}

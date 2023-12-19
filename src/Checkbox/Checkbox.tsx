@@ -5,14 +5,18 @@ import { forwardRef } from "../utils";
 export interface CheckboxProps {
   label: string;
   helpText?: string;
+  indeterminate?: boolean;
   disabled?: boolean;
 }
 
 export const Checkbox = forwardRef<CheckboxProps, "input">(
-  ({ label, helpText, disabled, className, ...props }, ref) => {
+  (
+    { label, helpText, disabled, className, indeterminate = false, ...props },
+    ref,
+  ) => {
     return (
       <div className={twMerge("relative flex items-start py-1", className)}>
-        <div className="flex h-5 items-center">
+        <div className="relative flex h-5 items-center">
           <input
             className={twMerge(
               "h-4 w-4 cursor-pointer rounded border-gray-300 text-indigo-600 focus:ring-indigo-600",
@@ -24,6 +28,17 @@ export const Checkbox = forwardRef<CheckboxProps, "input">(
             type="checkbox"
             {...props}
           />
+
+          {indeterminate &&
+            ((typeof props.checked !== "undefined" && !props.checked) ||
+              typeof props.checked === "undefined") && (
+              <span
+                className={twMerge(
+                  "absolute pointer-events-none inset-0 m-auto h-0.5 w-3/4 rounded bg-indigo-600",
+                  disabled === true && "bg-gray-300",
+                )}
+              />
+            )}
         </div>
 
         <div className="ml-2 text-sm">

@@ -20,6 +20,7 @@ import {
 } from "react";
 import { useUpdateEffect } from "react-use";
 
+import { type ActionProps } from "../Action";
 import { Button } from "../Button";
 import { EmptyState, type EmptyStateProps } from "../EmptyState";
 import {
@@ -47,8 +48,11 @@ export interface GraphQLTableProps<Node, OrderField> {
   emptyStateIcon?: EmptyStateProps["icon"];
   emptyStateTitle?: EmptyStateProps["title"];
   enableRowSelection?: boolean;
+  selectedRows?: Node[];
+  selectedItemsCountLabel?: string;
   emptyStateDescription?: EmptyStateProps["description"];
   actionRef?: RefObject<ActionType>;
+  bulkActions?: ActionProps[];
   edges?: Array<GraphQLTableEdge<Node>>;
   filters?: Array<FilterItemProps<Node>>;
   search?: false | FilterSearchConfig;
@@ -72,6 +76,9 @@ export function GraphQLTable<Node, OrderField extends string>({
   actionRef,
   emptyStateDescription,
   defaultFilterValue,
+  selectedItemsCountLabel,
+  selectedRows,
+  bulkActions = [],
   footer,
   filters = [],
   columns = [],
@@ -258,9 +265,12 @@ export function GraphQLTable<Node, OrderField extends string>({
 
       {typeof edges !== "undefined" && edges.length > 0 ? (
         <Table
+          bulkActions={bulkActions}
           columns={columns}
           data={edges.map((edge) => edge.node)}
           enableRowSelection={enableRowSelection}
+          selectedItemsCountLabel={selectedItemsCountLabel}
+          selectedRows={selectedRows}
           onRow={onRow}
           onRowSelectionChange={onRowSelectionChange}
         />

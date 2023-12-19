@@ -8,6 +8,7 @@ import { cloneDeep } from "lodash";
 import { type ReactElement, useEffect, useMemo, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
+import { Action, type ActionProps } from "../Action";
 import { Checkbox } from "../Checkbox";
 import { Spinner } from "../Spinner";
 
@@ -29,7 +30,10 @@ export type TableColumnProps<T> = ColumnDef<T> & {
 
 export interface TableProps<T> {
   columns: Array<TableColumnProps<T>>;
+  selectedRows?: T[];
   enableRowSelection?: boolean;
+  bulkActions?: ActionProps[];
+  selectedItemsCountLabel?: string;
   data: T[];
   bodyHeight?: number;
   loading?: boolean;
@@ -42,7 +46,10 @@ export interface TableProps<T> {
 export function Table<T>({
   columns,
   data,
+  selectedRows,
   enableRowSelection = false,
+  selectedItemsCountLabel,
+  bulkActions = [],
   bodyHeight,
   loading,
   onRow,
@@ -61,25 +68,15 @@ export function Table<T>({
         id: "rowSelect",
         size: 34,
         header: ({ table }) => {
-          const hasRowSelected = Object.keys(rowSelection).length > 0;
-
           return (
-            <div
-              className={twMerge(
-                hasRowSelected &&
-                  "absolute inset-0 pl-3 h-full w-full bg-red-500 flex items-center",
-              )}
-            >
-              <Checkbox
-                {...{
-                  label: "",
-                  checked: table.getIsAllRowsSelected(),
-                  onChange: table.getToggleAllRowsSelectedHandler(),
-                }}
-              />
-
-              {hasRowSelected && <div className="font-normal">123</div>}
-            </div>
+            <Checkbox
+              {...{
+                label: "",
+                indeterminate: Object.keys(rowSelection).length > 0,
+                checked: table.getIsAllRowsSelected(),
+                onChange: table.getToggleAllRowsSelectedHandler(),
+              }}
+            />
           );
         },
         cell: ({ row }) => (
@@ -108,25 +105,47 @@ export function Table<T>({
   });
 
   useEffect(() => {
-    if (onRowSelectionChange != null) {
-      onRowSelectionChange(
+    if (enableRowSelection) {
+      onRowSelectionChange?.(
         table.getSelectedRowModel().flatRows.map((item) => item.original),
       );
     }
-  }, [table, rowSelection, onRowSelectionChange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [table, enableRowSelection, rowSelection]);
 
   return (
     <div className="min-w-full">
       <div className="overflow-hidden">
         <table className="w-full table-fixed" ref={tableHeaderRef}>
-          <thead className="t-0 sticky border-b">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr
-                className={twMerge(
-                  Object.keys(rowSelection).length > 0 && "relative",
+          <thead className={twMerge("t-0 sticky border-b")}>
+            {Object.keys(rowSelection).length > 0 && bulkActions.length > 0 && (
+              <tr className="absolute z-10 flex h-full w-full items-center space-x-2 bg-white px-3 py-3.5">
+                <td>
+                  <Checkbox
+                    {...{
+                      label: "",
+                      indeterminate: Object.keys(rowSelection).length > 0,
+                      checked: table.getIsAllRowsSelected(),
+                      onChange: table.getToggleAllRowsSelectedHandler(),
+                    }}
+                  />
+                </td>
+
+                {typeof selectedItemsCountLabel !== "undefined" && (
+                  <td className="text-sm text-gray-500">
+                    {selectedItemsCountLabel}
+                  </td>
                 )}
-                key={headerGroup.id}
-              >
+
+                <td className="flex space-x-0.5">
+                  {bulkActions?.map((action, index) => (
+                    <Action key={index} {...action} link />
+                  ))}
+                </td>
+              </tr>
+            )}
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
                     <th
