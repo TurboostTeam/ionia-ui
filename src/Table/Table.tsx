@@ -30,7 +30,6 @@ export type TableColumnProps<T> = ColumnDef<T> & {
 
 export interface TableProps<T> {
   columns: Array<TableColumnProps<T>>;
-  selectedRows?: T[];
   enableRowSelection?: boolean;
   bulkActions?: ActionProps[];
   selectedItemsCountLabel?: string;
@@ -46,7 +45,6 @@ export interface TableProps<T> {
 export function Table<T>({
   columns,
   data,
-  selectedRows,
   enableRowSelection = false,
   selectedItemsCountLabel,
   bulkActions = [],

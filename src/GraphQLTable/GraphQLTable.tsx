@@ -48,7 +48,6 @@ export interface GraphQLTableProps<Node, OrderField> {
   emptyStateIcon?: EmptyStateProps["icon"];
   emptyStateTitle?: EmptyStateProps["title"];
   enableRowSelection?: boolean;
-  selectedRows?: Node[];
   selectedItemsCountLabel?: string;
   emptyStateDescription?: EmptyStateProps["description"];
   actionRef?: RefObject<ActionType>;
@@ -77,7 +76,6 @@ export function GraphQLTable<Node, OrderField extends string>({
   emptyStateDescription,
   defaultFilterValue,
   selectedItemsCountLabel,
-  selectedRows,
   bulkActions = [],
   footer,
   filters = [],
@@ -270,7 +268,6 @@ export function GraphQLTable<Node, OrderField extends string>({
           data={edges.map((edge) => edge.node)}
           enableRowSelection={enableRowSelection}
           selectedItemsCountLabel={selectedItemsCountLabel}
-          selectedRows={selectedRows}
           onRow={onRow}
           onRowSelectionChange={onRowSelectionChange}
         />

@@ -97,7 +97,6 @@ export const Controlled: FC = () => {
         footer={<div>summary</div>}
         search={{ queryPlaceholder: "search" }}
         selectedItemsCountLabel={`${selectedRows.length} selected`}
-        selectedRows={selectedRows}
         toolBarRender={() => <div>toolbar</div>}
         onChange={(variables) => {
           console.log(variables);
