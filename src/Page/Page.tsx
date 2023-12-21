@@ -4,6 +4,7 @@ import { twMerge } from "tailwind-merge";
 
 import { Action, type ActionProps } from "../Action";
 import { ButtonGroup } from "../ButtonGroup";
+import { Spinner } from "../Spinner";
 
 export interface PageHeaderProps {
   title?: string;
@@ -43,11 +44,13 @@ export const PageHeader: FC<PageHeaderProps> = ({
 
 export interface PageProps extends PageHeaderProps {
   fullWidth?: boolean;
+  loading?: boolean;
 }
 
 export const Page: FC<PropsWithChildren<PageProps>> = ({
   title,
   fullWidth = false,
+  loading = false,
   children,
   backAction,
   primaryAction,
@@ -62,7 +65,9 @@ export const Page: FC<PropsWithChildren<PageProps>> = ({
         title={title}
       />
 
-      <div>{children}</div>
+      <div>
+        {loading ? <Spinner className="mx-auto" size="lg" /> : children}
+      </div>
     </div>
   );
 };
