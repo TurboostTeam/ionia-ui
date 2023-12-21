@@ -45,7 +45,7 @@ export const TagSelect = forwardRef<TagSelectProps<string>, "input">(
       onChange,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [searchValue, setSearchValue] = useState<string>();
 
@@ -54,11 +54,11 @@ export const TagSelect = forwardRef<TagSelectProps<string>, "input">(
         options.concat(
           value
             .filter(
-              (val) => options.findIndex((item) => item.value === val) === -1
+              (val) => options.findIndex((item) => item.value === val) === -1,
             )
-            .map((item) => ({ value: item, label: item }))
+            .map((item) => ({ value: item, label: item })),
         ),
-        "value"
+        "value",
       ).filter((item) => {
         if (typeof searchValue !== "undefined" && searchValue.length > 0) {
           return item.value.includes(searchValue);
@@ -154,7 +154,7 @@ export const TagSelect = forwardRef<TagSelectProps<string>, "input">(
                         className={({ active }) =>
                           twMerge(
                             active && "bg-gray-100",
-                            "relative cursor-default select-none py-2 pl-3 pr-9"
+                            "relative cursor-default select-none py-2 pl-3 pr-9",
                           )
                         }
                         key={item.value}
@@ -205,5 +205,5 @@ export const TagSelect = forwardRef<TagSelectProps<string>, "input">(
         )}
       </div>
     );
-  }
+  },
 );

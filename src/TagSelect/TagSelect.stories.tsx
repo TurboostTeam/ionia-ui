@@ -86,7 +86,10 @@ export const MultipleMode: FC = () => {
       timeout = setTimeout(() => {
         setLoading(false);
 
-        setOptions([...options, { label: val, value: val }]);
+        setOptions([
+          ...options,
+          ...val.split(",").map((item) => ({ label: item, value: item })),
+        ]);
       }, 1000);
     },
     [options],
