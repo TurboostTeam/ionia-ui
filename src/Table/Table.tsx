@@ -250,15 +250,15 @@ export function Table<T>({
                               .wordWrap as unknown as keyof typeof columnWrapClass
                           ],
                         header.column.getIsPinned() !== false &&
-                          "sticky bg-gray-50",
+                          "sticky bg-white",
                         header.column.getIsPinned() === "left" &&
                           header.column.getPinnedIndex() ===
                             table.getLeftLeafColumns().length - 1 &&
-                          "z-[10] shadow-[-2px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
+                          "z-[10] shadow-[-1px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
                         header.column.getIsPinned() === "right" &&
                           header.column.getPinnedIndex() ===
                             table.getRightLeafColumns().length - 1 &&
-                          "z-[10] shadow-[2px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
+                          "z-[10] shadow-[1px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
                       )}
                       key={header.id}
                       style={{
@@ -331,16 +331,15 @@ export function Table<T>({
                           (cell.column.columnDef as TableColumnProps<T>)
                             .wordWrap as unknown as keyof typeof columnWrapClass
                         ],
-                      cell.column.getIsPinned() !== false &&
-                        "sticky bg-gray-50",
+                      cell.column.getIsPinned() !== false && "sticky bg-white",
                       cell.column.getIsPinned() === "left" &&
                         cell.column.getPinnedIndex() ===
                           table.getLeftLeafColumns().length - 1 &&
-                        "z-[10] shadow-[-2px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
+                        "z-[10] shadow-[-1px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
                       cell.column.getIsPinned() === "right" &&
                         cell.column.getPinnedIndex() ===
                           table.getRightLeafColumns().length - 1 &&
-                        "z-[10] shadow-[2px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
+                        "z-[10] shadow-[1px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
                     )}
                     key={cell.id}
                     style={{
@@ -397,15 +396,15 @@ export function Table<T>({
                               .wordWrap as unknown as keyof typeof columnWrapClass
                           ],
                         header.column.getIsPinned() !== false &&
-                          "sticky bg-gray-50",
+                          "sticky bg-white",
                         header.column.getIsPinned() === "left" &&
                           header.column.getPinnedIndex() ===
                             table.getLeftLeafColumns().length - 1 &&
-                          "z-[10] shadow-[-2px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
+                          "z-[10] shadow-[-1px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
                         header.column.getIsPinned() === "right" &&
                           header.column.getPinnedIndex() ===
                             table.getRightLeafColumns().length - 1 &&
-                          "z-[10] shadow-[2px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
+                          "z-[10] shadow-[1px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
                       )}
                       key={header.id}
                       style={{
