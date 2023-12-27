@@ -310,7 +310,7 @@ export function Table<T>({
                 {row.getVisibleCells().map((cell) => (
                   <td
                     className={twMerge(
-                      "break-words px-3 bg-white py-4 text-sm text-gray-500",
+                      "break-words px-3 py-4 text-sm text-gray-500",
                       typeof (cell.column.columnDef as TableColumnProps<T>)
                         ?.align !== "undefined" &&
                         columnAlignClass[
