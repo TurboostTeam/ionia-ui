@@ -202,7 +202,7 @@ export function Table<T>({
             {/* batch actions */}
             {Object.keys(rowSelection).length > 0 && bulkActions.length > 0 && (
               <tr
-                className="absolute z-[1] flex w-full items-center space-x-2 border-b bg-white px-3 py-3.5"
+                className="absolute z-[2] flex w-full items-center space-x-2 border-b bg-white px-3 py-3.5"
                 ref={batchActionTableHeaderRowRef}
               >
                 <td className="h-[28px]">
