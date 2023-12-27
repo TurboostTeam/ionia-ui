@@ -250,7 +250,7 @@ export function Table<T>({
                               .wordWrap as unknown as keyof typeof columnWrapClass
                           ],
                         header.column.getIsPinned() !== false &&
-                          "sticky bg-slate-50",
+                          "sticky bg-gray-50",
                       )}
                       key={header.id}
                       style={{
@@ -324,7 +324,7 @@ export function Table<T>({
                             .wordWrap as unknown as keyof typeof columnWrapClass
                         ],
                       cell.column.getIsPinned() !== false &&
-                        "sticky bg-slate-50",
+                        "sticky bg-gray-50",
                     )}
                     key={cell.id}
                     style={{
@@ -381,7 +381,7 @@ export function Table<T>({
                               .wordWrap as unknown as keyof typeof columnWrapClass
                           ],
                         header.column.getIsPinned() !== false &&
-                          "sticky bg-slate-50",
+                          "sticky bg-gray-50",
                       )}
                       key={header.id}
                       style={{
