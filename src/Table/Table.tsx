@@ -202,7 +202,7 @@ export function Table<T>({
             {/* batch actions */}
             {Object.keys(rowSelection).length > 0 && bulkActions.length > 0 && (
               <tr
-                className="absolute z-[1] flex w-full items-center space-x-2 border-b bg-white px-3 py-3.5"
+                className="absolute z-[20] flex w-full items-center space-x-2 border-b bg-white px-3 py-3.5"
                 ref={batchActionTableHeaderRowRef}
               >
                 <td className="h-[28px]">
@@ -251,6 +251,14 @@ export function Table<T>({
                           ],
                         header.column.getIsPinned() !== false &&
                           "sticky bg-gray-50",
+                        header.column.getIsPinned() === "left" &&
+                          header.column.getPinnedIndex() ===
+                            table.getLeftLeafColumns().length - 1 &&
+                          "z-[10] shadow-[-2px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
+                        header.column.getIsPinned() === "right" &&
+                          header.column.getPinnedIndex() ===
+                            table.getRightLeafColumns().length - 1 &&
+                          "z-[10] shadow-[2px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
                       )}
                       key={header.id}
                       style={{
@@ -325,6 +333,14 @@ export function Table<T>({
                         ],
                       cell.column.getIsPinned() !== false &&
                         "sticky bg-gray-50",
+                      cell.column.getIsPinned() === "left" &&
+                        cell.column.getPinnedIndex() ===
+                          table.getLeftLeafColumns().length - 1 &&
+                        "z-[10] shadow-[-2px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
+                      cell.column.getIsPinned() === "right" &&
+                        cell.column.getPinnedIndex() ===
+                          table.getRightLeafColumns().length - 1 &&
+                        "z-[10] shadow-[2px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
                     )}
                     key={cell.id}
                     style={{
@@ -366,7 +382,7 @@ export function Table<T>({
                   {footerGroup.headers.map((header) => (
                     <th
                       className={twMerge(
-                        "break-words  bg-white px-3 py-4 text-sm text-gray-500",
+                        "break-words bg-white px-3 py-4 text-sm text-gray-500",
                         typeof (header.column.columnDef as TableColumnProps<T>)
                           ?.align !== "undefined"
                           ? columnAlignClass[
@@ -382,6 +398,14 @@ export function Table<T>({
                           ],
                         header.column.getIsPinned() !== false &&
                           "sticky bg-gray-50",
+                        header.column.getIsPinned() === "left" &&
+                          header.column.getPinnedIndex() ===
+                            table.getLeftLeafColumns().length - 1 &&
+                          "z-[10] shadow-[-2px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
+                        header.column.getIsPinned() === "right" &&
+                          header.column.getPinnedIndex() ===
+                            table.getRightLeafColumns().length - 1 &&
+                          "z-[10] shadow-[2px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
                       )}
                       key={header.id}
                       style={{
