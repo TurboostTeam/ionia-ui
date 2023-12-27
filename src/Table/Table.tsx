@@ -5,7 +5,14 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { cloneDeep, groupBy, sum } from "lodash";
-import { type ReactElement, useEffect, useMemo, useRef, useState } from "react";
+import {
+  type ReactElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Action, type ActionProps } from "../Action";
@@ -131,6 +138,26 @@ export function Table<T>({
     "direction",
   );
 
+  const getColumnPinedOffset = useCallback(
+    (pinnedIndex: number, direction: "left" | "right") => {
+      if (direction === "left") {
+        return sum(
+          columnsPinnedInfo.left.map((item) => item.size).slice(0, pinnedIndex),
+        );
+      }
+
+      if (direction === "right") {
+        return sum(
+          (columnsPinnedInfo.right ?? [])
+            .map((item) => item.size)
+            .reverse()
+            .slice(0, table.getRightLeafColumns().length - pinnedIndex - 1),
+        );
+      }
+    },
+    [columnsPinnedInfo, table],
+  );
+
   useEffect(() => {
     if (enableRowSelection) {
       onRowSelectionChange?.(
@@ -158,7 +185,7 @@ export function Table<T>({
   return (
     <div
       className={twMerge(
-        "min-w-full relative overflow-auto border",
+        "min-w-full relative overflow-auto",
         loading === true && "overflow-hidden pointer-events-none select-none",
       )}
       onScroll={(e) => {
@@ -231,25 +258,17 @@ export function Table<T>({
                         left:
                           header.column.getIsPinned() === "left" &&
                           columnsPinnedInfo.left?.length > 0
-                            ? sum(
-                                columnsPinnedInfo.left
-                                  .map((item) => item.size)
-                                  .slice(0, header.column.getPinnedIndex()),
+                            ? getColumnPinedOffset(
+                                header.column.getPinnedIndex(),
+                                "left",
                               )
                             : undefined,
                         right:
                           header.column.getIsPinned() === "right" &&
                           columnsPinnedInfo.right?.length > 0
-                            ? sum(
-                                (columnsPinnedInfo.right ?? [])
-                                  .map((item) => item.size)
-                                  .reverse()
-                                  .slice(
-                                    0,
-                                    table.getRightLeafColumns().length -
-                                      header.column.getPinnedIndex() -
-                                      1,
-                                  ),
+                            ? getColumnPinedOffset(
+                                header.column.getPinnedIndex(),
+                                "right",
                               )
                             : undefined,
                       }}
@@ -313,25 +332,17 @@ export function Table<T>({
                       left:
                         cell.column.getIsPinned() === "left" &&
                         columnsPinnedInfo.left?.length > 0
-                          ? sum(
-                              columnsPinnedInfo.left
-                                .map((item) => item.size)
-                                .slice(0, cell.column.getPinnedIndex()),
+                          ? getColumnPinedOffset(
+                              cell.column.getPinnedIndex(),
+                              "left",
                             )
                           : undefined,
                       right:
                         cell.column.getIsPinned() === "right" &&
                         columnsPinnedInfo.right?.length > 0
-                          ? sum(
-                              (columnsPinnedInfo.right ?? [])
-                                .map((item) => item.size)
-                                .reverse()
-                                .slice(
-                                  0,
-                                  table.getRightLeafColumns().length -
-                                    cell.column.getPinnedIndex() -
-                                    1,
-                                ),
+                          ? getColumnPinedOffset(
+                              cell.column.getPinnedIndex(),
+                              "right",
                             )
                           : undefined,
                     }}
@@ -378,25 +389,17 @@ export function Table<T>({
                         left:
                           header.column.getIsPinned() === "left" &&
                           columnsPinnedInfo.left?.length > 0
-                            ? sum(
-                                columnsPinnedInfo.left
-                                  .map((item) => item.size)
-                                  .slice(0, header.column.getPinnedIndex()),
+                            ? getColumnPinedOffset(
+                                header.column.getPinnedIndex(),
+                                "left",
                               )
                             : undefined,
                         right:
                           header.column.getIsPinned() === "right" &&
                           columnsPinnedInfo.right?.length > 0
-                            ? sum(
-                                (columnsPinnedInfo.right ?? [])
-                                  .map((item) => item.size)
-                                  .reverse()
-                                  .slice(
-                                    0,
-                                    table.getRightLeafColumns().length -
-                                      header.column.getPinnedIndex() -
-                                      1,
-                                  ),
+                            ? getColumnPinedOffset(
+                                header.column.getPinnedIndex(),
+                                "right",
                               )
                             : undefined,
                       }}

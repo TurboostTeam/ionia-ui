@@ -37,6 +37,7 @@ export const Base: FC = () => {
         {
           header: "Name",
           accessorKey: "name",
+          pin: "left",
           footer: () => "123",
         },
         {
