@@ -37,13 +37,12 @@ export const Base: FC = () => {
         {
           header: "Name",
           accessorKey: "name",
-          size: 100,
+          pin: "left",
           footer: () => "123",
         },
         {
           header: "Age",
           accessorKey: "age",
-          size: 100,
           footer: () => "123",
         },
         {
@@ -54,7 +53,7 @@ export const Base: FC = () => {
           footer: () => "123",
         },
         {
-          header: "Status asasad",
+          header: "Status",
           size: 100,
           accessorKey: "status",
           footer: () => "123 as d  ",
@@ -67,6 +66,7 @@ export const Base: FC = () => {
         {
           header: "Payload",
           accessorKey: "payload.a",
+          pin: "right",
         },
       ]}
       data={[

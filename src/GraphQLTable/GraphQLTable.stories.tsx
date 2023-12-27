@@ -23,7 +23,7 @@ export const Controlled: FC = () => {
   const columns: Array<TableColumnProps<any>> = [
     { accessorKey: "name" },
     { accessorKey: "age" },
-    { accessorKey: "year", footer: () => "123" },
+    { accessorKey: "year", pin: "right", footer: () => "123" },
   ];
 
   return (
