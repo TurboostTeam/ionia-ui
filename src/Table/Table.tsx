@@ -4,8 +4,8 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { cloneDeep } from "lodash";
-import { type ReactElement, useEffect, useMemo, useRef, useState } from "react";
+import { cloneDeep, groupBy, sum } from "lodash";
+import { type ReactElement, useEffect, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Action, type ActionProps } from "../Action";
@@ -25,6 +25,7 @@ const columnWrapClass = {
 
 export type TableColumnProps<T> = ColumnDef<T> & {
   align?: "left" | "center" | "right";
+  pin?: "left" | "right" | false;
   wordWrap?: boolean;
 };
 
@@ -37,7 +38,7 @@ export interface TableProps<T> {
   bodyHeight?: number;
   loading?: boolean;
   onRow?: (record: T) => {
-    onClick?: (e: MouseEvent<HTMLTableRowElement, MouseEvent>) => void;
+    onClick?: (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => void;
   };
   onRowSelectionChange?: (rows: T[]) => void;
 }
@@ -53,10 +54,8 @@ export function Table<T>({
   onRow,
   onRowSelectionChange,
 }: TableProps<T>): ReactElement {
-  const tableHeaderRef = useRef<HTMLTableElement>(null);
-  const tableFooterRef = useRef<HTMLTableElement>(null);
-
   const [rowSelection, setRowSelection] = useState<Record<string, any>>({});
+  const [columnPinning, setColumnPinning] = useState({});
 
   const memoColumns = useMemo(() => {
     const cloneColumns = cloneDeep(columns);
@@ -65,6 +64,14 @@ export function Table<T>({
       cloneColumns.unshift({
         id: "rowSelect",
         size: 34,
+        pin: cloneColumns.some(
+          (column) =>
+            typeof column.pin !== "undefined" &&
+            typeof column.pin !== "boolean" &&
+            ["left", "right"].includes(column.pin),
+        )
+          ? "left"
+          : undefined,
         header: ({ table }) => {
           return (
             <Checkbox
@@ -90,17 +97,37 @@ export function Table<T>({
       });
     }
 
-    return cloneColumns;
+    return cloneColumns.map((column) =>
+      typeof column.id === "undefined"
+        ? {
+            ...column,
+            id: (column as any).accessorKey,
+          }
+        : column,
+    );
   }, [columns, enableRowSelection, rowSelection]);
 
   const table = useReactTable({
     data,
     columns: memoColumns,
-    state: { rowSelection },
+    state: { rowSelection, columnPinning },
     enableRowSelection,
     getCoreRowModel: getCoreRowModel(),
     onRowSelectionChange: setRowSelection,
+    onColumnPinningChange: setColumnPinning,
   });
+
+  const columnsPinnedInfo = groupBy(
+    table.getHeaderGroups().map((headerGroup) =>
+      headerGroup.headers
+        .filter((header) => header.column.getIsPinned() !== false)
+        .map((header) => ({
+          direction: header.column.getIsPinned(),
+          size: header.column.getSize(),
+        })),
+    )[0],
+    "direction",
+  );
 
   useEffect(() => {
     if (enableRowSelection) {
@@ -111,14 +138,35 @@ export function Table<T>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [table, enableRowSelection, rowSelection]);
 
+  useEffect(() => {
+    memoColumns
+      .filter(
+        (column) =>
+          typeof column.pin !== "undefined" &&
+          typeof column.pin !== "boolean" &&
+          ["left", "right"].includes(column.pin),
+      )
+      .forEach((column) => {
+        if (typeof column.pin !== "undefined") {
+          table.getColumn(column.id)?.pin(column.pin);
+        }
+      });
+  }, [memoColumns, table]);
+
   return (
-    <div className="min-w-full">
-      <div className="overflow-hidden">
-        <table className="w-full table-fixed" ref={tableHeaderRef}>
-          <thead className={twMerge("t-0 sticky border-b")}>
+    <div
+      className={twMerge(
+        "min-w-full relative overflow-auto border",
+        loading === true && "overflow-hidden pointer-events-none select-none",
+      )}
+    >
+      <div>
+        <table className="w-full table-fixed">
+          <thead className="relative border-b">
+            {/* batch actions */}
             {Object.keys(rowSelection).length > 0 && bulkActions.length > 0 && (
-              <tr className="absolute z-10 flex h-full w-full items-center space-x-2 bg-white px-3 py-3.5">
-                <td>
+              <tr className="fixed left-[17px] z-[1] flex w-full items-center space-x-2 border-b bg-white px-3 py-3.5">
+                <td className="h-[28px]">
                   <Checkbox
                     {...{
                       label: "",
@@ -142,13 +190,14 @@ export function Table<T>({
                 </td>
               </tr>
             )}
+
             {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
+              <tr className="relative" key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
                     <th
                       className={twMerge(
-                        "px-3 py-3.5 text-left text-sm font-semibold text-gray-900",
+                        "px-3 py-3.5 whitespace-nowrap bg-white text-left text-sm font-semibold text-gray-900",
                         typeof (header.column.columnDef as TableColumnProps<T>)
                           ?.align !== "undefined" &&
                           columnAlignClass[
@@ -161,9 +210,37 @@ export function Table<T>({
                             (header.column.columnDef as TableColumnProps<T>)
                               .wordWrap as unknown as keyof typeof columnWrapClass
                           ],
+                        header.column.getIsPinned() !== false &&
+                          "sticky bg-slate-50",
                       )}
                       key={header.id}
-                      style={{ width: header.getSize() }}
+                      style={{
+                        width: header.getSize(),
+                        left:
+                          header.column.getIsPinned() === "left" &&
+                          columnsPinnedInfo.left?.length > 0
+                            ? sum(
+                                columnsPinnedInfo.left
+                                  .map((item) => item.size)
+                                  .slice(0, header.column.getPinnedIndex()),
+                              )
+                            : undefined,
+                        right:
+                          header.column.getIsPinned() === "right" &&
+                          columnsPinnedInfo.right?.length > 0
+                            ? sum(
+                                (columnsPinnedInfo.right ?? [])
+                                  .map((item) => item.size)
+                                  .reverse()
+                                  .slice(
+                                    0,
+                                    table.getRightLeafColumns().length -
+                                      header.column.getPinnedIndex() -
+                                      1,
+                                  ),
+                              )
+                            : undefined,
+                      }}
                     >
                       {header.isPlaceholder
                         ? null
@@ -181,28 +258,13 @@ export function Table<T>({
       </div>
 
       <div
-        className={twMerge(
-          loading === true
-            ? "overflow-hidden pointer-events-none select-none"
-            : "overflow-x-auto overflow-y-auto",
-        )}
         style={{
           height:
             typeof bodyHeight !== "undefined" ? `${bodyHeight}px` : undefined,
         }}
-        onScroll={(e) => {
-          const scrollLeft = (e.target as HTMLElement).scrollLeft;
-
-          if (tableHeaderRef.current != null) {
-            tableHeaderRef.current.style.transform = `translateX(-${scrollLeft}px)`;
-          }
-          if (tableFooterRef.current != null) {
-            tableFooterRef.current.style.transform = `translateX(-${scrollLeft}px)`;
-          }
-        }}
       >
         <table className="w-full table-fixed">
-          <tbody className="divide-y divide-gray-200 bg-white">
+          <tbody className="relative divide-y divide-gray-200 bg-white">
             {table.getRowModel().rows.map((row) => (
               <tr
                 className={twMerge(
@@ -217,7 +279,7 @@ export function Table<T>({
                 {row.getVisibleCells().map((cell) => (
                   <td
                     className={twMerge(
-                      "break-words px-3 py-4 text-sm text-gray-500",
+                      "break-words px-3 bg-white py-4 text-sm text-gray-500",
                       typeof (cell.column.columnDef as TableColumnProps<T>)
                         ?.align !== "undefined" &&
                         columnAlignClass[
@@ -230,9 +292,37 @@ export function Table<T>({
                           (cell.column.columnDef as TableColumnProps<T>)
                             .wordWrap as unknown as keyof typeof columnWrapClass
                         ],
+                      cell.column.getIsPinned() !== false &&
+                        "sticky bg-slate-50",
                     )}
                     key={cell.id}
-                    style={{ width: cell.column.getSize() }}
+                    style={{
+                      width: cell.column.getSize(),
+                      left:
+                        cell.column.getIsPinned() === "left" &&
+                        columnsPinnedInfo.left?.length > 0
+                          ? sum(
+                              columnsPinnedInfo.left
+                                .map((item) => item.size)
+                                .slice(0, cell.column.getPinnedIndex()),
+                            )
+                          : undefined,
+                      right:
+                        cell.column.getIsPinned() === "right" &&
+                        columnsPinnedInfo.right?.length > 0
+                          ? sum(
+                              (columnsPinnedInfo.right ?? [])
+                                .map((item) => item.size)
+                                .reverse()
+                                .slice(
+                                  0,
+                                  table.getRightLeafColumns().length -
+                                    cell.column.getPinnedIndex() -
+                                    1,
+                                ),
+                            )
+                          : undefined,
+                    }}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
@@ -245,15 +335,15 @@ export function Table<T>({
 
       {table.getAllColumns().filter((item) => item.columnDef?.footer).length >
         0 && (
-        <div className="overflow-hidden">
-          <table className="w-full table-fixed" ref={tableFooterRef}>
-            <tfoot>
+        <div>
+          <table className="w-full table-fixed border-t">
+            <tfoot className="relative">
               {table.getFooterGroups().map((footerGroup) => (
                 <tr key={footerGroup.id}>
                   {footerGroup.headers.map((header) => (
                     <th
                       className={twMerge(
-                        "break-words px-3 py-4 text-sm text-gray-500",
+                        "break-words  bg-white px-3 py-4 text-sm text-gray-500",
                         typeof (header.column.columnDef as TableColumnProps<T>)
                           ?.align !== "undefined"
                           ? columnAlignClass[
@@ -267,9 +357,37 @@ export function Table<T>({
                             (header.column.columnDef as TableColumnProps<T>)
                               .wordWrap as unknown as keyof typeof columnWrapClass
                           ],
+                        header.column.getIsPinned() !== false &&
+                          "sticky bg-slate-50",
                       )}
                       key={header.id}
-                      style={{ width: header.column.getSize() }}
+                      style={{
+                        width: header.column.getSize(),
+                        left:
+                          header.column.getIsPinned() === "left" &&
+                          columnsPinnedInfo.left?.length > 0
+                            ? sum(
+                                columnsPinnedInfo.left
+                                  .map((item) => item.size)
+                                  .slice(0, header.column.getPinnedIndex()),
+                              )
+                            : undefined,
+                        right:
+                          header.column.getIsPinned() === "right" &&
+                          columnsPinnedInfo.right?.length > 0
+                            ? sum(
+                                (columnsPinnedInfo.right ?? [])
+                                  .map((item) => item.size)
+                                  .reverse()
+                                  .slice(
+                                    0,
+                                    table.getRightLeafColumns().length -
+                                      header.column.getPinnedIndex() -
+                                      1,
+                                  ),
+                              )
+                            : undefined,
+                      }}
                     >
                       {header.isPlaceholder
                         ? null
