@@ -202,7 +202,7 @@ export function Table<T>({
             {/* batch actions */}
             {Object.keys(rowSelection).length > 0 && bulkActions.length > 0 && (
               <tr
-                className="absolute z-[20] flex w-full items-center space-x-2 border-b bg-white px-3 py-3.5"
+                className="absolute z-[2] flex w-full items-center space-x-2 border-b bg-white px-3 py-3.5"
                 ref={batchActionTableHeaderRowRef}
               >
                 <td className="h-[28px]">
@@ -254,11 +254,11 @@ export function Table<T>({
                         header.column.getIsPinned() === "left" &&
                           header.column.getPinnedIndex() ===
                             table.getLeftLeafColumns().length - 1 &&
-                          "z-[10] shadow-[-1px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
+                          "z-[1] shadow-[-1px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
                         header.column.getIsPinned() === "right" &&
                           header.column.getPinnedIndex() ===
                             table.getRightLeafColumns().length - 1 &&
-                          "z-[10] shadow-[1px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
+                          "z-[1] shadow-[1px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
                       )}
                       key={header.id}
                       style={{
@@ -335,11 +335,11 @@ export function Table<T>({
                       cell.column.getIsPinned() === "left" &&
                         cell.column.getPinnedIndex() ===
                           table.getLeftLeafColumns().length - 1 &&
-                        "z-[10] shadow-[-1px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
+                        "z-[1] shadow-[-1px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
                       cell.column.getIsPinned() === "right" &&
                         cell.column.getPinnedIndex() ===
                           table.getRightLeafColumns().length - 1 &&
-                        "z-[10] shadow-[1px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
+                        "z-[1] shadow-[1px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
                     )}
                     key={cell.id}
                     style={{
@@ -400,11 +400,11 @@ export function Table<T>({
                         header.column.getIsPinned() === "left" &&
                           header.column.getPinnedIndex() ===
                             table.getLeftLeafColumns().length - 1 &&
-                          "z-[10] shadow-[-1px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
+                          "z-[1] shadow-[-1px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
                         header.column.getIsPinned() === "right" &&
                           header.column.getPinnedIndex() ===
                             table.getRightLeafColumns().length - 1 &&
-                          "z-[10] shadow-[1px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
+                          "z-[1] shadow-[1px_0px_8px_-6px_rgba(97,97,97,0.5)_inset]",
                       )}
                       key={header.id}
                       style={{
