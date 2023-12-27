@@ -38,12 +38,10 @@ export const Base: FC = () => {
           header: "Name",
           accessorKey: "name",
           footer: () => "123",
-          pin: "left",
         },
         {
           header: "Age",
           accessorKey: "age",
-          pin: "left",
           footer: () => "123",
         },
         {
@@ -54,7 +52,7 @@ export const Base: FC = () => {
           footer: () => "123",
         },
         {
-          header: "Status ddddd",
+          header: "Status",
           size: 100,
           accessorKey: "status",
           footer: () => "123 as d  ",
@@ -62,7 +60,6 @@ export const Base: FC = () => {
         {
           header: "Progress",
           accessorKey: "progress",
-          pin: "right",
           footer: () => "123",
         },
         {

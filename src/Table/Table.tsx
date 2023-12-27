@@ -5,7 +5,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { cloneDeep, groupBy, sum } from "lodash";
-import { type ReactElement, useEffect, useMemo, useState } from "react";
+import { type ReactElement, useEffect, useMemo, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Action, type ActionProps } from "../Action";
@@ -54,6 +54,8 @@ export function Table<T>({
   onRow,
   onRowSelectionChange,
 }: TableProps<T>): ReactElement {
+  const batchActionTableHeaderRowRef = useRef<HTMLTableRowElement>(null);
+
   const [rowSelection, setRowSelection] = useState<Record<string, any>>({});
   const [columnPinning, setColumnPinning] = useState({});
 
@@ -159,13 +161,23 @@ export function Table<T>({
         "min-w-full relative overflow-auto border",
         loading === true && "overflow-hidden pointer-events-none select-none",
       )}
+      onScroll={(e) => {
+        if (batchActionTableHeaderRowRef?.current != null) {
+          batchActionTableHeaderRowRef.current.style.transform = `translateX(${
+            (e.target as HTMLElement).scrollLeft
+          }px)`;
+        }
+      }}
     >
       <div>
         <table className="w-full table-fixed">
           <thead className="relative border-b">
             {/* batch actions */}
             {Object.keys(rowSelection).length > 0 && bulkActions.length > 0 && (
-              <tr className="fixed left-[17px] z-[1] flex w-full items-center space-x-2 border-b bg-white px-3 py-3.5">
+              <tr
+                className="absolute z-[1] flex w-full items-center space-x-2 border-b bg-white px-3 py-3.5"
+                ref={batchActionTableHeaderRowRef}
+              >
                 <td className="h-[28px]">
                   <Checkbox
                     {...{
