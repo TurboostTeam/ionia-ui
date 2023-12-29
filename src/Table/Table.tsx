@@ -62,6 +62,8 @@ export function Table<T>({
   onRowSelectionChange,
 }: TableProps<T>): ReactElement {
   const batchActionTableHeaderRowRef = useRef<HTMLTableRowElement>(null);
+  const tableHeaderRef = useRef<HTMLTableElement>(null);
+  const tableFooterRef = useRef<HTMLTableElement>(null);
 
   const [rowSelection, setRowSelection] = useState<Record<string, any>>({});
   const [columnPinning, setColumnPinning] = useState({});
@@ -148,7 +150,7 @@ export function Table<T>({
 
       if (direction === "right") {
         return sum(
-          (columnsPinnedInfo.right ?? [])
+          columnsPinnedInfo.right
             .map((item) => item.size)
             .reverse()
             .slice(0, table.getRightLeafColumns().length - pinnedIndex - 1),
@@ -185,18 +187,11 @@ export function Table<T>({
   return (
     <div
       className={twMerge(
-        "min-w-full relative overflow-auto",
+        "min-w-full relative",
         loading === true && "overflow-hidden pointer-events-none select-none",
       )}
-      onScroll={(e) => {
-        if (batchActionTableHeaderRowRef?.current != null) {
-          batchActionTableHeaderRowRef.current.style.transform = `translateX(${
-            (e.target as HTMLElement).scrollLeft
-          }px)`;
-        }
-      }}
     >
-      <div>
+      <div className="overflow-hidden" ref={tableHeaderRef}>
         <table className="w-full table-fixed">
           <thead className="relative border-b">
             {/* batch actions */}
@@ -250,15 +245,15 @@ export function Table<T>({
                               .wordWrap as unknown as keyof typeof columnWrapClass
                           ],
                         header.column.getIsPinned() !== false &&
-                          "sticky bg-white",
+                          "sticky bg-white z-[1]",
                         header.column.getIsPinned() === "left" &&
                           header.column.getPinnedIndex() ===
                             table.getLeftLeafColumns().length - 1 &&
-                          "z-[1] drop-shadow-[1px_0_0_#e5e7eb]",
+                          "drop-shadow-[1px_0_0_#e5e7eb]",
                         header.column.getIsPinned() === "right" &&
                           header.column.getPinnedIndex() ===
                             table.getRightLeafColumns().length - 1 &&
-                          "z-[1] drop-shadow-[-1px_0_0_#e5e7eb]",
+                          "drop-shadow-[-1px_0_0_#e5e7eb]",
                       )}
                       key={header.id}
                       style={{
@@ -297,9 +292,21 @@ export function Table<T>({
       </div>
 
       <div
+        className="overflow-auto"
         style={{
           height:
             typeof bodyHeight !== "undefined" ? `${bodyHeight}px` : undefined,
+        }}
+        onScroll={(e) => {
+          const scrollLeft = (e.target as HTMLElement).scrollLeft;
+
+          if (tableHeaderRef.current != null) {
+            tableHeaderRef.current.scrollLeft = scrollLeft;
+          }
+
+          if (tableFooterRef.current != null) {
+            tableFooterRef.current.scrollLeft = scrollLeft;
+          }
         }}
       >
         <table className="w-full table-fixed">
@@ -331,15 +338,15 @@ export function Table<T>({
                           (cell.column.columnDef as TableColumnProps<T>)
                             .wordWrap as unknown as keyof typeof columnWrapClass
                         ],
-                      cell.column.getIsPinned() !== false && "sticky",
+                      cell.column.getIsPinned() !== false && "sticky z-[1]",
                       cell.column.getIsPinned() === "left" &&
                         cell.column.getPinnedIndex() ===
                           table.getLeftLeafColumns().length - 1 &&
-                        "z-[1] drop-shadow-[1px_0_0_#e5e7eb]",
+                        "drop-shadow-[1px_0_0_#e5e7eb]",
                       cell.column.getIsPinned() === "right" &&
                         cell.column.getPinnedIndex() ===
                           table.getRightLeafColumns().length - 1 &&
-                        "z-[1] drop-shadow-[-1px_0_0_#e5e7eb]",
+                        "drop-shadow-[-1px_0_0_#e5e7eb]",
                     )}
                     key={cell.id}
                     style={{
@@ -373,7 +380,7 @@ export function Table<T>({
 
       {table.getAllColumns().filter((item) => item.columnDef?.footer).length >
         0 && (
-        <div>
+        <div className="overflow-hidden" ref={tableFooterRef}>
           <table className="w-full table-fixed border-t">
             <tfoot className="relative">
               {table.getFooterGroups().map((footerGroup) => (
@@ -396,15 +403,15 @@ export function Table<T>({
                               .wordWrap as unknown as keyof typeof columnWrapClass
                           ],
                         header.column.getIsPinned() !== false &&
-                          "sticky bg-white",
+                          "sticky bg-white z-[1]",
                         header.column.getIsPinned() === "left" &&
                           header.column.getPinnedIndex() ===
                             table.getLeftLeafColumns().length - 1 &&
-                          "z-[1] drop-shadow-[1px_0_0_#e5e7eb]",
+                          "drop-shadow-[1px_0_0_#e5e7eb]",
                         header.column.getIsPinned() === "right" &&
                           header.column.getPinnedIndex() ===
                             table.getRightLeafColumns().length - 1 &&
-                          "z-[1] drop-shadow-[-1px_0_0_#e5e7eb]",
+                          "drop-shadow-[-1px_0_0_#e5e7eb]",
                       )}
                       key={header.id}
                       style={{
