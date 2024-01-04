@@ -9,12 +9,16 @@ export interface CheckboxGroupOption {
 
 export interface CheckboxGroupProps extends FormItemProps {
   options: CheckboxGroupOption[];
+  disabled?: boolean;
   value?: string[];
   onChange?: (value: string[]) => void;
 }
 
 export const CheckboxGroup = forwardRef<CheckboxGroupProps, "div">(
-  ({ className, label, helpText, error, options, value, onChange }, ref) => {
+  (
+    { className, label, helpText, error, options, value, disabled, onChange },
+    ref,
+  ) => {
     return (
       <FormItem
         className={className}
@@ -30,6 +34,7 @@ export const CheckboxGroup = forwardRef<CheckboxGroupProps, "div">(
                 ? value?.includes(option.value) ?? false
                 : undefined
             }
+            disabled={disabled}
             key={option.label}
             label={option.label}
             onChange={
@@ -49,5 +54,5 @@ export const CheckboxGroup = forwardRef<CheckboxGroupProps, "div">(
         ))}
       </FormItem>
     );
-  }
+  },
 );
