@@ -1,24 +1,26 @@
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
-import { type FC, type PropsWithChildren } from "react";
+import { type PropsWithChildren, type ReactElement } from "react";
+import { type Button } from "src/Button";
+import { type As } from "src/types";
 import { twMerge } from "tailwind-merge";
 
 import { Action, type ActionProps } from "../Action";
 import { ButtonGroup } from "../ButtonGroup";
 import { Spinner } from "../Spinner";
 
-export interface PageHeaderProps {
+export interface PageHeaderProps<ActionComponent extends As = typeof Button> {
   title?: string;
-  backAction?: Pick<ActionProps, "onAction">;
-  primaryAction?: ActionProps;
-  secondaryActions?: ActionProps[];
+  backAction?: Pick<ActionProps<ActionComponent>, "onAction">;
+  primaryAction?: ActionProps<ActionComponent>;
+  secondaryActions?: Array<ActionProps<ActionComponent>>;
 }
 
-export const PageHeader: FC<PageHeaderProps> = ({
+export function PageHeader<ActionComponent extends As = typeof Button>({
   title,
   backAction,
   primaryAction,
   secondaryActions = [],
-}) => {
+}: PageHeaderProps<ActionComponent>): ReactElement {
   return (
     <div className="mb-4 flex items-center justify-between gap-2">
       {typeof backAction !== "undefined" && (
@@ -40,14 +42,15 @@ export const PageHeader: FC<PageHeaderProps> = ({
       </ButtonGroup>
     </div>
   );
-};
+}
 
-export interface PageProps extends PageHeaderProps {
+export interface PageProps<ActionComponent extends As = typeof Button>
+  extends PageHeaderProps<ActionComponent> {
   fullWidth?: boolean;
   loading?: boolean;
 }
 
-export const Page: FC<PropsWithChildren<PageProps>> = ({
+export function Page<ActionComponent extends As = typeof Button>({
   title,
   fullWidth = false,
   loading = false,
@@ -55,10 +58,10 @@ export const Page: FC<PropsWithChildren<PageProps>> = ({
   backAction,
   primaryAction,
   secondaryActions,
-}) => {
+}: PropsWithChildren<PageProps<ActionComponent>>): ReactElement {
   return (
     <div className={twMerge(`p-4 mx-auto`, !fullWidth && `max-w-5xl`)}>
-      <PageHeader
+      <PageHeader<ActionComponent>
         backAction={backAction}
         primaryAction={primaryAction}
         secondaryActions={secondaryActions}
@@ -70,4 +73,4 @@ export const Page: FC<PropsWithChildren<PageProps>> = ({
       </div>
     </div>
   );
-};
+}
