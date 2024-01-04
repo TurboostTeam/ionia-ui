@@ -1,12 +1,12 @@
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
 import { type PropsWithChildren, type ReactElement } from "react";
-import { type Button } from "src/Button";
-import { type As } from "src/types";
 import { twMerge } from "tailwind-merge";
 
 import { Action, type ActionProps } from "../Action";
+import { type Button } from "../Button";
 import { ButtonGroup } from "../ButtonGroup";
 import { Spinner } from "../Spinner";
+import { type As } from "../types";
 
 export interface PageHeaderProps<ActionComponent extends As = typeof Button> {
   title?: string;
