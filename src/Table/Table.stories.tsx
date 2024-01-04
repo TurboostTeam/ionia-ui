@@ -27,6 +27,7 @@ export const Base: FC = () => {
   return (
     <Table<Person>
       enableRowSelection
+      bodyHeight={80}
       bulkActions={[
         {
           content: "123",
