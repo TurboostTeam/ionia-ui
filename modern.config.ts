@@ -7,7 +7,9 @@ import {
 const commonBuildConfig: PartialBuildConfig = {
   buildType: "bundleless",
   input: ["src", "!**/*.stories.*"],
-  dts: false,
+  dts: {
+    tsconfigPath: "./tsconfig.build.json",
+  },
 };
 
 export default defineConfig({
@@ -17,21 +19,13 @@ export default defineConfig({
       ...commonBuildConfig,
       format: "cjs",
       target: "es6",
-      outDir: "./dist/lib",
+      outDir: "./lib",
     },
     {
       ...commonBuildConfig,
       format: "esm",
       target: "es6",
-      outDir: "./dist/es",
-    },
-    {
-      ...commonBuildConfig,
-      outDir: "./dist/types",
-      dts: {
-        only: true,
-        tsconfigPath: "./tsconfig.build.json",
-      },
+      outDir: "./esm",
     },
   ],
 });
