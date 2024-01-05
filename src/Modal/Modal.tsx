@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { type FC, Fragment, type ReactNode, useRef } from "react";
+import { type FC, Fragment, type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Action, type ActionProps } from "../Action";
@@ -32,16 +32,9 @@ export const Modal: FC<ModalProps> = ({
   onClose,
   size = "md",
 }) => {
-  const initialFocus = useRef(null);
-
   return (
     <Transition.Root as={Fragment} show={open}>
-      <Dialog
-        as="div"
-        className="relative z-[110]"
-        initialFocus={initialFocus}
-        onClose={onClose}
-      >
+      <Dialog as="div" className="relative z-[110]" onClose={onClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -95,7 +88,7 @@ export const Modal: FC<ModalProps> = ({
                       <Action key={index} {...action} />
                     ))}
 
-                    <Action primary ref={initialFocus} {...primaryAction} />
+                    <Action primary {...primaryAction} />
                   </ButtonGroup>
                 </div>
               </Dialog.Panel>

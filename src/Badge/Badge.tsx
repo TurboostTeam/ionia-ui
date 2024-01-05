@@ -1,4 +1,4 @@
-import { type MouseEvent, type MouseEventHandler, useCallback } from "react";
+import { type MouseEventHandler, useCallback } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { forwardRef } from "../utils";
@@ -69,14 +69,14 @@ export const Badge = forwardRef<BadgeProps, "span">(
       disabled = false,
       ...props
     },
-    ref
+    ref,
   ) => {
     const handleRemove = useCallback(
-      (event: MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.stopPropagation();
         onRemove?.(event);
       },
-      [onRemove]
+      [onRemove],
     );
 
     return (
@@ -86,7 +86,7 @@ export const Badge = forwardRef<BadgeProps, "span">(
           rounded ? "rounded-full" : "rounded-md",
           typeof onClick !== "undefined" && "cursor-pointer",
           badgeColorMap[color],
-          className
+          className,
         )}
         ref={ref}
         onClick={onClick}
@@ -101,7 +101,7 @@ export const Badge = forwardRef<BadgeProps, "span">(
               rounded ? "rounded-full" : "rounded-sm",
               !disabled
                 ? badgeRemoveButtonColorMap[color]
-                : "cursor-not-allowed"
+                : "cursor-not-allowed",
             )}
             disabled={disabled}
             type="button"
@@ -123,5 +123,5 @@ export const Badge = forwardRef<BadgeProps, "span">(
         )}
       </span>
     );
-  }
+  },
 );
