@@ -27,7 +27,6 @@ export const Base: FC = () => {
   return (
     <Table<Person>
       enableRowSelection
-      bodyHeight={80}
       bulkActions={[
         {
           content: "123",
@@ -97,16 +96,16 @@ export const Base: FC = () => {
         },
       ]}
       selectedItemsCountLabel="123"
+      onRow={(record) => {
+        return {
+          onClick: () => {
+            console.log(record);
+          },
+        };
+      }}
       onRowSelectionChange={(record) => {
         console.log("row select change:", record);
       }}
-      // onRow={(record) => {
-      //   return {
-      //     onClick: () => {
-      //       console.log(record);
-      //     },
-      //   };
-      // }}
     />
   );
 };
