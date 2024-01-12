@@ -1,6 +1,7 @@
 import { type Meta } from "@storybook/react";
 import { type FC } from "react";
 
+import { Tooltip } from "../Tooltip";
 import { Table } from "./Table";
 
 const meta = {
@@ -27,7 +28,6 @@ export const Base: FC = () => {
   return (
     <Table<Person>
       enableRowSelection
-      bodyHeight={80}
       bulkActions={[
         {
           content: "123",
@@ -38,6 +38,13 @@ export const Base: FC = () => {
         {
           header: "Name",
           accessorKey: "name",
+          cell: () => {
+            return (
+              <Tooltip content="1q2ew" direction="right">
+                <span>123</span>
+              </Tooltip>
+            );
+          },
           pin: "left",
           footer: () => "123",
         },
@@ -97,16 +104,16 @@ export const Base: FC = () => {
         },
       ]}
       selectedItemsCountLabel="123"
+      onRow={(record) => {
+        return {
+          onClick: () => {
+            console.log(record);
+          },
+        };
+      }}
       onRowSelectionChange={(record) => {
         console.log("row select change:", record);
       }}
-      // onRow={(record) => {
-      //   return {
-      //     onClick: () => {
-      //       console.log(record);
-      //     },
-      //   };
-      // }}
     />
   );
 };
