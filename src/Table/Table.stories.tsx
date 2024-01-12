@@ -1,7 +1,6 @@
 import { type Meta } from "@storybook/react";
 import { type FC } from "react";
 
-import { Tooltip } from "../Tooltip";
 import { Table } from "./Table";
 
 const meta = {
@@ -38,13 +37,6 @@ export const Base: FC = () => {
         {
           header: "Name",
           accessorKey: "name",
-          cell: () => {
-            return (
-              <Tooltip content="1q2ew" direction="right">
-                <span>123</span>
-              </Tooltip>
-            );
-          },
           pin: "left",
           footer: () => "123",
         },
