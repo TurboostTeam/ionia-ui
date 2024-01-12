@@ -50,7 +50,7 @@ export const Tooltip: FC<TooltipProps> = ({
 
   return (
     <span
-      className="group/tooltip-hover relative bg-red-500"
+      className="group/tooltip-hover relative"
       onMouseOver={() => {
         setSize({
           offsetHeight: ref.current?.offsetHeight ?? 0,
