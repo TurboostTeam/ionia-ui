@@ -292,7 +292,11 @@ export function Table<T>({
       </div>
 
       <div
-        className="overflow-auto"
+        className={twMerge(
+          typeof bodyHeight !== "undefined"
+            ? "overflow-auto"
+            : "overflow-y-hidden",
+        )}
         style={{
           height:
             typeof bodyHeight !== "undefined" ? `${bodyHeight}px` : undefined,
