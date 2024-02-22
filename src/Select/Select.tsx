@@ -1,5 +1,9 @@
 import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
+import {
+  CheckIcon,
+  ChevronUpDownIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import { Fragment, type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -14,6 +18,7 @@ export interface SelectOption {
 
 export interface SelectProps extends FormItemProps {
   className?: string;
+  allowClear?: boolean;
   label?: string;
   helpText?: string;
   error?: string;
@@ -23,7 +28,7 @@ export interface SelectProps extends FormItemProps {
   size?: "sm" | "md" | "lg";
   options: SelectOption[];
   value?: string;
-  onChange?: (value: string) => void;
+  onChange?: (value?: string) => void;
 }
 
 const sizeMap = {
@@ -36,6 +41,7 @@ export const Select = forwardRef<SelectProps, "div">(
   (
     {
       label,
+      allowClear,
       helpText,
       error,
       placeholder,
@@ -93,6 +99,18 @@ export const Select = forwardRef<SelectProps, "div">(
                     />
                   )}
                 </span>
+
+                {typeof allowClear !== "undefined" && allowClear && (
+                  <span
+                    className="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-8"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onChange?.(undefined);
+                    }}
+                  >
+                    <XMarkIcon className="h-5 w-5 rounded-full text-gray-400 hover:bg-gray-100" />
+                  </span>
+                )}
               </Listbox.Button>
 
               <Transition

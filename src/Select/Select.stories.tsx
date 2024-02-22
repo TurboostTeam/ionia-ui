@@ -38,6 +38,7 @@ export const Controlled: FC = () => {
 
   return (
     <Select
+      allowClear
       helpText="This is a description"
       label="Select"
       options={[
