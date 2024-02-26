@@ -27,6 +27,7 @@ export const Base: FC = () => {
   return (
     <Table<Person>
       enableRowSelection
+      singleSelection
       bulkActions={[
         {
           content: "123",
