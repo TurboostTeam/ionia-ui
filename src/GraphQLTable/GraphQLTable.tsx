@@ -48,6 +48,7 @@ export interface GraphQLTableProps<Node, OrderField> {
   emptyStateIcon?: EmptyStateProps["icon"];
   emptyStateTitle?: EmptyStateProps["title"];
   enableRowSelection?: boolean;
+  singleSelection?: boolean;
   selectedItemsCountLabel?: string;
   emptyStateDescription?: EmptyStateProps["description"];
   actionRef?: RefObject<ActionType>;
@@ -88,6 +89,7 @@ export function GraphQLTable<Node, OrderField extends string>({
   loading = false,
   value = {},
   enableRowSelection = false,
+  singleSelection = false,
   onRowSelectionChange,
   toolBarRender,
   onChange,
@@ -268,6 +270,7 @@ export function GraphQLTable<Node, OrderField extends string>({
           data={edges.map((edge) => edge.node)}
           enableRowSelection={enableRowSelection}
           selectedItemsCountLabel={selectedItemsCountLabel}
+          singleSelection={singleSelection}
           onRow={onRow}
           onRowSelectionChange={onRowSelectionChange}
         />
