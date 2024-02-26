@@ -17,6 +17,7 @@ import { twMerge } from "tailwind-merge";
 
 import { Action, type ActionProps } from "../Action";
 import { Checkbox } from "../Checkbox";
+import { Radio } from "../Radio";
 import { Spinner } from "../Spinner";
 
 const columnAlignClass = {
@@ -39,6 +40,7 @@ export type TableColumnProps<T> = ColumnDef<T> & {
 export interface TableProps<T> {
   columns: Array<TableColumnProps<T>>;
   enableRowSelection?: boolean;
+  singleSelection?: boolean;
   bulkActions?: ActionProps[];
   selectedItemsCountLabel?: string;
   data: T[];
@@ -54,6 +56,7 @@ export function Table<T>({
   columns,
   data,
   enableRowSelection = false,
+  singleSelection = false,
   selectedItemsCountLabel,
   bulkActions = [],
   bodyHeight,
@@ -83,28 +86,42 @@ export function Table<T>({
         )
           ? "left"
           : undefined,
-        header: ({ table }) => {
-          return (
+        header: !singleSelection
+          ? ({ table }) => {
+              return (
+                <Checkbox
+                  {...{
+                    label: "",
+                    indeterminate: Object.keys(rowSelection).length > 0,
+                    checked: table.getIsAllRowsSelected(),
+                    onChange: table.getToggleAllRowsSelectedHandler(),
+                  }}
+                />
+              );
+            }
+          : undefined,
+        cell: ({ row, table }) =>
+          singleSelection ? (
+            <Radio
+              {...{
+                label: "",
+                checked: row.getIsSelected(),
+                disabled: !row.getCanSelect(),
+                onChange: () => {
+                  table.setRowSelection({ [row.id]: true });
+                },
+              }}
+            />
+          ) : (
             <Checkbox
               {...{
                 label: "",
-                indeterminate: Object.keys(rowSelection).length > 0,
-                checked: table.getIsAllRowsSelected(),
-                onChange: table.getToggleAllRowsSelectedHandler(),
+                checked: row.getIsSelected(),
+                disabled: !row.getCanSelect(),
+                onChange: row.getToggleSelectedHandler(),
               }}
             />
-          );
-        },
-        cell: ({ row }) => (
-          <Checkbox
-            {...{
-              label: "",
-              checked: row.getIsSelected(),
-              disabled: !row.getCanSelect(),
-              onChange: row.getToggleSelectedHandler(),
-            }}
-          />
-        ),
+          ),
       });
     }
 
@@ -116,7 +133,7 @@ export function Table<T>({
           }
         : column,
     );
-  }, [columns, enableRowSelection, rowSelection]);
+  }, [columns, enableRowSelection, rowSelection, singleSelection]);
 
   const table = useReactTable({
     data,
@@ -195,35 +212,37 @@ export function Table<T>({
         <table className="w-full table-fixed">
           <thead className="relative border-b">
             {/* batch actions */}
-            {Object.keys(rowSelection).length > 0 && bulkActions.length > 0 && (
-              <tr
-                className="absolute z-[2] flex w-full items-center space-x-2 border-b bg-white px-3 py-3.5"
-                ref={batchActionTableHeaderRowRef}
-              >
-                <td className="h-[28px]">
-                  <Checkbox
-                    {...{
-                      label: "",
-                      indeterminate: Object.keys(rowSelection).length > 0,
-                      checked: table.getIsAllRowsSelected(),
-                      onChange: table.getToggleAllRowsSelectedHandler(),
-                    }}
-                  />
-                </td>
-
-                {typeof selectedItemsCountLabel !== "undefined" && (
-                  <td className="text-sm text-gray-500">
-                    {selectedItemsCountLabel}
+            {!singleSelection &&
+              Object.keys(rowSelection).length > 0 &&
+              bulkActions.length > 0 && (
+                <tr
+                  className="absolute z-[2] flex w-full items-center space-x-2 border-b bg-white px-3 py-3.5"
+                  ref={batchActionTableHeaderRowRef}
+                >
+                  <td className="h-[28px]">
+                    <Checkbox
+                      {...{
+                        label: "",
+                        indeterminate: Object.keys(rowSelection).length > 0,
+                        checked: table.getIsAllRowsSelected(),
+                        onChange: table.getToggleAllRowsSelectedHandler(),
+                      }}
+                    />
                   </td>
-                )}
 
-                <td className="flex space-x-0.5">
-                  {bulkActions?.map((action, index) => (
-                    <Action key={index} {...action} link />
-                  ))}
-                </td>
-              </tr>
-            )}
+                  {typeof selectedItemsCountLabel !== "undefined" && (
+                    <td className="text-sm text-gray-500">
+                      {selectedItemsCountLabel}
+                    </td>
+                  )}
+
+                  <td className="flex space-x-0.5">
+                    {bulkActions?.map((action, index) => (
+                      <Action key={index} {...action} link />
+                    ))}
+                  </td>
+                </tr>
+              )}
 
             {table.getHeaderGroups().map((headerGroup) => (
               <tr className="relative" key={headerGroup.id}>
