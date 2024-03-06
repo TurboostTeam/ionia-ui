@@ -60,7 +60,7 @@ export const Tooltip: FC<TooltipProps> = ({
     >
       <span
         className={twMerge(
-          "pointer-events-none max-w-[250px] break-words w-max absolute rounded opacity-0 bg-gray-700 p-2 text-sm text-white transition-opacity group-hover/tooltip-hover:opacity-100 z-20",
+          "pointer-events-none max-w-[250px] break-words w-max absolute rounded opacity-0 bg-gray-700 p-2 text-sm text-white transition-opacity group-hover/tooltip-hover:opacity-100 z-[1030]",
         )}
         ref={ref}
         style={getPositionClass(direction, size)}

@@ -120,7 +120,7 @@ export const Select = forwardRef<SelectProps, "div">(
                 leaveTo="opacity-0"
                 show={open}
               >
-                <Listbox.Options className="absolute z-[1000] mt-2 max-h-60 w-full overflow-auto rounded-md bg-white py-2 text-base text-gray-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                <Listbox.Options className="absolute z-[990] mt-2 max-h-60 w-full overflow-auto rounded-md bg-white py-2 text-base text-gray-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                   {options.map((option) => (
                     <Listbox.Option
                       className={({ active }) =>

@@ -32,7 +32,9 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
   onChange,
 }) => {
   const [activeDateRange, setActiveDateRange] = useState(
-    typeof range !== "undefined" ? { title: "custom", range } : presetRange?.[0]
+    typeof range !== "undefined"
+      ? { title: "custom", range }
+      : presetRange?.[0],
   );
   const [{ month, year }, setDate] = useState({
     month:
@@ -101,7 +103,7 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
         />
       </Popover.Button>
 
-      <Popover.Panel className="absolute left-1/2 top-12 z-[1000] w-full -translate-x-1/2">
+      <Popover.Panel className="absolute left-1/2 top-12 z-[1010] w-full -translate-x-1/2">
         <Card>
           <div className="flex space-x-2">
             {typeof presetRange !== "undefined" && presetRange.length > 0 ? (
@@ -111,7 +113,8 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
                     <div
                       className={twMerge(
                         "cursor-pointer text-gray-600 whitespace-nowrap rounded p-1 text-sm hover:bg-gray-100",
-                        preset.title === activeDateRange?.title && "bg-gray-100"
+                        preset.title === activeDateRange?.title &&
+                          "bg-gray-100",
                       )}
                       key={index}
                       onClick={() => {
