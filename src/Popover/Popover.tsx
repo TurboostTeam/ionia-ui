@@ -53,7 +53,7 @@ export const Popover: FC<PropsWithChildren<PopoverProps>> = ({
       </HeadlessPopover.Button>
 
       <HeadlessPopover.Panel
-        className="z-[1000]"
+        className="z-[1010]"
         ref={setPopperElement}
         style={styles.popper}
         {...attributes.popper}

@@ -227,7 +227,7 @@ export function GraphQLTable<Node, OrderField extends string>({
                       leaveFrom="opacity-100 translate-y-0"
                       leaveTo="opacity-0 translate-y-1"
                     >
-                      <Popover.Panel className="absolute right-0 z-[1000] mt-3 w-auto min-w-[160px] transform px-0">
+                      <Popover.Panel className="absolute right-0 z-[1010] mt-3 w-auto min-w-[160px] transform px-0">
                         <div className="flex flex-col gap-1 divide-y overflow-hidden rounded-md bg-white p-3 shadow-md ring-1 ring-black ring-opacity-5">
                           <RadioGroup
                             options={orderOptions}

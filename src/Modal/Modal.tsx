@@ -38,7 +38,7 @@ export const Modal: FC<ModalProps> = ({
     <Transition.Root as={Fragment} show={open}>
       <Dialog
         as="div"
-        className="relative z-[9998]"
+        className="relative z-[1000]"
         initialFocus={initialFocus}
         onClose={onClose}
       >
