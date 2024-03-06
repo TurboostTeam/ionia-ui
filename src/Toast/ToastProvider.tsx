@@ -17,7 +17,7 @@ const ToastManager: FC = () => {
   }
 
   return (
-    <div className="pointer-events-none fixed bottom-0 left-0 right-0 z-120 flex transform flex-col items-center gap-5 pb-5">
+    <div className="pointer-events-none fixed bottom-0 left-0 right-0 z-[9999] flex transform flex-col items-center gap-5 pb-5">
       {toasts.map((toastProps) => {
         return <Toast key={toastProps.id} {...toastProps} />;
       })}
