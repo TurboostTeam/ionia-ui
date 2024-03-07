@@ -22,10 +22,10 @@ export interface TagSelectProps<T> extends FormItemProps {
   helpText?: string;
   error?: string;
   loading?: boolean;
-  onSearch?: (value: string) => void;
   disabled?: boolean;
   options: Array<TagSelectOption<T>>;
   value?: T[];
+  onSearch?: (value: string) => void;
   onChange?: (value: T[]) => void;
 }
 
@@ -115,9 +115,6 @@ export const TagSelect = forwardRef<TagSelectProps<string>, "input">(
                       trimValue.length > 0
                     ) {
                       if (mode === "tag") {
-                        if (!value.includes(trimValue)) {
-                          onChange?.([...value, trimValue]);
-                        }
                         setSearchValue(undefined);
                       }
                     }
