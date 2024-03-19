@@ -110,6 +110,9 @@ export function Table<T>({
                 onChange: () => {
                   table.setRowSelection({ [row.id]: true });
                 },
+                onClick: (e) => {
+                  e.stopPropagation();
+                },
               }}
             />
           ) : (
@@ -119,6 +122,9 @@ export function Table<T>({
                 checked: row.getIsSelected(),
                 disabled: !row.getCanSelect(),
                 onChange: row.getToggleSelectedHandler(),
+                onClick: (e) => {
+                  e.stopPropagation();
+                },
               }}
             />
           ),
