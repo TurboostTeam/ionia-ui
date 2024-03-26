@@ -242,9 +242,11 @@ export function Table<T>({
                     </td>
                   )}
 
-                  <td className="flex space-x-0.5">
+                  <td className="flex space-x-2">
                     {bulkActions?.map((action, index) => (
-                      <Action key={index} {...action} link />
+                      <div key={index}>
+                        <Action {...action} link />
+                      </div>
                     ))}
                   </td>
                 </tr>
