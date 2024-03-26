@@ -96,40 +96,41 @@ export const TagSelect = forwardRef<TagSelectProps<string>, "input">(
             }}
           >
             <div className="relative mt-1">
-              <Combobox.Input
-                as={Input}
-                className={className}
-                error={error}
-                ref={ref}
-                value={searchValue}
-                onChange={(val) => {
-                  setSearchValue(val as unknown as string);
-                  onSearch?.(val as unknown as string);
-                }}
-                onKeyDown={(e: any) => {
-                  if (e.key === "Enter") {
-                    const trimValue = searchValue?.trim();
+              <Combobox.Button className="w-full">
+                <Combobox.Input
+                  as={Input}
+                  className={className}
+                  error={error}
+                  ref={ref}
+                  value={searchValue}
+                  onChange={(val) => {
+                    setSearchValue(val as unknown as string);
+                    onSearch?.(val as unknown as string);
+                  }}
+                  onKeyDown={(e: any) => {
+                    if (e.key === "Enter") {
+                      const trimValue = searchValue?.trim();
 
-                    if (
-                      typeof trimValue !== "undefined" &&
-                      trimValue.length > 0
-                    ) {
-                      if (mode === "tag") {
-                        setSearchValue(undefined);
+                      if (
+                        typeof trimValue !== "undefined" &&
+                        trimValue.length > 0
+                      ) {
+                        if (mode === "tag") {
+                          setSearchValue(undefined);
+                        }
+                      }
+
+                      if (
+                        mode === "multiple" &&
+                        uniqInternalOptions.length === 0
+                      ) {
+                        e.preventDefault();
                       }
                     }
-
-                    if (
-                      mode === "multiple" &&
-                      uniqInternalOptions.length === 0
-                    ) {
-                      e.preventDefault();
-                    }
-                  }
-                }}
-                {...pick(props, ["placeholder", "maxLength", "minLength"])}
-              />
-
+                  }}
+                  {...pick(props, ["placeholder", "maxLength", "minLength"])}
+                />
+              </Combobox.Button>
               <Transition
                 as={Fragment}
                 leave="transition ease-in duration-100"
