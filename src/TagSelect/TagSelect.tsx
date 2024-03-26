@@ -96,10 +96,9 @@ export const TagSelect = forwardRef<TagSelectProps<string>, "input">(
             }}
           >
             <div className="relative mt-1">
-              <Combobox.Button className="w-full">
+              <Combobox.Button className={twMerge("w-full", className)}>
                 <Combobox.Input
                   as={Input}
-                  className={className}
                   error={error}
                   ref={ref}
                   value={searchValue}
