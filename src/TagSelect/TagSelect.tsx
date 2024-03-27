@@ -1,7 +1,7 @@
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { pick, uniqBy } from "lodash";
-import { Fragment, useMemo, useState } from "react";
+import { Fragment, type KeyboardEvent, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Badge } from "../Badge";
@@ -96,40 +96,41 @@ export const TagSelect = forwardRef<TagSelectProps<string>, "input">(
             }}
           >
             <div className="relative mt-1">
-              <Combobox.Button className={twMerge("w-full", className)}>
-                <Combobox.Input
-                  as={Input}
-                  error={error}
-                  ref={ref}
-                  value={searchValue}
-                  onChange={(val) => {
-                    setSearchValue(val as unknown as string);
-                    onSearch?.(val as unknown as string);
-                  }}
-                  onKeyDown={(e: any) => {
-                    if (e.key === "Enter") {
-                      const trimValue = searchValue?.trim();
+              <Combobox.Input
+                as={Input}
+                className={className}
+                error={error}
+                ref={ref}
+                value={searchValue}
+                onChange={(val) => {
+                  setSearchValue(val as unknown as string);
+                  onSearch?.(val as unknown as string);
+                }}
+                onKeyDown={(e: KeyboardEvent) => {
+                  e.stopPropagation();
 
-                      if (
-                        typeof trimValue !== "undefined" &&
-                        trimValue.length > 0
-                      ) {
-                        if (mode === "tag") {
-                          setSearchValue(undefined);
-                        }
-                      }
+                  if (e.key === "Enter") {
+                    const trimValue = searchValue?.trim();
 
-                      if (
-                        mode === "multiple" &&
-                        uniqInternalOptions.length === 0
-                      ) {
-                        e.preventDefault();
+                    if (
+                      typeof trimValue !== "undefined" &&
+                      trimValue.length > 0
+                    ) {
+                      if (mode === "tag") {
+                        setSearchValue(undefined);
                       }
                     }
-                  }}
-                  {...pick(props, ["placeholder", "maxLength", "minLength"])}
-                />
-              </Combobox.Button>
+
+                    if (
+                      mode === "multiple" &&
+                      uniqInternalOptions.length === 0
+                    ) {
+                      e.preventDefault();
+                    }
+                  }
+                }}
+                {...pick(props, ["placeholder", "maxLength", "minLength"])}
+              />
               <Transition
                 as={Fragment}
                 leave="transition ease-in duration-100"
