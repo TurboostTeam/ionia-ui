@@ -89,6 +89,10 @@ export const TagSelect = forwardRef<TagSelectProps<string>, "input">(
             value={value}
             onChange={(val) => {
               onChange?.(val);
+
+              if (uniqInternalOptions.length > 0) {
+                setSearchValue(undefined);
+              }
             }}
           >
             <div className="relative mt-1">
