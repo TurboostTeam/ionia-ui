@@ -69,7 +69,7 @@ export const Drawer: FC<DrawerProps> = ({
                 <Dialog.Panel
                   className={twMerge(
                     `pointer-events-auto w-screen max-w-md`,
-                    typeof width !== "undefined" && `w-${width}`,
+                    typeof width !== "undefined" && `w-[${width}px`,
                   )}
                 >
                   <div className="flex h-full flex-col gap-4 overflow-y-scroll bg-white py-4 shadow-xl">
