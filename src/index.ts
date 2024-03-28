@@ -11,6 +11,7 @@ export * from "./DateInput";
 export * from "./DatePicker";
 export * from "./DateRangePicker";
 export * from "./DateTimeInput";
+export * from "./Drawer";
 export * from "./Dropdown";
 export * from "./Filter";
 export * from "./Form";
