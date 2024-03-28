@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import { type FC, Fragment } from "react";
-import { AiOutlineClose } from "react-icons/ai";
 import { twMerge } from "tailwind-merge";
 
 import { Button } from "../Button";
@@ -14,8 +14,8 @@ export interface DrawerProps {
   className?: string;
   mask?: boolean; // 是否显示遮罩层
   maskClosable?: boolean; // 点击遮罩层是否关闭
-  closeIcon?: React.ReactNode; // 关闭按钮图标
   closable?: boolean; // 是否显示关闭按钮
+  footer?: React.ReactNode; // 底部内容
 }
 
 export const Drawer: FC<DrawerProps> = ({
@@ -28,7 +28,7 @@ export const Drawer: FC<DrawerProps> = ({
   mask = true,
   maskClosable = true,
   closable = true,
-  closeIcon,
+  footer,
 }) => {
   return (
     <Transition.Root as={Fragment} show={open}>
@@ -43,10 +43,10 @@ export const Drawer: FC<DrawerProps> = ({
         {mask && (
           <Transition.Child
             as={Fragment}
-            enter="ease-in-out duration-500"
+            enter="ease-in-out duration-1000"
             enterFrom="opacity-0"
             enterTo="opacity-100"
-            leave="ease-in-out duration-500"
+            leave="ease-in-out duration-1000"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
@@ -72,37 +72,27 @@ export const Drawer: FC<DrawerProps> = ({
                     typeof width !== "undefined" && `w-${width}`,
                   )}
                 >
-                  <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
-                    <div className="px-4 sm:px-6">
+                  <div className="flex h-full flex-col gap-4 overflow-y-scroll bg-white py-4 shadow-xl">
+                    <div className="px-4 sm:px-4">
                       <div className="flex items-center justify-between">
-                        <Dialog.Title className="text-sm font-semibold">
+                        <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
                           {title}
                         </Dialog.Title>
                         {typeof closable !== "undefined" && closable && (
                           <div className="ml-3 flex h-7 items-center">
-                            <Button
-                              ghost
-                              className="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 "
-                              onClick={onClose}
-                            >
-                              {typeof closeIcon !== "undefined" ? (
-                                closeIcon
-                              ) : (
-                                <AiOutlineClose className="h-4 w-4" />
-                              )}
-                            </Button>
+                            <Button ghost icon={XMarkIcon} onClick={onClose} />
                           </div>
                         )}
                       </div>
                     </div>
                     <div
-                      className={twMerge(
-                        "relative mt-6 flex-1 px-4 sm:px-6",
-                        className,
-                      )}
+                      className={twMerge("relative  flex-1 px-4 ", className)}
                     >
                       {children}
                     </div>
+                    {typeof footer !== "undefined" && (
+                      <div className="px-4">{footer}</div>
+                    )}
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

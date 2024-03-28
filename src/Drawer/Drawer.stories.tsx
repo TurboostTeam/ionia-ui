@@ -6,7 +6,7 @@ import { Drawer } from "./Drawer";
 import page from "./Drawer.mdx";
 
 export default {
-  title: "Layout 布局//Drawer 抽屉",
+  title: "Layout 布局/Drawer 抽屉",
   component: Drawer,
   parameters: {
     docs: {
@@ -27,6 +27,25 @@ export const Default: FC = (args) => {
         打开抽屉
       </Button>
       <Drawer
+        footer={
+          <div className="flex justify-end gap-2">
+            <Button
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
+              取消
+            </Button>
+            <Button
+              primary
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
+              确定
+            </Button>
+          </div>
+        }
         open={open}
         title="抽屉标题"
         onClose={() => {

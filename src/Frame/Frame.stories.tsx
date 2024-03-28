@@ -10,7 +10,10 @@ import {
   BiUser,
 } from "react-icons/bi";
 
+import { Button } from "../Button";
+import { ButtonGroup } from "../ButtonGroup";
 import { Card } from "../Card";
+import { Drawer } from "../Drawer";
 import { Dropdown } from "../Dropdown";
 import { Navigation } from "../Navigation";
 import { NavigationSection } from "../NavigationSection";
@@ -28,6 +31,8 @@ export default {
 
 export const Default: FC = () => {
   const [mobileNavigationActive, setMobileNavigationActive] = useState(false);
+
+  const [drawerActive, setDrawerActive] = useState(false);
 
   const toggleMobileNavigationActive = useCallback(() => {
     setMobileNavigationActive(
@@ -126,7 +131,43 @@ export const Default: FC = () => {
         onNavigationDismiss={toggleMobileNavigationActive}
       >
         <Page primaryAction={{ content: "创建" }} title="页面">
-          <Card className="h-72" />
+          <Card className="h-72">
+            <Button
+              onClick={() => {
+                setDrawerActive(true);
+              }}
+            >
+              打开抽屉
+            </Button>
+          </Card>
+          <Drawer
+            footer={
+              <ButtonGroup className="justify-end">
+                <Button
+                  onClick={() => {
+                    setDrawerActive(false);
+                  }}
+                >
+                  取消
+                </Button>
+                <Button
+                  primary
+                  onClick={() => {
+                    setDrawerActive(false);
+                  }}
+                >
+                  确定
+                </Button>
+              </ButtonGroup>
+            }
+            open={drawerActive}
+            title="抽屉标题"
+            onClose={() => {
+              setDrawerActive(false);
+            }}
+          >
+            内容
+          </Drawer>
         </Page>
       </Frame>
     </div>
