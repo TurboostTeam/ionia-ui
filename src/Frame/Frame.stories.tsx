@@ -15,6 +15,7 @@ import { ButtonGroup } from "../ButtonGroup";
 import { Card } from "../Card";
 import { Drawer } from "../Drawer";
 import { Dropdown } from "../Dropdown";
+import { Modal } from "../Modal";
 import { Navigation } from "../Navigation";
 import { NavigationSection } from "../NavigationSection";
 import { Page } from "../Page";
@@ -33,6 +34,7 @@ export const Default: FC = () => {
   const [mobileNavigationActive, setMobileNavigationActive] = useState(false);
 
   const [drawerActive, setDrawerActive] = useState(false);
+  const [modalActive, setModalActive] = useState(false);
 
   const toggleMobileNavigationActive = useCallback(() => {
     setMobileNavigationActive(
@@ -166,7 +168,29 @@ export const Default: FC = () => {
               setDrawerActive(false);
             }}
           >
-            内容
+            <Button
+              primary
+              onClick={() => {
+                setModalActive(true);
+              }}
+            >
+              打开模态框
+            </Button>
+            <Modal
+              open={modalActive}
+              primaryAction={{
+                content: "确定",
+                onAction: () => {
+                  setModalActive(false);
+                },
+              }}
+              title="模态框标题"
+              onClose={() => {
+                setModalActive(false);
+              }}
+            >
+              内容
+            </Modal>
           </Drawer>
         </Page>
       </Frame>
