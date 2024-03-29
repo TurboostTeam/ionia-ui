@@ -67,7 +67,7 @@ export const Drawer: FC<DrawerProps> = ({
                 leaveTo="translate-x-full"
               >
                 <Dialog.Panel
-                  className="pointer-events-auto w-screen max-w-md"
+                  className="pointer-events-auto w-96 max-w-screen-lg"
                   style={{
                     width,
                   }}
