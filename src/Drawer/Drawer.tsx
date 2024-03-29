@@ -10,7 +10,7 @@ export interface DrawerProps {
   children?: React.ReactNode;
   onClose: () => void;
   title?: string | React.ReactNode;
-  width?: number; // 弹出框宽度
+  width?: number | string; // 弹出框宽度
   className?: string;
   mask?: boolean; // 是否显示遮罩层
   maskClosable?: boolean; // 点击遮罩层是否关闭
@@ -34,7 +34,7 @@ export const Drawer: FC<DrawerProps> = ({
     <Transition.Root as={Fragment} show={open}>
       <Dialog
         as="div"
-        className="relative z-90 "
+        className="relative z-50"
         onClose={() => {
           maskClosable && onClose();
         }}
@@ -71,6 +71,14 @@ export const Drawer: FC<DrawerProps> = ({
                     `pointer-events-auto w-screen max-w-md`,
                     typeof width !== "undefined" && `w-[${width}px`,
                   )}
+                  style={{
+                    width:
+                      typeof width !== "undefined"
+                        ? typeof width === "number"
+                          ? `${width}px`
+                          : width
+                        : "100vw",
+                  }}
                 >
                   <div className="flex h-full flex-col gap-4 overflow-y-scroll bg-white py-4 shadow-xl">
                     <div className="px-4 sm:px-4">
