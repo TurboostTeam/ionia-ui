@@ -16,6 +16,7 @@ export interface DrawerProps {
   maskClosable?: boolean; // 点击遮罩层是否关闭
   closable?: boolean; // 是否显示关闭按钮
   footer?: React.ReactNode; // 底部内容
+  wrapperClassName?: string;
 }
 
 export const Drawer: FC<DrawerProps> = ({
@@ -29,6 +30,7 @@ export const Drawer: FC<DrawerProps> = ({
   maskClosable = true,
   closable = true,
   footer,
+  wrapperClassName,
 }) => {
   return (
     <Transition.Root as={Fragment} show={open}>
@@ -72,14 +74,19 @@ export const Drawer: FC<DrawerProps> = ({
                     width,
                   }}
                 >
-                  <div className="flex h-full flex-col gap-4 overflow-y-scroll bg-white py-4 shadow-xl">
-                    {typeof title !== "undefined" && !closable ? (
+                  <div
+                    className={twMerge(
+                      "flex h-full flex-col gap-4 overflow-y-scroll bg-white py-4 shadow-xl ",
+                      wrapperClassName,
+                    )}
+                  >
+                    {typeof title === "undefined" && !closable ? null : (
                       <div className="px-4 sm:px-4">
                         <div className="flex items-center justify-between">
                           <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
                             {title}
                           </Dialog.Title>
-                          {!closable && closable && (
+                          {closable && (
                             <div className="ml-3 flex h-7 items-center">
                               <Button
                                 ghost
@@ -90,7 +97,7 @@ export const Drawer: FC<DrawerProps> = ({
                           )}
                         </div>
                       </div>
-                    ) : null}
+                    )}
 
                     <div
                       className={twMerge("relative  flex-1 px-4 ", className)}

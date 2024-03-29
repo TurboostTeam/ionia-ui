@@ -143,6 +143,7 @@ export const Default: FC = () => {
             </Button>
           </Card>
           <Drawer
+            closable={false}
             footer={
               <ButtonGroup className="justify-end">
                 <Button
@@ -163,7 +164,6 @@ export const Default: FC = () => {
               </ButtonGroup>
             }
             open={drawerActive}
-            title="抽屉标题"
             onClose={() => {
               setDrawerActive(false);
             }}
