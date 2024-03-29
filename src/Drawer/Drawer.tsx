@@ -10,7 +10,7 @@ export interface DrawerProps {
   children?: React.ReactNode;
   onClose: () => void;
   title?: string | React.ReactNode;
-  width?: number | string; // 弹出框宽度
+  width?: number; // 弹出框宽度
   className?: string;
   mask?: boolean; // 是否显示遮罩层
   maskClosable?: boolean; // 点击遮罩层是否关闭
@@ -67,14 +67,9 @@ export const Drawer: FC<DrawerProps> = ({
                 leaveTo="translate-x-full"
               >
                 <Dialog.Panel
-                  className="pointer-events-auto  max-w-md"
+                  className="pointer-events-auto w-screen max-w-md"
                   style={{
-                    width:
-                      typeof width !== "undefined"
-                        ? typeof width === "number"
-                          ? `${width}px`
-                          : width
-                        : "100vw",
+                    width,
                   }}
                 >
                   <div className="flex h-full flex-col gap-4 overflow-y-scroll bg-white py-4 shadow-xl">
