@@ -34,7 +34,7 @@ export const Drawer: FC<DrawerProps> = ({
     <Transition.Root as={Fragment} show={open}>
       <Dialog
         as="div"
-        className="relative z-90 "
+        className="relative z-50"
         onClose={() => {
           maskClosable && onClose();
         }}
@@ -67,10 +67,10 @@ export const Drawer: FC<DrawerProps> = ({
                 leaveTo="translate-x-full"
               >
                 <Dialog.Panel
-                  className={twMerge(
-                    `pointer-events-auto w-screen max-w-md`,
-                    typeof width !== "undefined" && `w-${width}`,
-                  )}
+                  className="pointer-events-auto w-screen max-w-md"
+                  style={{
+                    width,
+                  }}
                 >
                   <div className="flex h-full flex-col gap-4 overflow-y-scroll bg-white py-4 shadow-xl">
                     <div className="px-4 sm:px-4">
