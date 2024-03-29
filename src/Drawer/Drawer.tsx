@@ -67,10 +67,7 @@ export const Drawer: FC<DrawerProps> = ({
                 leaveTo="translate-x-full"
               >
                 <Dialog.Panel
-                  className={twMerge(
-                    `pointer-events-auto w-screen max-w-md`,
-                    typeof width !== "undefined" && `w-[${width}px`,
-                  )}
+                  className="pointer-events-auto  max-w-md"
                   style={{
                     width:
                       typeof width !== "undefined"
