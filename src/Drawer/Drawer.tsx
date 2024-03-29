@@ -73,18 +73,25 @@ export const Drawer: FC<DrawerProps> = ({
                   }}
                 >
                   <div className="flex h-full flex-col gap-4 overflow-y-scroll bg-white py-4 shadow-xl">
-                    <div className="px-4 sm:px-4">
-                      <div className="flex items-center justify-between">
-                        <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
-                          {title}
-                        </Dialog.Title>
-                        {typeof closable !== "undefined" && closable && (
-                          <div className="ml-3 flex h-7 items-center">
-                            <Button ghost icon={XMarkIcon} onClick={onClose} />
-                          </div>
-                        )}
+                    {typeof title !== "undefined" && !closable ? (
+                      <div className="px-4 sm:px-4">
+                        <div className="flex items-center justify-between">
+                          <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
+                            {title}
+                          </Dialog.Title>
+                          {!closable && closable && (
+                            <div className="ml-3 flex h-7 items-center">
+                              <Button
+                                ghost
+                                icon={XMarkIcon}
+                                onClick={onClose}
+                              />
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    </div>
+                    ) : null}
+
                     <div
                       className={twMerge("relative  flex-1 px-4 ", className)}
                     >
