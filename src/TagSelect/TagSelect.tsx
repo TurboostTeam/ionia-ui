@@ -18,6 +18,7 @@ export interface TagSelectOption<T> {
 export interface TagSelectProps<T> extends FormItemProps {
   className?: string;
   mode: "tag" | "multiple";
+  readOnly?: boolean;
   label?: string;
   helpText?: string;
   error?: string;
@@ -34,6 +35,7 @@ export const TagSelect = forwardRef<TagSelectProps<string>, "input">(
     {
       className,
       mode,
+      readOnly = false,
       label,
       helpText,
       error,
@@ -96,41 +98,53 @@ export const TagSelect = forwardRef<TagSelectProps<string>, "input">(
             }}
           >
             <div className="relative mt-1">
-              <Combobox.Input
-                as={Input}
-                className={className}
-                error={error}
-                ref={ref}
-                value={searchValue}
-                onChange={(val) => {
-                  setSearchValue(val as unknown as string);
-                  onSearch?.(val as unknown as string);
-                }}
-                onKeyDown={(e: KeyboardEvent) => {
-                  e.stopPropagation();
+              {readOnly ? (
+                <Combobox.Button
+                  readOnly
+                  as={Input}
+                  className={className}
+                  error={error}
+                  placeholder={props.placeholder}
+                  ref={ref}
+                />
+              ) : (
+                <Combobox.Input
+                  as={Input}
+                  className={className}
+                  error={error}
+                  ref={ref}
+                  value={searchValue}
+                  onChange={(val) => {
+                    setSearchValue(val as unknown as string);
+                    onSearch?.(val as unknown as string);
+                  }}
+                  onKeyDown={(e: KeyboardEvent) => {
+                    e.stopPropagation();
 
-                  if (e.key === "Enter") {
-                    const trimValue = searchValue?.trim();
+                    if (e.key === "Enter") {
+                      const trimValue = searchValue?.trim();
 
-                    if (
-                      typeof trimValue !== "undefined" &&
-                      trimValue.length > 0
-                    ) {
-                      if (mode === "tag") {
-                        setSearchValue(undefined);
+                      if (
+                        typeof trimValue !== "undefined" &&
+                        trimValue.length > 0
+                      ) {
+                        if (mode === "tag") {
+                          setSearchValue(undefined);
+                        }
+                      }
+
+                      if (
+                        mode === "multiple" &&
+                        uniqInternalOptions.length === 0
+                      ) {
+                        e.preventDefault();
                       }
                     }
+                  }}
+                  {...pick(props, ["placeholder", "maxLength", "minLength"])}
+                />
+              )}
 
-                    if (
-                      mode === "multiple" &&
-                      uniqInternalOptions.length === 0
-                    ) {
-                      e.preventDefault();
-                    }
-                  }
-                }}
-                {...pick(props, ["placeholder", "maxLength", "minLength"])}
-              />
               <Transition
                 as={Fragment}
                 leave="transition ease-in duration-100"
