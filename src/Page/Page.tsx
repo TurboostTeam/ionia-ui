@@ -1,4 +1,7 @@
-import { ArrowUturnLeftIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
+import {
+  ArrowUturnLeftIcon,
+  EllipsisHorizontalIcon,
+} from "@heroicons/react/24/solid";
 import { type PropsWithChildren, type ReactElement } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -37,14 +40,11 @@ export function PageHeader<ActionComponent extends As = typeof Button>({
           <Popover
             activator={
               <Button>
-                <div className="flex">
-                  更多操作
-                  <Action
-                    ghost
-                    className="ml-1 h-4 w-4 p-0"
-                    icon={ChevronDownIcon}
-                  />
-                </div>
+                <Action
+                  ghost
+                  className="flex p-0"
+                  icon={EllipsisHorizontalIcon}
+                />
               </Button>
             }
           >

@@ -122,7 +122,7 @@ export const Button = forwardRef<ButtonProps, "button">(
         type={type}
         {...props}
       >
-        {loading && (
+        {loading && !link && (
           <span className="absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]">
             <Spinner className="text-slate-500" size={size} />
           </span>
@@ -131,7 +131,7 @@ export const Button = forwardRef<ButtonProps, "button">(
         <span
           className={twMerge(
             `flex w-full justify-center items-center gap-1`,
-            loading && `text-transparent`,
+            loading && !link && `text-transparent`,
           )}
         >
           {typeof icon !== "undefined" && <Icon as={icon} size={size} />}
