@@ -1,10 +1,14 @@
-import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
+import {
+  ArrowUturnLeftIcon,
+  EllipsisHorizontalIcon,
+} from "@heroicons/react/24/solid";
 import { type PropsWithChildren, type ReactElement } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Action, type ActionProps } from "../Action";
-import { type Button } from "../Button";
+import { Button } from "../Button";
 import { ButtonGroup } from "../ButtonGroup";
+import { Popover } from "../Popover";
 import { Spinner } from "../Spinner";
 import { type As } from "../types";
 
@@ -32,9 +36,40 @@ export function PageHeader<ActionComponent extends As = typeof Button>({
       )}
 
       <ButtonGroup>
-        {secondaryActions.map((action, index) => (
-          <Action key={index} {...action} />
-        ))}
+        {secondaryActions.length > 1 ? (
+          <Popover
+            activator={
+              <Button>
+                <Action
+                  ghost
+                  className="flex p-0"
+                  icon={EllipsisHorizontalIcon}
+                />
+              </Button>
+            }
+          >
+            <div className="flex flex-col justify-center gap-1 py-1">
+              {secondaryActions.map(
+                ({ content, onAction, ...itemProps }, itemIndex) => (
+                  <div className="px-1" key={itemIndex}>
+                    <Button
+                      ghost
+                      onClick={onAction}
+                      {...itemProps}
+                      className="w-full"
+                    >
+                      {content}
+                    </Button>
+                  </div>
+                ),
+              )}
+            </div>
+          </Popover>
+        ) : (
+          secondaryActions.map((action, index) => (
+            <Action key={index} {...action} />
+          ))
+        )}
 
         {typeof primaryAction !== "undefined" && (
           <Action primary {...primaryAction} />
