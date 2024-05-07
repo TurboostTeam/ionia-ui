@@ -1,18 +1,28 @@
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
-import { type PropsWithChildren, type ReactElement } from "react";
+import {
+  type PropsWithChildren,
+  type ReactElement,
+  type ReactNode,
+} from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Action, type ActionProps } from "../Action";
-import { type Button } from "../Button";
+import { Button } from "../Button";
 import { ButtonGroup } from "../ButtonGroup";
+import { Popover } from "../Popover";
 import { Spinner } from "../Spinner";
 import { type As } from "../types";
 
+export interface MenuGroupProps {
+  title: string | ReactNode;
+  actions: ActionProps[];
+}
 export interface PageHeaderProps<ActionComponent extends As = typeof Button> {
   title?: string;
   backAction?: ActionProps<ActionComponent>;
   primaryAction?: ActionProps<ActionComponent>;
   secondaryActions?: Array<ActionProps<ActionComponent>>;
+  actionGroups?: MenuGroupProps;
 }
 
 export function PageHeader<ActionComponent extends As = typeof Button>({
@@ -20,6 +30,7 @@ export function PageHeader<ActionComponent extends As = typeof Button>({
   backAction,
   primaryAction,
   secondaryActions = [],
+  actionGroups,
 }: PageHeaderProps<ActionComponent>): ReactElement {
   return (
     <div className="mb-4 flex items-center justify-between gap-2">
@@ -36,6 +47,26 @@ export function PageHeader<ActionComponent extends As = typeof Button>({
           <Action key={index} {...action} />
         ))}
 
+        {typeof actionGroups !== "undefined" && (
+          <Popover activator={<Button>{actionGroups.title}</Button>}>
+            <div className="flex flex-col justify-center gap-1 py-1">
+              {actionGroups.actions.map(
+                ({ content, onAction, ...itemProps }, itemIndex) => (
+                  <div className="px-1" key={itemIndex}>
+                    <Button
+                      ghost
+                      onClick={onAction}
+                      {...itemProps}
+                      className="w-full"
+                    >
+                      {content}
+                    </Button>
+                  </div>
+                ),
+              )}
+            </div>
+          </Popover>
+        )}
         {typeof primaryAction !== "undefined" && (
           <Action primary {...primaryAction} />
         )}
@@ -58,10 +89,12 @@ export function Page<ActionComponent extends As = typeof Button>({
   backAction,
   primaryAction,
   secondaryActions,
+  actionGroups,
 }: PropsWithChildren<PageProps<ActionComponent>>): ReactElement {
   return (
     <div className={twMerge(`p-4 mx-auto`, !fullWidth && `max-w-5xl`)}>
       <PageHeader<ActionComponent>
+        actionGroups={actionGroups}
         backAction={backAction}
         primaryAction={primaryAction}
         secondaryActions={secondaryActions}
