@@ -1,4 +1,4 @@
-import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
+import { ArrowUturnLeftIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 import { type PropsWithChildren, type ReactElement } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -9,16 +9,11 @@ import { Popover } from "../Popover";
 import { Spinner } from "../Spinner";
 import { type As } from "../types";
 
-export interface MenuGroupProps {
-  title: string;
-  actions: ActionProps[];
-}
 export interface PageHeaderProps<ActionComponent extends As = typeof Button> {
   title?: string;
   backAction?: ActionProps<ActionComponent>;
   primaryAction?: ActionProps<ActionComponent>;
   secondaryActions?: Array<ActionProps<ActionComponent>>;
-  actionGroups?: MenuGroupProps;
 }
 
 export function PageHeader<ActionComponent extends As = typeof Button>({
@@ -26,7 +21,6 @@ export function PageHeader<ActionComponent extends As = typeof Button>({
   backAction,
   primaryAction,
   secondaryActions = [],
-  actionGroups,
 }: PageHeaderProps<ActionComponent>): ReactElement {
   return (
     <div className="mb-4 flex items-center justify-between gap-2">
@@ -39,14 +33,23 @@ export function PageHeader<ActionComponent extends As = typeof Button>({
       )}
 
       <ButtonGroup>
-        {secondaryActions.map((action, index) => (
-          <Action key={index} {...action} />
-        ))}
-
-        {typeof actionGroups !== "undefined" && (
-          <Popover activator={<Button>{actionGroups.title}</Button>}>
+        {secondaryActions.length > 1 ? (
+          <Popover
+            activator={
+              <Button>
+                <div className="flex">
+                  更多操作
+                  <Action
+                    ghost
+                    className="ml-1 h-4 w-4 p-0"
+                    icon={ChevronDownIcon}
+                  />
+                </div>
+              </Button>
+            }
+          >
             <div className="flex flex-col justify-center gap-1 py-1">
-              {actionGroups.actions.map(
+              {secondaryActions.map(
                 ({ content, onAction, ...itemProps }, itemIndex) => (
                   <div className="px-1" key={itemIndex}>
                     <Button
@@ -62,7 +65,12 @@ export function PageHeader<ActionComponent extends As = typeof Button>({
               )}
             </div>
           </Popover>
+        ) : (
+          secondaryActions.map((action, index) => (
+            <Action key={index} {...action} />
+          ))
         )}
+
         {typeof primaryAction !== "undefined" && (
           <Action primary {...primaryAction} />
         )}
@@ -85,12 +93,10 @@ export function Page<ActionComponent extends As = typeof Button>({
   backAction,
   primaryAction,
   secondaryActions,
-  actionGroups,
 }: PropsWithChildren<PageProps<ActionComponent>>): ReactElement {
   return (
     <div className={twMerge(`p-4 mx-auto`, !fullWidth && `max-w-5xl`)}>
       <PageHeader<ActionComponent>
-        actionGroups={actionGroups}
         backAction={backAction}
         primaryAction={primaryAction}
         secondaryActions={secondaryActions}

@@ -26,26 +26,9 @@ export const Default: FC = (args) => {
   return (
     <div className="bg-gray-50">
       <Page
-        actionGroups={{
-          title: "更多操作",
-          actions: [
-            {
-              content: "导出分享",
-              onAction: () => {
-                alert("导出");
-              },
-            },
-            {
-              content: "打印",
-              onAction: () => {
-                alert("打印");
-              },
-            },
-          ],
-        }}
         backAction={{}}
         primaryAction={{ content: "创建" }}
-        secondaryActions={[{ content: "设置" }]}
+        secondaryActions={[{ content: "设置" }, { content: "更多" }]}
         title="标题"
         {...args}
       >
