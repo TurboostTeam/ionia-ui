@@ -1,6 +1,5 @@
 import type { Meta } from "@storybook/react";
 import { type FC } from "react";
-import { AiOutlineDown } from "react-icons/ai";
 
 import { Card } from "../Card";
 import { PageActions } from "../PageActions";
@@ -28,12 +27,7 @@ export const Default: FC = (args) => {
     <div className="bg-gray-50">
       <Page
         actionGroups={{
-          title: (
-            <div>
-              更多操作
-              <AiOutlineDown />
-            </div>
-          ),
+          title: "更多操作",
           actions: [
             {
               content: "导出分享",

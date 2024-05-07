@@ -1,9 +1,5 @@
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
-import {
-  type PropsWithChildren,
-  type ReactElement,
-  type ReactNode,
-} from "react";
+import { type PropsWithChildren, type ReactElement } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Action, type ActionProps } from "../Action";
@@ -14,7 +10,7 @@ import { Spinner } from "../Spinner";
 import { type As } from "../types";
 
 export interface MenuGroupProps {
-  title: string | ReactNode;
+  title: string;
   actions: ActionProps[];
 }
 export interface PageHeaderProps<ActionComponent extends As = typeof Button> {
