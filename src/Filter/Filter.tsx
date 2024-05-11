@@ -160,7 +160,12 @@ export function Filter<T>({
                 value={field.value}
                 onChange={(value) => {
                   field.onChange(value);
-                  handleChange();
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && typeof search !== "undefined") {
+                    e.preventDefault();
+                    handleChange();
+                  }
                 }}
               />
             )}
