@@ -26,11 +26,15 @@ interface Person {
 export const Base: FC = () => {
   return (
     <Table<Person>
+      enableRowSelectAll
       enableRowSelection
-      singleSelection
-      bulkActions={[
+      // singleSelection
+      bulkActions={(rows, isSelectedAll) => [
         {
           content: "123",
+          onClick: () => {
+            console.log(111, rows, isSelectedAll);
+          },
         },
         { content: "24" },
       ]}
@@ -96,7 +100,6 @@ export const Base: FC = () => {
           progress: 10,
         },
       ]}
-      selectedItemsCountLabel="123"
       onRow={(record) => {
         return {
           onClick: () => {

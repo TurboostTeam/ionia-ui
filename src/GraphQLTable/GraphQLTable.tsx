@@ -51,8 +51,8 @@ export interface GraphQLTableProps<Node, OrderField> {
   singleSelection?: boolean;
   selectedItemsCountLabel?: string;
   emptyStateDescription?: EmptyStateProps["description"];
+  enableRowSelectAll?: boolean;
   actionRef?: RefObject<ActionType>;
-  bulkActions?: ActionProps[];
   edges?: Array<GraphQLTableEdge<Node>>;
   filters?: Array<FilterItemProps<Node>>;
   search?: false | FilterSearchConfig;
@@ -64,6 +64,7 @@ export interface GraphQLTableProps<Node, OrderField> {
   loading?: boolean;
   value?: GraphQLTableValue<OrderField>;
   defaultFilterValue?: Record<Field<Node>, any>;
+  bulkActions?: (rows: Node[], isSelectedAll: boolean) => ActionProps[];
   toolBarRender?: () => ReactNode;
   onRowSelectionChange?: (rows: Node[]) => void;
   onChange?: (value: GraphQLTableValue<OrderField>) => void;
@@ -76,8 +77,8 @@ export function GraphQLTable<Node, OrderField extends string>({
   actionRef,
   emptyStateDescription,
   defaultFilterValue,
+  enableRowSelectAll,
   selectedItemsCountLabel,
-  bulkActions = [],
   footer,
   filters = [],
   columns = [],
@@ -90,6 +91,7 @@ export function GraphQLTable<Node, OrderField extends string>({
   value = {},
   enableRowSelection = false,
   singleSelection = false,
+  bulkActions = () => [],
   onRowSelectionChange,
   toolBarRender,
   onChange,
@@ -268,8 +270,8 @@ export function GraphQLTable<Node, OrderField extends string>({
           bulkActions={bulkActions}
           columns={columns}
           data={edges.map((edge) => edge.node)}
+          enableRowSelectAll={enableRowSelectAll}
           enableRowSelection={enableRowSelection}
-          selectedItemsCountLabel={selectedItemsCountLabel}
           singleSelection={singleSelection}
           onRow={onRow}
           onRowSelectionChange={onRowSelectionChange}

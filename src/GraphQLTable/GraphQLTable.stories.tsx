@@ -29,9 +29,10 @@ export const Controlled: FC = () => {
   return (
     <div>
       <GraphQLTable
+        enableRowSelectAll
         enableRowSelection
         actionRef={actionRef}
-        bulkActions={[{ content: "编辑" }, { content: "删除" }]}
+        bulkActions={() => [{ content: "编辑" }, { content: "删除" }]}
         columns={columns}
         edges={[
           { node: { name: "1", age: 1, year: 2023 }, cursor: "1" },
