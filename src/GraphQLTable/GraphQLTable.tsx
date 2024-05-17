@@ -109,7 +109,7 @@ export function GraphQLTable<Node, OrderField extends string>({
     value?.orderBy?.direction,
   );
 
-  const tableRef = useRef<TableActionType>(null);
+  const tableActionRef = useRef<TableActionType>(null);
 
   // 一些可以手动触发的特殊操作
   useImperativeHandle(
@@ -205,8 +205,8 @@ export function GraphQLTable<Node, OrderField extends string>({
         : {}),
     });
 
-    tableRef.current?.resetRowSelection?.();
-  }, [query, pagination, pageSize, orderField, orderDirection, tableRef]);
+    tableActionRef.current?.resetRowSelection?.();
+  }, [query, pagination, pageSize, orderField, orderDirection, tableActionRef]);
 
   return (
     <div className="divide-y divide-gray-300 overflow-x-hidden rounded-md bg-white pt-3 shadow">
@@ -275,7 +275,7 @@ export function GraphQLTable<Node, OrderField extends string>({
           columns={columns}
           data={edges.map((edge) => edge.node)}
           rowSelection={rowSelection}
-          tableRef={tableRef}
+          tableActionRef={tableActionRef}
           onRow={onRow}
         />
       ) : (

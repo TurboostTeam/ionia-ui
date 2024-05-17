@@ -45,7 +45,7 @@ export type TableColumnProps<T> = ColumnDef<T> & {
 };
 
 export interface TableProps<T> {
-  tableRef?: RefObject<TableActionType>;
+  tableActionRef?: RefObject<TableActionType>;
   columns: Array<TableColumnProps<T>>;
   rowSelection?: {
     single?: boolean;
@@ -62,7 +62,7 @@ export interface TableProps<T> {
 }
 
 export function Table<T>({
-  tableRef,
+  tableActionRef,
   columns,
   data,
   rowSelection,
@@ -239,7 +239,7 @@ export function Table<T>({
 
   // 一些可以手动触发的特殊操作
   useImperativeHandle(
-    tableRef,
+    tableActionRef,
     () => ({
       resetRowSelection: () => {
         table.resetRowSelection();
