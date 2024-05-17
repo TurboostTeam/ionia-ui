@@ -185,16 +185,9 @@ export function Table<T>({
         const newRowSelection =
           updater instanceof Function ? updater(old) : updater;
 
-        if (
-          typeof rowSelection?.single !== "undefined" &&
-          rowSelection.single
-        ) {
-          rowSelection?.onSelectionChange?.(
-            Object.keys(newRowSelection).map(
-              (key) => table.getRow(key).original,
-            ),
-          );
-        }
+        rowSelection?.onSelectionChange?.(
+          Object.keys(newRowSelection).map((key) => table.getRow(key).original),
+        );
 
         setIsRowSelectedAll(false);
 
