@@ -304,7 +304,7 @@ export function Table<T>({
                       )
                       ?.map((action, index) => (
                         <div key={index}>
-                          <Action {...action} link />
+                          <Action {...action} size="sm" />
                         </div>
                       ))}
                   </td>
