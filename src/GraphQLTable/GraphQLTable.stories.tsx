@@ -1,5 +1,5 @@
 import { type Meta } from "@storybook/react";
-import { type FC, useRef, useState } from "react";
+import { type FC, useRef } from "react";
 
 import { Button } from "../Button";
 import { CheckboxGroup } from "../CheckboxGroup";
@@ -18,7 +18,6 @@ export default meta;
 
 export const Controlled: FC = () => {
   const actionRef = useRef<ActionType>(null);
-  const [selectedRows, setSelectedRows] = useState<any[]>([]);
 
   const columns: Array<TableColumnProps<any>> = [
     { accessorKey: "name" },
@@ -29,10 +28,7 @@ export const Controlled: FC = () => {
   return (
     <div>
       <GraphQLTable
-        enableRowSelectAll
-        enableRowSelection
         actionRef={actionRef}
-        bulkActions={() => [{ content: "编辑" }, { content: "删除" }]}
         columns={columns}
         edges={[
           { node: { name: "1", age: 1, year: 2023 }, cursor: "1" },
@@ -96,8 +92,23 @@ export const Controlled: FC = () => {
           },
         ]}
         footer={<div>summary</div>}
+        rowSelection={{
+          allowSelectAll: true,
+          // single: false,
+          bulkActions: (rows, isSelectedAll) => [
+            {
+              content: "编辑",
+              onClick: () => {
+                console.log(111, rows, isSelectedAll);
+              },
+            },
+            { content: "删除" },
+          ],
+          onSelectionChange: (rows) => {
+            console.log(rows);
+          },
+        }}
         search={{ queryPlaceholder: "search" }}
-        selectedItemsCountLabel={`${selectedRows.length} selected`}
         toolBarRender={() => <div>toolbar</div>}
         onChange={(variables) => {
           console.log(variables);
@@ -108,9 +119,6 @@ export const Controlled: FC = () => {
               console.log(record);
             },
           };
-        }}
-        onRowSelectionChange={(rows) => {
-          setSelectedRows(rows);
         }}
       />
 

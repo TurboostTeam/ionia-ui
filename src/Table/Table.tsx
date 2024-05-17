@@ -9,7 +9,9 @@ import {
 import { cloneDeep, groupBy, reduce, sum } from "lodash";
 import {
   type ReactElement,
+  type RefObject,
   useCallback,
+  useImperativeHandle,
   useMemo,
   useRef,
   useState,
@@ -32,6 +34,10 @@ const columnWrapClass = {
   false: "whitespace-nowrap",
 };
 
+export interface TableActionType {
+  resetRowSelection: () => void;
+}
+
 export type TableColumnProps<T> = ColumnDef<T> & {
   align?: "left" | "center" | "right";
   pin?: "left" | "right" | false;
@@ -39,48 +45,51 @@ export type TableColumnProps<T> = ColumnDef<T> & {
 };
 
 export interface TableProps<T> {
+  tableRef?: RefObject<TableActionType>;
   columns: Array<TableColumnProps<T>>;
-  enableRowSelection?: boolean;
-  singleSelection?: boolean;
-  enableRowSelectAll?: boolean;
-  bulkActions?: (rows: T[], isSelectedAll: boolean) => ActionProps[];
+  rowSelection?: {
+    single?: boolean;
+    allowSelectAll?: boolean;
+    onSelectionChange?: (rows: T[]) => void;
+    bulkActions?: (rows: T[], isSelectedAll: boolean) => ActionProps[];
+  };
   data: T[];
   bodyHeight?: number;
   loading?: boolean;
   onRow?: (record: T) => {
     onClick?: (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => void;
   };
-  onRowSelectionChange?: (rows: T[]) => void;
 }
 
 export function Table<T>({
+  tableRef,
   columns,
   data,
-  enableRowSelection = false,
-  singleSelection = false,
-  enableRowSelectAll = false,
+  rowSelection,
   loading = false,
   bodyHeight,
-  bulkActions = () => [],
-  onRowSelectionChange,
   onRow,
 }: TableProps<T>): ReactElement {
-  const batchActionTableHeaderRowRef = useRef<HTMLTableRowElement>(null);
   const tableHeaderRef = useRef<HTMLTableElement>(null);
   const tableFooterRef = useRef<HTMLTableElement>(null);
 
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [internalRowSelection, setInternalRowSelection] =
+    useState<RowSelectionState>({});
+
   // 不是当前页的选中全部
   const [isRowSelectedAll, setIsRowSelectedAll] = useState(false);
 
   const hasBulkActions = useMemo(() => {
-    return bulkActions([], false).length !== 0;
-  }, [bulkActions]);
+    return (
+      typeof rowSelection?.bulkActions !== "undefined" &&
+      rowSelection.bulkActions([], false).length !== 0
+    );
+  }, [rowSelection]);
 
   const memoColumns = useMemo(() => {
     const cloneColumns = cloneDeep(columns);
 
-    if (enableRowSelection) {
+    if (typeof rowSelection !== "undefined") {
       cloneColumns.unshift({
         id: "row-select",
         size: 34,
@@ -92,7 +101,7 @@ export function Table<T>({
         )
           ? "left"
           : undefined,
-        header: !singleSelection
+        header: !(rowSelection.single ?? false)
           ? ({ table }) => {
               return (
                 <Checkbox
@@ -105,7 +114,7 @@ export function Table<T>({
             }
           : undefined,
         cell: ({ row, table }) =>
-          singleSelection ? (
+          typeof rowSelection.single !== "undefined" && rowSelection.single ? (
             <Radio
               checked={row.getIsSelected()}
               disabled={!row.getCanSelect()}
@@ -139,13 +148,13 @@ export function Table<T>({
           }
         : column,
     );
-  }, [columns, enableRowSelection, singleSelection]);
+  }, [columns, rowSelection]);
 
   const table = useReactTable({
     data,
     columns: memoColumns as Array<ColumnDef<T>>,
     state: {
-      rowSelection,
+      rowSelection: internalRowSelection,
       columnPinning: reduce(
         memoColumns.filter(
           (column) => typeof column.pin !== "undefined" && column.pin !== false,
@@ -169,15 +178,18 @@ export function Table<T>({
         {},
       ),
     },
-    enableRowSelection,
+    enableRowSelection: typeof rowSelection !== "undefined",
     getCoreRowModel: getCoreRowModel(),
     onRowSelectionChange: (updater) => {
-      setRowSelection((old) => {
+      setInternalRowSelection((old) => {
         const newRowSelection =
           updater instanceof Function ? updater(old) : updater;
 
-        if (singleSelection) {
-          onRowSelectionChange?.(
+        if (
+          typeof rowSelection?.single !== "undefined" &&
+          rowSelection.single
+        ) {
+          rowSelection?.onSelectionChange?.(
             Object.keys(newRowSelection).map(
               (key) => table.getRow(key).original,
             ),
@@ -225,6 +237,17 @@ export function Table<T>({
     [columnsPinnedInfo, table],
   );
 
+  // 一些可以手动触发的特殊操作
+  useImperativeHandle(
+    tableRef,
+    () => ({
+      resetRowSelection: () => {
+        table.resetRowSelection();
+      },
+    }),
+    [table],
+  );
+
   return (
     <div
       className={twMerge(
@@ -236,17 +259,16 @@ export function Table<T>({
         <table className="w-full table-fixed">
           <thead className="relative border-b">
             {/* batch actions */}
-            {!singleSelection &&
-              Object.keys(rowSelection).length > 0 &&
+            {!(rowSelection?.single ?? false) &&
+              Object.keys(internalRowSelection).length > 0 &&
               hasBulkActions && (
-                <tr
-                  className="absolute z-[2] flex w-full space-x-2 border-b bg-white px-3 py-3.5"
-                  ref={batchActionTableHeaderRowRef}
-                >
+                <tr className="absolute z-[2] flex w-full space-x-2 border-b bg-white px-3 py-3.5">
                   <td className="h-[28px]">
                     <Checkbox
                       checked={table.getIsAllRowsSelected()}
-                      indeterminate={Object.keys(rowSelection).length > 0}
+                      indeterminate={
+                        Object.keys(internalRowSelection).length > 0
+                      }
                       label=""
                       onChange={table.getToggleAllRowsSelectedHandler()}
                     />
@@ -255,40 +277,43 @@ export function Table<T>({
                   <td className="text-sm leading-[26px] text-gray-500">
                     {isRowSelectedAll
                       ? "已选择全部"
-                      : `已选择 ${Object.keys(rowSelection).length} 行`}
+                      : `已选择 ${Object.keys(internalRowSelection).length} 行`}
                   </td>
 
-                  {enableRowSelectAll && (
-                    <td>
-                      <Action
-                        link
-                        content={isRowSelectedAll ? "取消" : "选择全部"}
-                        onClick={() => {
-                          if (isRowSelectedAll) {
-                            setIsRowSelectedAll(false);
-                          } else {
-                            table.toggleAllRowsSelected(true);
+                  {typeof rowSelection?.allowSelectAll !== "undefined" &&
+                    rowSelection.allowSelectAll && (
+                      <td>
+                        <Action
+                          link
+                          content={isRowSelectedAll ? "取消" : "选择全部"}
+                          onClick={() => {
+                            if (isRowSelectedAll) {
+                              setIsRowSelectedAll(false);
+                            } else {
+                              table.toggleAllRowsSelected(true);
 
-                            setTimeout(() => {
-                              setIsRowSelectedAll(true);
-                            });
-                          }
-                        }}
-                      />
-                    </td>
-                  )}
+                              setTimeout(() => {
+                                setIsRowSelectedAll(true);
+                              });
+                            }
+                          }}
+                        />
+                      </td>
+                    )}
 
                   <td className="flex space-x-2" style={{ marginLeft: "auto" }}>
-                    {bulkActions?.(
-                      Object.keys(rowSelection).map(
-                        (key) => table.getRow(key).original,
-                      ),
-                      isRowSelectedAll,
-                    )?.map((action, index) => (
-                      <div key={index}>
-                        <Action {...action} link />
-                      </div>
-                    ))}
+                    {rowSelection
+                      ?.bulkActions?.(
+                        Object.keys(internalRowSelection).map(
+                          (key) => table.getRow(key).original,
+                        ),
+                        isRowSelectedAll,
+                      )
+                      ?.map((action, index) => (
+                        <div key={index}>
+                          <Action {...action} link />
+                        </div>
+                      ))}
                   </td>
                 </tr>
               )}
