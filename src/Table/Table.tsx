@@ -255,8 +255,8 @@ export function Table<T>({
             {!(rowSelection?.single ?? false) &&
               Object.keys(internalRowSelection).length > 0 &&
               hasBulkActions && (
-                <tr className="absolute z-[2] flex w-full space-x-2 border-b bg-white px-3 py-3.5">
-                  <td className="h-[28px]">
+                <tr className="absolute z-[2] flex w-full items-center space-x-2 bg-white px-3 py-3">
+                  <td>
                     <Checkbox
                       checked={table.getIsAllRowsSelected()}
                       indeterminate={
@@ -267,7 +267,7 @@ export function Table<T>({
                     />
                   </td>
 
-                  <td className="text-sm leading-[26px] text-gray-500">
+                  <td className="text-sm text-gray-500">
                     {isRowSelectedAll
                       ? "已选择全部"
                       : `已选择 ${Object.keys(internalRowSelection).length} 行`}
@@ -275,22 +275,21 @@ export function Table<T>({
 
                   {typeof rowSelection?.allowSelectAll !== "undefined" &&
                     rowSelection.allowSelectAll && (
-                      <td>
-                        <Action
-                          link
-                          content={isRowSelectedAll ? "取消" : "选择全部"}
-                          onClick={() => {
-                            if (isRowSelectedAll) {
-                              setIsRowSelectedAll(false);
-                            } else {
-                              table.toggleAllRowsSelected(true);
+                      <td
+                        className="cursor-pointer text-sm text-indigo-600 hover:text-indigo-400"
+                        onClick={() => {
+                          if (isRowSelectedAll) {
+                            setIsRowSelectedAll(false);
+                          } else {
+                            table.toggleAllRowsSelected(true);
 
-                              setTimeout(() => {
-                                setIsRowSelectedAll(true);
-                              });
-                            }
-                          }}
-                        />
+                            setTimeout(() => {
+                              setIsRowSelectedAll(true);
+                            });
+                          }
+                        }}
+                      >
+                        {isRowSelectedAll ? "取消" : "选择全部"}
                       </td>
                     )}
 
