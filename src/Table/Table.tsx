@@ -255,7 +255,7 @@ export function Table<T>({
             {!(rowSelection?.single ?? false) &&
               Object.keys(internalRowSelection).length > 0 &&
               hasBulkActions && (
-                <tr className="absolute z-[2] flex w-full space-x-2 border-b bg-white px-3 py-3.5">
+                <tr className="absolute z-[2] flex w-full space-x-2 bg-white px-3 py-3">
                   <td className="h-[28px]">
                     <Checkbox
                       checked={table.getIsAllRowsSelected()}
