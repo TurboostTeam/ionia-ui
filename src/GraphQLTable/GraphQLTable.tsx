@@ -16,6 +16,7 @@ import {
   useCallback,
   useImperativeHandle,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import { useUpdateEffect } from "react-use";
@@ -29,7 +30,12 @@ import {
   type FilterSearchConfig,
 } from "../Filter";
 import { RadioGroup, type RadioGroupOption } from "../RadioGroup";
-import { Table, type TableColumnProps, type TableProps } from "../Table";
+import {
+  Table,
+  type TableActionType,
+  type TableColumnProps,
+  type TableProps,
+} from "../Table";
 import { type Field } from "../types";
 import { OrderDirection } from "./OrderDirection";
 import { OrderDirectionList } from "./OrderDirectionList";
@@ -47,12 +53,14 @@ export interface ActionType {
 export interface GraphQLTableProps<Node, OrderField> {
   emptyStateIcon?: EmptyStateProps["icon"];
   emptyStateTitle?: EmptyStateProps["title"];
-  enableRowSelection?: boolean;
-  singleSelection?: boolean;
-  selectedItemsCountLabel?: string;
+  rowSelection?: {
+    single?: boolean;
+    allowSelectAll?: boolean;
+    onSelectionChange?: (rows: Node[]) => void;
+    bulkActions?: (rows: Node[], isSelectedAll: boolean) => ActionProps[];
+  };
   emptyStateDescription?: EmptyStateProps["description"];
   actionRef?: RefObject<ActionType>;
-  bulkActions?: ActionProps[];
   edges?: Array<GraphQLTableEdge<Node>>;
   filters?: Array<FilterItemProps<Node>>;
   search?: false | FilterSearchConfig;
@@ -65,7 +73,6 @@ export interface GraphQLTableProps<Node, OrderField> {
   value?: GraphQLTableValue<OrderField>;
   defaultFilterValue?: Record<Field<Node>, any>;
   toolBarRender?: () => ReactNode;
-  onRowSelectionChange?: (rows: Node[]) => void;
   onChange?: (value: GraphQLTableValue<OrderField>) => void;
   onRow?: TableProps<Node>["onRow"];
 }
@@ -76,8 +83,6 @@ export function GraphQLTable<Node, OrderField extends string>({
   actionRef,
   emptyStateDescription,
   defaultFilterValue,
-  selectedItemsCountLabel,
-  bulkActions = [],
   footer,
   filters = [],
   columns = [],
@@ -88,9 +93,7 @@ export function GraphQLTable<Node, OrderField extends string>({
   pageInfo,
   loading = false,
   value = {},
-  enableRowSelection = false,
-  singleSelection = false,
-  onRowSelectionChange,
+  rowSelection,
   toolBarRender,
   onChange,
   onRow,
@@ -105,6 +108,8 @@ export function GraphQLTable<Node, OrderField extends string>({
   const [orderDirection, setOrderDirection] = useState(
     value?.orderBy?.direction,
   );
+
+  const tableActionRef = useRef<TableActionType>(null);
 
   // 一些可以手动触发的特殊操作
   useImperativeHandle(
@@ -199,7 +204,9 @@ export function GraphQLTable<Node, OrderField extends string>({
           }
         : {}),
     });
-  }, [query, pagination, pageSize, orderField, orderDirection]);
+
+    tableActionRef.current?.resetRowSelection?.();
+  }, [query, pagination, pageSize, orderField, orderDirection, tableActionRef]);
 
   return (
     <div className="divide-y divide-gray-300 overflow-x-hidden rounded-md bg-white pt-3 shadow">
@@ -265,14 +272,11 @@ export function GraphQLTable<Node, OrderField extends string>({
 
       {typeof edges !== "undefined" && edges.length > 0 ? (
         <Table
-          bulkActions={bulkActions}
           columns={columns}
           data={edges.map((edge) => edge.node)}
-          enableRowSelection={enableRowSelection}
-          selectedItemsCountLabel={selectedItemsCountLabel}
-          singleSelection={singleSelection}
+          rowSelection={rowSelection}
+          tableActionRef={tableActionRef}
           onRow={onRow}
-          onRowSelectionChange={onRowSelectionChange}
         />
       ) : (
         <EmptyState
