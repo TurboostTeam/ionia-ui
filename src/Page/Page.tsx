@@ -37,17 +37,7 @@ export function PageHeader<ActionComponent extends As = typeof Button>({
 
       <ButtonGroup>
         {secondaryActions.length > 1 ? (
-          <Popover
-            activator={
-              <Button>
-                <Action
-                  ghost
-                  className="flex p-0"
-                  icon={EllipsisHorizontalIcon}
-                />
-              </Button>
-            }
-          >
+          <Popover activator={<Action icon={EllipsisHorizontalIcon} />}>
             <div className="flex flex-col justify-center gap-1 py-1">
               {secondaryActions.map(
                 ({ content, onAction, ...itemProps }, itemIndex) => (
