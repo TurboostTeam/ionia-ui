@@ -68,7 +68,7 @@ export const Modal: FC<ModalProps> = ({
               <Dialog.Panel
                 className={twMerge(
                   sizeMap[size],
-                  `w-full relative transform overflow-hidden rounded-lg bg-white p-4 flex flex-col gap-4 text-left shadow-xl transition-all max-sm:rounded-none max-sm:max-w-full`,
+                  `w-full relative transform rounded-lg bg-white p-4 flex flex-col gap-4 text-left shadow-xl transition-all max-sm:rounded-none max-sm:max-w-full`,
                 )}
               >
                 {/* header */}
