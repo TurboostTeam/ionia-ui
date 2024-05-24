@@ -17,7 +17,7 @@ export const Base: Story = {
     label: "Select",
     value: "hidden",
     options: [
-      { label: "Hidden", value: "hidden" },
+      { label: "Hidden", value: "hidden", details: "This is a description" },
       { label: "Optional", value: "optional" },
       { label: "Required", value: "required" },
     ],
