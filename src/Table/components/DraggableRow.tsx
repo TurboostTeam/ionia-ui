@@ -59,11 +59,11 @@ export function DraggableRow<T>({
       className={twMerge(
         "bg-white group hover:bg-gray-50 relative",
         onRow != null && "cursor-pointer",
+        isDragging && "relative cursor-grabbing z-[999]",
       )}
       ref={setNodeRef}
       style={{
         transform: CSS.Translate.toString(transform),
-        ...(isDragging ? { position: "relative", zIndex: 9999 } : {}),
       }}
       onClick={(e) => {
         onRow?.(row.original)?.onClick?.(e);

@@ -18,7 +18,7 @@ export function RowDragHandleCell({
   return (
     <Button
       ghost
-      className={isDragging ? " cursor-grabbing" : "cursor-grab"}
+      className={isDragging ? "cursor-grabbing" : "cursor-grab"}
       icon={AiOutlineHolder}
       ref={setActivatorNodeRef}
       size="sm"
