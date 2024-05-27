@@ -171,7 +171,7 @@ export function Table<T>({
     }
 
     if (rowDraggable?.enable === true) {
-      cloneColumns.splice(1, 0, {
+      cloneColumns.splice(typeof rowSelection !== "undefined" ? 1 : 0, 0, {
         id: "drag-handle",
         pin: cloneColumns.some(
           (column) =>
