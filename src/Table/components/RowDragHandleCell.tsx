@@ -1,5 +1,8 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { type ReactElement } from "react";
+import { AiOutlineHolder } from "react-icons/ai";
+
+import { Button } from "../../Button";
 
 interface RowDragHandleCellProps {
   rowId: string;
@@ -8,14 +11,18 @@ interface RowDragHandleCellProps {
 export function RowDragHandleCell({
   rowId,
 }: RowDragHandleCellProps): ReactElement {
-  const { attributes, listeners } = useSortable({
+  const { listeners, setActivatorNodeRef, isDragging } = useSortable({
     id: rowId,
   });
 
   return (
-    // Alternatively, you could set these attributes on the rows themselves
-    <button {...attributes} {...listeners}>
-      🟰
-    </button>
+    <Button
+      ghost
+      className={isDragging ? " cursor-grabbing" : "cursor-grab"}
+      icon={AiOutlineHolder}
+      ref={setActivatorNodeRef}
+      size="sm"
+      {...listeners}
+    />
   );
 }

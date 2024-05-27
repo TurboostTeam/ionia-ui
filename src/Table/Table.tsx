@@ -1,13 +1,7 @@
 import {
-  closestCenter,
   DndContext,
   type DragEndEvent,
-  KeyboardSensor,
-  MouseSensor,
-  TouchSensor,
   type UniqueIdentifier,
-  useSensor,
-  useSensors,
 } from "@dnd-kit/core";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import {
@@ -177,9 +171,16 @@ export function Table<T>({
     }
 
     if (rowDraggable?.enable === true) {
-      cloneColumns.splice(0, 0, {
+      cloneColumns.splice(1, 0, {
         id: "drag-handle",
-        header: "Move",
+        pin: cloneColumns.some(
+          (column) =>
+            typeof column.pin !== "undefined" &&
+            typeof column.pin !== "boolean" &&
+            ["left", "right"].includes(column.pin),
+        )
+          ? "left"
+          : undefined,
         cell: ({ row }) => <RowDragHandleCell rowId={row.id} />,
         size: 60,
       });
@@ -282,16 +283,28 @@ export function Table<T>({
   const handleDragEnd = useCallback(
     (event: DragEndEvent) => {
       const { active, over } = event;
-      if (Boolean(active) && over != null && active.id !== over.id) {
+      if (
+        typeof rowKey !== "undefined" &&
+        over != null &&
+        active.id !== over.id
+      ) {
         setFinallyData((data) => {
-          const oldIndex = dataRowIds.indexOf(active.id);
-          const newIndex = dataRowIds.indexOf(over.id);
+          const activeIndex = data.findIndex(
+            (record) => record[rowKey] === active?.id,
+          );
+          const overIndex = data.findIndex(
+            (record) => record[rowKey] === over?.id,
+          );
 
-          return arrayMove(data, oldIndex, newIndex);
+          const result = arrayMove(data, activeIndex, overIndex);
+
+          rowDraggable?.onRowDragEndChange?.(result);
+
+          return result;
         });
       }
     },
-    [dataRowIds],
+    [rowDraggable, rowKey],
   );
 
   // 一些可以手动触发的特殊操作
@@ -305,19 +318,8 @@ export function Table<T>({
     [table],
   );
 
-  const sensors = useSensors(
-    useSensor(MouseSensor, {}),
-    useSensor(TouchSensor, {}),
-    useSensor(KeyboardSensor, {}),
-  );
-
   return (
-    <DndContext
-      collisionDetection={closestCenter}
-      modifiers={[restrictToVerticalAxis]}
-      sensors={sensors}
-      onDragEnd={handleDragEnd}
-    >
+    <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={handleDragEnd}>
       <div
         className={twMerge(
           "min-w-full relative",

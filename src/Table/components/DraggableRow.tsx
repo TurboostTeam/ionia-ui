@@ -50,7 +50,7 @@ export function DraggableRow<T>({
   getColumnPinedOffset,
   onRow,
 }: DraggableRowProps<T>): ReactElement {
-  const { transform, transition, setNodeRef, isDragging } = useSortable({
+  const { transform, setNodeRef, isDragging } = useSortable({
     id: typeof rowKey !== "undefined" ? (row.original[rowKey] as string) : "id",
   });
 
@@ -62,11 +62,8 @@ export function DraggableRow<T>({
       )}
       ref={setNodeRef}
       style={{
-        transform: CSS.Transform.toString(transform), // let dnd-kit do its thing
-        transition,
-        opacity: isDragging ? 0.8 : 1,
-        zIndex: isDragging ? 1 : 0,
-        position: "relative",
+        transform: CSS.Translate.toString(transform),
+        ...(isDragging ? { position: "relative", zIndex: 9999 } : {}),
       }}
       onClick={(e) => {
         onRow?.(row.original)?.onClick?.(e);

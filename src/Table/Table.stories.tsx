@@ -92,7 +92,12 @@ export const Base: FC = () => {
           progress: 10,
         },
       ]}
-      rowDraggable={{ enable: true }}
+      rowDraggable={{
+        enable: true,
+        onRowDragEndChange: (rows) => {
+          console.log("rows", rows);
+        },
+      }}
       rowKey="id"
       rowSelection={{
         allowSelectAll: true,
