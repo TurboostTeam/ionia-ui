@@ -124,7 +124,7 @@ export function Table<T>({
     if (typeof rowSelection !== "undefined") {
       cloneColumns.unshift({
         id: "row-select",
-        size: 34,
+        size: 40,
         pin: cloneColumns.some(
           (column) =>
             typeof column.pin !== "undefined" &&
@@ -184,7 +184,7 @@ export function Table<T>({
           ? "left"
           : undefined,
         cell: ({ row }) => <RowDragHandleCell rowId={row.id} />,
-        size: 60,
+        size: 52,
       });
     }
 
