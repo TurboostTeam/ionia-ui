@@ -50,11 +50,9 @@ export function DraggableRow<T>({
   getColumnPinedOffset,
   onRow,
 }: DraggableRowProps<T>): ReactElement {
-  const { transform, setNodeRef, isDragging, attributes, listeners } =
-    useSortable({
-      id:
-        typeof rowKey !== "undefined" ? (row.original[rowKey] as string) : "id",
-    });
+  const { transform, setNodeRef, isDragging } = useSortable({
+    id: typeof rowKey !== "undefined" ? (row.original[rowKey] as string) : "id",
+  });
 
   return (
     <tr
@@ -63,8 +61,6 @@ export function DraggableRow<T>({
         onRow != null && "cursor-pointer",
         isDragging && "relative cursor-grabbing z-[999]",
       )}
-      {...attributes}
-      {...listeners}
       ref={setNodeRef}
       style={{
         transform: CSS.Translate.toString(transform),
