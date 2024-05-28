@@ -59,6 +59,10 @@ export interface GraphQLTableProps<Node, OrderField> {
     onSelectionChange?: (rows: Node[]) => void;
     bulkActions?: (rows: Node[], isSelectedAll: boolean) => ActionProps[];
   };
+  rowDraggable?: {
+    onRowDragEndChange?: (rows: Node[]) => void;
+  };
+  rowKey?: keyof Node;
   emptyStateDescription?: EmptyStateProps["description"];
   actionRef?: RefObject<ActionType>;
   edges?: Array<GraphQLTableEdge<Node>>;
@@ -81,6 +85,8 @@ export function GraphQLTable<Node, OrderField extends string>({
   emptyStateIcon,
   emptyStateTitle,
   actionRef,
+  rowDraggable,
+  rowKey,
   emptyStateDescription,
   defaultFilterValue,
   footer,
@@ -274,6 +280,8 @@ export function GraphQLTable<Node, OrderField extends string>({
         <Table
           columns={columns}
           data={edges.map((edge) => edge.node)}
+          rowDraggable={rowDraggable}
+          rowKey={rowKey}
           rowSelection={rowSelection}
           tableActionRef={tableActionRef}
           onRow={onRow}
