@@ -25,6 +25,7 @@ import {
   type ReactElement,
   type RefObject,
   useCallback,
+  useId,
   useImperativeHandle,
   useMemo,
   useRef,
@@ -92,6 +93,8 @@ export function Table<T>({
   rowDraggable,
   onRow,
 }: TableProps<T>): ReactElement {
+  const dndContextId = useId();
+
   const tableHeaderRef = useRef<HTMLTableElement>(null);
   const tableFooterRef = useRef<HTMLTableElement>(null);
 
@@ -333,6 +336,7 @@ export function Table<T>({
 
   return (
     <DndContext
+      id={dndContextId}
       modifiers={[restrictToVerticalAxis]}
       sensors={sensors}
       onDragEnd={handleDragEnd}
