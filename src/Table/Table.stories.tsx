@@ -12,6 +12,7 @@ const meta = {
 export default meta;
 
 interface Person {
+  id: string;
   payload: {
     a: number;
     b: string[];
@@ -64,6 +65,7 @@ export const Base: FC = () => {
       ]}
       data={[
         {
+          id: "1",
           payload: { a: 1, b: ["1", "tanner"] },
           name: "linsley",
           age: 24,
@@ -72,6 +74,7 @@ export const Base: FC = () => {
           progress: 50,
         },
         {
+          id: "2",
           payload: { a: 2, b: ["2", "tandy"] },
           name: "miller",
           age: 40,
@@ -80,6 +83,7 @@ export const Base: FC = () => {
           progress: 80,
         },
         {
+          id: "3",
           payload: { a: 3, b: ["3", "joe"] },
           name: "dirte",
           age: 45,
@@ -88,6 +92,12 @@ export const Base: FC = () => {
           progress: 10,
         },
       ]}
+      rowDraggable={{
+        onRowDragEndChange: (rows) => {
+          console.log("onRowDragEndChange", rows);
+        },
+      }}
+      rowKey="id"
       rowSelection={{
         allowSelectAll: true,
         // single: true,
