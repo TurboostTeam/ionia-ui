@@ -123,8 +123,8 @@ export function Table<T>({
 
     if (typeof rowSelection !== "undefined") {
       cloneColumns.unshift({
-        id: "row-select",
-        size: 40,
+        id: "ionia-ui-row-select",
+        maxSize: 40,
         pin: cloneColumns.some(
           (column) =>
             typeof column.pin !== "undefined" &&
@@ -174,7 +174,7 @@ export function Table<T>({
 
     if (typeof rowDraggable !== "undefined" && typeof rowKey !== "undefined") {
       cloneColumns.splice(typeof rowSelection !== "undefined" ? 1 : 0, 0, {
-        id: "drag-handle",
+        id: "ionia-ui-drag-handle",
         pin: cloneColumns.some(
           (column) =>
             typeof column.pin !== "undefined" &&
@@ -183,8 +183,8 @@ export function Table<T>({
         )
           ? "left"
           : undefined,
+        maxSize: 52,
         cell: ({ row }) => <RowDragHandleCell rowId={row.id} />,
-        size: 52,
       });
     }
 
