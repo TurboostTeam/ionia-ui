@@ -25,7 +25,6 @@ import {
   type ReactElement,
   type RefObject,
   useCallback,
-  useId,
   useImperativeHandle,
   useMemo,
   useRef,
@@ -71,6 +70,7 @@ export interface TableProps<T> {
     bulkActions?: (rows: T[], isSelectedAll: boolean) => ActionProps[];
   };
   rowDraggable?: {
+    id?: string;
     onRowDragEndChange?: (rows: T[]) => void;
   };
   data: T[];
@@ -93,8 +93,6 @@ export function Table<T>({
   rowDraggable,
   onRow,
 }: TableProps<T>): ReactElement {
-  const dndContextId = useId();
-
   const tableHeaderRef = useRef<HTMLTableElement>(null);
   const tableFooterRef = useRef<HTMLTableElement>(null);
 
@@ -336,7 +334,7 @@ export function Table<T>({
 
   return (
     <DndContext
-      id={dndContextId}
+      id={rowDraggable?.id}
       modifiers={[restrictToVerticalAxis]}
       sensors={sensors}
       onDragEnd={handleDragEnd}

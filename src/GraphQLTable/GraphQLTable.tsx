@@ -60,6 +60,7 @@ export interface GraphQLTableProps<Node, OrderField> {
     bulkActions?: (rows: Node[], isSelectedAll: boolean) => ActionProps[];
   };
   rowDraggable?: {
+    id?: string;
     onRowDragEndChange?: (rows: Node[]) => void;
   };
   rowKey?: keyof Node;
