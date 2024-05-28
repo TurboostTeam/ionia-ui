@@ -1,6 +1,6 @@
 import { useSortable } from "@dnd-kit/sortable";
+import { Bars3Icon } from "@heroicons/react/24/outline";
 import { type ReactElement } from "react";
-import { AiOutlineHolder } from "react-icons/ai";
 
 import { Button } from "../../Button";
 
@@ -20,7 +20,7 @@ export function RowDragHandleCell({
     <Button
       ghost
       className={isDragging ? "cursor-grabbing" : "cursor-grab"}
-      icon={AiOutlineHolder}
+      icon={Bars3Icon}
       ref={setActivatorNodeRef}
       size="sm"
       {...listeners}
