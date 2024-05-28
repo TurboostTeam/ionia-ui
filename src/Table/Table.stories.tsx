@@ -93,9 +93,8 @@ export const Base: FC = () => {
         },
       ]}
       rowDraggable={{
-        enable: true,
         onRowDragEndChange: (rows) => {
-          console.log("rows", rows);
+          console.log("onRowDragEndChange", rows);
         },
       }}
       rowKey="id"

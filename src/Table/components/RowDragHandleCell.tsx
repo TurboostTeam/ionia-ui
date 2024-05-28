@@ -11,9 +11,10 @@ interface RowDragHandleCellProps {
 export function RowDragHandleCell({
   rowId,
 }: RowDragHandleCellProps): ReactElement {
-  const { listeners, setActivatorNodeRef, isDragging } = useSortable({
-    id: rowId,
-  });
+  const { listeners, setActivatorNodeRef, isDragging, attributes } =
+    useSortable({
+      id: rowId,
+    });
 
   return (
     <Button
@@ -23,6 +24,7 @@ export function RowDragHandleCell({
       ref={setActivatorNodeRef}
       size="sm"
       {...listeners}
+      {...attributes}
     />
   );
 }

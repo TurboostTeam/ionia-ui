@@ -1,7 +1,10 @@
 import {
   DndContext,
   type DragEndEvent,
+  PointerSensor,
   type UniqueIdentifier,
+  useSensor,
+  useSensors,
 } from "@dnd-kit/core";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import {
@@ -67,7 +70,6 @@ export interface TableProps<T> {
     bulkActions?: (rows: T[], isSelectedAll: boolean) => ActionProps[];
   };
   rowDraggable?: {
-    enable?: boolean;
     onRowDragEndChange?: (rows: T[]) => void;
   };
   data: T[];
@@ -93,14 +95,14 @@ export function Table<T>({
   const tableHeaderRef = useRef<HTMLTableElement>(null);
   const tableFooterRef = useRef<HTMLTableElement>(null);
 
-  const [finallyData, setFinallyData] = useState<T[]>(data);
+  const [displayData, setDisplayData] = useState<T[]>(data);
 
   const dataRowIds = useMemo<UniqueIdentifier[]>(
     () =>
       typeof rowKey !== "undefined"
-        ? (data.map((row) => row[rowKey]) as UniqueIdentifier[])
+        ? (displayData.map((row) => row[rowKey]) as UniqueIdentifier[])
         : [],
-    [data, rowKey],
+    [displayData, rowKey],
   );
 
   const [internalRowSelection, setInternalRowSelection] =
@@ -170,7 +172,7 @@ export function Table<T>({
       });
     }
 
-    if (rowDraggable?.enable === true) {
+    if (typeof rowDraggable !== "undefined" && typeof rowKey !== "undefined") {
       cloneColumns.splice(typeof rowSelection !== "undefined" ? 1 : 0, 0, {
         id: "drag-handle",
         pin: cloneColumns.some(
@@ -194,10 +196,10 @@ export function Table<T>({
           }
         : column,
     );
-  }, [columns, rowDraggable?.enable, rowSelection]);
+  }, [columns, rowDraggable, rowKey, rowSelection]);
 
   const table = useReactTable({
-    data: finallyData,
+    data: displayData,
     columns: memoColumns as Array<ColumnDef<T>>,
     state: {
       rowSelection: internalRowSelection,
@@ -283,20 +285,22 @@ export function Table<T>({
   const handleDragEnd = useCallback(
     (event: DragEndEvent) => {
       const { active, over } = event;
+
       if (
         typeof rowKey !== "undefined" &&
         over != null &&
         active.id !== over.id
       ) {
-        setFinallyData((data) => {
-          const activeIndex = data.findIndex(
-            (record) => record[rowKey] === active?.id,
-          );
-          const overIndex = data.findIndex(
-            (record) => record[rowKey] === over?.id,
+        setDisplayData((oldData) => {
+          const activeIndex = oldData.findIndex(
+            (record) => record[rowKey] === active.id,
           );
 
-          const result = arrayMove(data, activeIndex, overIndex);
+          const overIndex = oldData.findIndex(
+            (record) => record[rowKey] === over.id,
+          );
+
+          const result = arrayMove(oldData, activeIndex, overIndex);
 
           rowDraggable?.onRowDragEndChange?.(result);
 
@@ -318,8 +322,21 @@ export function Table<T>({
     [table],
   );
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        // https://docs.dndkit.com/api-documentation/sensors/pointer#activation-constraints
+        distance: 1,
+      },
+    }),
+  );
+
   return (
-    <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={handleDragEnd}>
+    <DndContext
+      modifiers={[restrictToVerticalAxis]}
+      sensors={sensors}
+      onDragEnd={handleDragEnd}
+    >
       <div
         className={twMerge(
           "min-w-full relative",
