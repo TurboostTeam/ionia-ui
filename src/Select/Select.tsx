@@ -14,6 +14,7 @@ import { forwardRef } from "../utils";
 export interface SelectOption {
   label: ReactNode;
   value: string;
+  description?: ReactNode;
 }
 
 export interface SelectProps extends FormItemProps {
@@ -135,9 +136,12 @@ export const Select = forwardRef<SelectProps, "div">(
                       {({ selected }) => (
                         <>
                           <span className="block truncate">{option.label}</span>
+                          <span className="text-xs text-gray-400">
+                            {option.description}
+                          </span>
 
                           {selected ? (
-                            <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600">
+                            <span className="absolute inset-y-0 right-0 flex py-2 pr-4 text-indigo-600">
                               <CheckIcon
                                 aria-hidden="true"
                                 className="h-5 w-5"
