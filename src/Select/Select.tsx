@@ -137,7 +137,7 @@ export const Select = forwardRef<SelectProps, "div">(
                         <>
                           <span className="block truncate">{option.label}</span>
                           <span className="text-xs text-gray-400">
-                            {option.details}
+                            {option.description}
                           </span>
 
                           {selected ? (
