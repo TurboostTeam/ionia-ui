@@ -14,7 +14,7 @@ import { forwardRef } from "../utils";
 export interface SelectOption {
   label: ReactNode;
   value: string;
-  details?: ReactNode;
+  description?: ReactNode;
 }
 
 export interface SelectProps extends FormItemProps {
