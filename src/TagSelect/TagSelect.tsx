@@ -1,7 +1,13 @@
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { pick, uniqBy } from "lodash";
-import { Fragment, type KeyboardEvent, useMemo, useState } from "react";
+import {
+  Fragment,
+  type KeyboardEvent,
+  type ReactNode,
+  useMemo,
+  useState,
+} from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Badge } from "../Badge";
@@ -13,6 +19,7 @@ import { forwardRef } from "../utils";
 export interface TagSelectOption<T> {
   label: string;
   value: T;
+  description?: ReactNode;
 }
 
 export interface TagSelectProps<T> extends FormItemProps {
@@ -176,6 +183,9 @@ export const TagSelect = forwardRef<TagSelectProps<string>, "input">(
                           <>
                             <span className={twMerge("block truncate text-sm")}>
                               {item.label}
+                            </span>
+                            <span className="text-xs text-gray-400">
+                              {item.description}
                             </span>
 
                             {selected ? (

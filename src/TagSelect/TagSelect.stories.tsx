@@ -35,7 +35,7 @@ export const TagMode: FC = () => {
               label="Tag Select"
               mode="tag"
               options={[
-                { label: "a", value: "a" },
+                { label: "a", value: "a", description: "description" },
                 { label: "b", value: "b" },
               ]}
               {...field}
