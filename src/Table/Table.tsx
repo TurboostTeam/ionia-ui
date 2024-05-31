@@ -25,6 +25,7 @@ import {
   type ReactElement,
   type RefObject,
   useCallback,
+  useEffect,
   useImperativeHandle,
   useMemo,
   useRef,
@@ -96,7 +97,7 @@ export function Table<T>({
   const tableHeaderRef = useRef<HTMLTableElement>(null);
   const tableFooterRef = useRef<HTMLTableElement>(null);
 
-  const [displayData, setDisplayData] = useState<T[]>(data);
+  const [displayData, setDisplayData] = useState<T[]>([]);
 
   const dataRowIds = useMemo<UniqueIdentifier[]>(
     () =>
@@ -331,6 +332,10 @@ export function Table<T>({
       },
     }),
   );
+
+  useEffect(() => {
+    setDisplayData(data);
+  }, [data]);
 
   return (
     <DndContext
