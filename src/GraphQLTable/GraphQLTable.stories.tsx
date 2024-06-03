@@ -92,12 +92,6 @@ export const Controlled: FC = () => {
           },
         ]}
         footer={<div>summary</div>}
-        rowDraggable={{
-          onRowDragEndChange: (rows) => {
-            console.log("onRowDragEndChange", rows);
-          },
-        }}
-        rowKey="name"
         rowSelection={{
           allowSelectAll: true,
           // single: false,
