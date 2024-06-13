@@ -97,7 +97,7 @@ export function Table<T>({
   const tableHeaderRef = useRef<HTMLTableElement>(null);
   const tableFooterRef = useRef<HTMLTableElement>(null);
 
-  const [displayData, setDisplayData] = useState<T[]>(data);
+  const [displayData, setDisplayData] = useState<T[]>([]);
 
   const dataRowIds = useMemo<UniqueIdentifier[]>(
     () =>
