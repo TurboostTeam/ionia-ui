@@ -21,7 +21,6 @@ export function RowDragHandleCell({
       ghost
       className={isDragging ? "cursor-grabbing" : "cursor-grab"}
       icon={Bars3Icon}
-      id={rowId}
       ref={setActivatorNodeRef}
       size="sm"
       {...listeners}
