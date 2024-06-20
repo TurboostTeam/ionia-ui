@@ -1,18 +1,4 @@
 import {
-  DndContext,
-  type DragEndEvent,
-  PointerSensor,
-  type UniqueIdentifier,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
-import {
-  arrayMove,
-  SortableContext,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import {
   type AccessorKeyColumnDef,
   type ColumnDef,
   flexRender,
@@ -24,8 +10,6 @@ import { cloneDeep } from "lodash";
 import {
   type ReactElement,
   type RefObject,
-  useCallback,
-  useEffect,
   useImperativeHandle,
   useMemo,
   useRef,
@@ -83,16 +67,6 @@ export function ListTable<T>({
   const tableHeaderRef = useRef<HTMLTableElement>(null);
   const tableFooterRef = useRef<HTMLTableElement>(null);
 
-  const [displayData, setDisplayData] = useState<T[]>(data);
-
-  const dataRowIds = useMemo<UniqueIdentifier[]>(
-    () =>
-      typeof rowKey !== "undefined"
-        ? (displayData.map((row) => row[rowKey]) as UniqueIdentifier[])
-        : [],
-    [],
-  );
-
   const [internalRowSelection, setInternalRowSelection] =
     useState<RowSelectionState>({});
 
@@ -111,7 +85,7 @@ export function ListTable<T>({
 
     if (typeof rowSelection !== "undefined") {
       cloneColumns.unshift({
-        id: "ionia-ui-row-select",
+        id: "row-select",
         maxSize: 16,
         header: !(rowSelection.single ?? false)
           ? ({ table }) => {
@@ -163,7 +137,7 @@ export function ListTable<T>({
   }, [columns, rowDraggable, rowKey, rowSelection]);
 
   const table = useReactTable({
-    data: displayData,
+    data,
     columns: memoColumns as Array<ColumnDef<T>>,
     state: {
       rowSelection: internalRowSelection,
@@ -190,35 +164,6 @@ export function ListTable<T>({
     },
   });
 
-  const handleDragEnd = useCallback(
-    (event: DragEndEvent) => {
-      const { active, over } = event;
-
-      if (
-        typeof rowKey !== "undefined" &&
-        over != null &&
-        active.id !== over.id
-      ) {
-        setDisplayData((oldData) => {
-          const activeIndex = oldData.findIndex(
-            (record) => record[rowKey] === active.id,
-          );
-
-          const overIndex = oldData.findIndex(
-            (record) => record[rowKey] === over.id,
-          );
-
-          const result = arrayMove(oldData, activeIndex, overIndex);
-
-          rowDraggable?.onRowDragEndChange?.(result);
-
-          return result;
-        });
-      }
-    },
-    [rowDraggable, rowKey],
-  );
-
   // 一些可以手动触发的特殊操作
   useImperativeHandle(
     tableActionRef,
@@ -230,25 +175,12 @@ export function ListTable<T>({
     [table],
   );
 
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        // https://docs.dndkit.com/api-documentation/sensors/pointer#activation-constraints
-        distance: 1,
-      },
-    }),
-  );
-
-  useEffect(() => {
-    setDisplayData(data);
-  }, [data]);
-
   return (
-    <DndContext
-      id={rowDraggable?.id}
-      modifiers={[restrictToVerticalAxis]}
-      sensors={sensors}
-      onDragEnd={handleDragEnd}
+    <div
+      className={twMerge(
+        "min-w-full relative",
+        loading && "overflow-hidden pointer-events-none select-none",
+      )}
     >
       <div
         className={twMerge(
@@ -349,38 +281,33 @@ export function ListTable<T>({
         >
           <table className="w-full table-fixed">
             <tbody className="relative">
-              <SortableContext
-                items={dataRowIds}
-                strategy={verticalListSortingStrategy}
-              >
-                {table.getRowModel().rows.map((row) => (
-                  <tr
-                    className={twMerge(
-                      "bg-white group hover:bg-gray-50 relative flex items-center flex-1 border-b border-gray-200 px-3 ",
-                      onRow != null && "cursor-pointer",
-                    )}
-                    key={row.id}
-                    onClick={(e) => {
-                      onRow?.(row.original)?.onClick?.(e);
-                    }}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <td
-                        className={twMerge(
-                          "break-words group-hover:bg-gray-50 bg-white py-4 text-sm text-gray-500 ",
-                          cell.column.id !== "ionia-ui-row-select" && "w-full",
-                        )}
-                        key={cell.id}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </SortableContext>
+              {table.getRowModel().rows.map((row) => (
+                <tr
+                  className={twMerge(
+                    "bg-white group hover:bg-gray-50 relative flex items-center flex-1 border-b border-gray-200 px-3 ",
+                    onRow != null && "cursor-pointer",
+                  )}
+                  key={row.id}
+                  onClick={(e) => {
+                    onRow?.(row.original)?.onClick?.(e);
+                  }}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <td
+                      className={twMerge(
+                        "break-words group-hover:bg-gray-50 bg-white py-4 text-sm text-gray-500 ",
+                        cell.column.id !== "row-select" && "w-full",
+                      )}
+                      key={cell.id}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -391,6 +318,6 @@ export function ListTable<T>({
           </div>
         )}
       </div>
-    </DndContext>
+    </div>
   );
 }
