@@ -190,10 +190,10 @@ export function ListTable<T>({
       >
         <div className="overflow-hidden" ref={tableHeaderRef}>
           <table className="w-full table-fixed">
-            <thead className="relative h-14 border-b">
+            <thead className="relative h-14 border-b ">
               {/* batch actions */}
               {!(rowSelection?.single ?? false) && hasBulkActions && (
-                <tr className="absolute z-[3] flex h-12 w-full items-center space-x-2  bg-white px-3 py-3.5">
+                <tr className="absolute z-[3] flex h-14 w-full items-center space-x-2  bg-white px-3 py-3.5">
                   <td>
                     <Checkbox
                       checked={table.getIsAllRowsSelected()}
@@ -280,11 +280,11 @@ export function ListTable<T>({
           }}
         >
           <table className="w-full table-fixed">
-            <tbody className="relative">
+            <tbody className="relative divide-y border-gray-200 ">
               {table.getRowModel().rows.map((row) => (
                 <tr
                   className={twMerge(
-                    "bg-white group hover:bg-gray-50 relative flex items-center flex-1 border-b border-gray-200 px-3 ",
+                    "bg-white group hover:bg-gray-50 relative flex items-center flex-1 px-3 ",
                     onRow != null && "cursor-pointer",
                   )}
                   key={row.id}
