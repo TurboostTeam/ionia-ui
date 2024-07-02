@@ -1,11 +1,13 @@
 import type { Meta } from "@storybook/react";
 import { type FC } from "react";
 import {
+  BiBarChart,
   BiChevronRight,
   BiCodeAlt,
   BiConversation,
   BiGitPullRequest,
   BiHome,
+  BiHomeAlt,
   BiServer,
   BiUser,
 } from "react-icons/bi";
@@ -38,9 +40,20 @@ export const Default: FC = (args) => {
               icon: BiHome,
             },
             {
-              href: "#/code",
               label: "仓库",
               icon: BiCodeAlt,
+              children: [
+                {
+                  href: "#/home",
+                  icon: BiHomeAlt,
+                  label: "主页",
+                },
+                {
+                  href: "#/dashboard",
+                  icon: BiBarChart,
+                  label: "仪表盘",
+                },
+              ],
             },
             {
               href: "#/issues",

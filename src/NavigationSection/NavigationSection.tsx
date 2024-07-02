@@ -7,6 +7,9 @@ import { Icon } from "../Icon";
 import { useNavigationProps } from "../Navigation";
 import { type SVGComponent } from "../types/SVGComponent";
 
+export interface NavigationItemChildrenItemProps
+  extends Omit<NavigationItemProps, "children"> {}
+
 export interface NavigationItemProps {
   href?: string;
   exactMatch?: boolean;
@@ -16,14 +19,17 @@ export interface NavigationItemProps {
   icon?: SVGComponent;
   onAction?: () => void;
   badge?: string;
+  children?: NavigationItemChildrenItemProps[];
 }
 
-export const NavigationItem: FC<NavigationItemProps> = ({
+export const NavigationItemChildrenItem: FC<
+  NavigationItemChildrenItemProps
+> = ({
   label,
-  icon: Icon,
   href,
   exactMatch = false,
   excludePaths = [],
+  icon: Icon,
   selected = false,
   onAction,
   badge,
@@ -36,22 +42,63 @@ export const NavigationItem: FC<NavigationItemProps> = ({
     (typeof href !== "undefined" &&
       !excludePaths.includes(href) &&
       (exactMatch ? href === location : location.startsWith(href)));
+  return (
+    <Link
+      className={twMerge(
+        "flex h-8 w-full cursor-pointer items-center gap-2 rounded pl-9 pr-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
+        active && "bg-gray-50 text-indigo-600",
+      )}
+      href={href}
+      onClick={onAction}
+    >
+      {typeof Icon !== "undefined" && <Icon className="h-5 w-5" />}
+      <div className="flex-1 font-semibold">{label}</div>
+      {typeof badge !== "undefined" && <Badge rounded>{badge}</Badge>}
+    </Link>
+  );
+};
+
+export const NavigationItem: FC<NavigationItemProps> = ({
+  label,
+  icon: Icon,
+  href,
+  exactMatch = false,
+  excludePaths = [],
+  selected = false,
+  onAction,
+  badge,
+  children,
+}) => {
+  const { location } = useNavigationProps();
+  const { linkComponent: Link } = useAppProviderProps();
+
+  const itemActive =
+    selected ||
+    (typeof href !== "undefined" &&
+      !excludePaths.includes(href) &&
+      (exactMatch ? href === location : location.startsWith(href)));
 
   return (
     <li className="px-2">
       <Link
         className={twMerge(
           "flex h-8 w-full cursor-pointer items-center gap-2 rounded pl-2 pr-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
-          active && "bg-gray-50 text-indigo-600",
+          itemActive && "bg-gray-50 text-indigo-600",
         )}
         href={href}
         onClick={onAction}
       >
         {typeof Icon !== "undefined" && <Icon className="h-5 w-5" />}
         <div className="flex-1 font-semibold">{label}</div>
-
         {typeof badge !== "undefined" && <Badge rounded>{badge}</Badge>}
       </Link>
+      {typeof children !== "undefined" && (
+        <ul className="flex flex-col gap-1">
+          {children.map((item, index) => {
+            return <NavigationItemChildrenItem key={index} {...item} />;
+          })}
+        </ul>
+      )}
     </li>
   );
 };
