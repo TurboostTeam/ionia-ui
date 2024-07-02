@@ -92,7 +92,7 @@ export const NavigationItem: FC<NavigationItemProps> = ({
         <div className="flex-1 font-semibold">{label}</div>
         {typeof badge !== "undefined" && <Badge rounded>{badge}</Badge>}
       </Link>
-      {children != null && (
+      {typeof children !== "undefined" && (
         <ul className="flex flex-col gap-1">
           {children.map((item, index) => {
             return <NavigationItemChildrenItem key={index} {...item} />;
