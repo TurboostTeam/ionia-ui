@@ -82,8 +82,10 @@ export const NavigationItem: FC<NavigationItemProps> = ({
     <li className="px-2">
       <Link
         className={twMerge(
-          "flex h-8 w-full cursor-pointer items-center gap-2 rounded pl-2 pr-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
+          "flex h-8 w-full items-center gap-2 rounded pl-2 pr-1 text-sm text-gray-700",
           itemActive && "bg-gray-50 text-indigo-600",
+          typeof href !== "undefined" &&
+            "cursor-pointer hover:bg-gray-50 hover:text-indigo-600",
         )}
         href={href}
         onClick={onAction}
