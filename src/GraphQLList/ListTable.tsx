@@ -134,7 +134,7 @@ export function ListTable<T>({
           }
         : column,
     );
-  }, [columns, rowDraggable, rowKey, rowSelection]);
+  }, [columns, rowSelection]);
 
   const table = useReactTable({
     data,
@@ -190,10 +190,10 @@ export function ListTable<T>({
       >
         <div className="overflow-hidden" ref={tableHeaderRef}>
           <table className="w-full table-fixed">
-            <thead className="relative h-14 border-b ">
+            <thead className="relative h-14 border-b">
               {/* batch actions */}
               {!(rowSelection?.single ?? false) && hasBulkActions && (
-                <tr className="absolute z-[3] flex h-14 w-full items-center space-x-2  bg-white px-3 py-3.5">
+                <tr className="absolute z-[3] flex h-14 w-full items-center space-x-2 px-3 py-3.5">
                   <td>
                     <Checkbox
                       checked={table.getIsAllRowsSelected()}
@@ -204,14 +204,18 @@ export function ListTable<T>({
                       onChange={table.getToggleAllRowsSelectedHandler()}
                     />
                   </td>
-
-                  <td className="text-sm text-gray-500">
-                    {isRowSelectedAll
-                      ? "已选择全部"
-                      : `已选择 ${Object.keys(internalRowSelection).length} 行`}
-                  </td>
+                  {Object.keys(internalRowSelection).length > 0 && (
+                    <td className="text-sm text-gray-500">
+                      {isRowSelectedAll
+                        ? "已选择全部"
+                        : `已选择 ${
+                            Object.keys(internalRowSelection).length
+                          } 行`}
+                    </td>
+                  )}
 
                   {typeof rowSelection?.allowSelectAll !== "undefined" &&
+                    Object.keys(internalRowSelection).length > 0 &&
                     rowSelection.allowSelectAll && (
                       <td
                         className="cursor-pointer text-sm text-indigo-600 hover:text-indigo-400"
