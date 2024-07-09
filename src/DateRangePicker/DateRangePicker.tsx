@@ -5,14 +5,15 @@ import { twMerge } from "tailwind-merge";
 
 import { Card } from "../Card";
 import { DatePicker } from "../DatePicker";
-import { Input } from "../Input";
+import { Input, type InputProps } from "../Input";
 
 export interface PresetRange {
   title: string;
   range: [Date, Date];
 }
 
-export interface DateRangePickerProps {
+export interface DateRangePickerProps
+  extends Omit<InputProps, "value" | "onChange"> {
   range?: [Date, Date];
   presetRange?: PresetRange[];
   disabled?: boolean;
@@ -20,7 +21,7 @@ export interface DateRangePickerProps {
   disableDatesAfter?: Date;
   disableSpecificDates?: Date[];
   placeholder?: string;
-  onChange?: (range: Date[]) => void;
+  onChange?: (range: [Date, Date]) => void;
 }
 
 export const DateRangePicker: FC<DateRangePickerProps> = ({
@@ -29,9 +30,9 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
   disableDatesBefore,
   disableDatesAfter,
   disableSpecificDates,
-  placeholder,
   disabled,
   onChange,
+  ...props
 }) => {
   const [activeDateRange, setActiveDateRange] = useState<PresetRange>();
 
@@ -59,7 +60,7 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
       <Popover.Button
         as={Input}
         disabled={disabled}
-        placeholder={placeholder}
+        {...props}
         prefix={
           <svg
             className="h-5 w-5 fill-gray-600"
