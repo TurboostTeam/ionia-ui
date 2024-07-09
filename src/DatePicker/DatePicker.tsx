@@ -252,7 +252,7 @@ export const DatePicker: FC<DatePickerProps> = ({
           }}
         />
       </div>
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap space-x-2">
         <Month
           allowRange={allowRange}
           disableDatesAfter={disableDatesAfter}

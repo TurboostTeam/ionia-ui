@@ -1,6 +1,6 @@
 import { Popover } from "@headlessui/react";
 import dayjs from "dayjs";
-import { type FC, useState } from "react";
+import { type FC, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Card } from "../Card";
@@ -19,6 +19,7 @@ export interface DateRangePickerProps {
   disableDatesBefore?: Date;
   disableDatesAfter?: Date;
   disableSpecificDates?: Date[];
+  placeholder?: string;
   onChange?: (range: Date[]) => void;
 }
 
@@ -28,14 +29,12 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
   disableDatesBefore,
   disableDatesAfter,
   disableSpecificDates,
+  placeholder,
   disabled,
   onChange,
 }) => {
-  const [activeDateRange, setActiveDateRange] = useState(
-    typeof range !== "undefined"
-      ? { title: "custom", range }
-      : presetRange?.[0],
-  );
+  const [activeDateRange, setActiveDateRange] = useState<PresetRange>();
+
   const [{ month, year }, setDate] = useState({
     month:
       activeDateRange != null
@@ -47,11 +46,20 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
         : new Date().getFullYear(),
   });
 
+  useEffect(() => {
+    setActiveDateRange(
+      typeof range !== "undefined"
+        ? { title: "custom", range }
+        : presetRange?.[0],
+    );
+  }, [range, presetRange]);
+
   return (
-    <Popover className="relative">
+    <Popover className="relative min-w-[240px]">
       <Popover.Button
         as={Input}
         disabled={disabled}
+        placeholder={placeholder}
         prefix={
           <svg
             className="h-5 w-5 fill-gray-600"
@@ -64,15 +72,19 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
             />
           </svg>
         }
-        value={`${
-          activeDateRange != null
-            ? dayjs(activeDateRange.range[0]).format("YYYY-MM-DD")
-            : ""
-        } ~ ${
-          activeDateRange != null
-            ? dayjs(activeDateRange.range[1]).format("YYYY-MM-DD")
-            : ""
-        }`}
+        value={
+          typeof activeDateRange === "undefined"
+            ? ""
+            : `${
+                activeDateRange != null
+                  ? dayjs(activeDateRange.range[0]).format("YYYY-MM-DD")
+                  : ""
+              } ~ ${
+                activeDateRange != null
+                  ? dayjs(activeDateRange.range[1]).format("YYYY-MM-DD")
+                  : ""
+              }`
+        }
       />
 
       <Popover.Panel className="absolute top-12 z-[1010]">
