@@ -21,7 +21,7 @@ export interface DateRangePickerProps
   disableDatesAfter?: Date;
   disableSpecificDates?: Date[];
   placeholder?: string;
-  onChange?: (range: Date[]) => void;
+  onChange?: (range: [Date, Date]) => void;
 }
 
 export const DateRangePicker: FC<DateRangePickerProps> = ({
