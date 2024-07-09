@@ -55,7 +55,7 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
   }, [range, presetRange]);
 
   return (
-    <Popover className="relative">
+    <Popover className="relative w-[240px]">
       <Popover.Button
         as={Input}
         disabled={disabled}
