@@ -9,6 +9,7 @@ export * from "./CheckboxGroup";
 export * from "./ContextualSaveBar";
 export * from "./DateInput";
 export * from "./DatePicker";
+export * from "./DateRangeComparisonPicker";
 export * from "./DateRangePicker";
 export * from "./DateTimeInput";
 export * from "./Drawer";

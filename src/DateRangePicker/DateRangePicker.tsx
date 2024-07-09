@@ -50,60 +50,32 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
   return (
     <Popover className="relative">
       <Popover.Button
-        as="div"
-        className="flex max-h-9 space-x-1"
+        as={Input}
         disabled={disabled}
-      >
-        <Input
-          disabled={disabled}
-          prefix={
-            <svg
-              className="h-5 w-5 fill-gray-600"
-              focusable="false"
-              viewBox="0 0 20 20"
-            >
-              <path
-                d="M7 2a1 1 0 0 1 1 1v1h4v-1a1 1 0 1 1 2 0v1h1a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2h1v-1a1 1 0 0 1 1-1Zm-2 6v7h10v-7h-10Z"
-                fillRule="evenodd"
-              />
-            </svg>
-          }
-          value={
-            activeDateRange != null
-              ? dayjs(activeDateRange.range[0]).format("YYYY-MM-DD")
-              : undefined
-          }
-        />
-        <svg
-          className="h-10 w-10 fill-gray-500 hover:fill-gray-700"
-          focusable="false"
-          viewBox="0 0 20 20"
-        >
-          <path d="m17.707 9.293-5-5a.999.999 0 1 0-1.414 1.414l3.293 3.293h-11.586a1 1 0 1 0 0 2h11.586l-3.293 3.293a.999.999 0 1 0 1.414 1.414l5-5a.999.999 0 0 0 0-1.414z" />
-        </svg>
-        <Input
-          disabled={disabled}
-          prefix={
-            <svg
-              className="h-5 w-5 fill-gray-600"
-              focusable="false"
-              viewBox="0 0 20 20"
-            >
-              <path
-                d="M7 2a1 1 0 0 1 1 1v1h4v-1a1 1 0 1 1 2 0v1h1a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2h1v-1a1 1 0 0 1 1-1Zm-2 6v7h10v-7h-10Z"
-                fillRule="evenodd"
-              />
-            </svg>
-          }
-          value={
-            activeDateRange != null
-              ? dayjs(activeDateRange.range[1]).format("YYYY-MM-DD")
-              : undefined
-          }
-        />
-      </Popover.Button>
+        prefix={
+          <svg
+            className="h-5 w-5 fill-gray-600"
+            focusable="false"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M7 2a1 1 0 0 1 1 1v1h4v-1a1 1 0 1 1 2 0v1h1a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2h1v-1a1 1 0 0 1 1-1Zm-2 6v7h10v-7h-10Z"
+              fillRule="evenodd"
+            />
+          </svg>
+        }
+        value={`${
+          activeDateRange != null
+            ? dayjs(activeDateRange.range[0]).format("YYYY-MM-DD")
+            : ""
+        } ~ ${
+          activeDateRange != null
+            ? dayjs(activeDateRange.range[1]).format("YYYY-MM-DD")
+            : ""
+        }`}
+      />
 
-      <Popover.Panel className="absolute left-1/2 top-12 z-[1010] w-full -translate-x-1/2">
+      <Popover.Panel className="absolute top-12 z-[1010]">
         <Card>
           <div className="flex space-x-2">
             {typeof presetRange !== "undefined" && presetRange.length > 0 ? (
