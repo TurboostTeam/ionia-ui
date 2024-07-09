@@ -59,8 +59,8 @@ export const DateRangePicker: FC<DateRangePickerProps> = ({
     <Popover className="relative min-w-[240px]">
       <Popover.Button
         as={Input}
-        {...props}
         disabled={disabled}
+        {...props}
         prefix={
           <svg
             className="h-5 w-5 fill-gray-600"
