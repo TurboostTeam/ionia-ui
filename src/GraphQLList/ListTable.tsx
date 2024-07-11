@@ -299,7 +299,7 @@ export function ListTable<T>({
                   {row.getVisibleCells().map((cell) => (
                     <td
                       className={twMerge(
-                        "break-words group-hover:bg-gray-50 bg-white py-4 text-sm text-gray-500 ",
+                        "break-words group-hover:bg-gray-50 bg-white py-3 text-sm text-gray-500 ",
                         cell.column.id !== "row-select" && "w-full",
                       )}
                       key={cell.id}
