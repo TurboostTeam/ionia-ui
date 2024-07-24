@@ -34,7 +34,7 @@ export const OrderDirectionList: FC<OrderDirectionListProps> = ({
               ((typeof value === "undefined" &&
                 option.value === OrderDirection.ASC) ||
                 value === option.value) &&
-                "bg-blue-50 text-blue-600 hover:bg-blue-50"
+                "bg-blue-50 text-blue-600 hover:bg-blue-50",
             )}
             key={option.value}
             size="sm"

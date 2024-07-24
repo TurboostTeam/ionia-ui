@@ -235,18 +235,18 @@ export const DatePicker: FC<DatePickerProps> = ({
     >
       <div className="absolute top-0 flex w-full justify-between">
         <Button
-          ghost
           icon={ChevronLeftIcon}
           size="sm"
+          variant="ghost"
           onClick={() => {
             handleMonthChangeClick(showPreviousMonth, showPreviousYear);
           }}
         />
 
         <Button
-          ghost
           icon={ChevronRightIcon}
           size="sm"
+          variant="ghost"
           onClick={() => {
             handleMonthChangeClick(showNextMonth, showNextYear);
           }}

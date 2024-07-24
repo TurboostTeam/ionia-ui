@@ -24,6 +24,7 @@
     "import/order": "off",
     "import/newline-after-import": "error",
     "tailwindcss/classnames-order": "error",
+    "@typescript-eslint/no-var-requires": "error",
     "react/jsx-sort-props": ["error", {
       "callbacksLast": true,
       "shorthandFirst": true

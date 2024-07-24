@@ -1,4 +1,5 @@
 import { twMerge } from "tailwind-merge";
+import { tv } from "tailwind-variants";
 
 import { forwardRef } from "../utils";
 
@@ -9,11 +10,28 @@ export interface CheckboxProps {
   disabled?: boolean;
 }
 
+export const CheckboxStyle = tv({
+  slots: {
+    textContent: "text-default",
+  },
+  variants: {
+    disabled: {
+      true: {
+        textContent: "text-disabled",
+      },
+    },
+  },
+});
+
 export const Checkbox = forwardRef<CheckboxProps, "input">(
   (
     { label, helpText, disabled, className, indeterminate = false, ...props },
     ref,
   ) => {
+    const { textContent } = CheckboxStyle({
+      disabled,
+    });
+
     return (
       <div className={twMerge("relative flex items-start py-1", className)}>
         <div className="relative flex h-5 items-center">
@@ -42,14 +60,7 @@ export const Checkbox = forwardRef<CheckboxProps, "input">(
         </div>
 
         <div className="ml-2 text-sm">
-          <label
-            className={twMerge(
-              "text-gray-900",
-              disabled === true && "text-gray-400",
-            )}
-          >
-            {label}
-          </label>
+          <label className={textContent()}>{label}</label>
 
           {typeof helpText !== "undefined" && (
             <p className="mt-2 text-gray-500">{helpText}</p>

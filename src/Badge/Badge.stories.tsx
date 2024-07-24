@@ -23,6 +23,7 @@ export const Remove: Story = {
   args: {
     children: "Badge",
     color: "red",
+    disabled: true,
     onClick: () => {
       console.log("click");
     },

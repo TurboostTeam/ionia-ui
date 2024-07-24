@@ -154,7 +154,7 @@ export const Default: FC = () => {
                   取消
                 </Button>
                 <Button
-                  primary
+                  variant="primary"
                   onClick={() => {
                     setDrawerActive(false);
                   }}
@@ -169,7 +169,7 @@ export const Default: FC = () => {
             }}
           >
             <Button
-              primary
+              variant="primary"
               onClick={() => {
                 setModalActive(true);
               }}
