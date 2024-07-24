@@ -84,6 +84,11 @@ export interface FilterItemProps<T> {
   label: string;
   field: Field<T>;
   render: ControllerProps["render"];
+  renderValue?: (options: {
+    label: string;
+    field: Field<T>;
+    value: any;
+  }) => ReactNode;
   pinned?: boolean;
 }
 
@@ -177,7 +182,7 @@ export function Filter<T>({
 
       {filters.length > 0 && (
         <div className="mt-3 flex flex-wrap gap-2">
-          {fixedFilters.map(({ field, label, render }) => {
+          {fixedFilters.map(({ field, label, render, renderValue }) => {
             const fieldValue = watch(field);
 
             return (
@@ -199,7 +204,17 @@ export function Filter<T>({
                         ) : (
                           <>
                             {`${label}: ${String(
-                              formatRenderValue({ [field]: fieldValue })[field],
+                              typeof renderValue !== "undefined"
+                                ? renderValue({
+                                    field,
+                                    label,
+                                    value: formatRenderValue({
+                                      [field]: fieldValue,
+                                    })[field],
+                                  })
+                                : formatRenderValue({ [field]: fieldValue })[
+                                    field
+                                  ],
                             )}`}
                             <XMarkIcon
                               className="h-4 w-4"
@@ -225,7 +240,7 @@ export function Filter<T>({
                       leaveTo="opacity-0 translate-y-1"
                     >
                       <Popover.Panel className="absolute z-10 mt-2 w-auto transform px-0">
-                        <div className="whitespace-nowrap rounded-md bg-white p-3 shadow-md ring-1 ring-black ring-opacity-5">
+                        <div className="bg-default whitespace-nowrap rounded-md p-3 shadow-md ring-1 ring-black ring-opacity-5">
                           <Controller
                             control={control}
                             name={field}
@@ -252,7 +267,7 @@ export function Filter<T>({
           })}
 
           {filters?.length > fixedFilters.length && (
-            <Button rounded className="bg-gray-50 text-gray-600" size="sm">
+            <Button rounded className="bg-root text-muted" size="sm">
               <span className="flex items-center">
                 添加筛选条件
                 <PlusIcon className="h-4 w-4" />

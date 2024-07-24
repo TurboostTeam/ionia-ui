@@ -48,6 +48,22 @@ export const Controlled: FC = () => {
           label: "状态",
           field: "status",
           pinned: true,
+          renderValue: ({ value }) => {
+            return value.map((v: string) => {
+              switch (v) {
+                case "waiting":
+                  return "等待中";
+                case "progress":
+                  return "进行中";
+                case "completed":
+                  return "已完成";
+                case "failed":
+                  return "已失败";
+                default:
+                  return v;
+              }
+            });
+          },
           render: ({ field: { value, onChange } }) => (
             <CheckboxGroup
               options={[
@@ -90,7 +106,9 @@ export const Controlled: FC = () => {
           },
         },
       ]}
-      queryPlaceholder="搜索"
+      search={{
+        queryPlaceholder: "搜索",
+      }}
       values={values}
       onChange={(newValues) => {
         console.log("newValues:", newValues);
