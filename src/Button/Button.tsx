@@ -1,39 +1,19 @@
 import { type ReactElement } from "react";
-import { twMerge } from "tailwind-merge";
-import { tv } from "tailwind-variants";
+import { tv, type VariantProps } from "tailwind-variants";
 
 import { Icon } from "../Icon";
 import { Spinner } from "../Spinner";
 import { type SVGComponent } from "../types/SVGComponent";
 import { forwardRef } from "../utils";
 
-export interface ButtonProps {
-  variant?:
-    | "primary"
-    | "secondary"
-    | "outline"
-    | "ghost"
-    | "link"
-    | "destructive";
-
-  danger?: boolean;
-
-  block?: boolean;
-
-  icon?: SVGComponent;
-
-  rounded?: boolean;
-
-  disabled?: boolean;
-
-  loading?: boolean;
-
-  size?: "sm" | "md" | "lg";
-
-  type?: "button" | "reset" | "submit";
-}
-
 export const ButtonStyle = tv({
+  slots: {
+    buttonSpinnerWarp:
+      "absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]",
+    buttonSpinner: "text-slate-500",
+    contentWarp: "flex w-full items-center justify-center gap-1",
+    text: "text-center",
+  },
   base: "relative  cursor-pointer rounded  ",
   variants: {
     variant: {
@@ -63,69 +43,69 @@ export const ButtonStyle = tv({
       true: "pointer-events-none cursor-not-allowed opacity-50",
     },
   },
+  defaultVariants: {
+    variant: "secondary",
+    size: "md",
+  },
   compoundVariants: [
     {
       variant: "link",
       loading: true,
       class: "animate-pulse border-none bg-transparent text-link/60",
     },
+    {
+      variant: ["primary", "secondary", "destructive", "outline", "ghost"],
+      loading: true,
+      class: {
+        contentWarp: "text-transparent",
+      },
+    },
   ],
 });
 
+type ButtonVariants = VariantProps<typeof ButtonStyle>;
+
+export interface ButtonProps extends ButtonVariants {
+  block?: boolean;
+
+  icon?: SVGComponent;
+
+  type?: "button" | "reset" | "submit";
+}
+
 export const Button = forwardRef<ButtonProps, "button">(
-  (
-    {
-      as,
+  (props, ref): ReactElement => {
+    const {
+      as: Component = "button",
       children,
       icon,
-      variant = "secondary",
-      block = false,
-      rounded = false,
       disabled = false,
       loading = false,
-      size = "md",
-      className,
       type = "button",
-      ...props
-    },
-    ref,
-  ): ReactElement => {
-    const Component = as ?? "button";
+    } = props;
+
+    const { buttonSpinnerWarp, buttonSpinner, contentWarp, text } =
+      ButtonStyle(props);
 
     return (
       <Component
-        className={twMerge(
-          ButtonStyle({
-            size,
-            variant,
-            block,
-            rounded,
-            disabled,
-            loading,
-          }),
-          className,
-        )}
+        className={ButtonStyle(props)}
         disabled={disabled || loading}
         ref={ref}
         type={type}
         {...props}
       >
-        {loading && variant !== "link" && (
-          <span className="absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]">
-            <Spinner className="text-slate-500" size={size} />
+        {loading && props.variant !== "link" && (
+          <span className={buttonSpinnerWarp()}>
+            <Spinner className={buttonSpinner()} size={props.size} />
           </span>
         )}
 
-        <span
-          className={twMerge(
-            `flex w-full justify-center items-center gap-1`,
-            loading && variant !== "link" && `text-transparent`,
-          )}
-        >
-          {typeof icon !== "undefined" && <Icon as={icon} size={size} />}
+        <span className={contentWarp()}>
+          {typeof icon !== "undefined" && <Icon as={icon} size={props.size} />}
 
           {typeof children !== "undefined" && (
-            <span className="text-center">{children}</span>
+            <span className={text()}>{children}</span>
           )}
         </span>
       </Component>
