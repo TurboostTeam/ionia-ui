@@ -49,7 +49,7 @@ export const Controlled: FC = () => {
           field: "status",
           pinned: true,
           renderValue: ({ value }) => {
-            return value.map((v: any) => {
+            return value.map((v: string) => {
               switch (v) {
                 case "waiting":
                   return "等待中";
@@ -60,7 +60,7 @@ export const Controlled: FC = () => {
                 case "failed":
                   return "已失败";
                 default:
-                  return "";
+                  return v;
               }
             });
           },
