@@ -36,7 +36,7 @@ export const ContextualSaveBar: FC<ContextualSaveBarProps> = ({
 
         <ButtonGroup>
           {discardAction != null && <Action {...discardAction} />}
-          <Action primary {...saveAction} />
+          <Action variant="primary" {...saveAction} />
         </ButtonGroup>
       </div>
     </div>

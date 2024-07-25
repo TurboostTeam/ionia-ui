@@ -1,6 +1,6 @@
 import { type ReactElement } from "react";
-import * as React from "react";
 import { twMerge } from "tailwind-merge";
+import { tv } from "tailwind-variants";
 
 import { Icon } from "../Icon";
 import { Spinner } from "../Spinner";
@@ -8,15 +8,17 @@ import { type SVGComponent } from "../types/SVGComponent";
 import { forwardRef } from "../utils";
 
 export interface ButtonProps {
-  primary?: boolean;
+  variant?:
+    | "primary"
+    | "secondary"
+    | "outline"
+    | "ghost"
+    | "link"
+    | "destructive";
 
-  destructive?: boolean;
-
-  ghost?: boolean;
+  danger?: boolean;
 
   block?: boolean;
-
-  link?: boolean;
 
   icon?: SVGComponent;
 
@@ -31,23 +33,44 @@ export interface ButtonProps {
   type?: "button" | "reset" | "submit";
 }
 
-const sizeMap = {
-  sm: twMerge(`px-3 py-1.5 text-xs font-normal`),
-  md: twMerge(`px-3 py-2 text-sm font-medium`),
-  lg: twMerge(`px-6 py-3 text-sm font-semibold`),
-};
+export const ButtonStyle = tv({
+  base: "relative  cursor-pointer rounded  ",
+  variants: {
+    variant: {
+      primary: "bg-primary text-primary hover:bg-primary/80",
+      secondary: "border bg-secondary text-secondary hover:bg-muted",
+      destructive: "bg-destructive text-destructive hover:bg-destructive/80",
+      outline: "border bg-transparent text-default",
+      ghost: "bg-transparent text-default hover:bg-muted",
+      link: "bg-transparent text-link underline-offset-4 hover:text-link/60",
+    },
+    size: {
+      sm: "rounded px-3 py-1.5 text-xs font-normal",
+      md: "rounded-md px-3 py-2 text-sm font-medium",
+      lg: "rounded-lg px-6 py-3 text-sm font-semibold",
+    },
+    block: {
+      true: "w-full",
+    },
+    rounded: {
+      true: "rounded-full",
+    },
 
-const linkSizeMap = {
-  sm: twMerge(`-mx-3 -my-1.5`),
-  md: twMerge(`-mx-3 -my-2`),
-  lg: twMerge(`-mx-6 -my-3`),
-};
-
-const withoutContentSizeMap = {
-  sm: twMerge(`p-1.5`),
-  md: twMerge(`p-2`),
-  lg: twMerge(`p-3`),
-};
+    loading: {
+      true: "border bg-muted text-transparent hover:bg-muted",
+    },
+    disabled: {
+      true: "pointer-events-none cursor-not-allowed opacity-50",
+    },
+  },
+  compoundVariants: [
+    {
+      variant: "link",
+      loading: true,
+      class: "animate-pulse border-none bg-transparent text-link/60",
+    },
+  ],
+});
 
 export const Button = forwardRef<ButtonProps, "button">(
   (
@@ -55,10 +78,7 @@ export const Button = forwardRef<ButtonProps, "button">(
       as,
       children,
       icon,
-      primary = false,
-      destructive = false,
-      ghost = false,
-      link = false,
+      variant = "secondary",
       block = false,
       rounded = false,
       disabled = false,
@@ -75,46 +95,14 @@ export const Button = forwardRef<ButtonProps, "button">(
     return (
       <Component
         className={twMerge(
-          // 基本类
-          `relative cursor-pointer`,
-          sizeMap[size],
-          typeof children === "undefined" && withoutContentSizeMap[size],
-          link && linkSizeMap[size],
-          link
-            ? `font-normal text-indigo-600 hover:text-indigo-400`
-            : `shadow-sm`,
-          link && destructive && `text-red-600 hover:text-red-400`,
-          // 默认和加载
-          !link &&
-            ((!primary && !destructive) ||
-              (primary && destructive) ||
-              loading) &&
-            `bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:bg-gray-100 disabled:text-gray-400`,
-          // 主要
-          !link &&
-            !loading &&
-            primary &&
-            !destructive &&
-            `bg-indigo-600 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-indigo-400`,
-          // 危险
-          !link &&
-            !loading &&
-            !primary &&
-            !ghost &&
-            destructive &&
-            `bg-red-600 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 disabled:bg-red-400`,
-          // 透明
-          ghost &&
-            `bg-transparent text-gray-900 hover:bg-gray-100 ring-0 shadow-none`,
-          ghost && disabled && destructive && "text-red-600",
-          // 其他
-          block && `block w-full`,
-          rounded ? `rounded-full` : `rounded-md`,
-          disabled && "cursor-not-allowed",
-          disabled && link && "text-indigo-400",
-          disabled && link && destructive && "text-red-400",
-          loading && link && "animate-pulse text-indigo-400",
-          loading && link && destructive && "text-red-400",
+          ButtonStyle({
+            size,
+            variant,
+            block,
+            rounded,
+            disabled,
+            loading,
+          }),
           className,
         )}
         disabled={disabled || loading}
@@ -122,7 +110,7 @@ export const Button = forwardRef<ButtonProps, "button">(
         type={type}
         {...props}
       >
-        {loading && !link && (
+        {loading && variant !== "link" && (
           <span className="absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]">
             <Spinner className="text-slate-500" size={size} />
           </span>
@@ -131,7 +119,7 @@ export const Button = forwardRef<ButtonProps, "button">(
         <span
           className={twMerge(
             `flex w-full justify-center items-center gap-1`,
-            loading && !link && `text-transparent`,
+            loading && variant !== "link" && `text-transparent`,
           )}
         >
           {typeof icon !== "undefined" && <Icon as={icon} size={size} />}

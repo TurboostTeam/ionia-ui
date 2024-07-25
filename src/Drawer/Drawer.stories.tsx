@@ -37,7 +37,7 @@ export const Default: FC = (args) => {
               取消
             </Button>
             <Button
-              primary
+              variant="primary"
               onClick={() => {
                 setOpen(false);
               }}

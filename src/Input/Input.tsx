@@ -1,5 +1,6 @@
 import { type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
+import { tv } from "tailwind-variants";
 
 import { FormItem, type FormItemProps } from "../FormItem";
 import { forwardRef } from "../utils";
@@ -50,6 +51,12 @@ const sizeMap = {
   lg: twMerge(`py-2`),
 };
 
+export const InputStyle = tv({
+  slots: {
+    inputWarp: "flex gap-2 rounded-md px-3 shadow-sm",
+  },
+});
+
 export const Input = forwardRef<InputProps, "input">(
   (
     {
@@ -96,7 +103,7 @@ export const Input = forwardRef<InputProps, "input">(
             className={twMerge(
               "flex-1 min-w-0 border-0 bg-inherit p-0 text-sm focus:ring-0 disabled:cursor-not-allowed text-gray-900 placeholder:text-gray-400",
               typeof error !== "undefined" &&
-                `text-red-900 placeholder:text-red-300`,
+                `text-error placeholder:text-red-300`,
               type === "number" &&
                 "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
             )}

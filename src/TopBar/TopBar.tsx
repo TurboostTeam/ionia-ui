@@ -19,9 +19,9 @@ export const TopBar: FC<TopBarProps> = ({
       <div className="flex justify-start">
         {showNavigationToggle && (
           <Button
-            ghost
             className="block md:hidden"
             icon={Bars3Icon}
+            variant="ghost"
             onClick={onNavigationToggle}
           />
         )}

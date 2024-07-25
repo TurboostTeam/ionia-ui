@@ -82,7 +82,7 @@ export const Modal: FC<ModalProps> = ({
                     {title}
                   </Dialog.Title>
 
-                  <Button ghost icon={XMarkIcon} onClick={onClose} />
+                  <Button icon={XMarkIcon} variant="ghost" onClick={onClose} />
                 </div>
 
                 {/* main */}
@@ -95,7 +95,11 @@ export const Modal: FC<ModalProps> = ({
                       <Action key={index} {...action} />
                     ))}
 
-                    <Action primary ref={initialFocus} {...primaryAction} />
+                    <Action
+                      ref={initialFocus}
+                      variant="primary"
+                      {...primaryAction}
+                    />
                   </ButtonGroup>
                 </div>
               </Dialog.Panel>

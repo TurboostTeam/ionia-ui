@@ -41,7 +41,7 @@ export const Base: FC = () => {
               </div>
             </div>
             <Button
-              link
+              variant="link"
               onClick={() => {
                 console.log("查看");
               }}

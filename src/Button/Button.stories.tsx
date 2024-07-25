@@ -1,3 +1,5 @@
+import "../index.css";
+
 import {
   ArrowUturnLeftIcon,
   DocumentDuplicateIcon,
@@ -25,15 +27,17 @@ export const Default: FC = (args) => {
 
 export const Primary: FC = (args) => {
   return (
-    <Button primary {...args}>
-      主要按钮
-    </Button>
+    <div>
+      <Button variant="primary" {...args}>
+        主要按钮
+      </Button>
+    </div>
   );
 };
 
 export const Destructive: FC = (args) => {
   return (
-    <Button destructive {...args}>
+    <Button variant="destructive" {...args}>
       破坏按钮
     </Button>
   );
@@ -41,7 +45,7 @@ export const Destructive: FC = (args) => {
 
 export const Ghost: FC = (args) => {
   return (
-    <Button ghost {...args}>
+    <Button variant="ghost" {...args}>
       幽灵按钮
     </Button>
   );
@@ -49,16 +53,8 @@ export const Ghost: FC = (args) => {
 
 export const Link: FC = (args) => {
   return (
-    <Button link {...args}>
+    <Button variant="link" {...args}>
       链接按钮
-    </Button>
-  );
-};
-
-export const DestructiveLink: FC = (args) => {
-  return (
-    <Button destructive link {...args}>
-      破坏链接按钮
     </Button>
   );
 };
@@ -153,7 +149,7 @@ export const DefaultWithDisabled: FC = (args) => {
 
 export const PrimaryWithDisabled: FC = (args) => {
   return (
-    <Button disabled primary {...args}>
+    <Button disabled variant="primary" {...args}>
       主要禁用按钮
     </Button>
   );
@@ -161,7 +157,7 @@ export const PrimaryWithDisabled: FC = (args) => {
 
 export const DestructiveWithDisabled: FC = (args) => {
   return (
-    <Button destructive disabled {...args}>
+    <Button disabled variant="destructive" {...args}>
       破坏禁用按钮
     </Button>
   );
@@ -169,16 +165,8 @@ export const DestructiveWithDisabled: FC = (args) => {
 
 export const LinkWithDisabled: FC = (args) => {
   return (
-    <Button disabled link {...args}>
+    <Button disabled variant="link" {...args}>
       链接禁用按钮
-    </Button>
-  );
-};
-
-export const DestructiveLinkWithDisabled: FC = (args) => {
-  return (
-    <Button destructive disabled link {...args}>
-      破坏链接禁用按钮
     </Button>
   );
 };
@@ -193,7 +181,7 @@ export const DefaultWithLoading: FC = (args) => {
 
 export const PrimaryWithLoading: FC = (args) => {
   return (
-    <Button loading primary {...args}>
+    <Button loading variant="primary" {...args}>
       主要加载按钮
     </Button>
   );
@@ -201,7 +189,7 @@ export const PrimaryWithLoading: FC = (args) => {
 
 export const DestructiveWithLoading: FC = (args) => {
   return (
-    <Button destructive loading size="lg" {...args}>
+    <Button loading size="lg" variant="destructive" {...args}>
       破坏加载按钮
     </Button>
   );
@@ -209,16 +197,8 @@ export const DestructiveWithLoading: FC = (args) => {
 
 export const LinkWithLoading: FC = (args) => {
   return (
-    <Button link loading {...args}>
+    <Button loading variant="link" {...args}>
       链接加载按钮
-    </Button>
-  );
-};
-
-export const DestructiveLinkWithLoading: FC = (args) => {
-  return (
-    <Button destructive link loading {...args}>
-      破坏链接禁用按钮
     </Button>
   );
 };

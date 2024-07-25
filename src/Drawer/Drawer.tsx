@@ -89,8 +89,8 @@ export const Drawer: FC<DrawerProps> = ({
                           {closable && (
                             <div className="ml-3 flex h-7 items-center">
                               <Button
-                                ghost
                                 icon={XMarkIcon}
+                                variant="ghost"
                                 onClick={onClose}
                               />
                             </div>

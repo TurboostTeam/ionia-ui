@@ -43,7 +43,7 @@ export function PageHeader<ActionComponent extends As = typeof Button>({
                 ({ content, onAction, ...itemProps }, itemIndex) => (
                   <div className="px-1" key={itemIndex}>
                     <Button
-                      ghost
+                      variant="ghost"
                       onClick={onAction}
                       {...itemProps}
                       className="w-full"
