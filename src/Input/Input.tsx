@@ -1,6 +1,5 @@
 import { type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
-import { tv } from "tailwind-variants";
 
 import { FormItem, type FormItemProps } from "../FormItem";
 import { forwardRef } from "../utils";
@@ -50,12 +49,6 @@ const sizeMap = {
   md: twMerge(`py-2`),
   lg: twMerge(`py-2`),
 };
-
-export const InputStyle = tv({
-  slots: {
-    inputWarp: "flex gap-2 rounded-md px-3 shadow-sm",
-  },
-});
 
 export const Input = forwardRef<InputProps, "input">(
   (

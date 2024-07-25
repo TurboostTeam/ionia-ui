@@ -1,5 +1,4 @@
-import { twMerge } from "tailwind-merge";
-import { tv, type VariantProps } from "tailwind-variants";
+import { tv } from "tailwind-variants";
 
 import { Action, type ActionProps } from "../Action";
 import { ButtonGroup } from "../ButtonGroup";
@@ -7,25 +6,24 @@ import { forwardRef } from "../utils";
 
 export const CardStyle = tv({
   slots: {
-    card: "flex flex-col gap-2 bg-default py-4 shadow sm:rounded-lg",
+    cardWarp: "flex flex-col gap-2 bg-default py-4 shadow sm:rounded-lg",
     header: "flex justify-between px-4",
     title: "text-sm font-semibold text-default",
     content: "px-4",
     action: "-m-1 p-1",
   },
+  variants: {},
 });
 
-type CardVariants = VariantProps<typeof CardStyle>;
-
-export interface CardProps extends CardVariants {
+export interface CardProps {
   title?: string;
   actions?: ActionProps[];
 }
 
 export const Card = forwardRef<CardProps, "div">(
-  ({ className, title, actions = [], children }, ref) => {
+  ({ title, actions = [], children }, ref) => {
     const {
-      card,
+      cardWarp,
       header,
       title: titleStyle,
       action: actionStyle,
@@ -33,7 +31,7 @@ export const Card = forwardRef<CardProps, "div">(
     } = CardStyle();
 
     return (
-      <div className={twMerge(card(), className)} ref={ref}>
+      <div className={cardWarp()} ref={ref}>
         {(typeof title !== "undefined" || actions.length > 0) && (
           <div className={header()}>
             <h2 className={titleStyle()}>{title}</h2>
