@@ -42,12 +42,7 @@ export function PageHeader<ActionComponent extends As = typeof Button>({
               {secondaryActions.map(
                 ({ content, onAction, ...itemProps }, itemIndex) => (
                   <div className="px-1" key={itemIndex}>
-                    <Button
-                      variant="ghost"
-                      onClick={onAction}
-                      {...itemProps}
-                      className="w-full"
-                    >
+                    <Button variant="ghost" onClick={onAction} {...itemProps}>
                       {content}
                     </Button>
                   </div>
@@ -62,7 +57,7 @@ export function PageHeader<ActionComponent extends As = typeof Button>({
         )}
 
         {typeof primaryAction !== "undefined" && (
-          <Action primary {...primaryAction} />
+          <Action variant="primary" {...primaryAction} />
         )}
       </ButtonGroup>
     </div>

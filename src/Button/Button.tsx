@@ -1,3 +1,6 @@
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { type ReactElement } from "react";
 import { tv, type VariantProps } from "tailwind-variants";
 
@@ -6,7 +9,6 @@ import { Spinner } from "../Spinner";
 import { type SVGComponent } from "../types/SVGComponent";
 import { forwardRef } from "../utils";
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const button = tv({
   slots: {
     root: "relative  cursor-pointer rounded",
@@ -63,7 +65,9 @@ export const button = tv({
     {
       variant: "link",
       loading: true,
-      class: { root: "animate-pulse border-none bg-transparent text-link/60" },
+      class: {
+        root: "animate-pulse border-none bg-transparent text-link/60",
+      },
     },
     {
       variant: ["primary", "secondary", "destructive", "outline", "ghost"],
@@ -75,9 +79,11 @@ export const button = tv({
   ],
 });
 
-type ButtonVariants = VariantProps<typeof button>;
+export interface ButtonProps extends VariantProps<typeof button> {
+  classNames?: {
+    root?: string;
+  };
 
-export interface ButtonProps extends ButtonVariants {
   block?: boolean;
 
   icon?: SVGComponent;
@@ -101,7 +107,7 @@ export const Button = forwardRef<ButtonProps, "button">(
 
     return (
       <Component
-        className={root()}
+        className={root({ class: props.classNames?.root })}
         disabled={disabled || loading}
         ref={ref}
         type={type}
