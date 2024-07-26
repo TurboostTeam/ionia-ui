@@ -40,7 +40,7 @@ export const Default: FC = (args) => {
           <PageLayoutSection>
             <PageActions
               primaryAction={{ content: "保存" }}
-              secondaryActions={[{ content: "删除", destructive: true }]}
+              secondaryActions={[{ content: "删除", variant: "destructive" }]}
             />
           </PageLayoutSection>
         </PageLayout>

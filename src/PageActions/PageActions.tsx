@@ -18,7 +18,7 @@ export const PageActions: FC<PageActionsProps> = ({
         {secondaryActions?.map((action, index) => (
           <Action key={index} {...action} />
         ))}
-        <Action primary {...primaryAction} />
+        <Action variant="primary" {...primaryAction} />
       </ButtonGroup>
     </div>
   );
