@@ -189,12 +189,7 @@ export function Filter<T>({
               <Popover className="relative" key={field}>
                 {({ close }) => (
                   <>
-                    <Button
-                      rounded
-                      as={Popover.Button}
-                      className="pr-2"
-                      size="sm"
-                    >
+                    <Button rounded as={Popover.Button} size="sm">
                       <span className="flex items-center whitespace-nowrap">
                         {isEmpty(fieldValue) ? (
                           <>
@@ -267,7 +262,7 @@ export function Filter<T>({
           })}
 
           {filters?.length > fixedFilters.length && (
-            <Button rounded className="bg-root text-muted" size="sm">
+            <Button rounded size="sm">
               <span className="flex items-center">
                 添加筛选条件
                 <PlusIcon className="h-4 w-4" />

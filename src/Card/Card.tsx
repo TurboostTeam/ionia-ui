@@ -39,7 +39,7 @@ export const Card = forwardRef<CardProps, "div">(
             <ButtonGroup>
               {actions.map((action, index) => (
                 <Action
-                  className={actionStyle()}
+                  classNames={{ root: actionStyle() }}
                   key={index}
                   variant="link"
                   {...action}

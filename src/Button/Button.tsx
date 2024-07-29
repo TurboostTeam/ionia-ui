@@ -11,7 +11,7 @@ import { forwardRef } from "../utils";
 
 export const button = tv({
   slots: {
-    root: "relative  cursor-pointer rounded",
+    root: "relative cursor-pointer rounded",
     buttonSpinnerWarp:
       "absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]",
     buttonSpinner: "text-slate-500",
@@ -21,19 +21,21 @@ export const button = tv({
   variants: {
     variant: {
       primary: {
-        root: "bg-primary text-primary hover:bg-primary/80",
+        root: "bg-fill-primary text-primary hover:bg-fill-primary-hover",
       },
       secondary: {
-        root: "border bg-secondary text-secondary hover:bg-muted",
+        root: "border bg-fill-secondary text-secondary hover:bg-fill-secondary-hover",
       },
       destructive: {
-        root: "bg-destructive text-destructive hover:bg-destructive/80",
+        root: "bg-fill-destructive text-destructive hover:bg-fill-destructive-hover",
       },
 
       outline: { root: "border bg-transparent text-default" },
-      ghost: { root: "bg-transparent text-default hover:bg-muted" },
+      ghost: {
+        root: "bg-fill-transparent text-default hover:bg-fill-transparent-hover",
+      },
       link: {
-        root: "bg-transparent text-link underline-offset-4 hover:text-link/60",
+        root: "bg-transparent text-link underline-offset-4 hover:text-link-hover active:text-link-active",
       },
     },
     size: {

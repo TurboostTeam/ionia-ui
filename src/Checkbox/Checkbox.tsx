@@ -37,9 +37,9 @@ export const Checkbox = forwardRef<CheckboxProps, "input">(
         <div className="relative flex h-5 items-center">
           <input
             className={twMerge(
-              "h-4 w-4 cursor-pointer rounded border-gray-300 text-indigo-600 focus:ring-indigo-600",
+              "h-4 w-4 cursor-pointer rounded border-default text-emphasis  focus-within:ring-0 ",
               disabled === true &&
-                "cursor-not-allowed bg-gray-100 checked:bg-gray-300 checked:hover:bg-gray-300",
+                "cursor-not-allowed bg-disabled checked:bg-disabled checked:hover:bg-disabled",
             )}
             disabled={disabled}
             ref={ref}
@@ -52,8 +52,8 @@ export const Checkbox = forwardRef<CheckboxProps, "input">(
               typeof props.checked === "undefined") && (
               <span
                 className={twMerge(
-                  "absolute pointer-events-none inset-0 m-auto h-0.5 w-3/4 rounded bg-indigo-600",
-                  disabled === true && "bg-gray-300",
+                  "absolute pointer-events-none inset-0 m-auto h-0.5 w-3/4 rounded bg-emphasis",
+                  disabled === true && "bg-disabled",
                 )}
               />
             )}
@@ -63,7 +63,7 @@ export const Checkbox = forwardRef<CheckboxProps, "input">(
           <label className={textContent()}>{label}</label>
 
           {typeof helpText !== "undefined" && (
-            <p className="mt-2 text-gray-500">{helpText}</p>
+            <p className="mt-2 text-description">{helpText}</p>
           )}
         </div>
       </div>

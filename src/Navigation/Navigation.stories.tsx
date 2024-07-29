@@ -32,6 +32,12 @@ export const Default: FC = (args) => {
     <div className="h-96">
       <Navigation location={window.location.hash} {...args}>
         <NavigationSection
+          action={{
+            icon: BiChevronRight,
+            onAction: () => {
+              console.log("action");
+            },
+          }}
           items={[
             {
               href: "#/",
@@ -66,6 +72,7 @@ export const Default: FC = (args) => {
               icon: BiGitPullRequest,
             },
           ]}
+          title="导航"
         />
         <NavigationSection
           items={[

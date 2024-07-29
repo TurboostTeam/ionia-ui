@@ -42,6 +42,7 @@ export const Controlled: FC = () => {
       label="Radio"
       name="status"
       onChange={(event) => {
+        console.log("!!!");
         console.log("checked = ", event.target.checked);
         setChecked(event.target.checked);
       }}

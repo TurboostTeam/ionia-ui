@@ -28,7 +28,11 @@ export const Default: FC = (args) => {
       <Page
         backAction={{}}
         primaryAction={{ content: "创建" }}
-        secondaryActions={[{ content: "设置" }, { content: "更多" }]}
+        secondaryActions={[
+          { content: "设置" },
+          { content: "更多" },
+          { content: "删除内容" },
+        ]}
         title="标题"
         {...args}
       >

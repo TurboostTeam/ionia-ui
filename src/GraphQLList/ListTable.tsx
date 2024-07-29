@@ -218,7 +218,7 @@ export function ListTable<T>({
                     Object.keys(internalRowSelection).length > 0 &&
                     rowSelection.allowSelectAll && (
                       <td
-                        className="cursor-pointer text-sm text-indigo-600 hover:text-indigo-400"
+                        className="cursor-pointer text-sm text-emphasis hover:text-emphasis-hover"
                         onClick={() => {
                           if (isRowSelectedAll) {
                             setIsRowSelectedAll(false);
@@ -299,7 +299,7 @@ export function ListTable<T>({
                   {row.getVisibleCells().map((cell) => (
                     <td
                       className={twMerge(
-                        "break-words group-hover:bg-gray-50 bg-white py-3 text-sm text-gray-500 ",
+                        "break-words group-hover:bg-gray-50 bg-default py-3 text-sm text-muted ",
                         cell.column.id !== "row-select" && "w-full",
                       )}
                       key={cell.id}

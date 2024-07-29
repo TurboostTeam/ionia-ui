@@ -17,7 +17,7 @@ export interface RadioGroupProps extends FormItemProps {
 export const RadioGroup = forwardRef<RadioGroupProps, "div">(
   (
     { className, name, label, helpText, error, options, value, onChange },
-    ref
+    ref,
   ) => {
     return (
       <FormItem
@@ -49,5 +49,5 @@ export const RadioGroup = forwardRef<RadioGroupProps, "div">(
         ))}
       </FormItem>
     );
-  }
+  },
 );
