@@ -68,7 +68,7 @@ export const Select = forwardRef<SelectProps, "div">(
             <div className="relative">
               <Listbox.Button
                 className={twMerge(
-                  "relative w-full cursor-default rounded-md pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 text-sm",
+                  "relative w-full cursor-default rounded-md pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-default-focus text-sm",
                   sizeMap[size],
                   disabled || loading
                     ? "cursor-not-allowed bg-gray-50"
@@ -121,12 +121,12 @@ export const Select = forwardRef<SelectProps, "div">(
                 leaveTo="opacity-0"
                 show={open}
               >
-                <Listbox.Options className="absolute z-[990] mt-2 max-h-60 w-full overflow-auto rounded-md bg-white py-2 text-base text-gray-700 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                <Listbox.Options className="absolute z-[990] mt-2 max-h-60 w-full overflow-auto rounded-md bg-default py-2 text-base text-default shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                   {options.map((option) => (
                     <Listbox.Option
                       className={({ active }) =>
                         twMerge(
-                          active && "bg-gray-100",
+                          active && "bg-muted",
                           "relative cursor-default select-none py-2 pl-3 pr-9",
                         )
                       }
@@ -136,12 +136,12 @@ export const Select = forwardRef<SelectProps, "div">(
                       {({ selected }) => (
                         <>
                           <span className="block truncate">{option.label}</span>
-                          <span className="text-xs text-gray-400">
+                          <span className="text-xs text-description">
                             {option.description}
                           </span>
 
                           {selected ? (
-                            <span className="absolute inset-y-0 right-0 flex py-2 pr-4 text-indigo-600">
+                            <span className="absolute inset-y-0 right-0 flex py-2 pr-4 text-emphasis">
                               <CheckIcon
                                 aria-hidden="true"
                                 className="h-5 w-5"

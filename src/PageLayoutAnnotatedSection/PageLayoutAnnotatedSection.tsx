@@ -13,7 +13,7 @@ export const PageLayoutAnnotatedSection: FC<
     <div className={twMerge(`flex flex-1 basis-full min-w-0 gap-4 flex-wrap`)}>
       <div className="min-w-0 flex-[1] basis-full py-5 md:basis-0">
         <h2 className="text-base font-semibold">{title}</h2>
-        <div className="mt-4 text-sm text-gray-500">
+        <div className="mt-4 text-sm text-description">
           <p>{description}</p>
         </div>
       </div>

@@ -3,7 +3,7 @@ import {
   EllipsisHorizontalIcon,
 } from "@heroicons/react/24/solid";
 import { type PropsWithChildren, type ReactElement } from "react";
-import { twMerge } from "tailwind-merge";
+import { tv } from "tailwind-variants";
 
 import { Action, type ActionProps } from "../Action";
 import { Button } from "../Button";
@@ -11,6 +11,19 @@ import { ButtonGroup } from "../ButtonGroup";
 import { Popover } from "../Popover";
 import { Spinner } from "../Spinner";
 import { type As } from "../types";
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const page = tv({
+  slots: {
+    root: "mx-auto p-4",
+    loading: "mx-auto",
+  },
+  variants: {
+    fullWidth: {
+      true: "max-w-5xl",
+    },
+  },
+});
 
 export interface PageHeaderProps<ActionComponent extends As = typeof Button> {
   title?: string;
@@ -32,7 +45,7 @@ export function PageHeader<ActionComponent extends As = typeof Button>({
       )}
 
       {typeof title !== "undefined" && (
-        <h2 className="flex-1 text-xl font-bold text-gray-900">{title}</h2>
+        <h2 className="flex-1 text-xl font-bold text-default">{title}</h2>
       )}
 
       <ButtonGroup>
@@ -41,7 +54,7 @@ export function PageHeader<ActionComponent extends As = typeof Button>({
             <div className="flex flex-col justify-center gap-1 py-1">
               {secondaryActions.map(
                 ({ content, onAction, ...itemProps }, itemIndex) => (
-                  <div className="px-1" key={itemIndex}>
+                  <div className="flex justify-center px-1" key={itemIndex}>
                     <Button variant="ghost" onClick={onAction} {...itemProps}>
                       {content}
                     </Button>
@@ -79,8 +92,10 @@ export function Page<ActionComponent extends As = typeof Button>({
   primaryAction,
   secondaryActions,
 }: PropsWithChildren<PageProps<ActionComponent>>): ReactElement {
+  const { root, loading: pageLoading } = page({ fullWidth });
+
   return (
-    <div className={twMerge(`p-4 mx-auto`, !fullWidth && `max-w-5xl`)}>
+    <div className={root()}>
       <PageHeader<ActionComponent>
         backAction={backAction}
         primaryAction={primaryAction}
@@ -89,7 +104,7 @@ export function Page<ActionComponent extends As = typeof Button>({
       />
 
       <div>
-        {loading ? <Spinner className="mx-auto" size="lg" /> : children}
+        {loading ? <Spinner className={pageLoading()} size="lg" /> : children}
       </div>
     </div>
   );
