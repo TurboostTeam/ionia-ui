@@ -29,10 +29,10 @@ export const Textarea = forwardRef<TextareaProps, "textarea">(
       <FormItem error={error} helpText={helpText} label={label}>
         <textarea
           className={twMerge(
-            "rounded-md px-3 py-2 shadow-sm min-w-0 border-0 bg-inherit text-sm disabled:cursor-not-allowed w-full ring-1 ring-inset focus-within:bg-muted focus:text-emphasis-active focus:ring-2 focus:ring-inset ring-default focus:ring-default-focus placeholder:text-placeholder text-default",
+            "rounded-md px-3 py-2 shadow-sm min-w-0 border-0 bg-inherit text-sm disabled:cursor-not-allowed w-full ring-1 ring-inset focus-within:bg-muted  focus:ring-2 focus:ring-inset ring-default focus:ring-default-focus placeholder:text-default-placeholder text-default",
             typeof label !== "undefined" && "mt-2",
             typeof error !== "undefined" &&
-              `ring-destructive focus:ring-destructive-focus placeholder:text-error-placeholder text-error`,
+              `ring-destructive focus:ring-destructive-focus placeholder:text-destructive-placeholder text-destructive-link`,
             className,
           )}
           ref={ref}

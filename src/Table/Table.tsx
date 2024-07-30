@@ -277,7 +277,7 @@ export function Table<T>({
                   {typeof rowSelection?.allowSelectAll !== "undefined" &&
                     rowSelection.allowSelectAll && (
                       <td
-                        className="cursor-pointer text-sm text-emphasis hover:text-emphasis-hover"
+                        className="cursor-pointer text-sm text-link hover:text-link-hover"
                         onClick={() => {
                           if (isRowSelectedAll) {
                             setIsRowSelectedAll(false);
