@@ -46,7 +46,7 @@ export const NavigationSection: FC<NavigationSectionProps> = ({
   });
 
   return (
-    <div className="">
+    <div>
       {(typeof title !== "undefined" || typeof action !== "undefined") && (
         <div className={navigationSectionTitle()} onClick={action?.onAction}>
           <div className={titleContent()}>{title}</div>

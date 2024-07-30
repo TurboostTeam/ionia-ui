@@ -34,12 +34,12 @@ export const navigationItem = tv({
   },
   variants: {
     itemActive: {
-      true: { itemLink: "bg-fill-nav-surface text-nav-active " },
+      true: { itemLink: "bg-nav-surface text-nav-active " },
     },
     isHref: {
       true: {
         itemLink:
-          "hover:bg-fill-nav-surface-hover cursor-pointer hover:text-nav-hover",
+          "cursor-pointer hover:bg-nav-surface-hover hover:text-nav-hover",
       },
     },
   },
@@ -48,7 +48,7 @@ export const navigationItem = tv({
       itemActive: true,
       isHref: true,
       class: {
-        itemLink: "hover:bg-fill-nav-surface-hover hover:text-nav-hover",
+        itemLink: "hover:bg-nav-surface-hover hover:text-nav-hover",
       },
     },
   ],
