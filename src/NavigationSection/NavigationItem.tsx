@@ -27,18 +27,19 @@ export const navigationItem = tv({
   slots: {
     root: "px-2",
     itemLink:
-      "flex h-8 w-full items-center gap-2 rounded pl-2 pr-1 text-sm text-secondary ",
+      "flex h-8 w-full items-center gap-2 rounded pl-2 pr-1 text-sm text-nav ",
     itemIcon: "h-5 w-5",
     itemLabel: "flex-1 font-semibold",
     itemChildrenList: "flex flex-col gap-1",
   },
   variants: {
     itemActive: {
-      true: { itemLink: "bg-fill-nav-surface-active text-emphasis" },
+      true: { itemLink: "bg-fill-nav-surface text-nav-active " },
     },
     isHref: {
       true: {
-        itemLink: "cursor-pointer hover:bg-muted hover:text-emphasis-hover",
+        itemLink:
+          "hover:bg-fill-nav-surface-hover cursor-pointer hover:text-nav-hover",
       },
     },
   },
@@ -47,7 +48,7 @@ export const navigationItem = tv({
       itemActive: true,
       isHref: true,
       class: {
-        itemLink: "hover:bg-fill-nav-surface-hover hover:text-emphasis-hover",
+        itemLink: "hover:bg-fill-nav-surface-hover hover:text-nav-hover",
       },
     },
   ],

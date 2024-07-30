@@ -33,6 +33,10 @@ module.exports = {
             active: colors.indigo[50],
           },
         },
+        // 默认背景颜色，运动于大面积元素（如卡片）。
+        default: colors.white,
+        // 用于浅色的背景颜色。
+        muted: colors.gray[100],
         // 所包含表面积较小的元素（如按钮）的背景颜色。
         fill: {
           // 主要操作（如主要按钮）的背景颜色。
@@ -65,12 +69,6 @@ module.exports = {
             hover: colors.gray[100],
           },
         },
-        // 默认背景颜色，运动于大面积元素（如卡片）。
-        default: colors.white,
-        // 用于表面的背景颜色。
-        surface: colors.white,
-        // 用于浅色的背景颜色。
-        muted: colors.gray[100],
       },
       textColor: {
         link: {
@@ -78,14 +76,21 @@ module.exports = {
           hover: colors.indigo[400],
           active: colors.indigo[700],
         },
-        default: colors.gray[800],
+        // 用于默认文本的颜色。
+        default: {
+          DEFAULT: colors.gray[900],
+          placeholder: colors.gray[400],
+        },
+        // 用于主要按钮文本的颜色。
         primary: colors.white,
+        // 用于次要文本的颜色。
+        secondary: colors.gray[700],
+        // 用于提示的文本颜色。
         destructive: {
           DEFAULT: colors.white,
           link: colors.red[600],
           placeholder: colors.red[300],
         },
-        secondary: colors.gray[700],
         disabled: colors.gray[400],
         // 用于指示编辑器中焦点区域的文本，如 radio、checkbox 等。
         emphasis: {
@@ -93,13 +98,14 @@ module.exports = {
           hover: colors.indigo[500],
           active: colors.indigo[700],
         },
-        // 占位符文本的颜色。
-        placeholder: colors.gray[400],
-        icon: colors.gray[400],
-        text: colors.gray[900],
+        // 用于导航栏的文本颜色。
+        nav: {
+          DEFAULT: colors.slate[900],
+          hover: colors.indigo[500],
+          active: colors.indigo[600],
+        },
         description: colors.gray[500],
         muted: colors.gray[600],
-        error: { DEFAULT: colors.red[600], placeholder: colors.red[300] },
       },
       borderColor: {
         default: colors.gray[200],

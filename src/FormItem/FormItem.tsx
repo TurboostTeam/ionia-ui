@@ -35,7 +35,7 @@ export const FormItem = forwardRef<FormItemProps, "div">(
           <p
             className={twMerge(
               `mt-2 text-sm`,
-              typeof error !== "undefined" && `text-error`,
+              typeof error !== "undefined" && `text-destructive-link`,
               typeof error === "undefined" &&
                 typeof helpText !== "undefined" &&
                 `text-description`,

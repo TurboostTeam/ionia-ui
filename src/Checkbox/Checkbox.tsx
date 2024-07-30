@@ -37,7 +37,7 @@ export const Checkbox = forwardRef<CheckboxProps, "input">(
         <div className="relative flex h-5 items-center">
           <input
             className={twMerge(
-              "h-4 w-4 cursor-pointer rounded border-default text-emphasis  focus-within:ring-0 ",
+              "h-4 w-4 cursor-pointer rounded border-default text-emphasis focus:outline-none  outline-none focus-within:ring-0",
               disabled === true &&
                 "cursor-not-allowed bg-disabled checked:bg-disabled checked:hover:bg-disabled",
             )}

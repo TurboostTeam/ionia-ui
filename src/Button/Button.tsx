@@ -24,7 +24,7 @@ export const button = tv({
         root: "bg-fill-primary text-primary hover:bg-fill-primary-hover",
       },
       secondary: {
-        root: "border bg-fill-secondary text-secondary hover:bg-fill-secondary-hover",
+        root: "border bg-fill-secondary text-default hover:bg-fill-secondary-hover",
       },
       destructive: {
         root: "bg-fill-destructive text-destructive hover:bg-fill-destructive-hover",
@@ -53,7 +53,9 @@ export const button = tv({
     },
 
     loading: {
-      true: { root: "border bg-muted text-transparent hover:bg-muted" },
+      true: {
+        root: "border bg-muted text-transparent hover:bg-muted",
+      },
     },
     disabled: {
       true: { root: "pointer-events-none cursor-not-allowed opacity-50" },

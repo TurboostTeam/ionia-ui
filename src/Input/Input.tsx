@@ -94,9 +94,9 @@ export const Input = forwardRef<InputProps, "input">(
 
           <input
             className={twMerge(
-              "flex-1 min-w-0 border-0 bg-inherit p-0 text-sm focus:ring-0 outline-none  disabled:cursor-not-allowed text-gray-900 placeholder:text-placeholder",
+              "flex-1 min-w-0 border-0 bg-inherit p-0 text-sm focus:ring-0 outline-none  disabled:cursor-not-allowed text-gray-900 placeholder:text-default-placeholder",
               typeof error !== "undefined" &&
-                `text-error placeholder:text-red-300`,
+                `text-destructive-link placeholder:text-destructive-placeholder`,
               type === "number" &&
                 "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
             )}
