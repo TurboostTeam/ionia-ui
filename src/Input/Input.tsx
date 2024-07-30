@@ -79,7 +79,7 @@ export const Input = forwardRef<InputProps, "input">(
         <div
           className={twMerge(
             "flex gap-2 rounded-md px-3 shadow-sm",
-            "w-full ring-1 ring-inset focus-within:bg-muted focus-within:ring-2 focus-within:ring-inset ring-default focus-within:ring-default-focus",
+            "w-full ring-1 ring-inset focus-within:bg-surface-emphasis-active focus-within:ring-2 focus-within:ring-inset ring-default focus-within:ring-default-focus",
             typeof label !== "undefined" && "mt-2",
             typeof error !== "undefined" &&
               `ring-destructive focus-within:ring-destructive-focus`,
@@ -88,15 +88,15 @@ export const Input = forwardRef<InputProps, "input">(
         >
           {typeof prefix !== "undefined" && (
             <div className="pointer-events-none flex items-center">
-              <span className="text-gray-500">{prefix}</span>
+              <span className="text-secondary-foreground">{prefix}</span>
             </div>
           )}
 
           <input
             className={twMerge(
-              "flex-1 min-w-0 border-0 bg-inherit p-0 text-sm focus:ring-0 outline-none  disabled:cursor-not-allowed text-gray-900 placeholder:text-default-placeholder",
+              "flex-1 min-w-0 border-0 bg-inherit p-0 text-sm focus:ring-0 outline-none  disabled:cursor-not-allowed text-default placeholder:text-default-placeholder",
               typeof error !== "undefined" &&
-                `text-destructive-link placeholder:text-destructive-placeholder`,
+                `text-destructive placeholder:text-destructive-placeholder`,
               type === "number" &&
                 "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
             )}
@@ -110,7 +110,7 @@ export const Input = forwardRef<InputProps, "input">(
 
           {typeof suffix !== "undefined" && (
             <div className="pointer-events-none flex items-center">
-              <span className="text-gray-500">{suffix}</span>
+              <span className="text-secondary-foreground">{suffix}</span>
             </div>
           )}
         </div>

@@ -6,7 +6,7 @@ import { forwardRef } from "../utils";
 
 export const CardStyle = tv({
   slots: {
-    cardWarp: "flex flex-col gap-2 bg-default py-4 shadow sm:rounded-lg",
+    cardWarp: "flex flex-col gap-2 bg-surface py-4 shadow sm:rounded-lg",
     header: "flex justify-between px-4",
     title: "text-sm font-semibold text-default",
     content: "px-4",

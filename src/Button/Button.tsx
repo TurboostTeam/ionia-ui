@@ -14,25 +14,31 @@ export const button = tv({
     root: "relative cursor-pointer rounded",
     buttonSpinnerWarp:
       "absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]",
-    buttonSpinner: "text-slate-500",
+    buttonSpinner: "",
     contentWarp: "flex w-full items-center justify-center gap-1",
     text: "text-center",
   },
   variants: {
     variant: {
       primary: {
-        root: "bg-fill-primary text-primary hover:bg-fill-primary-hover",
+        root: "bg-fill-primary text-primary-foreground hover:bg-fill-primary-hover",
+        buttonSpinner: "text-primary-foreground",
       },
       secondary: {
         root: "border bg-fill-secondary text-default hover:bg-fill-secondary-hover",
+        buttonSpinner: "text-default",
       },
       destructive: {
-        root: "bg-fill-destructive text-destructive hover:bg-fill-destructive-hover",
+        root: "bg-fill-destructive text-destructive-foreground hover:bg-fill-destructive-hover",
+        buttonSpinner: "text-destructive-foreground",
       },
-
-      outline: { root: "border bg-transparent text-default" },
+      outline: {
+        root: "border bg-transparent text-default",
+        buttonSpinner: "text-default",
+      },
       ghost: {
         root: "bg-fill-transparent text-default hover:bg-fill-transparent-hover",
+        buttonSpinner: "text-default",
       },
       link: {
         root: "bg-transparent text-link underline-offset-4 hover:text-link-hover active:text-link-active",
@@ -54,7 +60,7 @@ export const button = tv({
 
     loading: {
       true: {
-        root: "border bg-muted text-transparent hover:bg-muted",
+        root: "pointer-events-none cursor-auto border  text-transparent",
       },
     },
     disabled: {
@@ -77,7 +83,8 @@ export const button = tv({
       variant: ["primary", "secondary", "destructive", "outline", "ghost"],
       loading: true,
       class: {
-        contentWarp: "text-transparent",
+        root: "opacity-50",
+        contentWarp: "text-transparent ",
       },
     },
   ],
