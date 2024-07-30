@@ -59,7 +59,7 @@ export const BadgeStyle = tv({
       },
       indigo: {
         baseBadge: "bg-indigo-50 text-indigo-700 ring-indigo-700/10",
-        removeButton: "hover:bg-indigo-600/20",
+        removeButton: "hover:bg-fill-primary/20",
         removeIconColor:
           "stroke-indigo-700/50 group-hover:stroke-indigo-700/75",
       },

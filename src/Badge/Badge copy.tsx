@@ -38,7 +38,7 @@ const badgeRemoveButtonColorMap = {
   yellow: twMerge("hover:bg-yellow-600/20"),
   green: twMerge("hover:bg-green-600/20"),
   blue: twMerge("hover:bg-blue-600/20"),
-  indigo: twMerge("hover:bg-indigo-600/20"),
+  indigo: twMerge("hover:bg-fill-primary/20"),
   purple: twMerge("hover:bg-purple-600/20"),
   pink: twMerge("hover:bg-pink-600/20"),
 };

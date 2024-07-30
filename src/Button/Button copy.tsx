@@ -95,7 +95,7 @@ export const Button = forwardRef<ButtonProps, "button">(
             !loading &&
             primary &&
             !destructive &&
-            `bg-indigo-600 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-indigo-400`,
+            `bg-fill-primary text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-indigo-400`,
           // 危险
           !link &&
             !loading &&

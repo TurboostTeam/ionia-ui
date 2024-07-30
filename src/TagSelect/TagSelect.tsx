@@ -158,7 +158,7 @@ export const TagSelect = forwardRef<TagSelectProps<string>, "input">(
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <Combobox.Options className="DEFAULT absolute z-[990] mt-2 max-h-60 w-full overflow-auto rounded-md bg-default py-2 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                <Combobox.Options className="DEFAULT absolute z-[990] mt-2 max-h-60 w-full overflow-auto rounded-md bg-surface-emphasis py-2 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                   {loading ? (
                     <div className="flex items-center justify-center py-2">
                       <Spinner />
@@ -172,7 +172,7 @@ export const TagSelect = forwardRef<TagSelectProps<string>, "input">(
                       <Combobox.Option
                         className={({ active }) =>
                           twMerge(
-                            active && "bg-muted",
+                            active && "bg-surface-emphasis-active",
                             "relative cursor-default select-none py-2 pl-3 pr-9",
                           )
                         }
@@ -189,7 +189,7 @@ export const TagSelect = forwardRef<TagSelectProps<string>, "input">(
                             </span>
 
                             {selected ? (
-                              <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-emphasis">
+                              <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-primary">
                                 <CheckIcon
                                   aria-hidden="true"
                                   className="h-5 w-5"

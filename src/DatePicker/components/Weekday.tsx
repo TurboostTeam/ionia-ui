@@ -10,8 +10,8 @@ export const Weekday = memo(function Weekday({ title, current }: WeekdayProps) {
   return (
     <th
       className={twMerge(
-        "p-2 font-light bg-transparent text-xs text-center select-none",
-        current ? "font-bold text-indigo-600" : "text-gray-500"
+        "p-2 font-light bg-surface-transparent text-xs text-center select-none",
+        current ? "font-bold text-primary" : "text-secondary-foreground",
       )}
       scope="col"
     >

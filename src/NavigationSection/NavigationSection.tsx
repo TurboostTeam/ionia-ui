@@ -9,7 +9,7 @@ import { NavigationItem, type NavigationItemProps } from "./NavigationItem";
 export const navigationSection = tv({
   slots: {
     title:
-      "flex h-7 cursor-default items-center justify-between px-2 py-1 text-xs text-muted",
+      "flex h-7 cursor-default items-center justify-between px-2 py-1 text-xs text-default",
     titleContent: "pl-2",
     list: "flex flex-col gap-1",
   },

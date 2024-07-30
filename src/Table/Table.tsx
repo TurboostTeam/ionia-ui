@@ -256,7 +256,7 @@ export function Table<T>({
             {!(rowSelection?.single ?? false) &&
               Object.keys(internalRowSelection).length > 0 &&
               hasBulkActions && (
-                <tr className="absolute z-[2] flex w-full items-center space-x-2 bg-default px-3 py-3">
+                <tr className="absolute z-[2] flex w-full items-center space-x-2 bg-surface px-3 py-3">
                   <td>
                     <Checkbox
                       checked={table.getIsAllRowsSelected()}
@@ -317,7 +317,7 @@ export function Table<T>({
                   return (
                     <th
                       className={twMerge(
-                        "px-3 py-3.5 whitespace-nowrap bg-default text-left text-sm font-semibold text-default",
+                        "px-3 py-3.5 whitespace-nowrap bg-surface text-left text-sm font-semibold text-default",
                         typeof (header.column.columnDef as TableColumnProps<T>)
                           ?.align !== "undefined" &&
                           columnAlignClass[

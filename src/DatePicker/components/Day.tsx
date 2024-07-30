@@ -48,7 +48,7 @@ export const Day = memo(function Day({
   if (day == null) {
     return (
       <td
-        className="m-0 w-1/7 p-0"
+        className="w-1/7 m-0 p-0"
         onMouseOver={() => {
           onHover(hoverValue);
         }}
@@ -64,26 +64,26 @@ export const Day = memo(function Day({
   const today = isSameDay(new Date(), day);
 
   const dayCellClassName = twMerge(
-    "w-1/7 bg-transparent m-0 p-0 rounded",
-    selected === true && "bg-indigo-600 text-white ",
+    "w-1/7 bg-surface-transparent m-0 p-0 rounded",
+    selected === true && "bg-fill-primary text-primary-foreground",
     (inRange === true || inHoveringRange === true) &&
       disabled === false &&
-      "rounded-none bg-indigo-50",
+      "rounded-none bg-fill-primary-secondary",
     isFirstSelectedDay === true && "rounded-r-none rounded-l-full",
-    isLastSelectedDay === true && "rounded-l-none rounded-r-full"
+    isLastSelectedDay === true && "rounded-l-none rounded-r-full",
   );
 
   const dayClassName = twMerge(
-    "block h-full w-full text-xs m-0 p-2 bg-transparent border-none rounded outline-none text-center text-gray-600 cursor-pointer hover:bg-indigo-700 hover:text-white",
-    selected === true && "bg-indigo-600 text-white",
+    "block h-full w-full text-xs m-0 p-2 bg-surface-transparent border-none rounded outline-none text-center text-secondary-foreground cursor-pointer hover:bg-fill-primary-hover hover:text-primary",
+    selected === true && "bg-fill-primary text-primary-foreground",
     disabled === true &&
-      "bg-transparent text-gray-300 hover:bg-transparent hover:text-gray-300 cursor-not-allowed",
+      "bg-surface-transparent text-disabled hover:bg-surface-transparent hover:text-disabled cursor-not-allowed",
     today && "font-semibold",
     (inRange === true || inHoveringRange === true) &&
       disabled === false &&
-      "bg-indigo-50 rounded-none",
+      "bg-fill-primary-secondary rounded-none",
     isFirstSelectedDay === true && "rounded-r-none rounded-l-full",
-    isLastSelectedDay === true && "rounded-l-none rounded-r-full"
+    isLastSelectedDay === true && "rounded-l-none rounded-r-full",
   );
 
   const date = day.getDate();

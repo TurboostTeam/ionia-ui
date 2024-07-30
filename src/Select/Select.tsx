@@ -121,12 +121,12 @@ export const Select = forwardRef<SelectProps, "div">(
                 leaveTo="opacity-0"
                 show={open}
               >
-                <Listbox.Options className="absolute z-[990] mt-2 max-h-60 w-full overflow-auto rounded-md bg-default py-2 text-base text-default shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                <Listbox.Options className="absolute z-[990] mt-2 max-h-60 w-full overflow-auto rounded-md bg-surface-emphasis py-2 text-base text-default shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                   {options.map((option) => (
                     <Listbox.Option
                       className={({ active }) =>
                         twMerge(
-                          active && "bg-muted",
+                          active && "bg-surface-emphasis-active",
                           "relative cursor-default select-none py-2 pl-3 pr-9",
                         )
                       }
@@ -141,7 +141,7 @@ export const Select = forwardRef<SelectProps, "div">(
                           </span>
 
                           {selected ? (
-                            <span className="absolute inset-y-0 right-0 flex py-2 pr-4 text-emphasis">
+                            <span className="absolute inset-y-0 right-0 flex py-2 pr-4 text-primary">
                               <CheckIcon
                                 aria-hidden="true"
                                 className="h-5 w-5"
