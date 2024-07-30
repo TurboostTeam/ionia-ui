@@ -40,7 +40,7 @@ module.exports = {
         },
         // 用于导航栏的背景颜色。
         nav: {
-          DEFAULT: colors.indigo[600],
+          DEFAULT: colors.gray[50],
           // 用于导航栏浅表色
           surface: {
             DEFAULT: colors.white,

@@ -9,7 +9,7 @@ export const Navigation: FC<PropsWithChildren<NavigationProps>> = ({
 }) => {
   return (
     <NavigationContext.Provider value={props}>
-      <div className="flex h-full w-60 flex-col gap-4 border-r bg-white py-4">
+      <div className="flex h-full w-60 flex-col gap-4 border-r bg-nav py-4">
         {children}
       </div>
     </NavigationContext.Provider>
