@@ -12,7 +12,7 @@ import { GraphQLList } from "./GraphQLList";
 import { type TableColumnProps } from "./ListTable";
 
 const meta = {
-  title: "Layout 布局/GraphQLList 列表",
+  title: "Advanced 高级/GraphQLList 列表",
   parameters: {
     layout: "fullscreen",
   },

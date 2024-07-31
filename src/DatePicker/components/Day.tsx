@@ -65,7 +65,7 @@ export const Day = memo(function Day({
 
   const dayCellClassName = twMerge(
     "w-1/7 bg-surface-transparent m-0 p-0 rounded",
-    selected === true && "bg-fill-primary text-primary-foreground",
+    selected === true && "bg-fill-primary text-fill-primary",
     (inRange === true || inHoveringRange === true) &&
       disabled === false &&
       "rounded-none bg-fill-primary-secondary",
@@ -74,8 +74,8 @@ export const Day = memo(function Day({
   );
 
   const dayClassName = twMerge(
-    "block h-full w-full text-xs m-0 p-2 bg-surface-transparent border-none rounded outline-none text-center text-secondary-foreground cursor-pointer hover:bg-fill-primary-hover hover:text-primary",
-    selected === true && "bg-fill-primary text-primary-foreground",
+    "block h-full w-full text-xs m-0 p-2 bg-surface-transparent border-none rounded outline-none text-center text-fill-secondary cursor-pointer hover:bg-fill-primary-hover hover:text-primary",
+    selected === true && "bg-fill-primary text-fill-primary",
     disabled === true &&
       "bg-surface-transparent text-disabled hover:bg-surface-transparent hover:text-disabled cursor-not-allowed",
     today && "font-semibold",

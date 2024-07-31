@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const colors = require("tailwindcss/colors");
 const plugin = require("tailwindcss/plugin");
 
 /** @type {import('tailwindcss').Config} */
@@ -8,136 +7,201 @@ module.exports = {
   theme: {
     extend: {
       zIndex: {
-        10: "10",
-        20: "20",
-        30: "30",
-        40: "40",
-        50: "50",
-        60: "60",
-        70: "70",
-        80: "80",
-        90: "90",
-        100: "100",
-        110: "110",
-        120: "120",
+        10: "var(--z-index-10)",
+        20: "var(--z-index-20)",
+        30: "var(--z-index-30)",
+        40: "var(--z-index-40)",
+        50: "var(--z-index-50)",
+        60: "var(--z-index-60)",
+        70: "var(--z-index-70)",
+        80: "var(--z-index-80)",
+        90: "var(--z-index-90)",
+        100: "var(--z-index-100)",
+        110: "var(--z-index-110)",
+        120: "var(--z-index-120)",
       },
 
       backgroundColor: {
         // 默认背景颜色，运动于大面积元素（如卡片）。
-        default: colors.gray[50],
+        default: "var(--bg-default)",
         // 用于突出度最高的元素的背景颜色，如卡片。
         surface: {
-          DEFAULT: colors.white,
-          hover: colors.gray[50],
-          active: colors.gray[100],
-          transparent: colors.transparent,
+          DEFAULT: "var(--bg-surface-default)",
+          hover: "var(--bg-surface-hover)",
+          active: "var(--bg-surface-active)",
+          transparent: "var(--bg-surface-transparent)",
           // 用于背景，指示编辑器的重点领域，例如主题编辑器，input。
           emphasis: {
-            DEFAULT: colors.white,
-            hover: colors.gray[50],
-            active: colors.gray[100],
+            DEFAULT: "var(--bg-emphasis-default)",
+            hover: "var(--bg-emphasis-hover)",
+            active: "var(--bg-emphasis-active)",
           },
         },
         // 用于导航栏的背景颜色。
         nav: {
-          DEFAULT: colors.gray[50],
+          DEFAULT: "var(--bg-nav-default)",
           // 用于导航栏浅表色
           surface: {
-            DEFAULT: colors.white,
-            hover: colors.gray[50],
-            active: colors.indigo[50],
+            DEFAULT: "var(--bg-nav-surface-default)",
+            hover: "var(--bg-nav-surface-hover)",
+            active: "var(--bg-nav-surface-active)",
           },
         },
         // 所包含表面积较小的元素（如按钮）的背景颜色。
         fill: {
           // 主要操作（如主要按钮）的背景颜色。
           primary: {
-            DEFAULT: colors.indigo[600],
-            secondary: colors.indigo[50],
-            hover: colors.indigo[700],
-            active: colors.indigo[400],
+            DEFAULT: "var(--bg-fill-primary-default)",
+            secondary: "var(--bg-fill-primary-secondary)",
+            hover: "var(--bg-fill-primary-hover)",
+            active: "var(--bg-fill-primary-active)",
             // selected: "",
           },
           // 次要操作（如次要按钮）的背景颜色。
           secondary: {
-            DEFAULT: colors.white,
-            hover: colors.gray[100],
-            active: colors.gray[100],
+            DEFAULT: "var(--bg-fill-secondary-default)",
+            hover: "var(--bg-fill-secondary-hover)",
+            active: "var(--bg-fill-secondary-active)",
             // active: "",
             // selected: "",
           },
           // 警告操作（如警告按钮）的背景颜色。
           destructive: {
-            DEFAULT: colors.red[600],
-            hover: colors.red[400],
-            active: colors.red[400],
+            DEFAULT: "var(--bg-fill-destructive-default)",
+            hover: "var(--bg-fill-destructive-hover)",
+            active: "var(--bg-fill-destructive-active)",
             // selected: "",
           },
           // 禁用状态的背景颜色。
-          disabled: colors.gray[200],
+          disabled: "var(--bg-fill-disabled)",
           // 用于表面的背景颜色。
           transparent: {
-            DEFAULT: colors.transparent,
-            hover: colors.gray[100],
+            DEFAULT: "var(--bg-fill-transparent-default)",
+            hover: "var(--bg-fill-transparent-hover)",
           },
         },
       },
       textColor: {
+        // 用于填充背景颜色下的文本颜色。
+        fill: {
+          primary: "var(--text-fill-primary)",
+          secondary: "var(--text-fill-secondary)",
+          destructive: "var(--text-fill-destructive)",
+        },
+        // 用于链接文本的颜色。
         link: {
-          DEFAULT: colors.indigo[500],
-          hover: colors.indigo[400],
-          active: colors.indigo[700],
+          DEFAULT: "var(--text-link-default)",
+          hover: "var(--text-link-hover)",
+          active: "var(--text-link-active)",
         },
         // 用于默认文本的颜色。
-        default: {
-          DEFAULT: colors.gray[900],
-          placeholder: colors.gray[400],
-        },
-        // 用于主要文本的颜色。
-        primary: {
-          DEFAULT: colors.indigo[500],
-          // 用于主要按钮等颜色的前景色。
-          foreground: colors.white,
-        },
+        default: "var(--text-default)",
+
+        placeholder: "var(--text-placeholder)",
+
+        // 用于主要比如 radio ,checkbox 的 input选中状态下的文本颜色。
+        primary: "var(--text-primary)",
+
         // 用于次要文本的颜色。
-        secondary: {
-          DEFAULT: colors.white,
-          foreground: colors.gray[600],
-        },
+        secondary: "var(--text-secondary)",
+
         // 用于提示的文本颜色。
         destructive: {
-          DEFAULT: colors.red[600],
-          foreground: colors.white,
-          placeholder: colors.red[300],
+          DEFAULT: "var(--text-destructive-default)",
+          placeholder: "var(--text-destructive-placeholder)",
         },
+
         // 用于禁用状态的文本颜色。
-        disabled: colors.gray[400],
+        disabled: "var(--text-disabled)",
+
+        // 用于描述性文本的颜色。
+        description: "var(--text-description)",
 
         // 用于导航栏的文本颜色。
         nav: {
-          DEFAULT: colors.slate[900],
-          hover: colors.indigo[500],
-          active: colors.indigo[600],
+          DEFAULT: "var(--text-nav-default)",
+          hover: "var(--text-nav-hover)",
+          active: "var(--text-nav-active)",
         },
-        description: colors.gray[500],
       },
+
       borderColor: {
-        default: colors.gray[200],
-        primary: colors.indigo[600],
-        secondary: colors.gray[200],
+        default: "var(--border-default)",
+        primary: "var(--border-primary)",
+        secondary: "var(--border-secondary)",
       },
 
       ringColor: {
         // 用于外部阴影的颜色。
         default: {
-          DEFAULT: colors.gray[300],
-          focus: colors.indigo[600],
+          DEFAULT: "var(--ring-default)",
+          focus: "var(--ring-default-focus)",
         },
+
         // 用于提示的边框色
         destructive: {
-          DEFAULT: colors.red[300],
-          focus: colors.red[500],
+          DEFAULT: "var(--ring-destructive-default)",
+          focus: "var(--ring-destructive-focus)",
         },
+      },
+
+      borderRadius: {
+        // 默认边框半径
+        default: "var(--border-radius-default)",
+        // 无边框半径
+        none: "var(--border-radius-none)",
+        // 小边框半径
+        sm: "var(--border-radius-sm)",
+        // 中等边框半径
+        md: "var(--border-radius-md)",
+        // 大边框半径
+        lg: "var(--border-radius-lg)",
+        // 超大边框半径
+        xl: "var(--border-radius-xl)",
+        // 2倍边框半径
+        "2xl": "var(--border-radius-2xl)",
+        // 3倍边框半径
+        "3xl": "var(--border-radius-3xl)",
+        // 完全圆角
+        full: "var(--border-radius-full)",
+      },
+
+      fontSize: {
+        // 小字体
+        sm: "var(--font-size-sm)",
+        // 基准字体
+        base: "var(--font-size-base)",
+        // 超大字体
+        xl: "var(--font-size-xl)",
+        // 2倍超大字体
+        "2xl": "var(--font-size-2xl)",
+        // 3倍超大字体
+        "3xl": "var(--font-size-3xl)",
+        // 4倍超大字体
+        "4xl": "var(--font-size-4xl)",
+        // 5倍超大字体
+        "5xl": "var(--font-size-5xl)",
+      },
+
+      fontWeight: {
+        // 薄字体
+        thin: "var( --font-weight-thin)",
+        // 超薄字体
+        extralight: "var(--font-weight-extralight)",
+        // 细字体
+        light: "var(--font-weight-light)",
+        // 正常字体
+        normal: "var(--font-weight-normal)",
+        // 中等字体
+        medium: "var(--font-weight-medium)",
+        // 半粗体
+        semibold: "var(--font-weight-semibold)",
+        // 粗体
+        bold: "var(--font-weight-bold)",
+        // 超粗体
+        extrabold: "var(--font-weight-extrabold)",
+        // 黑体
+        black: "var(--font-weight-black)",
       },
     },
   },
