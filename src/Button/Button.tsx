@@ -21,16 +21,16 @@ export const button = tv({
   variants: {
     variant: {
       primary: {
-        root: "bg-fill-primary text-primary-foreground hover:bg-fill-primary-hover",
-        buttonSpinner: "text-primary-foreground",
+        root: "bg-fill-primary text-fill-primary hover:bg-fill-primary-hover",
+        buttonSpinner: "text-fill-primary",
       },
       secondary: {
         root: "border bg-fill-secondary text-default hover:bg-fill-secondary-hover",
         buttonSpinner: "text-default",
       },
       destructive: {
-        root: "bg-fill-destructive text-destructive-foreground hover:bg-fill-destructive-hover",
-        buttonSpinner: "text-destructive-foreground",
+        root: "bg-fill-destructive text-fill-destructive hover:bg-fill-destructive-hover",
+        buttonSpinner: "text-fill-destructive",
       },
       outline: {
         root: "border bg-transparent text-default",
@@ -76,7 +76,7 @@ export const button = tv({
       variant: "link",
       loading: true,
       class: {
-        root: "animate-pulse border-none bg-transparent text-link/60",
+        root: "text-link/60 animate-pulse border-none bg-transparent",
       },
     },
     {

@@ -88,13 +88,13 @@ export const Input = forwardRef<InputProps, "input">(
         >
           {typeof prefix !== "undefined" && (
             <div className="pointer-events-none flex items-center">
-              <span className="text-secondary-foreground">{prefix}</span>
+              <span className="text-fill-secondary">{prefix}</span>
             </div>
           )}
 
           <input
             className={twMerge(
-              "flex-1 min-w-0 border-0 bg-inherit p-0 text-sm focus:ring-0 outline-none  disabled:cursor-not-allowed text-default placeholder:text-default-placeholder",
+              "flex-1 min-w-0 border-0 bg-inherit p-0 text-sm focus:ring-0 outline-none  disabled:cursor-not-allowed text-default placeholder:text-placeholder",
               typeof error !== "undefined" &&
                 `text-destructive placeholder:text-destructive-placeholder`,
               type === "number" &&
@@ -110,7 +110,7 @@ export const Input = forwardRef<InputProps, "input">(
 
           {typeof suffix !== "undefined" && (
             <div className="pointer-events-none flex items-center">
-              <span className="text-secondary-foreground">{suffix}</span>
+              <span className="text-fill-secondary">{suffix}</span>
             </div>
           )}
         </div>

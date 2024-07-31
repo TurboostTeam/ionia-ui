@@ -18,13 +18,11 @@ export const EmptyState: FC<EmptyStateProps> = ({
   return (
     <div className={twMerge("text-center", className)}>
       {typeof icon !== "undefined" && (
-        <div className="mx-auto h-12 w-12 text-secondary-foreground">
-          {icon}
-        </div>
+        <div className="mx-auto h-12 w-12 text-fill-secondary">{icon}</div>
       )}
 
       {typeof title !== "undefined" && (
-        <h3 className="mt-2 text-sm font-semibold text-secondary-foreground">
+        <h3 className="mt-2 text-sm font-semibold text-fill-secondary">
           {title}
         </h3>
       )}

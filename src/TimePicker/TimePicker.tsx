@@ -47,9 +47,9 @@ export const TimePickerList: FC<TimePickerListProps> = ({
               className={twMerge(
                 "flex h-8 items-center justify-center rounded-md text-xs",
                 i >= min && i <= max
-                  ? "text-secondary-foreground cursor-pointer hover:bg-fill-primary-hover hover:text-primary-foreground"
+                  ? "text-fill-secondary cursor-pointer hover:bg-fill-primary-hover hover:text-fill-primary"
                   : "text-gray-300 cursor-not-allowed",
-                value === i && "bg-fill-primary text-primary-foreground",
+                value === i && "bg-fill-primary text-fill-primary",
               )}
               key={i}
               onClick={() => {

@@ -30,7 +30,7 @@ export const Frame: FC<PropsWithChildren<FrameProps>> = ({
 
       {typeof navigation !== "undefined" && (
         <>
-          <div className="fixed left-0 top-14 z-80 hidden h-[calc(100%-theme(spacing.14))] w-60 md:block">
+          <div className="fixed left-0 top-14 z-40 hidden h-[calc(100%-theme(spacing.14))] w-60 md:block">
             {navigation}
           </div>
 
