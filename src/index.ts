@@ -33,6 +33,7 @@ export * from "./PageLayout";
 export * from "./PageLayoutAnnotatedSection";
 export * from "./PageLayoutSection";
 export * from "./Popover";
+export * from "./ProgressBar";
 export * from "./Radio";
 export * from "./RadioGroup";
 export * from "./Select";
