@@ -4,6 +4,6 @@ export default defineConfig({
   esm: {
     transformer: "swc",
     output: "lib",
-    ignores: ["**/*.stories.*", "**/*.css"],
+    ignores: ["**/*.stories.*"],
   },
 });
