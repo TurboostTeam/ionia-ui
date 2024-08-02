@@ -29,7 +29,10 @@ module.exports = {
           DEFAULT: "var(--bg-surface-default)",
           hover: "var(--bg-surface-hover)",
           active: "var(--bg-surface-active)",
+          info: "var(--bg-surface-info)",
           transparent: "var(--bg-surface-transparent)",
+          // 主要用于显示小部分内容的背景颜色，如聊天气泡。
+          secondary: "var(--bg-surface-secondary)",
           // 用于背景，指示编辑器的重点领域，例如主题编辑器，input。
           emphasis: {
             DEFAULT: "var(--bg-emphasis-default)",
@@ -37,6 +40,9 @@ module.exports = {
             active: "var(--bg-emphasis-active)",
           },
         },
+
+        facebook: "var(--bg-facebook)",
+
         // 用于导航栏的背景颜色。
         nav: {
           DEFAULT: "var(--bg-nav-default)",
@@ -97,7 +103,10 @@ module.exports = {
         // 用于默认文本的颜色。
         default: "var(--text-default)",
 
+        // 用于占位符的文本颜色。
         placeholder: "var(--text-placeholder)",
+
+        facebook: "var(--text-facebook)",
 
         // 用于主要比如 radio ,checkbox 的 input选中状态下的文本颜色。
         primary: "var(--text-primary)",
