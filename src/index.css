@@ -25,12 +25,17 @@
         --bg-surface-hover: #F9FAFB; /* colors.gray[50] */
         --bg-surface-active: #F3F4F6; /* colors.gray[100] */
         --bg-surface-transparent: transparent; /* colors.transparent */ 
+        --bg-surface-info:"#dbeafe";/* colors.blue[100] */
+        --bg-surface-secondary: #F3F4F6; /* colors.gray[100] */
     
         /* 用于背景，指示编辑器的重点领域，例如主题编辑器，input */
         --bg-emphasis-default: #FFFFFF; /* colors.white */
         --bg-emphasis-hover: #F9FAFB; /* colors.gray[50] */
         --bg-emphasis-active: #F3F4F6; /* colors.gray[100] */
     
+
+        --bg-facebook: #1877F2;/* colors.facebook */
+
         /* 用于导航栏的背景颜色 */
         --bg-nav-default: #F9FAFB; /* colors.gray[50] */
     
@@ -42,7 +47,7 @@
         /* 所包含表面积较小的元素（如按钮）的背景颜色 */
         /* 主要操作（如主要按钮）的背景颜色 */
         --bg-fill-primary-default: #4F46E5; /* colors.indigo[600] */
-        --bg-fill-primary-secondary: #C4D3E7; /* colors.indigo[50] */
+        --bg-fill-primary-secondary: #eef2ff; /* colors.indigo[50] */
         --bg-fill-primary-hover: #4338ca; /* colors.indigo[700] */
         --bg-fill-primary-active: #818cf8; /* colors.indigo[400] */ 
         /* 次要操作（如次要按钮）的背景颜色 */
@@ -58,7 +63,9 @@
         /* 用于表面的背景颜色 */
         --bg-fill-transparent-default: transparent; /* colors.transparent */
         --bg-fill-transparent-hover: #F3F4F6; /* colors.gray[100] */    
-    
+        
+
+
         /* 文字 */
         /* 用于填充背景颜色下的文本颜色 */
         --text-fill-primary: #FFFFFF; /* colors.white */
@@ -74,6 +81,9 @@
         --text-default: #1F2937; /* colors.gray[900] */
         --text-placeholder: #9CA3AF; /* colors.gray[400] */ 
     
+        /*  用于 facebook */
+        --text-facebook: #1877F2;
+
         /* 用于主要，比如 radio, checkbox 的 input 选中状态下的文本颜色 */
         --text-primary: #6366f1; /* colors.indigo[500] */  
     
