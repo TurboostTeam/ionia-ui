@@ -22,6 +22,7 @@ export interface BadgeProps {
   onRemove?: MouseEventHandler<HTMLSpanElement>;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const badge = tv({
   slots: {
     baseBadge:
@@ -118,7 +119,7 @@ export const Badge = forwardRef<BadgeProps, "span">(
       [onRemove],
     );
 
-    const { baseBadge, removeButton, removeIconColor } = BadgeStyle({
+    const { baseBadge, removeButton, removeIconColor } = badge({
       color,
       disabled,
       rounded,
