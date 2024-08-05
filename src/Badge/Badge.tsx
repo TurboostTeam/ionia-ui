@@ -22,7 +22,7 @@ export interface BadgeProps {
   onRemove?: MouseEventHandler<HTMLSpanElement>;
 }
 
-export const BadgeStyle = tv({
+export const badge = tv({
   slots: {
     baseBadge:
       "inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset",

@@ -1,8 +1,19 @@
 import { type FC, useEffect, useState } from "react";
+import { tv } from "tailwind-variants";
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const progressBar = tv({
+  slots: {
+    root: "fixed left-0 top-0 z-100 h-[3px] w-full",
+    bar: "transformOrigin-0 h-full w-full bg-fill-primary",
+  },
+});
 
 export const ProgressBar: FC = () => {
   const [progress, setProgress] = useState(0);
   const [animating, setAnimating] = useState(false);
+
+  const { root, bar } = progressBar();
 
   useEffect(() => {
     if (progress >= 99 || animating) {
@@ -21,9 +32,9 @@ export const ProgressBar: FC = () => {
   };
 
   return (
-    <div className="fixed left-0 top-0 z-100 h-[3px] w-full">
+    <div className={root()}>
       <div
-        className="transformOrigin-0 h-full w-full bg-fill-primary "
+        className={bar()}
         style={{
           ...customStyles,
           transformOrigin: "0",
