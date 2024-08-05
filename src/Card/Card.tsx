@@ -1,14 +1,17 @@
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { tv } from "tailwind-variants";
 
 import { Action, type ActionProps } from "../Action";
 import { ButtonGroup } from "../ButtonGroup";
 import { forwardRef } from "../utils";
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const card = tv({
   slots: {
     root: "flex flex-col gap-2 bg-surface py-4 shadow sm:rounded-lg",
   },
+  variants: {},
 });
 
 export interface CardProps {

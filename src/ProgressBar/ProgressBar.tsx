@@ -1,12 +1,15 @@
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { type FC, useEffect, useState } from "react";
 import { tv } from "tailwind-variants";
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const progressBar = tv({
   slots: {
     root: "fixed left-0 top-0 z-100 h-[3px] w-full",
     bar: "transformOrigin-0 h-full w-full bg-fill-primary",
   },
+  variants: {},
 });
 
 export const ProgressBar: FC = () => {
