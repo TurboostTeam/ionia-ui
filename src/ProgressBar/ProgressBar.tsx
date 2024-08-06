@@ -6,8 +6,8 @@ import { tv } from "tailwind-variants";
 
 export const progressBar = tv({
   slots: {
-    root: "fixed left-0 top-0 z-100 h-[3px] w-full",
-    bar: "transformOrigin-0 h-full w-full bg-fill-primary",
+    root: "left-0 top-0",
+    bar: "fixed z-100 h-1 w-full bg-fill-primary shadow-sky-500/20",
   },
   variants: {},
 });
