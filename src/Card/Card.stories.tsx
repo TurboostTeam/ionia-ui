@@ -24,7 +24,11 @@ export const Default: FC = (args) => {
 
 export const TitleAndActions: FC = (args) => {
   return (
-    <Card actions={[{ content: "明细" }, { content: "编辑" }]} title="标题">
+    <Card
+      actions={[{ content: "明细" }, { content: "编辑" }]}
+      classNames={{ root: "h-72" }}
+      title="标题"
+    >
       卡片内的内容
     </Card>
   );
