@@ -26,7 +26,7 @@ module.exports = {
         default: "var(--bg-default)",
         // 用于突出度最高的元素的背景颜色，如卡片。
         surface: {
-          DEFAULT: "var(--bg-surface-default)",
+          DEFAULT: "var(--bg-surface)",
           hover: "var(--bg-surface-hover)",
           active: "var(--bg-surface-active)",
           info: "var(--bg-surface-info)",
@@ -35,7 +35,7 @@ module.exports = {
           secondary: "var(--bg-surface-secondary)",
           // 用于背景，指示编辑器的重点领域，例如主题编辑器，input。
           emphasis: {
-            DEFAULT: "var(--bg-emphasis-default)",
+            DEFAULT: "var(--bg-emphasis)",
             hover: "var(--bg-emphasis-hover)",
             active: "var(--bg-emphasis-active)",
           },
@@ -45,10 +45,10 @@ module.exports = {
 
         // 用于导航栏的背景颜色。
         nav: {
-          DEFAULT: "var(--bg-nav-default)",
+          DEFAULT: "var(--bg-nav)",
           // 用于导航栏浅表色
           surface: {
-            DEFAULT: "var(--bg-nav-surface-default)",
+            DEFAULT: "var(--bg-nav-surface)",
             hover: "var(--bg-nav-surface-hover)",
             active: "var(--bg-nav-surface-active)",
           },
@@ -57,7 +57,7 @@ module.exports = {
         fill: {
           // 主要操作（如主要按钮）的背景颜色。
           primary: {
-            DEFAULT: "var(--bg-fill-primary-default)",
+            DEFAULT: "var(--bg-fill-primary)",
             secondary: "var(--bg-fill-primary-secondary)",
             hover: "var(--bg-fill-primary-hover)",
             active: "var(--bg-fill-primary-active)",
@@ -65,7 +65,7 @@ module.exports = {
           },
           // 次要操作（如次要按钮）的背景颜色。
           secondary: {
-            DEFAULT: "var(--bg-fill-secondary-default)",
+            DEFAULT: "var(--bg-fill-secondary)",
             hover: "var(--bg-fill-secondary-hover)",
             active: "var(--bg-fill-secondary-active)",
             // active: "",
@@ -73,7 +73,7 @@ module.exports = {
           },
           // 警告操作（如警告按钮）的背景颜色。
           destructive: {
-            DEFAULT: "var(--bg-fill-destructive-default)",
+            DEFAULT: "var(--bg-fill-destructive)",
             hover: "var(--bg-fill-destructive-hover)",
             active: "var(--bg-fill-destructive-active)",
             // selected: "",
@@ -82,7 +82,7 @@ module.exports = {
           disabled: "var(--bg-fill-disabled)",
           // 用于表面的背景颜色。
           transparent: {
-            DEFAULT: "var(--bg-fill-transparent-default)",
+            DEFAULT: "var(--bg-fill-transparent)",
             hover: "var(--bg-fill-transparent-hover)",
           },
         },
@@ -96,7 +96,7 @@ module.exports = {
         },
         // 用于链接文本的颜色。
         link: {
-          DEFAULT: "var(--text-link-default)",
+          DEFAULT: "var(--text-link)",
           hover: "var(--text-link-hover)",
           active: "var(--text-link-active)",
         },
@@ -116,7 +116,7 @@ module.exports = {
 
         // 用于提示的文本颜色。
         destructive: {
-          DEFAULT: "var(--text-destructive-default)",
+          DEFAULT: "var(--text-destructive)",
           placeholder: "var(--text-destructive-placeholder)",
         },
 
@@ -128,14 +128,14 @@ module.exports = {
 
         // 用于导航栏的文本颜色。
         nav: {
-          DEFAULT: "var(--text-nav-default)",
+          DEFAULT: "var(--text-nav)",
           hover: "var(--text-nav-hover)",
           active: "var(--text-nav-active)",
         },
       },
 
       borderColor: {
-        default: "var(--border-default)",
+        default: "var(--border)",
         primary: "var(--border-primary)",
         secondary: "var(--border-secondary)",
       },
@@ -149,7 +149,7 @@ module.exports = {
 
         // 用于提示的边框色
         destructive: {
-          DEFAULT: "var(--ring-destructive-default)",
+          DEFAULT: "var(--ring-destructive)",
           focus: "var(--ring-destructive-focus)",
         },
       },
