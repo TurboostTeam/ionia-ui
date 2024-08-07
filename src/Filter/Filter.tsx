@@ -16,7 +16,6 @@ import {
   useMemo,
 } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { type ControllerProps } from "react-hook-form/dist/types";
 
 import { Button } from "../Button";
 import { Input } from "../Input";
@@ -83,7 +82,14 @@ const flattenObject = (obj: any): any => {
 export interface FilterItemProps<T> {
   label: string;
   field: Field<T>;
-  render: ControllerProps["render"];
+  render: ({
+    field: { value, onChange },
+  }: {
+    field: {
+      value: any;
+      onChange: (value: any) => void;
+    };
+  }) => ReactNode;
   renderValue?: (options: {
     label: string;
     field: Field<T>;
