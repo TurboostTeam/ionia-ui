@@ -21,47 +21,44 @@
         --bg-default: #F9FAFB; /* colors.gray[50] */
     
         /* 用于突出度最高的元素的背景颜色，如卡片 */
-        --bg-surface-default: #FFFFFF; /* colors.white */
+        --bg-surface: #FFFFFF; /* colors.white */
         --bg-surface-hover: #F9FAFB; /* colors.gray[50] */
         --bg-surface-active: #F3F4F6; /* colors.gray[100] */
         --bg-surface-transparent: transparent; /* colors.transparent */ 
-        --bg-surface-info:"#dbeafe";/* colors.blue[100] */
+        --bg-surface-info: #dbeafe;/* colors.blue[100] */
         --bg-surface-secondary: #F3F4F6; /* colors.gray[100] */
     
         /* 用于背景，指示编辑器的重点领域，例如主题编辑器，input */
-        --bg-emphasis-default: #FFFFFF; /* colors.white */
+        --bg-emphasis: #FFFFFF; /* colors.white */
         --bg-emphasis-hover: #F9FAFB; /* colors.gray[50] */
         --bg-emphasis-active: #F3F4F6; /* colors.gray[100] */
-    
-
-        --bg-facebook: #1877F2;/* colors.facebook */
 
         /* 用于导航栏的背景颜色 */
-        --bg-nav-default: #F9FAFB; /* colors.gray[50] */
+        --bg-nav: #F9FAFB; /* colors.gray[50] */
     
         /* 导航栏浅表色 */
-        --bg-nav-surface-default: #F9FAFB; /* colors.white */
+        --bg-nav-surface: #F9FAFB; /* colors.white */
         --bg-nav-surface-hover: #F9FAFB; /* colors.gray[50] */
         --bg-nav-surface-active: #eef2ff; /* colors.indigo[50] */  
     
         /* 所包含表面积较小的元素（如按钮）的背景颜色 */
         /* 主要操作（如主要按钮）的背景颜色 */
-        --bg-fill-primary-default: #4F46E5; /* colors.indigo[600] */
+        --bg-fill-primary: #4F46E5; /* colors.indigo[600] */
         --bg-fill-primary-secondary: #eef2ff; /* colors.indigo[50] */
         --bg-fill-primary-hover: #4338ca; /* colors.indigo[700] */
         --bg-fill-primary-active: #818cf8; /* colors.indigo[400] */ 
         /* 次要操作（如次要按钮）的背景颜色 */
-        --bg-fill-secondary-default: #FFFFFF; /* colors.white */
+        --bg-fill-secondary: #FFFFFF; /* colors.white */
         --bg-fill-secondary-hover: #F3F4F6; /* colors.gray[100] */
         --bg-fill-secondary-active: #F3F4F6; /* colors.gray[100] */ 
         /* 警告操作（如警告按钮）的背景颜色 */
-        --bg-fill-destructive-default: #DC2626; /* colors.red[600] */
+        --bg-fill-destructive: #DC2626; /* colors.red[600] */
         --bg-fill-destructive-hover: #EF4444; /* colors.red[400] */
         --bg-fill-destructive-active: #EF4444; /* colors.red[400] */    
         /* 禁用状态的背景颜色 */
         --bg-fill-disabled: #E5E7EB; /* colors.gray[200] */ 
         /* 用于表面的背景颜色 */
-        --bg-fill-transparent-default: transparent; /* colors.transparent */
+        --bg-fill-transparent: transparent; /* colors.transparent */
         --bg-fill-transparent-hover: #F3F4F6; /* colors.gray[100] */    
         
 
@@ -73,7 +70,7 @@
         --text-fill-destructive: #FFFFFF; /* colors.white */    
         
         /* 用于链接文本的颜色 */
-        --text-link-default: #4F46E5;/* colors.indigo[700] */
+        --text-link: #4F46E5;/* colors.indigo[700] */
         --text-link-hover: #6366f1; /* colors.indigo[500] */
         --text-link-active: #4F46E5; /* colors.indigo[700] */   
     
@@ -91,14 +88,14 @@
         --text-secondary: #4B5563; /* colors.gray[600] */   
     
         /* 用于提示的文本颜色 */
-        --text-destructive-default: #DC2626; /* colors.red[600] */
+        --text-destructive: #DC2626; /* colors.red[600] */
         --text-destructive-placeholder: #FEE2E2; /* colors.red[300] */  
     
         /* 用于禁用状态的文本颜色 */
         --text-disabled: #9CA3AF; /* colors.gray[400] */    
     
         /* 用于导航栏的文本颜色 */
-        --text-nav-default: #1E293B; /* colors.slate[900] */
+        --text-nav: #1E293B; /* colors.slate[900] */
         --text-nav-hover: #6366f1; /* colors.indigo[500] */
         --text-nav-active: #4F46E5; /* colors.indigo[600] */    
     
@@ -120,7 +117,7 @@
         --ring-default-focus: #4F46E5; /* colors.indigo[600] */
     
         /* 用于提示的边框色 */
-        --ring-destructive-default: #F9A8D4; /* colors.red[300] */
+        --ring-destructive: #F9A8D4; /* colors.red[300] */
         --ring-destructive-focus: #F43F5E; 
     
         /* 默认边框半径 */
