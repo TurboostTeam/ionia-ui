@@ -55,7 +55,7 @@ export const button = tv({
       true: { root: "w-full" },
     },
     rounded: {
-      true: { root: "rounded-full" },
+      true: { root: "rounded-full p-2" },
     },
 
     loading: {
@@ -87,6 +87,21 @@ export const button = tv({
         contentWarp: "text-transparent ",
       },
     },
+    {
+      rounded: true,
+      size: "sm",
+      class: { root: "rounded-full p-1.5 text-xs font-normal" },
+    },
+    {
+      rounded: true,
+      size: "md",
+      class: { root: "rounded-full p-2 text-sm font-medium" },
+    },
+    {
+      rounded: true,
+      size: "lg",
+      class: { root: "rounded-full p-3 text-sm font-semibold" },
+    },
   ],
 });
 
@@ -111,10 +126,11 @@ export const Button = forwardRef<ButtonProps, "button">(
       disabled = false,
       loading = false,
       type = "button",
+      rounded = false,
     } = props;
 
     const { root, buttonSpinnerWarp, buttonSpinner, contentWarp, text } =
-      button(props);
+      button({ rounded, ...props });
 
     return (
       <Component
