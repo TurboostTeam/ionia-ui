@@ -19,6 +19,9 @@ export interface NavigationItemProps {
   icon?: SVGComponent;
   onAction?: () => void;
   badge?: string;
+  classNames?: {
+    itemLink?: string;
+  };
   children?: NavigationItemChildrenItemProps[];
 }
 
@@ -64,6 +67,7 @@ export const NavigationItem: FC<NavigationItemProps> = ({
   onAction,
   badge,
   children,
+  classNames,
 }) => {
   const { location } = useNavigationProps();
   const { linkComponent: Link } = useAppProviderProps();
@@ -84,6 +88,7 @@ export const NavigationItem: FC<NavigationItemProps> = ({
         className={itemLink({
           itemActive,
           isHref,
+          class: classNames?.itemLink,
         })}
         href={href}
         onClick={onAction}

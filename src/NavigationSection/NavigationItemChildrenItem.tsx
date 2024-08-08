@@ -38,6 +38,7 @@ export const NavigationItemChildrenItem: FC<
   selected = false,
   onAction,
   badge,
+  ...props
 }) => {
   const { itemLink, itemIcon, itemLabel } = navigationItemChildrenItem();
 
@@ -53,6 +54,7 @@ export const NavigationItemChildrenItem: FC<
     <Link
       className={itemLink({
         itemActive: active,
+        class: props.classNames?.itemLink,
       })}
       href={href}
       onClick={onAction}

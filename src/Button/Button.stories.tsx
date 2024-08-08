@@ -128,7 +128,7 @@ export const LargeIcon: FC = (args) => {
 };
 
 export const ReactIcon: FC = (args) => {
-  return <Button icon={BiLogoGithub} {...args} />;
+  return <Button rounded icon={BiLogoGithub} {...args} />;
 };
 
 export const IconWithContent: FC = (args) => {

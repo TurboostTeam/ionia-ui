@@ -41,8 +41,6 @@ module.exports = {
           },
         },
 
-        facebook: "var(--bg-facebook)",
-
         // 用于导航栏的背景颜色。
         nav: {
           DEFAULT: "var(--bg-nav)",

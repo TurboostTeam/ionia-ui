@@ -35,7 +35,9 @@ export const Card = forwardRef<CardProps, "div">(
             <ButtonGroup>
               {actions.map((action, index) => (
                 <Action
-                  classNames="-m-1 p-1"
+                  classNames={{
+                    root: "-m-1 p-1",
+                  }}
                   key={index}
                   variant="link"
                   {...action}
