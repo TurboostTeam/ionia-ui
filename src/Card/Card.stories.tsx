@@ -29,6 +29,7 @@ export const TitleAndActions: FC = (args) => {
       classNames={{ root: "h-72" }}
       title="标题"
     >
+      <div className="bg-surface-info">卡片内的内容</div>
       卡片内的内容
     </Card>
   );
