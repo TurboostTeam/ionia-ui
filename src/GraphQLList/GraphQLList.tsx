@@ -12,12 +12,12 @@ import {
   type ReactNode,
   type RefObject,
   useCallback,
+  useEffect,
   useImperativeHandle,
   useMemo,
   useRef,
   useState,
 } from "react";
-import { useUpdateEffect } from "react-use";
 
 import { type ActionProps } from "../Action";
 import { Button } from "../Button";
@@ -153,10 +153,10 @@ export function GraphQLList<Node, OrderField extends string>({
               return `${result} (${filterValue
                 .map((item) => {
                   if (typeof item === "string") {
-                    return `${filter.field}: "${item}"`;
+                    return `${filter.field}:"${item}"`;
                   }
 
-                  return `${filter.field}: "${item}"`;
+                  return `${filter.field}:"${item}"`;
                 })
                 .join(" OR ")})`;
             }
@@ -172,7 +172,7 @@ export function GraphQLList<Node, OrderField extends string>({
         }, ""),
       ),
     ])
-      .map((item) => `(${item})`)
+      .map((item) => `${item}`)
       .join(" ");
   }, [filterValues, filters]);
 
@@ -184,7 +184,7 @@ export function GraphQLList<Node, OrderField extends string>({
     setPagination({ first: pageSize, after: pageInfo?.endCursor });
   }, [pageSize, pageInfo?.endCursor]);
 
-  useUpdateEffect(() => {
+  useEffect(() => {
     onChange?.({
       query,
       ...(Object.keys(pagination).length > 0
