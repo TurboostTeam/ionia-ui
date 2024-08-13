@@ -78,7 +78,7 @@ module.exports = {
           },
           // 禁用状态的背景颜色。
           disabled: "var(--bg-fill-disabled)",
-          // 用于表面的背景颜色。
+          // 用于透明的背景颜色。
           transparent: {
             DEFAULT: "var(--bg-fill-transparent)",
             hover: "var(--bg-fill-transparent-hover)",
@@ -154,7 +154,7 @@ module.exports = {
 
       borderRadius: {
         // 默认边框半径
-        default: "var(--border-radius-default)",
+        DEFAULT: "var(--border-radius-default)",
         // 无边框半径
         none: "var(--border-radius-none)",
         // 小边框半径
@@ -171,6 +171,9 @@ module.exports = {
         "3xl": "var(--border-radius-3xl)",
         // 完全圆角
         full: "var(--border-radius-full)",
+
+        // 用于突出度最高的元素边框半径,如卡片。
+        surface: "var(--border-radius-surface)",
 
         // 用于导航栏的边框半径。
         nav: "var(--border-radius-nav)",

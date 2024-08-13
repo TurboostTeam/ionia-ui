@@ -133,6 +133,7 @@
         --border-radius-3xl: 1.5rem;
         --border-radius-full: 9999px; 
 
+        --border-radius-surface: 0.375rem; /* 按钮边框半径 */
         --border-radius-nav: 0.375rem; /* 导航栏边框半径 */
     
         /* 字体大小选项 */
