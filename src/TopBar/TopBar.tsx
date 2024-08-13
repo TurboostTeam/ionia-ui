@@ -28,6 +28,7 @@ export const TopBar: FC<TopBarProps> = ({
       )}
 
       {logo}
+
       <div className="ml-auto">{userMenu}</div>
     </div>
   );
