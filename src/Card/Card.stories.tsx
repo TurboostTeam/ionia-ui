@@ -1,6 +1,7 @@
 import type { Meta } from "@storybook/react";
 import { type FC } from "react";
 
+import { DateRangePicker } from "../DateRangePicker";
 import { Card } from "./Card";
 import page from "./Card.mdx";
 
@@ -19,7 +20,7 @@ export default {
 } satisfies Meta<typeof Card>;
 
 export const Default: FC = (args) => {
-  return <Card>卡片内的内容</Card>;
+  return <Card title="标题">卡片内的内容</Card>;
 };
 
 export const TitleAndActions: FC = (args) => {
@@ -27,6 +28,7 @@ export const TitleAndActions: FC = (args) => {
     <Card
       actions={[{ content: "明细" }, { content: "编辑" }]}
       classNames={{ root: "h-72" }}
+      extra={<DateRangePicker />}
       title="标题"
     >
       <div className="bg-surface-info">卡片内的内容</div>
