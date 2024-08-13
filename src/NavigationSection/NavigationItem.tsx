@@ -30,7 +30,7 @@ export const navigationItem = tv({
   slots: {
     root: "px-2",
     itemLink:
-      "flex h-8 w-full items-center gap-2 rounded pl-2 pr-1 text-sm text-nav ",
+      "flex h-8 w-full items-center gap-2 rounded-nav pl-2 pr-1 text-sm text-nav ",
     itemIcon: "h-5 w-5",
     itemLabel: "flex-1 font-semibold",
     itemChildrenList: "flex flex-col gap-1",

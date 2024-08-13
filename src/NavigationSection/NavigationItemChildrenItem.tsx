@@ -13,7 +13,7 @@ export interface NavigationItemChildrenItemProps
 export const navigationItemChildrenItem = tv({
   slots: {
     itemLink:
-      "flex h-8 w-full cursor-pointer items-center gap-2 rounded pl-9 pr-1 text-sm text-nav hover:bg-nav-surface-hover hover:text-nav-hover",
+      "flex h-8 w-full cursor-pointer items-center gap-2 rounded-nav pl-9 pr-1 text-sm text-nav hover:bg-nav-surface-hover hover:text-nav-hover",
     itemIcon: "h-5 w-5",
     itemLabel: "flex-1 font-semibold",
   },

@@ -171,6 +171,9 @@ module.exports = {
         "3xl": "var(--border-radius-3xl)",
         // 完全圆角
         full: "var(--border-radius-full)",
+
+        // 用于导航栏的边框半径。
+        nav: "var(--border-radius-nav)",
       },
 
       fontSize: {
