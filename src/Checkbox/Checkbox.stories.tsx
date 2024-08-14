@@ -47,7 +47,19 @@ export const Checked: FC = (args) => {
 };
 
 export const Indeterminate: FC = (args) => {
-  return <Checkbox indeterminate label="Checkbox" {...args} />;
+  const [checked, setChecked] = useState(false);
+  return (
+    <Checkbox
+      indeterminate
+      checked={checked}
+      label="Checkbox"
+      onChange={(event) => {
+        console.log("checked = ", event.target.checked);
+        setChecked(event.target.checked);
+      }}
+      {...args}
+    />
+  );
 };
 
 export const HelpText: FC = (args) => {
