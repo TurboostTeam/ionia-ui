@@ -17,7 +17,7 @@ export const TopBar: FC<TopBarProps> = ({
   onNavigationToggle,
 }) => {
   return (
-    <div className="flex h-14 items-center gap-4 border-b bg-white px-4">
+    <div className="flex h-14 items-center gap-4 border-b bg-surface px-4">
       {showNavigationToggle && (
         <Button
           className="block md:hidden"

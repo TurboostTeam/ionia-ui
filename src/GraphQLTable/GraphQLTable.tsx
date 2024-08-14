@@ -209,7 +209,7 @@ export function GraphQLTable<Node, OrderField extends string>({
   }, [query, pagination, pageSize, orderField, orderDirection, tableActionRef]);
 
   return (
-    <div className="divide-y divide-gray-300 rounded-md bg-white pt-3 shadow">
+    <div className="divide-y divide-gray-300 overflow-hidden rounded-md bg-surface pt-3 shadow last-of-type:rounded-lg">
       <div>
         {typeof toolBarRender !== "undefined" && (
           <div className="px-3 pb-3">{toolBarRender()}</div>
@@ -235,7 +235,7 @@ export function GraphQLTable<Node, OrderField extends string>({
                       leaveTo="opacity-0 translate-y-1"
                     >
                       <Popover.Panel className="absolute right-0 z-[1010] mt-3 w-auto min-w-[160px] transform px-0">
-                        <div className="flex flex-col gap-1 divide-y overflow-hidden rounded-md bg-white p-3 shadow-md ring-1 ring-black ring-opacity-5">
+                        <div className="flex flex-col gap-1 divide-y overflow-hidden rounded-md bg-surface p-3 shadow-md ring-1 ring-black ring-opacity-5">
                           <RadioGroup
                             options={orderOptions}
                             value={orderField}
@@ -271,13 +271,15 @@ export function GraphQLTable<Node, OrderField extends string>({
       </div>
 
       {typeof edges !== "undefined" && edges.length > 0 ? (
-        <Table
-          columns={columns}
-          data={edges.map((edge) => edge.node)}
-          rowSelection={rowSelection}
-          tableActionRef={tableActionRef}
-          onRow={onRow}
-        />
+        <div>
+          <Table
+            columns={columns}
+            data={edges.map((edge) => edge.node)}
+            rowSelection={rowSelection}
+            tableActionRef={tableActionRef}
+            onRow={onRow}
+          />
+        </div>
       ) : (
         <EmptyState
           className="py-10"
@@ -287,7 +289,7 @@ export function GraphQLTable<Node, OrderField extends string>({
         />
       )}
 
-      {footer}
+      {footer !== undefined && <div>{footer}</div>}
 
       {(pageInfo?.hasPreviousPage === true ||
         pageInfo?.hasNextPage === true) && (

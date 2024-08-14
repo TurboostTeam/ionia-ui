@@ -76,7 +76,7 @@ export const Drawer: FC<DrawerProps> = ({
                 >
                   <div
                     className={twMerge(
-                      "flex h-full flex-col gap-4 overflow-y-scroll bg-white py-4 shadow-xl ",
+                      "flex h-full flex-col gap-4 overflow-y-scroll bg-surface py-4 shadow-xl ",
                       wrapperClassName,
                     )}
                   >
