@@ -331,7 +331,7 @@ export function Table<T>({
                               .wordWrap as unknown as keyof typeof columnWrapClass
                           ],
                         header.column.getIsPinned() !== false &&
-                          "sticky bg-white z-[1]",
+                          "sticky bg-surface z-[1]",
                         header.column.getIsPinned() === "left" &&
                           header.column.getPinnedIndex() ===
                             table.getLeftLeafColumns().length - 1 &&
@@ -404,7 +404,7 @@ export function Table<T>({
             {table.getRowModel().rows.map((row) => (
               <tr
                 className={twMerge(
-                  "bg-white group hover:bg-gray-50",
+                  "bg-surface group hover:bg-gray-50",
                   onRow != null && "cursor-pointer",
                 )}
                 key={row.id}
@@ -415,7 +415,7 @@ export function Table<T>({
                 {row.getVisibleCells().map((cell) => (
                   <td
                     className={twMerge(
-                      "break-words group-hover:bg-gray-50 bg-white px-3 py-4 text-sm text-gray-500",
+                      "break-words group-hover:bg-gray-50 bg-surface px-3 py-4 text-sm text-gray-500",
                       typeof (cell.column.columnDef as TableColumnProps<T>)
                         ?.align !== "undefined" &&
                         columnAlignClass[
@@ -478,7 +478,7 @@ export function Table<T>({
                   {footerGroup.headers.map((header) => (
                     <th
                       className={twMerge(
-                        "break-words bg-white px-3 py-4 text-sm text-gray-500",
+                        "break-words bg-surface px-3 py-4 text-sm text-gray-500",
                         typeof (header.column.columnDef as TableColumnProps<T>)
                           ?.align !== "undefined"
                           ? columnAlignClass[
@@ -493,7 +493,7 @@ export function Table<T>({
                               .wordWrap as unknown as keyof typeof columnWrapClass
                           ],
                         header.column.getIsPinned() !== false &&
-                          "sticky bg-white z-[1]",
+                          "sticky bg-surface z-[1]",
                         header.column.getIsPinned() === "left" &&
                           header.column.getPinnedIndex() ===
                             table.getLeftLeafColumns().length - 1 &&

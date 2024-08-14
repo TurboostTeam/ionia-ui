@@ -7,7 +7,7 @@ export interface TopBarUserMenuProps {
 
 export const TopBarUserMenu: FC<TopBarUserMenuProps> = ({ name, avatar }) => {
   return (
-    <div className="flex cursor-pointer items-center justify-center gap-1 rounded-md p-0.5 text-sm hover:bg-gray-100">
+    <div className="flex cursor-pointer items-center justify-center gap-1 rounded p-0.5 text-sm hover:bg-gray-100">
       <div className="max-w-[theme(spacing.40)] truncate px-2">{name}</div>
 
       <div className="h-7 w-7 overflow-hidden rounded bg-gray-300">

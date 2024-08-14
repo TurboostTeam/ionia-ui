@@ -138,8 +138,9 @@ module.exports = {
         secondary: "var(--border-secondary)",
       },
 
+      /* 带有阴影的轮廓工具 */
       ringColor: {
-        // 用于外部阴影的颜色。
+        // 用于默认阴影轮廓的颜色。
         default: {
           DEFAULT: "var(--ring-default)",
           focus: "var(--ring-default-focus)",
@@ -150,6 +151,17 @@ module.exports = {
           DEFAULT: "var(--ring-destructive)",
           focus: "var(--ring-destructive-focus)",
         },
+      },
+
+      boxShadow: {
+        DEFAULT: "var(--box-shadow-default)",
+        sm: "var(--box-shadow-sm)",
+        md: "var(--box-shadow-md)",
+        lg: "var(--box-shadow-lg)",
+        xl: "var(--box-shadow-xl)",
+        "2xl": "var(--box-shadow-2xl)",
+        // 内部阴影
+        inner: "var(--box-shadow-inner)",
       },
 
       borderRadius: {

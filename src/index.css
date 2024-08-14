@@ -111,14 +111,24 @@
     
         /* 次要边框颜色 */
         --border-secondary: #E5E7EB; /* colors.gray[200] */
-    
-        /* 用于外部阴影的颜色 */
+        
+        /* 带有阴影的轮廓工具 */
+        /* 用于默认阴影轮廓的颜色 */
         --ring-default: #D1D5DB; /* colors.gray[300] */
         --ring-default-focus: #4F46E5; /* colors.indigo[600] */
     
         /* 用于提示的边框色 */
         --ring-destructive: #F9A8D4; /* colors.red[300] */
         --ring-destructive-focus: #F43F5E; 
+
+        /* 盒阴影 */
+        --box-shadow-default:0 1px 2px 0 rgb(0 0 0 / 0.05);
+        --box-shadow-sm:  0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        --box-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -1px rgb(0 0 0 / 0.06);
+        --box-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05);
+        --box-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
+        --box-shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+        --box-shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.06);
     
         /* 默认边框半径 */
         --border-radius-default: 0.25rem; 
