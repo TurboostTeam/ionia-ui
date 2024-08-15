@@ -113,6 +113,7 @@ export const Default: FC = () => {
                 activator={
                   <TopBarUserMenu
                     avatar="https://avatars.githubusercontent.com/u/20628079"
+                    badge={{ color: "green", placement: "bottom-right" }}
                     name="张三"
                   />
                 }
