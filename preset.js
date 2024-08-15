@@ -133,7 +133,7 @@ module.exports = {
       },
 
       borderColor: {
-        default: "var(--border)",
+        default: "var(--border-default)",
         primary: "var(--border-primary)",
         secondary: "var(--border-secondary)",
       },

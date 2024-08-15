@@ -7,7 +7,7 @@ export interface SpinnerProps extends Omit<IconProps, "as"> {}
 
 const SpinnerIcon: FC<SVGProps<SVGSVGElement>> = ({ className, ...props }) => (
   <svg
-    className={twMerge("animate-spin", className)}
+    className={twMerge("animate-spin", "text-primary", className)}
     fill="none"
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
