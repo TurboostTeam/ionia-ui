@@ -81,7 +81,7 @@ export const TopBarUserMenu: FC<TopBarUserMenuProps> = ({
         {typeof badge !== "undefined" && (
           <span
             className={twMerge(
-              "absolute  text-white text-xs bg-red-500 rounded-full",
+              "absolute text-white text-xs rounded-full",
               getBadgePosition(badge?.placement ?? "top-right"),
               typeof badge.content !== "undefined" ? "p-0.5" : "p-1",
               getBadgeColor(badge?.color ?? "gray"),
