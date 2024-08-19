@@ -92,6 +92,12 @@ export const Controlled: FC = () => {
           },
         ]}
         footer={<div>summary</div>}
+        pageInfo={{
+          endCursor: "4",
+          hasNextPage: true,
+          hasPreviousPage: true,
+          startCursor: "1",
+        }}
         rowSelection={{
           allowSelectAll: true,
           // single: false,
