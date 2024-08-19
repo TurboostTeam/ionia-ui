@@ -295,15 +295,17 @@ export function GraphQLTable<Node, OrderField extends string>({
         pageInfo?.hasNextPage === true) && (
         <div className="flex justify-center gap-2 p-5">
           <Button
-            className="p-2"
+            classNames={{ root: "p-2" }}
             disabled={!pageInfo?.hasPreviousPage}
+            variant="ghost"
             onClick={handlePrevClick}
           >
             <ChevronLeftIcon className="h-5 w-5" />
           </Button>
           <Button
-            className="p-2"
+            classNames={{ root: "p-2" }}
             disabled={!pageInfo?.hasNextPage}
+            variant="ghost"
             onClick={handleNextClick}
           >
             <ChevronRightIcon className="h-5 w-5" />

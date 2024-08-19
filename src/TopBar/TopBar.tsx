@@ -20,7 +20,7 @@ export const TopBar: FC<TopBarProps> = ({
     <div className="flex h-14 items-center gap-4 border-b bg-surface px-4">
       {showNavigationToggle && (
         <Button
-          className="block md:hidden"
+          classNames={{ root: "block md:hidden" }}
           icon={Bars3Icon}
           variant="ghost"
           onClick={onNavigationToggle}
