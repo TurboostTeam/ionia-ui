@@ -28,6 +28,7 @@ export const Controlled: FC = () => {
   return (
     <div>
       <GraphQLTable
+        loading
         actionRef={actionRef}
         columns={columns}
         edges={[

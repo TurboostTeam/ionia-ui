@@ -291,7 +291,10 @@ export function GraphQLTable<Node, OrderField extends string>({
         )}
 
         {loading && (
-          <Spinner className="absolute bottom-0 left-0 right-0 top-0 m-auto" />
+          <>
+            <div className="absolute left-0 top-0 z-[2] h-full w-full bg-surface opacity-50" />
+            <Spinner className="absolute bottom-0 left-0 right-0 top-0 z-10 m-auto" />
+          </>
         )}
       </div>
 
