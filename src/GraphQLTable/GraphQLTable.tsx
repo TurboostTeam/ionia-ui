@@ -20,6 +20,7 @@ import {
   useState,
 } from "react";
 import { useUpdateEffect } from "react-use";
+import { twMerge } from "tailwind-merge";
 
 import { type ActionProps } from "../Action";
 import { Button } from "../Button";
@@ -30,6 +31,7 @@ import {
   type FilterSearchConfig,
 } from "../Filter";
 import { RadioGroup, type RadioGroupOption } from "../RadioGroup";
+import { Spinner } from "../Spinner";
 import {
   Table,
   type TableActionType,
@@ -209,7 +211,7 @@ export function GraphQLTable<Node, OrderField extends string>({
   }, [query, pagination, pageSize, orderField, orderDirection, tableActionRef]);
 
   return (
-    <div className="divide-y divide-gray-300 overflow-hidden rounded-md bg-surface pt-3 shadow last-of-type:rounded-lg">
+    <div className="divide-y divide-gray-300 rounded-md bg-surface pt-3 shadow last-of-type:rounded-lg">
       <div>
         {typeof toolBarRender !== "undefined" && (
           <div className="px-3 pb-3">{toolBarRender()}</div>
@@ -270,8 +272,8 @@ export function GraphQLTable<Node, OrderField extends string>({
         </div>
       </div>
 
-      {typeof edges !== "undefined" && edges.length > 0 ? (
-        <div>
+      <div className={twMerge("relative", loading && "pointer-events-none")}>
+        {typeof edges !== "undefined" && edges.length > 0 ? (
           <Table
             columns={columns}
             data={edges.map((edge) => edge.node)}
@@ -279,15 +281,19 @@ export function GraphQLTable<Node, OrderField extends string>({
             tableActionRef={tableActionRef}
             onRow={onRow}
           />
-        </div>
-      ) : (
-        <EmptyState
-          className="py-10"
-          description={emptyStateDescription}
-          icon={emptyStateIcon}
-          title={emptyStateTitle}
-        />
-      )}
+        ) : (
+          <EmptyState
+            className="py-10"
+            description={emptyStateDescription}
+            icon={emptyStateIcon}
+            title={emptyStateTitle}
+          />
+        )}
+
+        {loading && (
+          <Spinner className="absolute bottom-0 left-0 right-0 top-0 m-auto" />
+        )}
+      </div>
 
       {footer !== undefined && <div>{footer}</div>}
 
@@ -296,15 +302,16 @@ export function GraphQLTable<Node, OrderField extends string>({
         <div className="flex justify-center gap-2 p-5">
           <Button
             classNames={{ root: "p-2" }}
-            disabled={!pageInfo?.hasPreviousPage}
+            disabled={!pageInfo?.hasPreviousPage || loading}
             variant="ghost"
             onClick={handlePrevClick}
           >
             <ChevronLeftIcon className="h-5 w-5" />
           </Button>
+
           <Button
             classNames={{ root: "p-2" }}
-            disabled={!pageInfo?.hasNextPage}
+            disabled={!pageInfo?.hasNextPage || loading}
             variant="ghost"
             onClick={handleNextClick}
           >
