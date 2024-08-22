@@ -18,6 +18,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { twMerge } from "tailwind-merge";
 
 import { type ActionProps } from "../Action";
 import { Button } from "../Button";
@@ -31,6 +32,7 @@ import { type ActionType } from "../GraphQLTable";
 import { OrderDirection } from "../GraphQLTable/OrderDirection";
 import { OrderDirectionList } from "../GraphQLTable/OrderDirectionList";
 import { RadioGroup, type RadioGroupOption } from "../RadioGroup";
+import { Spinner } from "../Spinner";
 import {
   type TableActionType,
   type TableColumnProps,
@@ -265,22 +267,31 @@ export function GraphQLList<Node, OrderField extends string>({
         </div>
       </div>
 
-      {typeof edges !== "undefined" && edges.length > 0 ? (
-        <ListTable
-          columns={columns}
-          data={edges.map((edge) => edge.node)}
-          rowSelection={rowSelection}
-          tableActionRef={tableActionRef}
-          onRow={onRow}
-        />
-      ) : (
-        <EmptyState
-          className="py-10"
-          description={emptyStateDescription}
-          icon={emptyStateIcon}
-          title={emptyStateTitle}
-        />
-      )}
+      <div className={twMerge("relative", loading && "pointer-events-none")}>
+        {typeof edges !== "undefined" && edges.length > 0 ? (
+          <ListTable
+            columns={columns}
+            data={edges.map((edge) => edge.node)}
+            rowSelection={rowSelection}
+            tableActionRef={tableActionRef}
+            onRow={onRow}
+          />
+        ) : (
+          <EmptyState
+            className="py-10"
+            description={emptyStateDescription}
+            icon={emptyStateIcon}
+            title={emptyStateTitle}
+          />
+        )}
+
+        {loading && (
+          <>
+            <div className="absolute left-0 top-0 z-[2] h-full w-full bg-surface opacity-50" />
+            <Spinner className="absolute bottom-0 left-0 right-0 top-0 z-10 m-auto" />
+          </>
+        )}
+      </div>
 
       {footer}
 
