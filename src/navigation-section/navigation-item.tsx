@@ -1,11 +1,10 @@
 import { type FC } from "react";
 import { tv } from "tailwind-variants";
 
-import { useAppProviderProps } from "@/app-provider";
-import { Badge } from "@/badge";
-import { useNavigationProps } from "@/navigation";
-import { type SVGComponent } from "@/types/svg-component";
-
+import { useAppProviderProps } from "../app-provider";
+import { Badge } from "../badge";
+import { useNavigationProps } from "../navigation";
+import { type SVGComponent } from "../types/svg-component";
 import {
   NavigationItemChildrenItem,
   type NavigationItemChildrenItemProps,

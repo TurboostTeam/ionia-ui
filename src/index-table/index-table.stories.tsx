@@ -1,13 +1,12 @@
 import { type Meta } from "@storybook/react";
 import { type FC, useRef } from "react";
 
-import { Button } from "@/button";
-import { CheckboxGroup } from "@/checkbox-group";
-import { DateRangePicker } from "@/date-range-picker";
-import { DateTimeInput } from "@/date-time-input";
-import { Input } from "@/input";
-import { type TableColumnProps } from "@/table";
-
+import { Button } from "../button";
+import { CheckboxGroup } from "../checkbox-group";
+import { DateRangePicker } from "../date-range-picker";
+import { DateTimeInput } from "../date-time-input";
+import { Input } from "../input";
+import { type TableColumnProps } from "../table";
 import { type ActionType, IndexTable } from "./index-table";
 
 const meta = {

@@ -2,8 +2,7 @@ import { TrashIcon } from "@heroicons/react/24/outline";
 import type { Meta } from "@storybook/react";
 import { type FC } from "react";
 
-import page from "@/Icon/Icon.mdx";
-
+import page from "../icon/icon.mdx";
 import { Icon } from "./icon";
 
 export default {

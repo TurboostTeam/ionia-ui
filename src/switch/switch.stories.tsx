@@ -2,7 +2,7 @@ import type { Meta } from "@storybook/react";
 import { type FC, useState } from "react";
 
 import { Switch } from "./switch";
-import page from "./Switch.mdx";
+import page from "./switch.mdx";
 
 export default {
   title: "Form 表单/Switch 开关",

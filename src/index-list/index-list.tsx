@@ -19,25 +19,24 @@ import {
 } from "react";
 import { useUpdateEffect } from "react-use";
 
-import { type ActionProps } from "@/action";
-import { Button } from "@/button";
-import { EmptyState, type EmptyStateProps } from "@/empty-state";
+import { type ActionProps } from "../action";
+import { Button } from "../button";
+import { EmptyState, type EmptyStateProps } from "../empty-state";
 import {
   Filter,
   type FilterItemProps,
   type FilterSearchConfig,
-} from "@/filter";
-import { type ActionType } from "@/index-table";
-import { OrderDirection } from "@/index-table/order-direction";
-import { OrderDirectionList } from "@/index-table/order-direction-list";
-import { RadioGroup, type RadioGroupOption } from "@/radio-group";
+} from "../filter";
+import { type ActionType } from "../index-table";
+import { OrderDirection } from "../index-table/order-direction";
+import { OrderDirectionList } from "../index-table/order-direction-list";
+import { RadioGroup, type RadioGroupOption } from "../radio-group";
 import {
   type TableActionType,
   type TableColumnProps,
   type TableProps,
-} from "@/table";
-import { type Field } from "@/types";
-
+} from "../table";
+import { type Field } from "../types";
 import { ListTable } from "./list-table";
 import {
   type IndexTableEdge,

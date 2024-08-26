@@ -1,8 +1,7 @@
 import { type Meta } from "@storybook/react";
 import { type FC } from "react";
 
-import { Badge } from "@/badge";
-
+import { Badge } from "../badge";
 import { Tooltip } from "./tooltip";
 
 const meta = {

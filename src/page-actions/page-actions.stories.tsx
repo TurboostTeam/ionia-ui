@@ -2,7 +2,7 @@ import type { Meta } from "@storybook/react";
 import { type FC } from "react";
 
 import { PageActions } from "./page-actions";
-import page from "./PageActions.mdx";
+import page from "./page-actions.mdx";
 
 export default {
   title: "Layout 布局/PageActions 页面操作",

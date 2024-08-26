@@ -12,10 +12,9 @@ import {
   BiUser,
 } from "react-icons/bi";
 
-import { NavigationSection } from "@/navigation-section";
-
+import { NavigationSection } from "../navigation-section";
 import { Navigation } from "./navigation";
-import page from "./Navigation.mdx";
+import page from "./navigation.mdx";
 
 export default {
   title: "Layout 布局/Navigation 导航",

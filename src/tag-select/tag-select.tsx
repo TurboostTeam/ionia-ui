@@ -10,11 +10,11 @@ import {
 } from "react";
 import { twMerge } from "tailwind-merge";
 
-import { Badge } from "@/badge";
-import { FormItem, type FormItemProps } from "@/form-item";
-import { Input } from "@/input";
-import { Spinner } from "@/spinner";
-import { forwardRef } from "@/utils";
+import { Badge } from "../badge";
+import { FormItem, type FormItemProps } from "../form-item";
+import { Input } from "../input";
+import { Spinner } from "../spinner";
+import { forwardRef } from "../utils";
 
 export interface TagSelectOption<T> {
   label: string;

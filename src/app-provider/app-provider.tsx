@@ -1,9 +1,8 @@
 import { type FC, type PropsWithChildren } from "react";
 
-import { Link } from "@/link";
-import { ModalProvider } from "@/modal";
-import { ToastProvider } from "@/toast";
-
+import { Link } from "../link";
+import { ModalProvider } from "../modal";
+import { ToastProvider } from "../toast";
 import { AppProviderContext } from "./app-provider-context";
 import { type AppProviderProps } from "./app-provider-props";
 

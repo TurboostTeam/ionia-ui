@@ -1,14 +1,13 @@
 import { type Meta } from "@storybook/react";
 import { type FC, useRef } from "react";
 
-import { Badge } from "@/badge";
-import { Button } from "@/button";
-import { CheckboxGroup } from "@/checkbox-group";
-import { DateRangePicker } from "@/date-range-picker";
-import { DateTimeInput } from "@/date-time-input";
-import { type ActionType } from "@/index-table";
-import { Input } from "@/input";
-
+import { Badge } from "../badge";
+import { Button } from "../button";
+import { CheckboxGroup } from "../checkbox-group";
+import { DateRangePicker } from "../date-range-picker";
+import { DateTimeInput } from "../date-time-input";
+import { type ActionType } from "../index-table";
+import { Input } from "../input";
 import { IndexList } from "./index-list";
 import { type TableColumnProps } from "./list-table";
 

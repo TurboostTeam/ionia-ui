@@ -1,4 +1,4 @@
-import { type OrderDirection } from "@/index-table/order-direction";
+import { type OrderDirection } from "../index-table/order-direction";
 
 export interface IndexTableOrder<OrderField> {
   field: OrderField;

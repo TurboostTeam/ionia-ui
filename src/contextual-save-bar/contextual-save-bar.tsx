@@ -1,8 +1,8 @@
 import { type FC } from "react";
 import { twMerge } from "tailwind-merge";
 
-import { Action, type ActionProps } from "@/action";
-import { ButtonGroup } from "@/button-group";
+import { Action, type ActionProps } from "../action";
+import { ButtonGroup } from "../button-group";
 
 export interface ContextualSaveBarProps {
   alignContentFlush?: boolean;

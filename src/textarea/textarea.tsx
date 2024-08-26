@@ -1,8 +1,8 @@
 import { type HTMLProps } from "react";
 import { twMerge } from "tailwind-merge";
 
-import { FormItem, type FormItemProps } from "@/form-item";
-import { forwardRef } from "@/utils";
+import { FormItem, type FormItemProps } from "../form-item";
+import { forwardRef } from "../utils";
 
 export interface TextareaProps
   extends FormItemProps,

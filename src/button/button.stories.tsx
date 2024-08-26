@@ -1,5 +1,3 @@
-import "@/index.css";
-
 import {
   ArrowUturnLeftIcon,
   DocumentDuplicateIcon,
@@ -9,7 +7,7 @@ import { type FC } from "react";
 import { BiLogoGithub } from "react-icons/bi";
 
 import { Button } from "./button";
-import page from "./Button.mdx";
+import page from "./button.mdx";
 
 export default {
   title: "Base 基础/Button 按钮",

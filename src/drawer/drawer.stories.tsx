@@ -1,10 +1,9 @@
 import type { Meta } from "@storybook/react";
 import { type FC, useState } from "react";
 
-import { Button } from "@/button";
-
+import { Button } from "../button";
 import { Drawer } from "./drawer";
-import page from "./Drawer.mdx";
+import page from "./drawer.mdx";
 
 export default {
   title: "Layout 布局/Drawer 抽屉",

@@ -5,12 +5,12 @@ import {
 import { type PropsWithChildren, type ReactElement } from "react";
 import { tv } from "tailwind-variants";
 
-import { Action, type ActionProps } from "@/action";
-import { Button } from "@/button";
-import { ButtonGroup } from "@/button-group";
-import { Popover } from "@/popover";
-import { Spinner } from "@/spinner";
-import { type As } from "@/types";
+import { Action, type ActionProps } from "../action";
+import { Button } from "../button";
+import { ButtonGroup } from "../button-group";
+import { Popover } from "../popover";
+import { Spinner } from "../spinner";
+import { type As } from "../types";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const page = tv({

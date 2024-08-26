@@ -1,7 +1,7 @@
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { type FC, type ReactElement } from "react";
 
-import { Button } from "@/button";
+import { Button } from "../button";
 
 export interface TopBarProps {
   userMenu?: ReactElement;
