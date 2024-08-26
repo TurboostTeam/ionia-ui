@@ -1,6 +1,6 @@
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
-import { pick, uniqBy } from "lodash";
+import { pick, uniqBy } from "lodash-es";
 import {
   Fragment,
   type KeyboardEvent,

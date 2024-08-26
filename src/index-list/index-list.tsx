@@ -5,7 +5,7 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
 import dayjs from "dayjs";
-import { compact, get, omit, pick, trim } from "lodash";
+import { compact, get, omit, pick, trim } from "lodash-es";
 import {
   Fragment,
   type ReactElement,
