@@ -41,17 +41,17 @@ import { type Field } from "@/types";
 import { OrderDirection } from "./order-direction";
 import { OrderDirectionList } from "./order-direction-list";
 import {
-  type GraphQLTableEdge,
-  type GraphQLTablePageInfo,
-  type GraphQLTablePagination,
-  type GraphQLTableValue,
+  type IndexTableEdge,
+  type IndexTablePageInfo,
+  type IndexTablePagination,
+  type IndexTableValue,
 } from "./types";
 
 export interface ActionType {
   reloadAndRest: () => void;
 }
 
-export interface GraphQLTableProps<Node, OrderField> {
+export interface IndexTableProps<Node, OrderField> {
   emptyStateIcon?: EmptyStateProps["icon"];
   emptyStateTitle?: EmptyStateProps["title"];
   rowSelection?: {
@@ -62,19 +62,19 @@ export interface GraphQLTableProps<Node, OrderField> {
   };
   emptyStateDescription?: EmptyStateProps["description"];
   actionRef?: RefObject<ActionType>;
-  edges?: Array<GraphQLTableEdge<Node>>;
+  edges?: Array<IndexTableEdge<Node>>;
   filters?: Array<FilterItemProps<Node>>;
   search?: false | FilterSearchConfig;
   footer?: ReactNode;
   orderOptions?: RadioGroupOption[];
   columns: Array<TableColumnProps<Node>>;
   pageSize?: number;
-  pageInfo?: GraphQLTablePageInfo;
+  pageInfo?: IndexTablePageInfo;
   loading?: boolean;
-  value?: GraphQLTableValue<OrderField>;
+  value?: IndexTableValue<OrderField>;
   defaultFilterValue?: Record<Field<Node>, any>;
   toolBarRender?: () => ReactNode;
-  onChange?: (value: GraphQLTableValue<OrderField>) => void;
+  onChange?: (value: IndexTableValue<OrderField>) => void;
   onRow?: TableProps<Node>["onRow"];
 }
 
@@ -98,11 +98,11 @@ export function IndexTable<Node, OrderField extends string>({
   toolBarRender,
   onChange,
   onRow,
-}: GraphQLTableProps<Node, OrderField>): ReactElement {
+}: IndexTableProps<Node, OrderField>): ReactElement {
   const [filterValues, setFilterValues] = useState<
     Record<Field<Node>, any> | undefined
   >(defaultFilterValue);
-  const [pagination, setPagination] = useState<GraphQLTablePagination>(
+  const [pagination, setPagination] = useState<IndexTablePagination>(
     pick(value, ["first", "after", "last", "before"]),
   );
   const [orderField, setOrderField] = useState(value?.orderBy?.field);

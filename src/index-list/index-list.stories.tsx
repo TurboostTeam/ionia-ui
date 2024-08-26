@@ -6,14 +6,14 @@ import { Button } from "@/button";
 import { CheckboxGroup } from "@/checkbox-group";
 import { DateRangePicker } from "@/date-range-picker";
 import { DateTimeInput } from "@/date-time-input";
-import { type ActionType } from "@/graph-q-l-table";
+import { type ActionType } from "@/index-table";
 import { Input } from "@/input";
 
 import { IndexList } from "./index-list";
 import { type TableColumnProps } from "./list-table";
 
 const meta = {
-  title: "Advanced 高级/GraphQLList 列表",
+  title: "Advanced 高级/IndexList 列表",
   parameters: {
     layout: "fullscreen",
   },

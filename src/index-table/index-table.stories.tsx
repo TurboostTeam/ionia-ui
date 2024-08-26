@@ -11,7 +11,7 @@ import { type TableColumnProps } from "@/table";
 import { type ActionType, IndexTable } from "./index-table";
 
 const meta = {
-  title: "Advanced 高级/GraphQLTable",
+  title: "Advanced 高级/IndexTable",
   component: IndexTable,
 } satisfies Meta<typeof IndexTable>;
 
