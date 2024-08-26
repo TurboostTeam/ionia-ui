@@ -22,5 +22,4 @@ node_modules
 *.sw?
 
 # output
-lib
-esm
+dist
