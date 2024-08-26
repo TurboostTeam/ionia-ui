@@ -6,7 +6,7 @@ import {
 } from "@heroicons/react/20/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import dayjs from "dayjs";
-import { forEach, isPlainObject, omitBy, transform } from "lodash";
+import { forEach, isPlainObject, omitBy, transform } from "lodash-es";
 import {
   Fragment,
   type ReactElement,

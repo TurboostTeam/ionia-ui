@@ -6,7 +6,7 @@ import {
   type RowSelectionState,
   useReactTable,
 } from "@tanstack/react-table";
-import { cloneDeep, groupBy, reduce, sum } from "lodash";
+import { cloneDeep, groupBy, reduce, sum } from "lodash-es";
 import {
   type ReactElement,
   type RefObject,
