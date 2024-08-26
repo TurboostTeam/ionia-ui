@@ -1,5 +1,5 @@
-import { Input, type InputProps } from "../Input";
-import { forwardRef } from "../utils";
+import { Input, type InputProps } from "@/input";
+import { forwardRef } from "@/utils";
 
 export interface NumberInputProps
   extends Omit<InputProps, "value" | "onChange"> {

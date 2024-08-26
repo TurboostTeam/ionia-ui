@@ -1,11 +1,12 @@
 import { type Meta } from "@storybook/react";
 import { type FC, useState } from "react";
 
-import { CheckboxGroup } from "../CheckboxGroup";
-import { DateRangePicker } from "../DateRangePicker";
-import { DateTimeInput } from "../DateTimeInput";
-import { Input } from "../Input";
-import { Filter } from "./Filter";
+import { CheckboxGroup } from "@/checkbox-group";
+import { DateRangePicker } from "@/date-range-picker";
+import { DateTimeInput } from "@/date-time-input";
+import { Input } from "@/input";
+
+import { Filter } from "./filter";
 
 const meta = {
   title: "Advanced 高级/Filter 过滤器",

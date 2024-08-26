@@ -1,9 +1,10 @@
 import type { Meta } from "@storybook/react";
 import { type FC } from "react";
 
-import { Button } from "../Button";
-import { useToast } from "../Toast";
-import { Dropdown } from "./Dropdown";
+import { Button } from "@/button";
+import { useToast } from "@/toast";
+
+import { Dropdown } from "./dropdown";
 import page from "./Dropdown.mdx";
 
 export default {

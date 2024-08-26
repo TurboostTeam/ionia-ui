@@ -2,10 +2,10 @@ import CalendarIcon from "@heroicons/react/24/outline/CalendarIcon";
 import dayjs from "dayjs";
 import { useState } from "react";
 
-import { DatePicker } from "../DatePicker";
-import { Input, type InputProps } from "../Input";
-import { Popover } from "../Popover";
-import { forwardRef } from "../utils";
+import { DatePicker } from "@/date-picker";
+import { Input, type InputProps } from "@/input";
+import { Popover } from "@/popover";
+import { forwardRef } from "@/utils";
 
 export interface DateInputProps extends Omit<InputProps, "value" | "onChange"> {
   min?: Date;

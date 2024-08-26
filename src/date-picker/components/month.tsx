@@ -15,8 +15,8 @@ import {
   type Range,
   weekdayName,
 } from "../utils/dates";
-import { Day } from "./Day";
-import { Weekday } from "./Weekday";
+import { Day } from "./day";
+import { Weekday } from "./weekday";
 
 export interface MonthProps {
   focusedDate?: Date;

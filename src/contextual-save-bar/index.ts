@@ -1,1 +1,1 @@
-export * from "./ContextualSaveBar";
+export * from "./contextual-save-bar";

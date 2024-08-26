@@ -2,10 +2,10 @@ import { ClockIcon } from "@heroicons/react/24/outline";
 import { format as formatFn, isValid, parse } from "date-fns";
 import { useEffect, useState } from "react";
 
-import { Input, type InputProps } from "../Input";
-import { Popover } from "../Popover";
-import { TimePicker } from "../TimePicker";
-import { forwardRef } from "../utils";
+import { Input, type InputProps } from "@/input";
+import { Popover } from "@/popover";
+import { TimePicker } from "@/time-picker";
+import { forwardRef } from "@/utils";
 
 export interface TimeInputProps extends Omit<InputProps, "value" | "onChange"> {
   format?: string;

@@ -17,10 +17,10 @@ import {
 } from "react";
 import { twMerge } from "tailwind-merge";
 
-import { Action, type ActionProps } from "../Action";
-import { Checkbox } from "../Checkbox";
-import { Radio } from "../Radio";
-import { Spinner } from "../Spinner";
+import { Action, type ActionProps } from "@/action";
+import { Checkbox } from "@/checkbox";
+import { Radio } from "@/radio";
+import { Spinner } from "@/spinner";
 
 export interface TableActionType {
   resetRowSelection: () => void;

@@ -1,7 +1,7 @@
 import { type FC, type PropsWithChildren } from "react";
 
-import { NavigationContext } from "./NavigationContext";
-import { type NavigationProps } from "./NavigationProps";
+import { NavigationContext } from "./navigation-context";
+import { type NavigationProps } from "./navigation-props";
 
 export const Navigation: FC<PropsWithChildren<NavigationProps>> = ({
   children,

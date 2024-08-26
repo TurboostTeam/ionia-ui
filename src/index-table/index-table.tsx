@@ -21,24 +21,25 @@ import {
 } from "react";
 import { useUpdateEffect } from "react-use";
 
-import { type ActionProps } from "../Action";
-import { Button } from "../Button";
-import { EmptyState, type EmptyStateProps } from "../EmptyState";
+import { type ActionProps } from "@/action";
+import { Button } from "@/button";
+import { EmptyState, type EmptyStateProps } from "@/empty-state";
 import {
   Filter,
   type FilterItemProps,
   type FilterSearchConfig,
-} from "../Filter";
-import { RadioGroup, type RadioGroupOption } from "../RadioGroup";
+} from "@/filter";
+import { RadioGroup, type RadioGroupOption } from "@/radio-group";
 import {
   Table,
   type TableActionType,
   type TableColumnProps,
   type TableProps,
-} from "../Table";
-import { type Field } from "../types";
-import { OrderDirection } from "./OrderDirection";
-import { OrderDirectionList } from "./OrderDirectionList";
+} from "@/table";
+import { type Field } from "@/types";
+
+import { OrderDirection } from "./order-direction";
+import { OrderDirectionList } from "./order-direction-list";
 import {
   type GraphQLTableEdge,
   type GraphQLTablePageInfo,
@@ -77,7 +78,7 @@ export interface GraphQLTableProps<Node, OrderField> {
   onRow?: TableProps<Node>["onRow"];
 }
 
-export function GraphQLTable<Node, OrderField extends string>({
+export function IndexTable<Node, OrderField extends string>({
   emptyStateIcon,
   emptyStateTitle,
   actionRef,

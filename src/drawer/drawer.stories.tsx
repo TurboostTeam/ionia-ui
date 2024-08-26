@@ -1,8 +1,9 @@
 import type { Meta } from "@storybook/react";
 import { type FC, useState } from "react";
 
-import { Button } from "../Button";
-import { Drawer } from "./Drawer";
+import { Button } from "@/button";
+
+import { Drawer } from "./drawer";
 import page from "./Drawer.mdx";
 
 export default {

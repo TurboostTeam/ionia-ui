@@ -1,3 +1,3 @@
-export * from "./Toast";
-export * from "./ToastProvider";
-export * from "./useToast";
+export * from "./toast";
+export * from "./toast-provider";
+export * from "./use-toast";

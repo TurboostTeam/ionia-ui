@@ -1,7 +1,7 @@
 import type { Meta } from "@storybook/react";
 import { type FC, useState } from "react";
 
-import { Checkbox } from "./Checkbox";
+import { Checkbox } from "./checkbox";
 import page from "./Checkbox.mdx";
 
 export default {

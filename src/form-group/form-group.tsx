@@ -1,6 +1,6 @@
 import { twMerge } from "tailwind-merge";
 
-import { forwardRef } from "../utils";
+import { forwardRef } from "@/utils";
 
 export interface FormGroupProps {
   className?: string;
@@ -13,5 +13,5 @@ export const FormGroup = forwardRef<FormGroupProps, "div">(
         {children}
       </div>
     );
-  }
+  },
 );

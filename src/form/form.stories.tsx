@@ -2,11 +2,12 @@ import type { Meta } from "@storybook/react";
 import { type FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 
-import { CheckboxGroup } from "../CheckboxGroup";
-import { Input } from "../Input";
-import { RadioGroup } from "../RadioGroup";
-import { Switch } from "../Switch";
-import { Form } from "./Form";
+import { CheckboxGroup } from "@/checkbox-group";
+import { Input } from "@/input";
+import { RadioGroup } from "@/radio-group";
+import { Switch } from "@/switch";
+
+import { Form } from "./form";
 
 const meta = {
   title: "Form 表单/Form 表单",

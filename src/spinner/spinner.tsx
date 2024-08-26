@@ -1,7 +1,7 @@
 import { type FC, type SVGProps } from "react";
 import { twMerge } from "tailwind-merge";
 
-import { Icon, type IconProps } from "../Icon";
+import { Icon, type IconProps } from "@/icon";
 
 export interface SpinnerProps extends Omit<IconProps, "as"> {}
 

@@ -1,7 +1,7 @@
 import type { Meta } from "@storybook/react";
 import { type FC, useState } from "react";
 
-import { Switch } from "./Switch";
+import { Switch } from "./switch";
 import page from "./Switch.mdx";
 
 export default {

@@ -4,8 +4,8 @@ import {
 } from "@headlessui/react";
 import { tv } from "tailwind-variants";
 
-import { FormItem, type FormItemProps } from "../FormItem";
-import { forwardRef } from "../utils";
+import { FormItem, type FormItemProps } from "@/form-item";
+import { forwardRef } from "@/utils";
 
 export interface SwitchProps
   extends Omit<BaseSwitchProps<"input">, "className" | "size">,

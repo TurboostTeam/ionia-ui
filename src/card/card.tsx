@@ -3,9 +3,9 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { tv } from "tailwind-variants";
 
-import { Action, type ActionProps } from "../Action";
-import { ButtonGroup } from "../ButtonGroup";
-import { forwardRef } from "../utils";
+import { Action, type ActionProps } from "@/action";
+import { ButtonGroup } from "@/button-group";
+import { forwardRef } from "@/utils";
 
 export const card = tv({
   slots: {

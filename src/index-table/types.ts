@@ -1,4 +1,4 @@
-import { type OrderDirection } from "../GraphQLTable/OrderDirection";
+import { type OrderDirection } from "./order-direction";
 
 export interface GraphQLTableOrder<OrderField> {
   field: OrderField;

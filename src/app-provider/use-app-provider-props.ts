@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
-import { AppProviderContext } from "./AppProviderContext";
-import { type AppProviderProps } from "./AppProviderProps";
+import { AppProviderContext } from "./app-provider-context";
+import { type AppProviderProps } from "./app-provider-props";
 
 export const useAppProviderProps = (): Required<AppProviderProps> => {
   const props = useContext(AppProviderContext);

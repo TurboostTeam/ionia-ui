@@ -1,4 +1,4 @@
-import "../index.css";
+import "@/index.css";
 
 import {
   ArrowUturnLeftIcon,
@@ -8,7 +8,7 @@ import type { Meta } from "@storybook/react";
 import { type FC } from "react";
 import { BiLogoGithub } from "react-icons/bi";
 
-import { Button } from "./Button";
+import { Button } from "./button";
 import page from "./Button.mdx";
 
 export default {

@@ -1,7 +1,7 @@
 import type { Meta } from "@storybook/react";
 import React, { type FC } from "react";
 
-import { ProgressBar } from "./ProgressBar";
+import { ProgressBar } from "./progress-bar";
 import page from "./ProgressBar.mdx";
 
 export default {

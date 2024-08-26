@@ -8,7 +8,7 @@ import {
   type ComponentWithAs,
   type PropsOf,
   type RightJoinProps,
-} from "../types";
+} from "@/types";
 
 export function forwardRef<Props extends object, Component extends As>(
   component: ForwardRefRenderFunction<
@@ -16,7 +16,7 @@ export function forwardRef<Props extends object, Component extends As>(
     RightJoinProps<PropsOf<Component>, Props> & {
       as?: As;
     }
-  >
+  >,
 ): ComponentWithAs<Component, Props> {
   return forwardReactRef(component) as unknown as ComponentWithAs<
     Component,

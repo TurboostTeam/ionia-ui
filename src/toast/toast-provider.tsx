@@ -1,7 +1,7 @@
 import { type FC, type PropsWithChildren, useContext, useState } from "react";
 
-import { Toast, type ToastProps } from "./Toast";
-import { ToastContext } from "./ToastContext";
+import { Toast, type ToastProps } from "./toast";
+import { ToastContext } from "./toast-context";
 
 const ToastManager: FC = () => {
   const context = useContext(ToastContext);

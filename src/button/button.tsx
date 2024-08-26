@@ -4,10 +4,10 @@
 import { type ReactElement } from "react";
 import { tv, type VariantProps } from "tailwind-variants";
 
-import { Icon } from "../Icon";
-import { Spinner } from "../Spinner";
-import { type SVGComponent } from "../types/SVGComponent";
-import { forwardRef } from "../utils";
+import { Icon } from "@/icon";
+import { Spinner } from "@/spinner";
+import { type SVGComponent } from "@/types/svg-component";
+import { forwardRef } from "@/utils";
 
 export const button = tv({
   slots: {

@@ -1,7 +1,7 @@
 import type { Meta } from "@storybook/react";
 import { type FC } from "react";
 
-import { Spinner } from "./Spinner";
+import { Spinner } from "./spinner";
 
 export default {
   title: "Base 基础/Spinner 加载",

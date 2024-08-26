@@ -1,6 +1,6 @@
-import { FormItem, type FormItemProps } from "../FormItem";
-import { Radio } from "../Radio";
-import { forwardRef } from "../utils";
+import { FormItem, type FormItemProps } from "@/form-item";
+import { Radio } from "@/radio";
+import { forwardRef } from "@/utils";
 
 export interface RadioGroupOption {
   label: string;

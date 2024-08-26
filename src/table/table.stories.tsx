@@ -1,7 +1,7 @@
 import { type Meta } from "@storybook/react";
 import { type FC } from "react";
 
-import { Table } from "./Table";
+import { Table } from "./table";
 
 const meta = {
   title: "Advanced 高级/Table 表格",

@@ -1,6 +1,6 @@
 import { twMerge } from "tailwind-merge";
 
-import { forwardRef } from "../utils";
+import { forwardRef } from "@/utils";
 
 export interface FormProps {
   className?: string;
@@ -13,5 +13,5 @@ export const Form = forwardRef<FormProps, "div">(
         {children}
       </As>
     );
-  }
+  },
 );

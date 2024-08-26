@@ -1,10 +1,11 @@
 import { type FC, type PropsWithChildren } from "react";
 
-import { Link } from "../Link";
-import { ModalProvider } from "../Modal";
-import { ToastProvider } from "../Toast";
-import { AppProviderContext } from "./AppProviderContext";
-import { type AppProviderProps } from "./AppProviderProps";
+import { Link } from "@/link";
+import { ModalProvider } from "@/modal";
+import { ToastProvider } from "@/toast";
+
+import { AppProviderContext } from "./app-provider-context";
+import { type AppProviderProps } from "./app-provider-props";
 
 export const AppProvider: FC<PropsWithChildren<AppProviderProps>> = ({
   children,

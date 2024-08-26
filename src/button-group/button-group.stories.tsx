@@ -1,8 +1,9 @@
 import type { Meta } from "@storybook/react";
 import { type FC } from "react";
 
-import { Button } from "../Button";
-import { ButtonGroup } from "./ButtonGroup";
+import { Button } from "@/button";
+
+import { ButtonGroup } from "./button-group";
 import page from "./ButtonGroup.mdx";
 
 export default {

@@ -1,3 +1,3 @@
-export * from "./Modal";
-export * from "./ModalProvider";
-export * from "./useModal";
+export * from "./modal";
+export * from "./modal-provider";
+export * from "./use-modal";

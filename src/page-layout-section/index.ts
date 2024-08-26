@@ -1,1 +1,1 @@
-export * from "./PageLayoutSection";
+export * from "./page-layout-section";

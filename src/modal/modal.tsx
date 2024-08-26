@@ -3,9 +3,9 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { type FC, Fragment, type ReactNode, useRef } from "react";
 import { twMerge } from "tailwind-merge";
 
-import { Action, type ActionProps } from "../Action";
-import { Button } from "../Button";
-import { ButtonGroup } from "../ButtonGroup";
+import { Action, type ActionProps } from "@/action";
+import { Button } from "@/button";
+import { ButtonGroup } from "@/button-group";
 
 const sizeMap = {
   sm: twMerge(`max-w-[380px]`),

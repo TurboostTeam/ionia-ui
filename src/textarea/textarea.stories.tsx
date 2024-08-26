@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { type FC, useEffect, useState } from "react";
 
-import { Textarea } from "./Textarea";
+import { Textarea } from "./textarea";
 
 const meta = {
   title: "Form 表单/Textarea 文本域",

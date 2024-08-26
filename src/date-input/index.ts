@@ -1,1 +1,1 @@
-export * from "./DateInput";
+export * from "./date-input";

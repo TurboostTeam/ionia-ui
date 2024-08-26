@@ -16,7 +16,7 @@ export type PropsOf<T extends As> = ComponentPropsWithoutRef<T> & {
 
 export type OmitCommonProps<
   Target,
-  OmitAdditionalProps extends keyof any = never
+  OmitAdditionalProps extends keyof any = never,
 > = Omit<
   Target,
   "transition" | "as" | "color" | "translate" | OmitAdditionalProps
@@ -26,14 +26,14 @@ export type OmitCommonProps<
 
 export type RightJoinProps<
   SourceProps extends object = {},
-  OverrideProps extends object = {}
+  OverrideProps extends object = {},
 > = OmitCommonProps<SourceProps, keyof OverrideProps> & OverrideProps;
 
 export type MergeWithAs<
   ComponentProps extends object,
   AsProps extends object,
   AdditionalProps extends object = {},
-  AsComponent extends As = As
+  AsComponent extends As = As,
 > = (
   | RightJoinProps<ComponentProps, AdditionalProps>
   | RightJoinProps<AsProps, AdditionalProps>
@@ -43,7 +43,7 @@ export type MergeWithAs<
 
 export interface ComponentWithAs<
   Component extends As,
-  Props extends object = {}
+  Props extends object = {},
 > {
   <AsComponent extends As = Component>(
     props: MergeWithAs<
@@ -51,7 +51,7 @@ export interface ComponentWithAs<
       ComponentProps<AsComponent>,
       Props,
       AsComponent
-    >
+    >,
   ): JSX.Element;
 
   displayName?: string;

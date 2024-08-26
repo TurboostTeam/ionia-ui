@@ -1,7 +1,7 @@
 import { useArgs } from "@storybook/preview-api";
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { TimePicker } from "./TimePicker";
+import { TimePicker } from "./time-picker";
 
 const meta: Meta<typeof TimePicker> = {
   title: "Form 表单/TimePicker 时间选择器",

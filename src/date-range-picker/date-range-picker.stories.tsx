@@ -1,7 +1,7 @@
 import type { Meta } from "@storybook/react";
 import { type FC } from "react";
 
-import { DateRangePicker } from "./DateRangePicker";
+import { DateRangePicker } from "./date-range-picker";
 
 const meta = {
   title: "Form 表单/DateRangePicker 日期范围选择器",

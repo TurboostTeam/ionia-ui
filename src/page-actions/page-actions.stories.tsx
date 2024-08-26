@@ -1,7 +1,7 @@
 import type { Meta } from "@storybook/react";
 import { type FC } from "react";
 
-import { PageActions } from "./PageActions";
+import { PageActions } from "./page-actions";
 import page from "./PageActions.mdx";
 
 export default {
