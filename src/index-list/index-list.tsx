@@ -17,7 +17,7 @@ import {
   useRef,
   useState,
 } from "react";
-import useUpdateEffect from "react-use/lib/useUpdateEffect";
+import useUpdateEffect from "react-use/esm/useUpdateEffect";
 
 import { type ActionProps } from "../action";
 import { Button } from "../button";
