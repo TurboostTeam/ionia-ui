@@ -37,7 +37,7 @@
     "prepare": "husky install",
     "prepublishOnly": "npm run build",
     "dev": "storybook dev -p 6006",
-    "build": "tsup --dts",
+    "build": "NODE_OPTIONS='--max-old-space-size=16384' tsup --dts",
     "lint": "eslint src --ext js,ts,jsx,tsx --fix",
     "release": "semantic-release"
   },
