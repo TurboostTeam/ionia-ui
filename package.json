@@ -21,6 +21,7 @@
       "require": "./lib/index.js",
       "types": "./lib/index.d.ts"
     },
+    "./preset": "./preset.js",
     "./atoms": {
       "import": "./esm/atoms/index.js",
       "require": "./lib/atoms/index.js",
