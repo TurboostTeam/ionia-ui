@@ -1,13 +1,12 @@
 import type { Meta } from "@storybook/react";
 import { type FC } from "react";
 
-import { Card } from "@/card";
-import { PageActions } from "@/page-actions";
-import { PageLayout } from "@/page-layout";
-import { PageLayoutSection } from "@/page-layout-section";
-
+import { Card } from "../card";
+import { PageActions } from "../page-actions";
+import { PageLayout } from "../page-layout";
+import { PageLayoutSection } from "../page-layout-section";
 import { Page } from "./page";
-import page from "./Page.mdx";
+import page from "./page.mdx";
 
 export default {
   title: "Layout 布局/Page 页面",

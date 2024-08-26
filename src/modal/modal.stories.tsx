@@ -1,10 +1,9 @@
 import type { Meta } from "@storybook/react";
 import { type FC, useState } from "react";
 
-import { Button } from "@/button";
-
+import { Button } from "../button";
 import { Modal } from "./modal";
-import page from "./Modal.mdx";
+import page from "./modal.mdx";
 import { useModal } from "./use-modal";
 
 export default {

@@ -1,7 +1,7 @@
 import { type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
-import { forwardRef } from "@/utils";
+import { forwardRef } from "../utils";
 
 export interface FormItemProps {
   children?: ReactNode;

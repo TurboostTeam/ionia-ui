@@ -2,7 +2,7 @@ import type { Meta } from "@storybook/react";
 import { type FC } from "react";
 
 import { Card } from "./card";
-import page from "./Card.mdx";
+import page from "./card.mdx";
 
 export default {
   title: "Layout 布局/Card 卡片",

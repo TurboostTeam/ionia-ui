@@ -3,7 +3,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { type FC, Fragment } from "react";
 import { twMerge } from "tailwind-merge";
 
-import { Button } from "@/button";
+import { Button } from "../button";
 
 export interface DrawerProps {
   open: boolean;

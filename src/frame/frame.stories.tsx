@@ -10,18 +10,17 @@ import {
   BiUser,
 } from "react-icons/bi";
 
-import { Button } from "@/button";
-import { ButtonGroup } from "@/button-group";
-import { Card } from "@/card";
-import { Drawer } from "@/drawer";
-import { Dropdown } from "@/dropdown";
-import { Modal } from "@/modal";
-import { Navigation } from "@/navigation";
-import { NavigationSection } from "@/navigation-section";
-import { Page } from "@/page";
-import { TopBar } from "@/top-bar";
-import { TopBarUserMenu } from "@/top-bar-user-menu";
-
+import { Button } from "../button";
+import { ButtonGroup } from "../button-group";
+import { Card } from "../card";
+import { Drawer } from "../drawer";
+import { Dropdown } from "../dropdown";
+import { Modal } from "../modal";
+import { Navigation } from "../navigation";
+import { NavigationSection } from "../navigation-section";
+import { Page } from "../page";
+import { TopBar } from "../top-bar";
+import { TopBarUserMenu } from "../top-bar-user-menu";
 import { Frame } from "./";
 
 export default {

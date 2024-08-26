@@ -17,10 +17,10 @@ import {
 } from "react";
 import { Controller, useForm } from "react-hook-form";
 
-import { Button } from "@/button";
-import { Input } from "@/input";
-import { Spinner } from "@/spinner";
-import { type Field } from "@/types";
+import { Button } from "../button";
+import { Input } from "../input";
+import { Spinner } from "../spinner";
+import { type Field } from "../types";
 
 const isEmpty = (value: unknown): boolean => {
   return (

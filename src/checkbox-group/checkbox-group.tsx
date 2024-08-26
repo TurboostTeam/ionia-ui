@@ -1,6 +1,6 @@
-import { Checkbox } from "@/checkbox";
-import { FormItem, type FormItemProps } from "@/form-item";
-import { forwardRef } from "@/utils";
+import { Checkbox } from "../checkbox";
+import { FormItem, type FormItemProps } from "../form-item";
+import { forwardRef } from "../utils";
 
 export interface CheckboxGroupOption {
   label: string;

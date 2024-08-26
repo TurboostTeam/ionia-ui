@@ -18,10 +18,10 @@ import {
 } from "react";
 import { twMerge } from "tailwind-merge";
 
-import { Action, type ActionProps } from "@/action";
-import { Checkbox } from "@/checkbox";
-import { Radio } from "@/radio";
-import { Spinner } from "@/spinner";
+import { Action, type ActionProps } from "../action";
+import { Checkbox } from "../checkbox";
+import { Radio } from "../radio";
+import { Spinner } from "../spinner";
 
 const columnAlignClass = {
   left: "text-left",

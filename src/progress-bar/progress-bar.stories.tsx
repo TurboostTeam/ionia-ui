@@ -2,7 +2,7 @@ import type { Meta } from "@storybook/react";
 import React, { type FC } from "react";
 
 import { ProgressBar } from "./progress-bar";
-import page from "./ProgressBar.mdx";
+import page from "./progress-bar.mdx";
 
 export default {
   title: "Layout 布局/ProgressBar 进度条",

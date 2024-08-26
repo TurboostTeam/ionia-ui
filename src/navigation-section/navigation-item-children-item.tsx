@@ -1,10 +1,9 @@
 import { type FC } from "react";
 import { tv } from "tailwind-variants";
 
-import { useAppProviderProps } from "@/app-provider";
-import { Badge } from "@/badge";
-import { useNavigationProps } from "@/navigation";
-
+import { useAppProviderProps } from "../app-provider";
+import { Badge } from "../badge";
+import { useNavigationProps } from "../navigation";
 import { type NavigationItemProps } from "./navigation-item";
 
 export interface NavigationItemChildrenItemProps

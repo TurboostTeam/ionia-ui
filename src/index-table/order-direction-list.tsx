@@ -2,8 +2,7 @@ import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/24/outline";
 import { type FC } from "react";
 import { twMerge } from "tailwind-merge";
 
-import { Button } from "@/button";
-
+import { Button } from "../button";
 import { OrderDirection } from "./order-direction";
 
 const options = [

@@ -1,7 +1,7 @@
 import { twMerge } from "tailwind-merge";
 import { tv } from "tailwind-variants";
 
-import { forwardRef } from "@/utils";
+import { forwardRef } from "../utils";
 
 export interface CheckboxProps {
   label: string;

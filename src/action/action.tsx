@@ -1,7 +1,7 @@
 import { type ReactElement, type ReactNode } from "react";
 
-import { Button } from "@/button";
-import { type As, type PropsOf, type RightJoinProps } from "@/types";
+import { Button } from "../button";
+import { type As, type PropsOf, type RightJoinProps } from "../types";
 
 export type ActionProps<ActionComponent extends As = typeof Button> =
   RightJoinProps<

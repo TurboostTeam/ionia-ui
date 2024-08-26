@@ -1,11 +1,10 @@
 import { type Meta } from "@storybook/react";
 import { type FC, useState } from "react";
 
-import { CheckboxGroup } from "@/checkbox-group";
-import { DateRangePicker } from "@/date-range-picker";
-import { DateTimeInput } from "@/date-time-input";
-import { Input } from "@/input";
-
+import { CheckboxGroup } from "../checkbox-group";
+import { DateRangePicker } from "../date-range-picker";
+import { DateTimeInput } from "../date-time-input";
+import { Input } from "../input";
 import { Filter } from "./filter";
 
 const meta = {

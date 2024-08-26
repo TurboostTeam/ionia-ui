@@ -2,8 +2,7 @@ import type { Meta } from "@storybook/react";
 import { type FC, useCallback, useState } from "react";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 
-import { Button } from "@/button";
-
+import { Button } from "../button";
 import { TagSelect } from "./tag-select";
 
 const meta = {

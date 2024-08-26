@@ -2,7 +2,7 @@ import type { Meta } from "@storybook/react";
 import { type FC, useState } from "react";
 
 import { Checkbox } from "./checkbox";
-import page from "./Checkbox.mdx";
+import page from "./checkbox.mdx";
 
 export default {
   title: "Form 表单/Checkbox 多选框",
