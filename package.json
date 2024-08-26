@@ -16,6 +16,11 @@
   "module": "./esm/index.js",
   "types": "./lib/index.d.ts",
   "exports": {
+    ".": {
+      "import": "./esm/index.js",
+      "require": "./lib/index.js",
+      "types": "./lib/index.d.ts"
+    },
     "./atoms": {
       "import": "./esm/atoms/index.js",
       "require": "./lib/atoms/index.js",
