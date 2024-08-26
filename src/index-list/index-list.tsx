@@ -40,13 +40,13 @@ import { type Field } from "@/types";
 
 import { ListTable } from "./list-table";
 import {
-  type GraphQLTableEdge,
-  type GraphQLTablePageInfo,
-  type GraphQLTablePagination,
-  type GraphQLTableValue,
+  type IndexTableEdge,
+  type IndexTablePageInfo,
+  type IndexTablePagination,
+  type IndexTableValue,
 } from "./types";
 
-export interface GraphQLListProps<Node, OrderField> {
+export interface IndexListProps<Node, OrderField> {
   emptyStateIcon?: EmptyStateProps["icon"];
   emptyStateTitle?: EmptyStateProps["title"];
   rowSelection?: {
@@ -57,19 +57,19 @@ export interface GraphQLListProps<Node, OrderField> {
   };
   emptyStateDescription?: EmptyStateProps["description"];
   actionRef?: RefObject<ActionType>;
-  edges?: Array<GraphQLTableEdge<Node>>;
+  edges?: Array<IndexTableEdge<Node>>;
   filters?: Array<FilterItemProps<Node>>;
   search?: false | FilterSearchConfig;
   footer?: ReactNode;
   orderOptions?: RadioGroupOption[];
   columns: Array<TableColumnProps<Node>>;
   pageSize?: number;
-  pageInfo?: GraphQLTablePageInfo;
+  pageInfo?: IndexTablePageInfo;
   loading?: boolean;
-  value?: GraphQLTableValue<OrderField>;
+  value?: IndexTableValue<OrderField>;
   defaultFilterValue?: Record<Field<Node>, any>;
   toolBarRender?: () => ReactNode;
-  onChange?: (value: GraphQLTableValue<OrderField>) => void;
+  onChange?: (value: IndexTableValue<OrderField>) => void;
   onRow?: TableProps<Node>["onRow"];
 }
 
@@ -93,11 +93,11 @@ export function IndexList<Node, OrderField extends string>({
   toolBarRender,
   onChange,
   onRow,
-}: GraphQLListProps<Node, OrderField>): ReactElement {
+}: IndexListProps<Node, OrderField>): ReactElement {
   const [filterValues, setFilterValues] = useState<
     Record<Field<Node>, any> | undefined
   >(defaultFilterValue);
-  const [pagination, setPagination] = useState<GraphQLTablePagination>(
+  const [pagination, setPagination] = useState<IndexTablePagination>(
     pick(value, ["first", "after", "last", "before"]),
   );
   const [orderField, setOrderField] = useState(value?.orderBy?.field);

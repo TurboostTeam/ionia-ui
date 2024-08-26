@@ -1,30 +1,30 @@
 import { type OrderDirection } from "./order-direction";
 
-export interface GraphQLTableOrder<OrderField> {
+export interface IndexTableOrder<OrderField> {
   field: OrderField;
   direction: OrderDirection;
 }
 
-export interface GraphQLTableEdge<Node> {
+export interface IndexTableEdge<Node> {
   node: Node;
   cursor: string;
 }
 
-export interface GraphQLTablePageInfo {
+export interface IndexTablePageInfo {
   endCursor?: string | null;
   hasNextPage: boolean;
   hasPreviousPage: boolean;
   startCursor?: string | null;
 }
 
-export interface GraphQLTablePagination {
+export interface IndexTablePagination {
   first?: number;
   last?: number;
   before?: string | null;
   after?: string | null;
 }
 
-export interface GraphQLTableValue<OrderField> extends GraphQLTablePagination {
+export interface IndexTableValue<OrderField> extends IndexTablePagination {
   query?: string;
-  orderBy?: GraphQLTableOrder<OrderField>;
+  orderBy?: IndexTableOrder<OrderField>;
 }
