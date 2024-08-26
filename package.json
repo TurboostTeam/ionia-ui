@@ -15,6 +15,13 @@
   "main": "./lib/index.js",
   "module": "./esm/index.js",
   "types": "./lib/index.d.ts",
+  "exports": {
+    "./atoms": {
+      "import": "./esm/atoms/index.js",
+      "require": "./lib/atoms/index.js",
+      "types": "./lib/atoms/index.d.ts"
+    }
+  },
   "publishConfig": {
     "access": "public"
   },
