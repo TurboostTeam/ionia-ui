@@ -1,0 +1,71 @@
+import { Story, ArgsTable, Canvas } from "@storybook/blocks";
+import * as ButtonStories from "./button.stories";
+
+# Button 按钮
+
+用户使用按钮来触发一个操作或者进行跳转。
+
+## 类型
+
+<Canvas>
+  <Story of={ButtonStories.Default} />
+  <Story of={ButtonStories.Primary} />
+  <Story of={ButtonStories.Destructive} />
+  <Story of={ButtonStories.Ghost} />
+  <Story of={ButtonStories.Link} />
+</Canvas>
+
+## 尺寸
+
+<Canvas>
+  <Story of={ButtonStories.Small} />
+  <Story of={ButtonStories.Middle} />
+  <Story of={ButtonStories.Large} />
+</Canvas>
+
+## 圆角
+
+<Canvas>
+  <Story of={ButtonStories.SmallWithRounded} />
+  <Story of={ButtonStories.MiddleWithRounded} />
+  <Story of={ButtonStories.LargeWithRounded} />
+</Canvas>
+
+## 块级
+
+<Canvas>
+  <Story of={ButtonStories.Block} />
+</Canvas>
+
+## 图标
+
+<Canvas>
+  <Story of={ButtonStories.SmallIcon} />
+  <Story of={ButtonStories.MiddleIcon} />
+  <Story of={ButtonStories.LargeIcon} />
+  <Story of={ButtonStories.IconWithContent} />
+  <Story of={ButtonStories.ReactIcon} />
+</Canvas>
+
+## 禁用
+
+<Canvas>
+  <Story of={ButtonStories.DefaultWithDisabled} />
+  <Story of={ButtonStories.PrimaryWithDisabled} />
+  <Story of={ButtonStories.DestructiveWithDisabled} />
+  <Story of={ButtonStories.LinkWithDisabled} />
+
+</Canvas>
+
+## 加载
+
+<Canvas>
+  <Story of={ButtonStories.DefaultWithLoading} />
+  <Story of={ButtonStories.PrimaryWithLoading} />
+  <Story of={ButtonStories.DestructiveWithLoading} />
+  <Story of={ButtonStories.LinkWithLoading} />
+</Canvas>
+
+## 组件 API
+
+<ArgsTable />
