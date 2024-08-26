@@ -8,24 +8,24 @@
   },
   "sideEffects": false,
   "files": [
-    "lib",
-    "esm",
-    "preset.js"
+    "./dist",
+    "./preset.js"
   ],
-  "main": "./lib/index.js",
-  "module": "./esm/index.js",
-  "types": "./lib/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./esm/index.js",
-      "require": "./lib/index.js",
-      "types": "./lib/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
     },
+    "./package.json": "./package.json",
     "./preset": "./preset.js",
     "./atoms": {
-      "import": "./esm/atoms/index.js",
-      "require": "./lib/atoms/index.js",
-      "types": "./lib/atoms/index.d.ts"
+      "import": "./dist/atoms/index.mjs",
+      "require": "./dist/atoms/index.js",
+      "types": "./dist/atoms/index.d.ts"
     }
   },
   "publishConfig": {
@@ -37,7 +37,7 @@
     "prepare": "husky install",
     "prepublishOnly": "npm run build",
     "dev": "storybook dev -p 6006",
-    "build": "modern build",
+    "build": "tsup --dts",
     "lint": "eslint src --ext js,ts,jsx,tsx --fix",
     "release": "semantic-release"
   },
@@ -56,7 +56,6 @@
   "devDependencies": {
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
-    "@modern-js/module-tools": "^2.58.2",
     "@semantic-release/commit-analyzer": "^10.0.4",
     "@semantic-release/github": "^9.0.4",
     "@semantic-release/npm": "^10.0.5",
@@ -94,7 +93,7 @@
     "eslint-plugin-tailwindcss": "^3.13.0",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
-    "postcss": "^8.4.29",
+    "postcss": "^8.4.41",
     "prettier": "^3.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -103,6 +102,7 @@
     "semantic-release": "^21.1.1",
     "storybook": "^7.4.0",
     "tailwindcss": "^3.4.6",
+    "tsup": "^8.2.4",
     "typescript": "^5.2.2"
   },
   "lint-staged": {
