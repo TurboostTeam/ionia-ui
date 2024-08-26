@@ -19,25 +19,26 @@ import {
 } from "react";
 import { useUpdateEffect } from "react-use";
 
-import { type ActionProps } from "../Action";
-import { Button } from "../Button";
-import { EmptyState, type EmptyStateProps } from "../EmptyState";
+import { type ActionProps } from "@/action";
+import { Button } from "@/button";
+import { EmptyState, type EmptyStateProps } from "@/empty-state";
 import {
   Filter,
   type FilterItemProps,
   type FilterSearchConfig,
-} from "../Filter";
-import { type ActionType } from "../GraphQLTable";
-import { OrderDirection } from "../GraphQLTable/OrderDirection";
-import { OrderDirectionList } from "../GraphQLTable/OrderDirectionList";
-import { RadioGroup, type RadioGroupOption } from "../RadioGroup";
+} from "@/filter";
+import { type ActionType } from "@/index-table";
+import { OrderDirection } from "@/index-table/order-direction";
+import { OrderDirectionList } from "@/index-table/order-direction-list";
+import { RadioGroup, type RadioGroupOption } from "@/radio-group";
 import {
   type TableActionType,
   type TableColumnProps,
   type TableProps,
-} from "../Table";
-import { type Field } from "../types";
-import { ListTable } from "./ListTable";
+} from "@/table";
+import { type Field } from "@/types";
+
+import { ListTable } from "./list-table";
 import {
   type GraphQLTableEdge,
   type GraphQLTablePageInfo,
@@ -72,7 +73,7 @@ export interface GraphQLListProps<Node, OrderField> {
   onRow?: TableProps<Node>["onRow"];
 }
 
-export function GraphQLList<Node, OrderField extends string>({
+export function IndexList<Node, OrderField extends string>({
   emptyStateIcon,
   emptyStateTitle,
   actionRef,

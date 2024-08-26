@@ -2,8 +2,9 @@ import type { Meta } from "@storybook/react";
 import { type FC, useCallback, useState } from "react";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 
-import { Button } from "../Button";
-import { TagSelect } from "./TagSelect";
+import { Button } from "@/button";
+
+import { TagSelect } from "./tag-select";
 
 const meta = {
   title: "Form 表单/TagSelect 标签选择器",

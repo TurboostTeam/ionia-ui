@@ -1,1 +1,1 @@
-export * from "./TopBarUserMenu";
+export * from "./top-bar-user-menu";

@@ -1,7 +1,7 @@
 import { useCallback, useContext } from "react";
 
-import { type ToastProps } from "./Toast";
-import { ToastContext } from "./ToastContext";
+import { type ToastProps } from "./toast";
+import { ToastContext } from "./toast-context";
 
 export type ToastFunction = (props: ToastProps) => () => void;
 

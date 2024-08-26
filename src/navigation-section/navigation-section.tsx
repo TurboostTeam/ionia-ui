@@ -1,9 +1,10 @@
 import { type FC } from "react";
 import { tv } from "tailwind-variants";
 
-import { Icon } from "../Icon";
-import { type SVGComponent } from "../types/SVGComponent";
-import { NavigationItem, type NavigationItemProps } from "./NavigationItem";
+import { Icon } from "@/icon";
+import { type SVGComponent } from "@/types/svg-component";
+
+import { NavigationItem, type NavigationItemProps } from "./navigation-item";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const navigationSection = tv({

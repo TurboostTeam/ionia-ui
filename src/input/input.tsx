@@ -1,8 +1,8 @@
 import { type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
-import { FormItem, type FormItemProps } from "../FormItem";
-import { forwardRef } from "../utils";
+import { FormItem, type FormItemProps } from "@/form-item";
+import { forwardRef } from "@/utils";
 
 export interface InputProps extends FormItemProps {
   disabled?: boolean;

@@ -1,1 +1,1 @@
-export * from "./PageLayoutAnnotatedSection";
+export * from "./page-layout-annotated-section";

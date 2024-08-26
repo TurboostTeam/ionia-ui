@@ -1,7 +1,7 @@
 import { RectangleStackIcon } from "@heroicons/react/24/outline";
 import { type Meta, type StoryObj } from "@storybook/react";
 
-import { EmptyState } from "./EmptyState";
+import { EmptyState } from "./empty-state";
 
 const meta = {
   title: "Feedback 反馈/EmptyState 空状态",

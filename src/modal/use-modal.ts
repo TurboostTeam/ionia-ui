@@ -1,7 +1,7 @@
 import { type ReactNode, useCallback, useContext } from "react";
 
-import { type ModalProps } from "./Modal";
-import { ModalContext } from "./ModalContext";
+import { type ModalProps } from "./modal";
+import { ModalContext } from "./modal-context";
 
 export interface ModalOptions
   extends Omit<ModalProps, "open" | "onClose" | "children"> {

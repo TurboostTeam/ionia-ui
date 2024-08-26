@@ -1,3 +1,3 @@
-export * from "./Navigation";
-export * from "./NavigationProps";
-export * from "./useNavigationProps";
+export * from "./navigation";
+export * from "./navigation-props";
+export * from "./use-navigation-props";

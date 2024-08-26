@@ -1,7 +1,7 @@
 import { useArgs } from "@storybook/preview-api";
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { TimeInput } from "./TimeInput";
+import { TimeInput } from "./time-input";
 
 const meta: Meta<typeof TimeInput> = {
   title: "Form 表单/TimeInput 时间输入框",

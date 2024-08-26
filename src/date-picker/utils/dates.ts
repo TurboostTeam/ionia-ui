@@ -10,7 +10,7 @@ const WEEK_LENGTH = 7;
 export function getWeeksForMonth(
   month: number,
   year: number,
-  weekStartsOn = 0
+  weekStartsOn = 0,
 ): Week[] {
   const firstOfMonth = new Date(year, month, 1);
   const firstDayOfWeek = firstOfMonth.getDay();
@@ -60,7 +60,7 @@ export function dateIsSelected(day: Date | null, range: Range): boolean {
 
   return Boolean(
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    (start && isSameDay(start, day)) || (end && isSameDay(end, day))
+    (start && isSameDay(start, day)) || (end && isSameDay(end, day)),
   );
 }
 

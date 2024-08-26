@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { type FC, useEffect, useState } from "react";
 
-import { RadioGroup } from "./RadioGroup";
+import { RadioGroup } from "./radio-group";
 
 const meta = {
   title: "Form 表单/RadioGroup 单选框组",

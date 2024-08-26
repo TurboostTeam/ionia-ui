@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { type FC, useEffect, useState } from "react";
 
-import { CheckboxGroup } from "./CheckboxGroup";
+import { CheckboxGroup } from "./checkbox-group";
 
 const meta = {
   title: "Form 表单/CheckboxGroup 多选框组",

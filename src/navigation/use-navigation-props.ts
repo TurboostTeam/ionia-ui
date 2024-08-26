@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
-import { NavigationContext } from "./NavigationContext";
-import { type NavigationProps } from "./NavigationProps";
+import { NavigationContext } from "./navigation-context";
+import { type NavigationProps } from "./navigation-props";
 
 export const useNavigationProps = (): Required<NavigationProps> => {
   const props = useContext(NavigationContext);

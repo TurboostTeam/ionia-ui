@@ -7,9 +7,9 @@ import {
 import { Fragment, type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
-import { FormItem, type FormItemProps } from "../FormItem";
-import { Spinner } from "../Spinner";
-import { forwardRef } from "../utils";
+import { FormItem, type FormItemProps } from "@/form-item";
+import { Spinner } from "@/spinner";
+import { forwardRef } from "@/utils";
 
 export interface SelectOption {
   label: ReactNode;

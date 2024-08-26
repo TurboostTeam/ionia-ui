@@ -1,6 +1,6 @@
 import { createContext, type Dispatch, type SetStateAction } from "react";
 
-import { type ModalProps } from "./Modal";
+import { type ModalProps } from "./modal";
 
 export const ModalContext = createContext<{
   modalProps?: ModalProps;

@@ -1,7 +1,7 @@
 import type { Meta } from "@storybook/react";
 import { type FC } from "react";
 
-import { Card } from "./Card";
+import { Card } from "./card";
 import page from "./Card.mdx";
 
 export default {

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { type FC, useEffect, useState } from "react";
 
-import { NumberInput } from "./NumberInput";
+import { NumberInput } from "./number-input";
 
 const meta = {
   title: "Form 表单/NumberInput 数字输入框",

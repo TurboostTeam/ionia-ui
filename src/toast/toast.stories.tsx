@@ -1,9 +1,10 @@
 import type { Meta } from "@storybook/react";
 import { type FC, useState } from "react";
 
-import { Button } from "../Button";
-import { Toast } from "./Toast";
-import { useToast } from "./useToast";
+import { Button } from "@/button";
+
+import { Toast } from "./toast";
+import { useToast } from "./use-toast";
 
 const meta: Meta<typeof Toast> = {
   title: "Feedback 反馈/Toast 提示",

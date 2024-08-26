@@ -3,9 +3,9 @@ import dayjs from "dayjs";
 import { type FC, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
-import { Card } from "../Card";
-import { DatePicker } from "../DatePicker";
-import { Input, type InputProps } from "../Input";
+import { Card } from "@/card";
+import { DatePicker } from "@/date-picker";
+import { Input, type InputProps } from "@/input";
 
 export interface PresetRange {
   title: string;

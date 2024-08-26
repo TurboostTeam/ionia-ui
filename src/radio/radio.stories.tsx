@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { type FC, useState } from "react";
 
-import { Radio } from "./Radio";
+import { Radio } from "./radio";
 
 const meta = {
   title: "Form 表单/Radio 单选框",

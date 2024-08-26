@@ -1,7 +1,7 @@
 import { useArgs } from "@storybook/preview-api";
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Input } from "./Input";
+import { Input } from "./input";
 
 const meta: Meta<typeof Input> = {
   title: "Form 表单/Input 输入框",

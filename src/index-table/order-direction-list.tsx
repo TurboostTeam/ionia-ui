@@ -2,8 +2,9 @@ import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/24/outline";
 import { type FC } from "react";
 import { twMerge } from "tailwind-merge";
 
-import { Button } from "../Button";
-import { OrderDirection } from "./OrderDirection";
+import { Button } from "@/button";
+
+import { OrderDirection } from "./order-direction";
 
 const options = [
   { label: "正序", value: OrderDirection.ASC },

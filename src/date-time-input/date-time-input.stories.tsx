@@ -2,7 +2,7 @@ import { useArgs } from "@storybook/preview-api";
 import type { Meta, StoryObj } from "@storybook/react";
 import { addDays } from "date-fns";
 
-import { DateTimeInput } from "./DateTimeInput";
+import { DateTimeInput } from "./date-time-input";
 
 const meta: Meta<typeof DateTimeInput> = {
   title: "Form 表单/DateTimeInput 日期时间输入框",

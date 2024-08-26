@@ -1,1 +1,1 @@
-export * from "./TagSelect";
+export * from "./tag-select";

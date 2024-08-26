@@ -1,8 +1,9 @@
 import { type Meta } from "@storybook/react";
 import { type FC } from "react";
 
-import { Badge } from "../Badge";
-import { Tooltip } from "./Tooltip";
+import { Badge } from "@/badge";
+
+import { Tooltip } from "./tooltip";
 
 const meta = {
   title: "Feedback 反馈/Tooltip 工具提示",

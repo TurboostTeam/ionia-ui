@@ -12,8 +12,9 @@ import {
   BiUser,
 } from "react-icons/bi";
 
-import { NavigationSection } from "../NavigationSection";
-import { Navigation } from "./Navigation";
+import { NavigationSection } from "@/navigation-section";
+
+import { Navigation } from "./navigation";
 import page from "./Navigation.mdx";
 
 export default {

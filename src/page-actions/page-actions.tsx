@@ -1,7 +1,7 @@
 import { type FC } from "react";
 
-import { Action, type ActionProps } from "../Action";
-import { ButtonGroup } from "../ButtonGroup";
+import { Action, type ActionProps } from "@/action";
+import { ButtonGroup } from "@/button-group";
 
 export interface PageActionsProps {
   primaryAction?: ActionProps;

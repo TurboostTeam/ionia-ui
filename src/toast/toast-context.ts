@@ -1,6 +1,6 @@
 import { createContext, type Dispatch, type SetStateAction } from "react";
 
-import { type ToastProps } from "./Toast";
+import { type ToastProps } from "./toast";
 
 export const ToastContext = createContext<{
   toasts: ToastProps[];

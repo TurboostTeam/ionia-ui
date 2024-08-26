@@ -1,3 +1,3 @@
-export * from "./AppProvider";
-export * from "./AppProviderProps";
-export * from "./useAppProviderProps";
+export * from "./app-provider";
+export * from "./app-provider-props";
+export * from "./use-app-provider-props";

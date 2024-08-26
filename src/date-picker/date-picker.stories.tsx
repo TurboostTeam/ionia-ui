@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { DatePicker } from "./DatePicker";
+import { DatePicker } from "./date-picker";
 
 const meta = {
   title: "Form 表单/DatePicker 日期选择器",

@@ -1,1 +1,1 @@
-export * from "./forwardRef";
+export * from "./forward-ref";

@@ -1,8 +1,8 @@
 import { type FC, type PropsWithChildren, useContext, useState } from "react";
 
-import { Modal } from "./Modal";
-import { type ModalProps } from "./Modal";
-import { ModalContext } from "./ModalContext";
+import { Modal } from "./modal";
+import { type ModalProps } from "./modal";
+import { ModalContext } from "./modal-context";
 
 export const ModalManager: FC = () => {
   const context = useContext(ModalContext);
