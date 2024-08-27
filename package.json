@@ -49,7 +49,6 @@
     "framer-motion": "^10.16.4",
     "lodash-es": "^4.17.21",
     "react-popper": "^2.3.0",
-    "react-use": "^17.4.0",
     "tailwind-merge": "^1.14.0",
     "tailwind-variants": "^0.2.1"
   },
