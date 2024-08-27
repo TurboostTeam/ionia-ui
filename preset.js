@@ -141,6 +141,12 @@ module.exports = {
       },
 
       ringColor: {
+        // 用于聚焦状态下任何交互元素的聚焦环的颜色。
+        focus: {
+          DEFAULT: "var(--ring-focus)",
+          destructive: "var(--ring-focus-destructive)",
+        },
+
         // 用于外部阴影的颜色。
         default: {
           DEFAULT: "var(--ring-default)",
