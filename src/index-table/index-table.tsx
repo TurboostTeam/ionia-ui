@@ -14,12 +14,12 @@ import {
   type ReactNode,
   type RefObject,
   useCallback,
+  useEffect,
   useImperativeHandle,
   useMemo,
   useRef,
   useState,
 } from "react";
-import useUpdateEffect from "react-use/esm/useUpdateEffect";
 
 import { type ActionProps } from "../action";
 import { Button } from "../button";
@@ -189,7 +189,7 @@ export function IndexTable<Node, OrderField extends string>({
     setPagination({ first: pageSize, after: pageInfo?.endCursor });
   }, [pageSize, pageInfo?.endCursor]);
 
-  useUpdateEffect(() => {
+  useEffect(() => {
     onChange?.({
       query,
       ...(Object.keys(pagination).length > 0
@@ -206,7 +206,15 @@ export function IndexTable<Node, OrderField extends string>({
     });
 
     tableActionRef.current?.resetRowSelection?.();
-  }, [query, pagination, pageSize, orderField, orderDirection, tableActionRef]);
+  }, [
+    onChange,
+    query,
+    pagination,
+    pageSize,
+    orderField,
+    orderDirection,
+    tableActionRef,
+  ]);
 
   return (
     <div className="divide-y divide-gray-300 rounded-md bg-white pt-3 shadow">
