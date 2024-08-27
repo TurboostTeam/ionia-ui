@@ -114,6 +114,10 @@
     
         /* 次要边框颜色 */
         --border-secondary: #E5E7EB; /* colors.gray[200] */
+
+        /* 用于聚焦状态下任何交互元素的聚焦环的颜色 */
+        --ring-focus: #4F46E5; /* colors.indigo[600] */
+        --ring-focus-destructive: #F43F5E; /* colors.red[600] */
     
         /* 用于外部阴影的颜色 */
         --ring-default: #D1D5DB; /* colors.gray[300] */
