@@ -2,7 +2,7 @@ import { forwardRef, type HTMLAttributes } from "react";
 import { tv } from "tailwind-variants";
 
 export const formDescription = tv({
-  base: "text-muted-foreground text-[0.8rem]",
+  base: "text-[0.8rem] text-secondary",
 });
 
 export interface FormDescriptionProps
