@@ -2,7 +2,7 @@ import { forwardRef, type HTMLAttributes } from "react";
 import { tv } from "tailwind-variants";
 
 export const cardFooter = tv({
-  base: "flex items-center p-6 pt-0",
+  base: "flex items-center",
 });
 
 export interface CardFooterProps extends HTMLAttributes<HTMLDivElement> {}

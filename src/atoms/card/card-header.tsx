@@ -2,7 +2,7 @@ import { forwardRef, type HTMLAttributes } from "react";
 import { tv } from "tailwind-variants";
 
 export const cardHeader = tv({
-  base: "flex flex-col space-y-1.5 p-6",
+  base: "flex justify-between gap-2",
 });
 
 export interface CardHeaderProps extends HTMLAttributes<HTMLDivElement> {}

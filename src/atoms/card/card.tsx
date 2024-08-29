@@ -2,7 +2,7 @@ import { forwardRef, type HTMLAttributes } from "react";
 import { tv } from "tailwind-variants";
 
 export const card = tv({
-  base: "rounded-xl border bg-surface text-default shadow",
+  base: "flex flex-col gap-2 bg-surface p-4 shadow sm:rounded-lg",
 });
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {}
