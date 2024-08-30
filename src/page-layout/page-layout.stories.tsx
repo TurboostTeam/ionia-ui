@@ -39,7 +39,7 @@ export const TwoColumns: FC = (args) => {
     <div className="bg-gray-50">
       <Page>
         <PageLayout>
-          <PageLayoutSection>
+          <PageLayoutSection variant="primary">
             <Card title="Order details">
               <p>
                 Use to follow a normal section with a secondary section to
@@ -51,7 +51,7 @@ export const TwoColumns: FC = (args) => {
             </Card>
           </PageLayoutSection>
 
-          <PageLayoutSection secondary>
+          <PageLayoutSection variant="secondary">
             <Card title="Tags">
               <p>Add tags to your order.</p>
             </Card>

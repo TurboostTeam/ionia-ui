@@ -1,21 +1,27 @@
-import { type FC, type PropsWithChildren } from "react";
-import { twMerge } from "tailwind-merge";
+import { forwardRef, type HTMLAttributes } from "react";
+import { tv, type VariantProps } from "tailwind-variants";
 
-export interface PageLayoutSectionProps {
-  secondary?: boolean;
-}
+export const pageLayoutSection = tv({
+  base: "col-span-3",
+  variants: {
+    variant: {
+      fullWidth: "",
+      primary: "md:col-span-2",
+      secondary: "md:col-span-1",
+    },
+  },
+  defaultVariants: {
+    variant: "fullWidth",
+  },
+});
 
-export const PageLayoutSection: FC<
-  PropsWithChildren<PageLayoutSectionProps>
-> = ({ secondary = false, children }) => {
-  return (
-    <div
-      className={twMerge(
-        secondary ? `flex-[1] min-w-0` : `flex-[2] min-w-[51%]`,
-        `basis-full md:basis-0`,
-      )}
-    >
-      {children}
-    </div>
-  );
-};
+export interface PageLayoutSectionProps
+  extends HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof pageLayoutSection> {}
+
+export const PageLayoutSection = forwardRef<
+  HTMLDivElement,
+  PageLayoutSectionProps
+>((props, ref) => (
+  <div ref={ref} {...props} className={pageLayoutSection(props)} />
+));
