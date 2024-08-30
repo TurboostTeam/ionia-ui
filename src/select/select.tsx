@@ -1,12 +1,13 @@
-import { Listbox, Transition } from "@headlessui/react";
-import {
-  CheckIcon,
-  ChevronUpDownIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
-import { Fragment, type ReactNode } from "react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import { type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
+import {
+  Select as SelectWarp,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from "../atoms/select";
 import { FormItem, type FormItemProps } from "../form-item";
 import { Spinner } from "../spinner";
 import { forwardRef } from "../utils";
@@ -15,6 +16,7 @@ export interface SelectOption {
   label: ReactNode;
   value: string;
   description?: ReactNode;
+  disabled?: boolean;
 }
 
 export interface SelectProps extends FormItemProps {
@@ -58,105 +60,66 @@ export const Select = forwardRef<SelectProps, "div">(
   ) => {
     return (
       <FormItem error={error} helpText={helpText} label={label}>
-        <Listbox
+        <SelectWarp
           disabled={disabled || loading}
-          ref={ref}
-          value={value}
-          onChange={onChange}
+          value={value ?? ""}
+          onValueChange={onChange}
         >
-          {({ open }) => (
-            <div className="relative">
-              <Listbox.Button
-                className={twMerge(
-                  "relative w-full cursor-default rounded-md pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-default-focus text-sm",
-                  sizeMap[size],
-                  disabled || loading
-                    ? "cursor-not-allowed bg-gray-50"
-                    : "bg-white",
-                  typeof error !== "undefined" &&
-                    `ring-red-300 focus-within:ring-red-500`,
-                  className,
-                )}
-              >
-                <span className="block h-5 truncate">
-                  {options.find((item) => item.value === value)?.label ?? (
-                    <span
-                      className={twMerge(
-                        "text-gray-400",
-                        typeof error !== "undefined" && "text-red-300",
-                      )}
-                    >
-                      {placeholder}
-                    </span>
-                  )}
-                </span>
-                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                  {loading ? (
-                    <Spinner />
-                  ) : (
-                    <ChevronUpDownIcon
-                      aria-hidden="true"
-                      className="h-5 w-5 text-gray-400"
-                    />
-                  )}
-                </span>
-
-                {typeof allowClear !== "undefined" && allowClear && (
+          <div className="relative">
+            <SelectTrigger
+              className={twMerge(
+                "relative flex w-full cursor-default rounded-md pl-3 pr-10 text-left text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-default-focus",
+                sizeMap[size],
+                disabled || loading
+                  ? "cursor-not-allowed bg-gray-50"
+                  : "bg-white",
+                typeof error !== "undefined" &&
+                  `ring-red-300 focus-within:ring-red-500`,
+                className,
+              )}
+              ref={ref}
+            >
+              <span className="block h-5 truncate">
+                {options.find((item) => item.value === value)?.label ?? (
                   <span
-                    className="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-8"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      onChange?.(undefined);
-                    }}
+                    className={twMerge(
+                      "text-gray-400",
+                      typeof error !== "undefined" && "text-red-300",
+                    )}
                   >
-                    <XMarkIcon className="h-5 w-5 rounded-full text-gray-400 hover:bg-gray-100" />
+                    {placeholder}
                   </span>
                 )}
-              </Listbox.Button>
+              </span>
+              {loading && <Spinner size={size} />}
+            </SelectTrigger>
 
-              <Transition
-                as={Fragment}
-                leave="transition ease-in duration-100"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
-                show={open}
+            {!loading && typeof allowClear !== "undefined" && allowClear && (
+              <span
+                className="absolute inset-y-0 right-8 flex cursor-pointer items-center pr-8"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onChange?.(undefined);
+                }}
               >
-                <Listbox.Options className="absolute z-[990] mt-2 max-h-60 w-full overflow-auto rounded-md bg-surface-emphasis py-2 text-base text-default shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                  {options.map((option) => (
-                    <Listbox.Option
-                      className={({ active }) =>
-                        twMerge(
-                          active && "bg-surface-emphasis-active",
-                          "relative cursor-default select-none py-2 pl-3 pr-9",
-                        )
-                      }
-                      key={option.value}
-                      value={option.value}
-                    >
-                      {({ selected }) => (
-                        <>
-                          <span className="block truncate">{option.label}</span>
-                          <span className="text-xs text-description">
-                            {option.description}
-                          </span>
+                <XMarkIcon className="h-5 w-5 rounded-full text-gray-400 hover:bg-gray-100" />
+              </span>
+            )}
+          </div>
 
-                          {selected ? (
-                            <span className="absolute inset-y-0 right-0 flex py-2 pr-4 text-primary">
-                              <CheckIcon
-                                aria-hidden="true"
-                                className="h-5 w-5"
-                              />
-                            </span>
-                          ) : null}
-                        </>
-                      )}
-                    </Listbox.Option>
-                  ))}
-                </Listbox.Options>
-              </Transition>
-            </div>
-          )}
-        </Listbox>
+          <SelectContent>
+            {options.map((option) => (
+              <SelectItem
+                className="hover:bg-surface-emphasis-active active:bg-surface-emphasis-active"
+                disabled={option.disabled ?? false}
+                key={option.value}
+                value={option.value}
+              >
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </SelectWarp>
       </FormItem>
     );
   },

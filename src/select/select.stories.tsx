@@ -34,7 +34,7 @@ enum TaskStatus {
 }
 
 export const Controlled: FC = () => {
-  const [value, onChange] = useState<TaskStatus>();
+  const [value, onChange] = useState<TaskStatus | string>();
 
   useEffect(() => {
     console.log("value change:", value);

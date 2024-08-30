@@ -5,6 +5,7 @@ import { Controller, useForm } from "react-hook-form";
 import { CheckboxGroup } from "../checkbox-group";
 import { Input } from "../input";
 import { RadioGroup } from "../radio-group";
+import { Select } from "../select";
 import { Switch } from "../switch";
 import { Form } from "./form";
 
@@ -22,6 +23,7 @@ export const Controlled: FC = () => {
       username: "",
       password: "",
       sex: "male",
+      select: "banana",
       hobby: ["basketball"],
     },
   });
@@ -82,6 +84,24 @@ export const Controlled: FC = () => {
 
       <Controller
         control={control}
+        name="select"
+        render={({ field, fieldState }) => {
+          return (
+            <Select
+              error={fieldState.error?.message}
+              label="选择"
+              options={[
+                { label: "苹果", value: "apple" },
+                { label: "香蕉", value: "banana" },
+              ]}
+              {...field}
+            />
+          );
+        }}
+      />
+
+      <Controller
+        control={control}
         name="sex"
         render={({ field, fieldState }) => {
           return (
@@ -115,6 +135,7 @@ export const Controlled: FC = () => {
           );
         }}
       />
+      <button type="submit">提交</button>
     </Form>
   );
 };

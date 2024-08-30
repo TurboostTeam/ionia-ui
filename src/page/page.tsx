@@ -20,7 +20,7 @@ export const page = tv({
   },
   variants: {
     fullWidth: {
-      true: "max-w-5xl",
+      false: { root: "max-w-5xl" },
     },
   },
 });
