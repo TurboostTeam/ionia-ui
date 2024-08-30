@@ -16,7 +16,7 @@ export interface SelectLabelProps
 
 export const SelectLabel = forwardRef<
   ElementRef<typeof SelectPrimitive.Label>,
-  ComponentPropsWithoutRef<typeof SelectPrimitive.Label>
+  SelectLabelProps
 >((props, ref) => (
   <SelectPrimitive.Label ref={ref} {...props} className={selectLabel(props)} />
 ));
