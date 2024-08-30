@@ -3,7 +3,7 @@ import { type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
 import {
-  Select as SelectWarp,
+  Select as SelectRoot,
   SelectContent,
   SelectItem,
   SelectTrigger,
@@ -60,35 +60,19 @@ export const Select = forwardRef<SelectProps, "div">(
   ) => {
     return (
       <FormItem error={error} helpText={helpText} label={label}>
-        <SelectWarp
+        <SelectRoot
           disabled={disabled || loading}
           value={value ?? ""}
           onValueChange={onChange}
         >
           <div className="relative">
             <SelectTrigger
-              className={twMerge(
-                "relative flex w-full cursor-default rounded-md pl-3 pr-10 text-left text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-default-focus",
-                sizeMap[size],
-                disabled || loading
-                  ? "cursor-not-allowed bg-gray-50"
-                  : "bg-white",
-                typeof error !== "undefined" &&
-                  `ring-red-300 focus-within:ring-red-500`,
-                className,
-              )}
+              className={twMerge(sizeMap[size], className)}
               ref={ref}
             >
               <span className="block h-5 truncate">
                 {options.find((item) => item.value === value)?.label ?? (
-                  <span
-                    className={twMerge(
-                      "text-gray-400",
-                      typeof error !== "undefined" && "text-red-300",
-                    )}
-                  >
-                    {placeholder}
-                  </span>
+                  <span className="text-gray-400">{placeholder}</span>
                 )}
               </span>
               {loading && <Spinner size={size} />}
@@ -115,11 +99,16 @@ export const Select = forwardRef<SelectProps, "div">(
                 key={option.value}
                 value={option.value}
               >
-                {option.label}
+                <div>
+                  <span className="block truncate">{option.label}</span>
+                  <span className="text-xs text-description">
+                    {option.description}
+                  </span>
+                </div>
               </SelectItem>
             ))}
           </SelectContent>
-        </SelectWarp>
+        </SelectRoot>
       </FormItem>
     );
   },
