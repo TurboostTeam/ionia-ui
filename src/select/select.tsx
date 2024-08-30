@@ -1,6 +1,7 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
+import { tv } from "tailwind-variants";
 
 import {
   Select as SelectRoot,
@@ -11,6 +12,25 @@ import {
 import { FormItem, type FormItemProps } from "../form-item";
 import { Spinner } from "../spinner";
 import { forwardRef } from "../utils";
+
+export const select = tv({
+  slots: {
+    trigger: "py-2",
+    triggerLabel: "block h-5 truncate",
+    itemLabel: "block truncate",
+    itemDescription: "text-xs text-description",
+    allowClearButton:
+      "absolute inset-y-0 right-8 flex cursor-pointer items-center",
+    allowClearIcon: "h-5 w-5 rounded-full text-gray-400 hover:bg-gray-100",
+  },
+  variants: {
+    size: {
+      sm: { trigger: "py-1" },
+      md: { trigger: "py-2" },
+      lg: { trigger: "py-3" },
+    },
+  },
+});
 
 export interface SelectOption {
   label: ReactNode;
@@ -34,12 +54,6 @@ export interface SelectProps extends FormItemProps {
   onChange?: (value?: string) => void;
 }
 
-const sizeMap = {
-  sm: twMerge(`py-1`),
-  md: twMerge(`py-2`),
-  lg: twMerge(`py-3`),
-};
-
 export const Select = forwardRef<SelectProps, "div">(
   (
     {
@@ -58,35 +72,43 @@ export const Select = forwardRef<SelectProps, "div">(
     },
     ref,
   ) => {
+    const {
+      itemLabel,
+      itemDescription,
+      trigger,
+      triggerLabel,
+      allowClearButton,
+      allowClearIcon,
+    } = select({ size });
     return (
       <FormItem error={error} helpText={helpText} label={label}>
         <SelectRoot
           disabled={disabled || loading}
           value={value ?? ""}
-          onValueChange={onChange}
+          onChange={onChange}
         >
           <div className="relative">
-            <SelectTrigger
-              className={twMerge(sizeMap[size], className)}
-              ref={ref}
-            >
-              <span className="block h-5 truncate">
-                {options.find((item) => item.value === value)?.label ?? (
-                  <span className="text-gray-400">{placeholder}</span>
-                )}
-              </span>
+            <SelectTrigger className={twMerge(trigger(), className)} ref={ref}>
+              {!loading && (
+                <span className={triggerLabel()}>
+                  {options.find((item) => item.value === value)?.label ?? (
+                    <span>{placeholder}</span>
+                  )}
+                </span>
+              )}
+
               {loading && <Spinner size={size} />}
             </SelectTrigger>
 
             {!loading && typeof allowClear !== "undefined" && allowClear && (
               <span
-                className="absolute inset-y-0 right-8 flex cursor-pointer items-center pr-8"
+                className={allowClearButton()}
                 onClick={(e) => {
                   e.preventDefault();
                   onChange?.(undefined);
                 }}
               >
-                <XMarkIcon className="h-5 w-5 rounded-full text-gray-400 hover:bg-gray-100" />
+                <XMarkIcon className={allowClearIcon()} />
               </span>
             )}
           </div>
@@ -94,14 +116,13 @@ export const Select = forwardRef<SelectProps, "div">(
           <SelectContent>
             {options.map((option) => (
               <SelectItem
-                className="hover:bg-surface-emphasis-active active:bg-surface-emphasis-active"
                 disabled={option.disabled ?? false}
                 key={option.value}
                 value={option.value}
               >
                 <div>
-                  <span className="block truncate">{option.label}</span>
-                  <span className="text-xs text-description">
+                  <span className={itemLabel()}>{option.label}</span>
+                  <span className={itemDescription()}>
                     {option.description}
                   </span>
                 </div>
