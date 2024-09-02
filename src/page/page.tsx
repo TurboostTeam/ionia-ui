@@ -41,7 +41,7 @@ export function PageHeader<ActionComponent extends As = typeof Button>({
   return (
     <div className="mb-4 flex items-center justify-between gap-2">
       {typeof backAction !== "undefined" && (
-        <Action ghost icon={ArrowUturnLeftIcon} {...backAction} />
+        <Action icon={ArrowUturnLeftIcon} variant="ghost" {...backAction} />
       )}
 
       {typeof title !== "undefined" && (
