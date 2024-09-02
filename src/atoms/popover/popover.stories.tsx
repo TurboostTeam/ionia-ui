@@ -11,7 +11,7 @@ import {
 } from ".";
 
 const meta: Meta<typeof Popover> = {
-  title: "Atoms 原子组件/Form 表单/Popover 选择器",
+  title: "Atoms 原子组件/Overlay 叠层/Popover 弹出窗口",
   component: Popover,
 };
 
