@@ -207,10 +207,10 @@ export function ListTable<T>({
                   {Object.keys(internalRowSelection).length > 0 && (
                     <td className="text-sm text-gray-500">
                       {isRowSelectedAll
-                        ? "已选择全部"
-                        : `已选择 ${
+                        ? "Selected all"
+                        : `Selected ${
                             Object.keys(internalRowSelection).length
-                          } 行`}
+                          } rows`}
                     </td>
                   )}
 
@@ -232,7 +232,7 @@ export function ListTable<T>({
                           }
                         }}
                       >
-                        {isRowSelectedAll ? "取消" : "选择全部"}
+                        {isRowSelectedAll ? "Cancel" : "Select all"}
                       </td>
                     )}
 
