@@ -270,8 +270,10 @@ export function Table<T>({
 
                   <td className="text-sm text-gray-500">
                     {isRowSelectedAll
-                      ? "已选择全部"
-                      : `已选择 ${Object.keys(internalRowSelection).length} 行`}
+                      ? "Selected all"
+                      : `Selected ${
+                          Object.keys(internalRowSelection).length
+                        } rows`}
                   </td>
 
                   {typeof rowSelection?.allowSelectAll !== "undefined" &&
@@ -290,7 +292,7 @@ export function Table<T>({
                           }
                         }}
                       >
-                        {isRowSelectedAll ? "取消" : "选择全部"}
+                        {isRowSelectedAll ? "Cancel" : "Select all"}
                       </td>
                     )}
 
