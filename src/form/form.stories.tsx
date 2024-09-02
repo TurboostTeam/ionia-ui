@@ -115,7 +115,6 @@ export const Controlled: FC = () => {
           );
         }}
       />
-      <button type="submit">提交</button>
     </Form>
   );
 };
