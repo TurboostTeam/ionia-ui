@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 import { tv } from "tailwind-variants";
 
 const modalDescription = tv({
-  base: "text-muted-foreground text-sm",
+  base: "text-sm text-default",
 });
 
 export const ModalDescription = forwardRef<

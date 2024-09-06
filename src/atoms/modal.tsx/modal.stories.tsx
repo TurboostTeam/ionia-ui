@@ -23,7 +23,7 @@ export default meta;
 export const Base: FC = () => {
   const [open, setOpen] = useState(false);
   return (
-    <Modal open={open} onOpenChange={setOpen}>
+    <Modal open={open} onClose={setOpen}>
       <ModalTrigger>
         <button
           onClick={() => {
