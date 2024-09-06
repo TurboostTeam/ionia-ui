@@ -4,6 +4,7 @@ import { type FC, useState } from "react";
 import { Button } from "../button";
 import {
   Modal,
+  ModalClose,
   ModalContent,
   ModalDescription,
   ModalFooter,
@@ -36,6 +37,7 @@ export const Base: FC = () => {
       <ModalPortal>
         <ModalOverlay />
         <ModalContent>
+          <ModalClose />
           <ModalTitle>Title</ModalTitle>
           <ModalDescription>Description</ModalDescription>
           <ModalFooter>
