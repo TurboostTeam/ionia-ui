@@ -15,8 +15,8 @@ export const ModalOverlay = forwardRef<
   ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Overlay
-    className={modalOverlay({ className })}
     ref={ref}
     {...props}
+    className={modalOverlay({ className })}
   />
 ));

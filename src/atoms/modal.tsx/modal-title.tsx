@@ -15,8 +15,8 @@ export const ModalTitle = forwardRef<
   ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
-    className={modalTitle({ className })}
     ref={ref}
     {...props}
+    className={modalTitle({ className })}
   />
 ));

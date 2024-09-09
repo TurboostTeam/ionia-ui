@@ -1,5 +1,5 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { type ComponentPropsWithoutRef, forwardRef } from "react";
+import { type ComponentPropsWithoutRef, type FC } from "react";
 
 export interface ModalProps
   extends Omit<
@@ -12,10 +12,8 @@ export interface ModalProps
   >["onOpenChange"];
 }
 
-export const Modal = forwardRef<typeof DialogPrimitive.Root, ModalProps>(
-  ({ onClose, ...props }) => (
-    <DialogPrimitive.Root {...props} onOpenChange={onClose}>
-      {props.children}
-    </DialogPrimitive.Root>
-  ),
+export const Modal: FC<ModalProps> = ({ onClose, ...props }) => (
+  <DialogPrimitive.Root {...props} onOpenChange={onClose}>
+    {props.children}
+  </DialogPrimitive.Root>
 );

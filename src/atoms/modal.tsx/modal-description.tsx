@@ -15,8 +15,8 @@ export const ModalDescription = forwardRef<
   ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
-    className={modalDescription({ className })}
     ref={ref}
     {...props}
+    className={modalDescription({ className })}
   />
 ));

@@ -15,9 +15,9 @@ export const ModalContent = forwardRef<
   ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => (
   <DialogPrimitive.Content
-    className={modalContent({ className })}
     ref={ref}
     {...props}
+    className={modalContent({ className })}
   >
     {children}
   </DialogPrimitive.Content>
