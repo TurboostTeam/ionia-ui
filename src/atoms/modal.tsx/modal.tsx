@@ -12,8 +12,6 @@ export interface ModalProps
   >["onOpenChange"];
 }
 
-export const Modal: FC<ModalProps> = ({ onClose, ...props }) => (
-  <DialogPrimitive.Root {...props} onOpenChange={onClose}>
-    {props.children}
-  </DialogPrimitive.Root>
+export const Modal: FC<ModalProps> = (props) => (
+  <DialogPrimitive.Root {...props} onOpenChange={props.onClose} />
 );

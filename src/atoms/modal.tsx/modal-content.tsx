@@ -13,12 +13,8 @@ export const modalContent = tv({
 export const ModalContent = forwardRef<
   ElementRef<typeof DialogPrimitive.Content>,
   ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
->(({ className, children, ...props }, ref) => (
-  <DialogPrimitive.Content
-    ref={ref}
-    {...props}
-    className={modalContent({ className })}
-  >
-    {children}
+>((props, ref) => (
+  <DialogPrimitive.Content ref={ref} {...props} className={modalContent(props)}>
+    {props.children}
   </DialogPrimitive.Content>
 ));

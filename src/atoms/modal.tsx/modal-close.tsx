@@ -19,12 +19,8 @@ export const modalClose = tv({
 export const ModalClose = forwardRef<
   ElementRef<typeof DialogPrimitive.Close>,
   ModalCloseProps
->(({ className, ...props }, ref) => (
-  <DialogPrimitive.Close
-    ref={ref}
-    {...props}
-    className={modalClose({ className })}
-  >
+>((props, ref) => (
+  <DialogPrimitive.Close ref={ref} {...props} className={modalClose(props)}>
     <AiOutlineClose />
   </DialogPrimitive.Close>
 ));

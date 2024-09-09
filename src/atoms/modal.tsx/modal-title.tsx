@@ -13,10 +13,6 @@ export const modalTitle = tv({
 export const ModalTitle = forwardRef<
   ElementRef<typeof DialogPrimitive.Title>,
   ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
->(({ className, ...props }, ref) => (
-  <DialogPrimitive.Title
-    ref={ref}
-    {...props}
-    className={modalTitle({ className })}
-  />
+>((props, ref) => (
+  <DialogPrimitive.Title ref={ref} {...props} className={modalTitle(props)} />
 ));

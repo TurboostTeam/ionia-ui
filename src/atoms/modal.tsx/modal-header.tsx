@@ -8,7 +8,7 @@ export const modalHeader = tv({
 export interface ModalHeaderProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const ModalHeader = forwardRef<ElementRef<"div">, ModalHeaderProps>(
-  ({ ...props }, ref) => {
+  (props, ref) => {
     return <div ref={ref} {...props} className={modalHeader(props)} />;
   },
 );

@@ -13,10 +13,10 @@ export const modalOverlay = tv({
 export const ModalOverlay = forwardRef<
   ElementRef<typeof DialogPrimitive.Overlay>,
   ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
->(({ className, ...props }, ref) => (
+>((props, ref) => (
   <DialogPrimitive.Overlay
     ref={ref}
     {...props}
-    className={modalOverlay({ className })}
+    className={modalOverlay(props)}
   />
 ));

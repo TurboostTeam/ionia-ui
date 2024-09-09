@@ -13,10 +13,10 @@ const modalDescription = tv({
 export const ModalDescription = forwardRef<
   ElementRef<typeof DialogPrimitive.Description>,
   ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
->(({ className, ...props }, ref) => (
+>((props, ref) => (
   <DialogPrimitive.Description
     ref={ref}
     {...props}
-    className={modalDescription({ className })}
+    className={modalDescription(props)}
   />
 ));

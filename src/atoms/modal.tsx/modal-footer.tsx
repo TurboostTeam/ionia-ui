@@ -8,7 +8,7 @@ export const modalFooter = tv({
 export interface ModalFooterProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const ModalFooter = forwardRef<ElementRef<"div">, ModalFooterProps>(
-  ({ ...props }, ref) => {
+  (props, ref) => {
     return <div ref={ref} {...props} className={modalFooter(props)} />;
   },
 );
