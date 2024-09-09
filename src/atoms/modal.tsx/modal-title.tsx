@@ -1,5 +1,9 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { forwardRef } from "react";
+import {
+  type ComponentPropsWithoutRef,
+  type ElementRef,
+  forwardRef,
+} from "react";
 import { tv } from "tailwind-variants";
 
 export const modalTitle = tv({
@@ -7,8 +11,8 @@ export const modalTitle = tv({
 });
 
 export const ModalTitle = forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Title>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
+  ElementRef<typeof DialogPrimitive.Title>,
+  ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
     className={modalTitle({ className })}

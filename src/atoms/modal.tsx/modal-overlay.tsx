@@ -1,5 +1,9 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { forwardRef } from "react";
+import {
+  type ComponentPropsWithoutRef,
+  type ElementRef,
+  forwardRef,
+} from "react";
 import { tv } from "tailwind-variants";
 
 export const modalOverlay = tv({
@@ -7,8 +11,8 @@ export const modalOverlay = tv({
 });
 
 export const ModalOverlay = forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Overlay>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
+  ElementRef<typeof DialogPrimitive.Overlay>,
+  ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Overlay
     className={modalOverlay({ className })}

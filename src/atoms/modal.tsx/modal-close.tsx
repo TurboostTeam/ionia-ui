@@ -1,10 +1,14 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import React, { forwardRef } from "react";
+import {
+  type ComponentPropsWithoutRef,
+  type ElementRef,
+  forwardRef,
+} from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { tv } from "tailwind-variants";
 
 export interface ModalCloseProps
-  extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Close> {
+  extends ComponentPropsWithoutRef<typeof DialogPrimitive.Close> {
   className?: string;
 }
 
@@ -13,7 +17,7 @@ export const modalClose = tv({
 });
 
 export const ModalClose = forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Close>,
+  ElementRef<typeof DialogPrimitive.Close>,
   ModalCloseProps
 >(({ className, ...props }) => (
   <DialogPrimitive.Close className={modalClose({ className })} {...props}>

@@ -1,5 +1,9 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { forwardRef } from "react";
+import {
+  type ComponentPropsWithoutRef,
+  type ElementRef,
+  forwardRef,
+} from "react";
 import { tv } from "tailwind-variants";
 
 export const modalContent = tv({
@@ -7,8 +11,8 @@ export const modalContent = tv({
 });
 
 export const ModalContent = forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
+  ElementRef<typeof DialogPrimitive.Content>,
+  ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => (
   <DialogPrimitive.Content
     className={modalContent({ className })}
