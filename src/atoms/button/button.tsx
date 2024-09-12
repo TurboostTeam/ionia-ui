@@ -1,9 +1,7 @@
 import { type ReactElement } from "react";
 import { tv, type VariantProps } from "tailwind-variants";
 
-import { Icon } from "../../icon";
 import { Spinner } from "../../spinner";
-import { type SVGComponent } from "../../types/svg-component";
 import { forwardRef } from "../../utils";
 
 export const button = tv({
@@ -42,11 +40,9 @@ export const button = tv({
       },
     },
     size: {
-      sm: {
-        root: "rounded px-3 py-1.5 text-xs font-normal",
-      },
-      md: { root: "rounded-md px-3 py-2 text-sm font-medium" },
-      lg: { root: "rounded-lg px-6 py-3 text-sm font-semibold" },
+      sm: { root: "rounded p-1.5 text-xs font-normal" },
+      md: { root: "rounded-md p-2 text-sm font-medium" },
+      lg: { root: "rounded-lg p-3 text-sm font-semibold" },
     },
     block: {
       true: { root: "w-full" },
@@ -54,10 +50,9 @@ export const button = tv({
     rounded: {
       true: { root: "rounded-full" },
     },
-
     loading: {
       true: {
-        root: "pointer-events-none cursor-auto border  text-transparent",
+        root: "pointer-events-none cursor-auto border text-transparent",
       },
     },
     disabled: {
@@ -81,7 +76,7 @@ export const button = tv({
       loading: true,
       class: {
         root: "opacity-50",
-        contentWarp: "text-transparent ",
+        contentWarp: "text-transparent",
       },
     },
   ],
@@ -94,8 +89,6 @@ export interface ButtonProps extends VariantProps<typeof button> {
 
   block?: boolean;
 
-  icon?: SVGComponent;
-
   type?: "button" | "reset" | "submit";
 }
 
@@ -104,7 +97,6 @@ export const Button = forwardRef<ButtonProps, "button">(
     const {
       as: Component = "button",
       children,
-      icon,
       disabled = false,
       loading = false,
       type = "button",
@@ -128,8 +120,6 @@ export const Button = forwardRef<ButtonProps, "button">(
         )}
 
         <span className={contentWarp()}>
-          {typeof icon !== "undefined" && <Icon as={icon} size={props.size} />}
-
           {typeof children !== "undefined" && (
             <span className={text()}>{children}</span>
           )}
