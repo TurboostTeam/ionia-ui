@@ -1,8 +1,8 @@
-import "../src/index.css";
+import "../src/styles.css";
 
 import type { Preview } from "@storybook/react";
 import { AppProvider } from "../src";
-import { FC } from "react";
+import React, { FC } from "react";
 
 export default {
   decorators: [

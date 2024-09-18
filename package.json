@@ -20,7 +20,7 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
-    "./index.css": "./dist/index.css",
+    "./styles.css": "./dist/styles.css",
     "./package.json": "./package.json",
     "./preset": "./preset.js",
     "./atoms": {
