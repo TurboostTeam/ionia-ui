@@ -21,6 +21,7 @@
       "require": "./dist/index.js"
     },
     "./styles.css": "./dist/styles.css",
+    "./theme.css": "./dist/theme.css",
     "./package.json": "./package.json",
     "./preset": "./preset.js",
     "./atoms": {
@@ -38,7 +39,7 @@
     "prepare": "husky install",
     "prepublishOnly": "npm run build",
     "dev": "storybook dev -p 6006",
-    "build": "NODE_OPTIONS='--max-old-space-size=16384' tsup --dts",
+    "build": "NODE_ENV=production NODE_OPTIONS='--max-old-space-size=16384' tsup --dts",
     "lint": "eslint src --ext js,ts,jsx,tsx --fix",
     "release": "semantic-release"
   },
