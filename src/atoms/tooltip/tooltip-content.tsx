@@ -12,7 +12,7 @@ export interface TooltipContentProps
 export const TooltipContent = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,
   TooltipContentProps
->(({ children, className, sideOffset = 8, ...props }, ref) => (
+>(({ className, sideOffset = 8, ...props }, ref) => (
   <TooltipPrimitive.Content
     className={tooltipContent({ className })}
     ref={ref}
