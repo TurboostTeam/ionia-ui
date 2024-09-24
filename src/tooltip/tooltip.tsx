@@ -1,74 +1,24 @@
+import React from "react";
+
 import {
-  type CSSProperties,
-  type FC,
-  type ReactNode,
-  useRef,
-  useState,
-} from "react";
-import { twMerge } from "tailwind-merge";
+  Tooltip as TooltipRoot,
+  TooltipContent,
+  TooltipTrigger,
+} from "../atoms/tooltip";
 
-type Direction = "left" | "right" | "top" | "bottom";
-
-function getPositionClass(
-  direction: Direction,
-  {
-    offsetHeight,
-    offsetWidth,
-  }: {
-    offsetHeight: number;
-    offsetWidth: number;
-  },
-): CSSProperties {
-  if (["left", "right"].includes(direction)) {
-    return {
-      top: "50%",
-      transform: "translateY(-50%)",
-      [direction]: `-${offsetWidth + 8}px`,
-    };
-  }
-
-  return {
-    left: "50%",
-    transform: "translateX(-50%)",
-    [direction]: `-${offsetHeight + 8}px`,
-  };
+export interface TooltipProps
+  extends React.ComponentPropsWithoutRef<typeof TooltipRoot> {
+  content: React.ReactNode;
 }
 
-export interface TooltipProps {
-  children?: ReactNode;
-  content?: ReactNode;
-  direction?: Direction;
-}
-
-export const Tooltip: FC<TooltipProps> = ({
-  children,
-  content,
-  direction = "top",
-}) => {
-  const ref = useRef<HTMLSpanElement>(null);
-  const [size, setSize] = useState({ offsetHeight: 0, offsetWidth: 0 });
-
+export const Tooltip = React.forwardRef<
+  React.ElementRef<typeof TooltipContent>,
+  TooltipProps
+>(({ children, content, ...props }, ref) => {
   return (
-    <span
-      className="group/tooltip-hover relative"
-      onMouseOver={() => {
-        setSize({
-          offsetHeight: ref.current?.offsetHeight ?? 0,
-          offsetWidth: ref.current?.offsetWidth ?? 0,
-        });
-      }}
-    >
-      <span
-        className={twMerge(
-          "pointer-events-none max-w-[250px] break-words w-max absolute rounded opacity-0 bg-gray-700 p-2 text-sm text-white transition-opacity group-hover/tooltip-hover:opacity-100 z-[1030]",
-        )}
-        ref={ref}
-        style={getPositionClass(direction, size)}
-      >
-        {content}
-      </span>
-
-      {children}
-    </span>
+    <TooltipRoot {...props}>
+      <TooltipTrigger asChild>{children}</TooltipTrigger>
+      <TooltipContent ref={ref}>{content}</TooltipContent>
+    </TooltipRoot>
   );
-};
+});
