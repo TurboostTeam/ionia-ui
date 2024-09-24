@@ -1,5 +1,6 @@
 import { type FC, type PropsWithChildren } from "react";
 
+import { TooltipProvider } from "../atoms/tooltip";
 import { Link } from "../link";
 import { ModalProvider } from "../modal";
 import { ToastProvider } from "../toast";
@@ -12,9 +13,11 @@ export const AppProvider: FC<PropsWithChildren<AppProviderProps>> = ({
 }) => {
   return (
     <AppProviderContext.Provider value={{ linkComponent: Link, ...props }}>
-      <ModalProvider>
-        <ToastProvider>{children}</ToastProvider>
-      </ModalProvider>
+      <TooltipProvider>
+        <ModalProvider>
+          <ToastProvider>{children}</ToastProvider>
+        </ModalProvider>
+      </TooltipProvider>
     </AppProviderContext.Provider>
   );
 };

@@ -20,6 +20,8 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
+    "./styles.css": "./dist/styles.css",
+    "./theme.css": "./dist/theme.css",
     "./package.json": "./package.json",
     "./preset": "./preset.js",
     "./atoms": {
@@ -37,7 +39,7 @@
     "prepare": "husky install",
     "prepublishOnly": "npm run build",
     "dev": "storybook dev -p 6006",
-    "build": "NODE_OPTIONS='--max-old-space-size=16384' tsup --dts",
+    "build": "NODE_ENV=production NODE_OPTIONS='--max-old-space-size=16384' tsup --dts",
     "lint": "eslint src --ext js,ts,jsx,tsx --fix",
     "release": "semantic-release"
   },
@@ -51,6 +53,7 @@
     "@radix-ui/react-menubar": "^1.1.1",
     "@radix-ui/react-select": "^2.1.1",
     "@radix-ui/react-slider": "^1.2.0",
+    "@radix-ui/react-tooltip": "^1.1.2",
     "@tanstack/react-table": "^8.9.3",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.9",

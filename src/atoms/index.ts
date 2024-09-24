@@ -8,3 +8,4 @@ export * from "./label";
 export * from "./modal";
 export * from "./select";
 export * from "./slider";
+export * from "./tooltip";
