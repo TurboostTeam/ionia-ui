@@ -68,7 +68,7 @@ export const button = tv({
       variant: "link",
       loading: true,
       class: {
-        root: "text-link/60 animate-pulse border-none bg-transparent",
+        root: "animate-pulse border-none bg-transparent text-link/60",
       },
     },
     {
