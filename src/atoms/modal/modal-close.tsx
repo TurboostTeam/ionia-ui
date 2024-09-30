@@ -13,7 +13,7 @@ export interface ModalCloseProps
 }
 
 export const modalClose = tv({
-  base: "text-violet11 focus:shadow-violet7 absolute right-[10px] top-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full hover:bg-surface-hover focus:outline-none focus-visible:outline-none",
+  base: "absolute right-[10px] top-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full text-default hover:bg-surface-hover focus:shadow-md focus:outline-none focus-visible:outline-none",
 });
 
 export const ModalClose = forwardRef<
