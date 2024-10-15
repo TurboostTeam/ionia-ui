@@ -158,7 +158,7 @@ export function GraphQLList<Node, OrderField extends string>({
                     return `${filter.field}:"${item}"`;
                   }
 
-                  return `${filter.field}:${item}`;
+                  return `${filter.field}:"${item}"`;
                 })
                 .join(" OR ")})`;
             }
