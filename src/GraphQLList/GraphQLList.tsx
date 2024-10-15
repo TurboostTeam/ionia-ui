@@ -129,7 +129,7 @@ export function GraphQLList<Node, OrderField extends string>({
 
           if (typeof filterValue !== "undefined") {
             if (typeof filterValue === "string") {
-              return `${result} ${filter.field}: "${filterValue}"`;
+              return `${result} ${filter.field}:"${filterValue}"`;
             }
 
             if (filterValue instanceof Array) {
@@ -155,10 +155,10 @@ export function GraphQLList<Node, OrderField extends string>({
               return `${result} (${filterValue
                 .map((item) => {
                   if (typeof item === "string") {
-                    return `${filter.field}: "${item}"`;
+                    return `${filter.field}:"${item}"`;
                   }
 
-                  return `${filter.field}: ${item}`;
+                  return `${filter.field}:${item}`;
                 })
                 .join(" OR ")})`;
             }
