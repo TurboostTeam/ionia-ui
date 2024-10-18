@@ -38,6 +38,7 @@ export const TagMode: FC = () => {
                 { label: "a", value: "a", description: "description" },
                 { label: "b", value: "b" },
               ]}
+              valueMode="replace"
               {...field}
             />
           );
