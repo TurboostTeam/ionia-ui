@@ -3,7 +3,7 @@ import React from "react";
 import { tv } from "tailwind-variants";
 
 export const sliderThumb = tv({
-  base: "border-primary/50 focus-visible:ring-ring block h-4 w-4 rounded-full border bg-surface shadow transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50",
+  base: "focus-visible:ring-ring block h-4 w-4 rounded-full border border-primary/50 bg-surface shadow transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50",
 });
 
 export interface SliderThumbProps
