@@ -3,7 +3,7 @@ import React from "react";
 import { tv } from "tailwind-variants";
 
 export const sliderTrack = tv({
-  base: "bg-fill-primary/20 relative h-1.5 w-full grow overflow-hidden rounded-full",
+  base: "relative h-1.5 w-full grow overflow-hidden rounded-full bg-fill-primary/20",
 });
 
 export interface SliderTrackProps

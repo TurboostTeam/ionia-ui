@@ -1,69 +1,29 @@
-import { Popover as HeadlessPopover } from "@headlessui/react";
+import { type FC, type PropsWithChildren, type ReactElement } from "react";
+
 import {
-  type FC,
-  Fragment,
-  type PropsWithChildren,
-  type ReactElement,
-  useState,
-} from "react";
-import { usePopper } from "react-popper";
-import { twMerge } from "tailwind-merge";
+  Popover as PopoverRoot,
+  PopoverContent,
+  PopoverTrigger,
+} from "../atoms/popover";
 
 export interface PopoverProps {
   activator: ReactElement;
   className?: string;
-  placement?:
-    | "auto"
-    | "auto-start"
-    | "auto-end"
-    | "top"
-    | "top-start"
-    | "top-end"
-    | "bottom"
-    | "bottom-start"
-    | "bottom-end"
-    | "right"
-    | "right-start"
-    | "right-end"
-    | "left"
-    | "left-start"
-    | "left-end";
+  placement?: "top" | "right" | "bottom" | "left";
 }
 
 export const Popover: FC<PropsWithChildren<PopoverProps>> = ({
   activator,
   className,
   children,
-  placement,
+  placement = "bottom",
 }) => {
-  const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
-    null,
-  );
-
-  const [popperElement, setPopperElement] = useState<HTMLElement | null>(null);
-
-  const { styles, attributes } = usePopper(referenceElement, popperElement, {
-    placement,
-  });
-
   return (
-    <HeadlessPopover as={Fragment}>
-      <HeadlessPopover.Button as={Fragment} ref={setReferenceElement}>
-        {activator}
-      </HeadlessPopover.Button>
-
-      <HeadlessPopover.Panel
-        className="z-[1010]"
-        ref={setPopperElement}
-        style={styles.popper}
-        {...attributes.popper}
-      >
-        <div className="m-2">
-          <div className={twMerge("rounded-md bg-surface shadow", className)}>
-            {children}
-          </div>
-        </div>
-      </HeadlessPopover.Panel>
-    </HeadlessPopover>
+    <PopoverRoot>
+      <PopoverTrigger>{activator}</PopoverTrigger>
+      <PopoverContent className={className} side={placement}>
+        {children}
+      </PopoverContent>
+    </PopoverRoot>
   );
 };
