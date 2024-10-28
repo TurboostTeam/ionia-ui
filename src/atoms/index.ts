@@ -12,6 +12,7 @@ export * from "./label";
 export * from "./menu-bar";
 export * from "./modal";
 export * from "./popover";
+export * from "./scroll-area";
 export * from "./select";
 export * from "./slider";
 export * from "./tooltip";
