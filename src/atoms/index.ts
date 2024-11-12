@@ -16,4 +16,5 @@ export * from "./popover";
 export * from "./scroll-area";
 export * from "./select";
 export * from "./slider";
+export * from "./tabs";
 export * from "./tooltip";
