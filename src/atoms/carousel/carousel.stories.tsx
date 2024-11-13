@@ -25,45 +25,53 @@ type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
   render: () => (
-    <div className="w-full max-w-sm">
-      <Carousel>
-        <CarouselContent>
-          {Array.from({ length: 5 }).map((_, index) => (
-            <CarouselItem key={index}>
-              <Card className="p-6">
-                <div className="flex aspect-square items-center justify-center p-6">
-                  <span className="text-4xl font-semibold">{index + 1}</span>
-                </div>
-              </Card>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
+    <div className="flex h-[400px] w-[700px] items-center justify-center bg-black">
+      <div className="w-full max-w-xs">
+        <Carousel>
+          <CarouselContent>
+            {Array.from({ length: 5 }).map((_, index) => (
+              <CarouselItem className="border bg-surface-secondary" key={index}>
+                <Card className="p-6">
+                  <div className="flex aspect-square items-center justify-center p-6">
+                    <span className="text-4xl font-semibold">{index + 1}</span>
+                  </div>
+                </Card>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="left-0" />
+          <CarouselNext className="right-0" />
+        </Carousel>
+      </div>
     </div>
   ),
 };
 
 export const Vertical: Story = {
   render: () => (
-    <div className="w-full max-w-sm">
-      <Carousel className="h-[300px]" orientation="vertical">
-        <CarouselContent>
-          {Array.from({ length: 5 }).map((_, index) => (
-            <CarouselItem key={index}>
-              <Card className="p-6">
-                <div className="flex aspect-square items-center justify-center p-6">
+    <Carousel
+      className="w-full max-w-xs"
+      opts={{
+        align: "start",
+      }}
+      orientation="vertical"
+    >
+      <CarouselContent className="-mt-1 h-[500px]">
+        {Array.from({ length: 5 }).map((_, index) => (
+          <CarouselItem className="w-64 pt-1 md:basis-1/3" key={index}>
+            <div className="p-1">
+              <Card>
+                <div className="flex items-center justify-center p-6">
                   <span className="text-4xl font-semibold">{index + 1}</span>
                 </div>
               </Card>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
-    </div>
+            </div>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
+    </Carousel>
   ),
 };
 
