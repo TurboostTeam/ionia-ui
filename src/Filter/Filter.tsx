@@ -192,10 +192,17 @@ export function Filter<T>({
             const fieldValue = watch(field);
 
             return (
-              <Popover className="relative" key={field}>
+              <Popover className="relative " key={field}>
                 {({ close }) => (
                   <>
-                    <Button rounded as={Popover.Button} size="sm">
+                    <Button
+                      rounded
+                      as={Popover.Button}
+                      classNames={{
+                        root: "outline-none",
+                      }}
+                      size="sm"
+                    >
                       <span className="flex items-center whitespace-nowrap">
                         {isEmpty(fieldValue) ? (
                           <>
@@ -240,7 +247,7 @@ export function Filter<T>({
                       leaveFrom="opacity-100 translate-y-0"
                       leaveTo="opacity-0 translate-y-1"
                     >
-                      <Popover.Panel className="absolute z-10 mt-2 w-auto transform px-0">
+                      <Popover.Panel className="absolute z-10 mt-2 w-auto transform px-0 ">
                         <div className="whitespace-nowrap rounded-md bg-surface p-3 shadow-md ring-1 ring-black ring-opacity-5">
                           <Controller
                             control={control}
