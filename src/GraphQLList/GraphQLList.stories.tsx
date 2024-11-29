@@ -125,6 +125,7 @@ export const Base: FC = () => {
             4 items
           </div>
         }
+        orderOptions={[{ label: "创建时间", value: "createdAt" }]}
         rowSelection={{
           allowSelectAll: true,
           // single: false,

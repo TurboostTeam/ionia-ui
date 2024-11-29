@@ -189,76 +189,78 @@ export function ListTable<T>({
         )}
       >
         <div className="overflow-hidden" ref={tableHeaderRef}>
-          <table className="w-full table-fixed">
-            <thead className="relative h-14 border-b">
-              {/* batch actions */}
-              {!(rowSelection?.single ?? false) && hasBulkActions && (
-                <tr className="absolute z-[3] flex h-14 w-full items-center space-x-2 px-3 py-3.5">
-                  <td>
-                    <Checkbox
-                      checked={table.getIsAllRowsSelected()}
-                      indeterminate={
-                        Object.keys(internalRowSelection).length > 0
-                      }
-                      label=""
-                      onChange={table.getToggleAllRowsSelectedHandler()}
-                    />
-                  </td>
-                  {Object.keys(internalRowSelection).length > 0 && (
-                    <td className="text-sm text-gray-500">
-                      {isRowSelectedAll
-                        ? "Selected all"
-                        : `Selected ${
-                            Object.keys(internalRowSelection).length
-                          } rows`}
+          {Object.keys(internalRowSelection).length > 0 && (
+            <table className="w-full table-fixed">
+              <thead className="relative h-14 border-b">
+                {/* batch actions */}
+                {!(rowSelection?.single ?? false) && hasBulkActions && (
+                  <tr className="absolute z-[3] flex h-14 w-full items-center space-x-2 px-3 py-3.5">
+                    <td>
+                      <Checkbox
+                        checked={table.getIsAllRowsSelected()}
+                        indeterminate={
+                          Object.keys(internalRowSelection).length > 0
+                        }
+                        label=""
+                        onChange={table.getToggleAllRowsSelectedHandler()}
+                      />
                     </td>
-                  )}
-
-                  {typeof rowSelection?.allowSelectAll !== "undefined" &&
-                    Object.keys(internalRowSelection).length > 0 &&
-                    rowSelection.allowSelectAll && (
-                      <td
-                        className="cursor-pointer text-sm text-link hover:text-link-hover"
-                        onClick={() => {
-                          if (isRowSelectedAll) {
-                            setIsRowSelectedAll(false);
-                            table.toggleAllRowsSelected(false);
-                          } else {
-                            table.toggleAllRowsSelected(true);
-
-                            setTimeout(() => {
-                              setIsRowSelectedAll(true);
-                            });
-                          }
-                        }}
-                      >
-                        {isRowSelectedAll ? "Cancel" : "Select all"}
+                    {Object.keys(internalRowSelection).length > 0 && (
+                      <td className="text-sm text-gray-500">
+                        {isRowSelectedAll
+                          ? "Selected all"
+                          : `Selected ${
+                              Object.keys(internalRowSelection).length
+                            } rows`}
                       </td>
                     )}
 
-                  {Object.keys(internalRowSelection).length > 0 && (
-                    <td
-                      className="flex space-x-2"
-                      style={{ marginLeft: "auto" }}
-                    >
-                      {rowSelection
-                        ?.bulkActions?.(
-                          Object.keys(internalRowSelection).map(
-                            (key) => table.getRow(key).original,
-                          ),
-                          isRowSelectedAll,
-                        )
-                        ?.map((action, index) => (
-                          <div key={index}>
-                            <Action {...action} size="sm" />
-                          </div>
-                        ))}
-                    </td>
-                  )}
-                </tr>
-              )}
-            </thead>
-          </table>
+                    {typeof rowSelection?.allowSelectAll !== "undefined" &&
+                      Object.keys(internalRowSelection).length > 0 &&
+                      rowSelection.allowSelectAll && (
+                        <td
+                          className="cursor-pointer text-sm text-link hover:text-link-hover"
+                          onClick={() => {
+                            if (isRowSelectedAll) {
+                              setIsRowSelectedAll(false);
+                              table.toggleAllRowsSelected(false);
+                            } else {
+                              table.toggleAllRowsSelected(true);
+
+                              setTimeout(() => {
+                                setIsRowSelectedAll(true);
+                              });
+                            }
+                          }}
+                        >
+                          {isRowSelectedAll ? "Cancel" : "Select all"}
+                        </td>
+                      )}
+
+                    {Object.keys(internalRowSelection).length > 0 && (
+                      <td
+                        className="flex space-x-2"
+                        style={{ marginLeft: "auto" }}
+                      >
+                        {rowSelection
+                          ?.bulkActions?.(
+                            Object.keys(internalRowSelection).map(
+                              (key) => table.getRow(key).original,
+                            ),
+                            isRowSelectedAll,
+                          )
+                          ?.map((action, index) => (
+                            <div key={index}>
+                              <Action {...action} size="sm" />
+                            </div>
+                          ))}
+                      </td>
+                    )}
+                  </tr>
+                )}
+              </thead>
+            </table>
+          )}
         </div>
 
         <div
