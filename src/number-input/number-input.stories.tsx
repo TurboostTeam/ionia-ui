@@ -67,11 +67,11 @@ export const Suffix: Story = {
 };
 
 export const Controlled: FC = () => {
-  const [value, onChange] = useState<number>();
+  const [value, onChange] = useState<number | null>(null);
 
   useEffect(() => {
     console.log("value change:", value);
   }, [value]);
 
-  return <NumberInput max={100} value={value} onChange={onChange} />;
+  return <NumberInput max={10} min={-10} value={value} onChange={onChange} />;
 };
