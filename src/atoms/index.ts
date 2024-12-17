@@ -17,4 +17,6 @@ export * from "./scroll-area";
 export * from "./select";
 export * from "./slider";
 export * from "./tabs";
+export * from "./toggle";
+export * from "./toggle-group";
 export * from "./tooltip";
