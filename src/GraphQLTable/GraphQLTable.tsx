@@ -61,6 +61,7 @@ export interface GraphQLTableProps<Node, OrderField> {
     onSelectionChange?: (rows: Node[]) => void;
     bulkActions?: (rows: Node[], isSelectedAll: boolean) => ActionProps[];
   };
+  bodyHeight?: number;
   emptyStateDescription?: EmptyStateProps["description"];
   actionRef?: RefObject<ActionType>;
   edges?: Array<GraphQLTableEdge<Node>>;
@@ -89,6 +90,7 @@ export function GraphQLTable<Node, OrderField extends string>({
   filters = [],
   columns = [],
   search,
+  bodyHeight,
   edges,
   orderOptions,
   pageSize = 10,
@@ -275,6 +277,7 @@ export function GraphQLTable<Node, OrderField extends string>({
       <div className={twMerge("relative", loading && "pointer-events-none")}>
         {typeof edges !== "undefined" && edges.length > 0 ? (
           <Table
+            bodyHeight={bodyHeight}
             columns={columns}
             data={edges.map((edge) => edge.node)}
             rowSelection={rowSelection}
