@@ -89,6 +89,8 @@ export const Base: FC = () => {
             progress: 10,
           },
         ]}
+        emptyStateDescription="没有找到相关记录"
+        emptyStateTitle="暂无数据"
         rowSelection={{
           allowSelectAll: true,
           // single: true,

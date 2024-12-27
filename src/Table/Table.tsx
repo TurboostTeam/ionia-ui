@@ -20,6 +20,7 @@ import { twMerge } from "tailwind-merge";
 
 import { Action, type ActionProps } from "../Action";
 import { Checkbox } from "../Checkbox";
+import { EmptyState, type EmptyStateProps } from "../EmptyState";
 import { Radio } from "../Radio";
 import { Spinner } from "../Spinner";
 
@@ -46,6 +47,9 @@ export type TableColumnProps<T> = ColumnDef<T> & {
 
 export interface TableProps<T> {
   tableActionRef?: RefObject<TableActionType>;
+  emptyStateIcon?: EmptyStateProps["icon"];
+  emptyStateTitle?: EmptyStateProps["title"];
+  emptyStateDescription?: EmptyStateProps["description"];
   columns: Array<TableColumnProps<T>>;
   rowSelection?: {
     single?: boolean;
@@ -54,7 +58,10 @@ export interface TableProps<T> {
     bulkActions?: (rows: T[], isSelectedAll: boolean) => ActionProps[];
   };
   data: T[];
-  bodyHeight?: number;
+  bodyHeight?: {
+    max?: number;
+    min?: number;
+  };
   loading?: boolean;
   onRow?: (record: T) => {
     onClick?: (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => void;
@@ -62,6 +69,9 @@ export interface TableProps<T> {
 }
 
 export function Table<T>({
+  emptyStateIcon,
+  emptyStateTitle,
+  emptyStateDescription,
   tableActionRef,
   columns,
   data,
@@ -386,8 +396,14 @@ export function Table<T>({
             : "overflow-y-hidden",
         )}
         style={{
-          height:
-            typeof bodyHeight !== "undefined" ? `${bodyHeight}px` : undefined,
+          minHeight:
+            typeof bodyHeight?.min !== "undefined"
+              ? `${bodyHeight?.min}px`
+              : undefined,
+          maxHeight:
+            typeof bodyHeight?.max !== "undefined"
+              ? `${bodyHeight?.max}px`
+              : undefined,
         }}
         onScroll={(e) => {
           const scrollLeft = (e.target as HTMLElement).scrollLeft;
@@ -468,6 +484,15 @@ export function Table<T>({
             ))}
           </tbody>
         </table>
+
+        {data.length === 0 && (
+          <EmptyState
+            className="py-10"
+            description={emptyStateDescription}
+            icon={emptyStateIcon}
+            title={emptyStateTitle}
+          />
+        )}
       </div>
 
       {table.getAllColumns().filter((item) => item.columnDef?.footer).length >

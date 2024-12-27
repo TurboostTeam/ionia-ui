@@ -61,7 +61,10 @@ export interface GraphQLTableProps<Node, OrderField> {
     onSelectionChange?: (rows: Node[]) => void;
     bulkActions?: (rows: Node[], isSelectedAll: boolean) => ActionProps[];
   };
-  bodyHeight?: number;
+  bodyHeight?: {
+    max?: number;
+    min?: number;
+  };
   emptyStateDescription?: EmptyStateProps["description"];
   actionRef?: RefObject<ActionType>;
   edges?: Array<GraphQLTableEdge<Node>>;
