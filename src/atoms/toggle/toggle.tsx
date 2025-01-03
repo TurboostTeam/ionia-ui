@@ -7,19 +7,23 @@ export const toggleVariants = tv({
   base: "ring-offset-background inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-colors hover:bg-fill-secondary-hover hover:text-default focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-default focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-fill-secondary-active data-[state=on]:text-default [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   variants: {
     variant: {
-      default: "bg-fill-secondary",
-      outline:
-        "border bg-transparent text-default hover:bg-fill-secondary-hover hover:text-default",
+      primary: "bg-fill-primary text-fill-primary hover:bg-fill-primary-hover",
+      secondary: "bg-fill-secondary text-default hover:bg-fill-secondary-hover",
+      destructive:
+        "bg-fill-destructive text-fill-destructive hover:bg-fill-destructive-hover",
+      outline: "border bg-transparent text-default",
+      ghost: "bg-fill-transparent text-default hover:bg-fill-transparent-hover",
+      link: "bg-transparent text-link underline-offset-4 hover:text-link-hover active:text-link-active",
     },
     size: {
-      default: "h-10 min-w-10 px-3",
-      sm: "h-9 min-w-9 px-2.5",
-      lg: "h-11 min-w-11 px-5",
+      sm: "rounded p-1.5 text-xs font-normal",
+      md: "rounded-md p-2 text-sm font-medium",
+      lg: "rounded-lg p-3 text-sm font-semibold",
     },
   },
   defaultVariants: {
-    variant: "default",
-    size: "default",
+    variant: "secondary",
+    size: "md",
   },
 });
 
