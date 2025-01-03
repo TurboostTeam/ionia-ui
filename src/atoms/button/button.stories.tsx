@@ -1,10 +1,5 @@
-import {
-  ArrowUturnLeftIcon,
-  DocumentDuplicateIcon,
-} from "@heroicons/react/24/outline";
 import type { Meta } from "@storybook/react";
 import { type FC } from "react";
-import { BiLogoGithub } from "react-icons/bi";
 
 import { Button } from "./button";
 import page from "./button.mdx";
@@ -113,29 +108,29 @@ export const Block: FC = (args) => {
   );
 };
 
-export const SmallIcon: FC = (args) => {
-  return <Button icon={ArrowUturnLeftIcon} size="sm" {...args} />;
-};
+// export const SmallIcon: FC = (args) => {
+//   return <Button icon={ArrowUturnLeftIcon} size="sm" {...args} />;
+// };
 
-export const MiddleIcon: FC = (args) => {
-  return <Button icon={ArrowUturnLeftIcon} {...args} />;
-};
+// export const MiddleIcon: FC = (args) => {
+//   return <Button icon={ArrowUturnLeftIcon} {...args} />;
+// };
 
-export const LargeIcon: FC = (args) => {
-  return <Button icon={ArrowUturnLeftIcon} size="lg" {...args} />;
-};
+// export const LargeIcon: FC = (args) => {
+//   return <Button icon={ArrowUturnLeftIcon} size="lg" {...args} />;
+// };
 
-export const ReactIcon: FC = (args) => {
-  return <Button icon={BiLogoGithub} {...args} />;
-};
+// export const ReactIcon: FC = (args) => {
+//   return <Button icon={BiLogoGithub} {...args} />;
+// };
 
-export const IconWithContent: FC = (args) => {
-  return (
-    <Button icon={DocumentDuplicateIcon} {...args}>
-      复制
-    </Button>
-  );
-};
+// export const IconWithContent: FC = (args) => {
+//   return (
+//     <Button icon={DocumentDuplicateIcon} {...args}>
+//       复制
+//     </Button>
+//   );
+// };
 
 export const DefaultWithDisabled: FC = (args) => {
   return (
