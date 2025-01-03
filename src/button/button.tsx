@@ -57,7 +57,7 @@ export const button = tv({
 
     loading: {
       true: {
-        root: "pointer-events-none cursor-auto border  text-transparent",
+        root: "pointer-events-none cursor-auto border text-transparent",
       },
     },
     disabled: {
@@ -73,7 +73,7 @@ export const button = tv({
       variant: "link",
       loading: true,
       class: {
-        root: "text-link/60 animate-pulse border-none bg-transparent",
+        root: "animate-pulse border-none bg-transparent text-link/60",
       },
     },
     {
@@ -81,7 +81,7 @@ export const button = tv({
       loading: true,
       class: {
         root: "opacity-50",
-        contentWarp: "text-transparent ",
+        contentWarp: "text-transparent",
       },
     },
   ],

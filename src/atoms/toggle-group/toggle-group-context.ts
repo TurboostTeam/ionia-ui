@@ -9,7 +9,7 @@ export interface ToggleGroupContextType
 }
 
 export const ToggleGroupContext = React.createContext<ToggleGroupContextType>({
-  size: "default",
-  variant: "default",
+  size: "md",
+  variant: "secondary",
   disabled: false,
 });
