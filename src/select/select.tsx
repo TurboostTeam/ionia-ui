@@ -1,20 +1,42 @@
-import { Listbox, Transition } from "@headlessui/react";
-import {
-  CheckIcon,
-  ChevronUpDownIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
-import { Fragment, type ReactNode } from "react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import { type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
+import { tv } from "tailwind-variants";
 
+import {
+  Select as SelectRoot,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from "../atoms/select";
 import { FormItem, type FormItemProps } from "../form-item";
 import { Spinner } from "../spinner";
 import { forwardRef } from "../utils";
+
+export const select = tv({
+  slots: {
+    trigger: "py-2",
+    triggerLabel: "block h-5 truncate",
+    itemLabel: "block truncate",
+    itemDescription: "text-xs text-description",
+    allowClearButton:
+      "absolute inset-y-0 right-8 flex cursor-pointer items-center",
+    allowClearIcon: "h-5 w-5 rounded-full text-gray-400 hover:bg-gray-100",
+  },
+  variants: {
+    size: {
+      sm: { trigger: "py-1" },
+      md: { trigger: "py-2" },
+      lg: { trigger: "py-3" },
+    },
+  },
+});
 
 export interface SelectOption {
   label: ReactNode;
   value: string;
   description?: ReactNode;
+  disabled?: boolean;
 }
 
 export interface SelectProps extends FormItemProps {
@@ -31,12 +53,6 @@ export interface SelectProps extends FormItemProps {
   value?: string;
   onChange?: (value?: string) => void;
 }
-
-const sizeMap = {
-  sm: twMerge(`py-1`),
-  md: twMerge(`py-2`),
-  lg: twMerge(`py-3`),
-};
 
 export const Select = forwardRef<SelectProps, "div">(
   (
@@ -56,107 +72,64 @@ export const Select = forwardRef<SelectProps, "div">(
     },
     ref,
   ) => {
+    const {
+      itemLabel,
+      itemDescription,
+      trigger,
+      triggerLabel,
+      allowClearButton,
+      allowClearIcon,
+    } = select({ size });
     return (
       <FormItem error={error} helpText={helpText} label={label}>
-        <Listbox
+        <SelectRoot
           disabled={disabled || loading}
-          ref={ref}
-          value={value}
+          value={value ?? ""}
           onChange={onChange}
         >
-          {({ open }) => (
-            <div className="relative">
-              <Listbox.Button
-                className={twMerge(
-                  "relative w-full cursor-default rounded-md pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-default-focus text-sm",
-                  sizeMap[size],
-                  disabled || loading
-                    ? "cursor-not-allowed bg-gray-50"
-                    : "bg-white",
-                  typeof error !== "undefined" &&
-                    `ring-red-300 focus-within:ring-red-500`,
-                  className,
-                )}
-              >
-                <span className="block h-5 truncate">
+          <div className="relative">
+            <SelectTrigger className={twMerge(trigger(), className)} ref={ref}>
+              {!loading && (
+                <span className={triggerLabel()}>
                   {options.find((item) => item.value === value)?.label ?? (
-                    <span
-                      className={twMerge(
-                        "text-gray-400",
-                        typeof error !== "undefined" && "text-red-300",
-                      )}
-                    >
-                      {placeholder}
-                    </span>
+                    <span>{placeholder}</span>
                   )}
                 </span>
-                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                  {loading ? (
-                    <Spinner />
-                  ) : (
-                    <ChevronUpDownIcon
-                      aria-hidden="true"
-                      className="h-5 w-5 text-gray-400"
-                    />
-                  )}
-                </span>
+              )}
 
-                {typeof allowClear !== "undefined" && allowClear && (
-                  <span
-                    className="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-8"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      onChange?.(undefined);
-                    }}
-                  >
-                    <XMarkIcon className="h-5 w-5 rounded-full text-gray-400 hover:bg-gray-100" />
-                  </span>
-                )}
-              </Listbox.Button>
+              {loading && <Spinner size={size} />}
+            </SelectTrigger>
 
-              <Transition
-                as={Fragment}
-                leave="transition ease-in duration-100"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
-                show={open}
+            {!loading && typeof allowClear !== "undefined" && allowClear && (
+              <span
+                className={allowClearButton()}
+                onClick={(e) => {
+                  e.preventDefault();
+                  onChange?.(undefined);
+                }}
               >
-                <Listbox.Options className="absolute z-[990] mt-2 max-h-60 w-full overflow-auto rounded-md bg-surface-emphasis py-2 text-base text-default shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                  {options.map((option) => (
-                    <Listbox.Option
-                      className={({ active }) =>
-                        twMerge(
-                          active && "bg-surface-emphasis-active",
-                          "relative cursor-default select-none py-2 pl-3 pr-9",
-                        )
-                      }
-                      key={option.value}
-                      value={option.value}
-                    >
-                      {({ selected }) => (
-                        <>
-                          <span className="block truncate">{option.label}</span>
-                          <span className="text-xs text-description">
-                            {option.description}
-                          </span>
+                <XMarkIcon className={allowClearIcon()} />
+              </span>
+            )}
+          </div>
 
-                          {selected ? (
-                            <span className="absolute inset-y-0 right-0 flex py-2 pr-4 text-primary">
-                              <CheckIcon
-                                aria-hidden="true"
-                                className="h-5 w-5"
-                              />
-                            </span>
-                          ) : null}
-                        </>
-                      )}
-                    </Listbox.Option>
-                  ))}
-                </Listbox.Options>
-              </Transition>
-            </div>
-          )}
-        </Listbox>
+          <SelectContent>
+            {options.map((option) => (
+              <SelectItem
+                disabled={option.disabled ?? false}
+                key={option.value}
+                value={option.value}
+              >
+                <div>
+                  <span className={itemLabel()}>{option.label}</span>
+                  <span className={itemDescription()}>
+                    {option.description}
+                  </span>
+                </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </SelectRoot>
       </FormItem>
     );
   },
