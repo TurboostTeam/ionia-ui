@@ -214,8 +214,14 @@ module.exports = {
         // 黑体
         black: "var(--font-weight-black)",
       },
+      width: {
+        nav: "var(--width-nav)",
+        "nav-mobile": "var(--width-nav-mobile)",
+        "nav-icon": "var(--width-nav-icon)",
+      },
     },
   },
+
   plugins: [
     plugin(({ addUtilities }) => {
       addUtilities({
