@@ -76,7 +76,7 @@ export const Drawer: FC<DrawerProps> = ({
                 >
                   <div
                     className={twMerge(
-                      "flex h-full flex-col gap-4 overflow-y-scroll bg-white py-4 shadow-xl ",
+                      "flex h-full flex-col gap-4 overflow-y-scroll bg-white py-4 shadow-xl",
                       wrapperClassName,
                     )}
                   >
@@ -99,9 +99,7 @@ export const Drawer: FC<DrawerProps> = ({
                       </div>
                     )}
 
-                    <div
-                      className={twMerge("relative  flex-1 px-4 ", className)}
-                    >
+                    <div className={twMerge("relative flex-1 px-4", className)}>
                       {children}
                     </div>
                     {typeof footer !== "undefined" && (
