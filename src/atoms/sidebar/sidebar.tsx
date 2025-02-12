@@ -80,7 +80,7 @@ export const Sidebar = forwardRef<
           className={twMerge(
             "fixed inset-y-0 z-10 hidden h-svh w-nav transition-[left,right,width] duration-200 ease-linear md:flex",
             side === "left"
-              ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--width-nav)*-1)]"
+              ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--nav-width-icon)*-1)]"
               : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--width-nav)*-1)]",
             // Adjust the padding for floating and inset variants.
             variant === "floating" || variant === "inset"
