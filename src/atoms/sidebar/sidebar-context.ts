@@ -5,8 +5,8 @@ export interface SidebarContextType {
   open: boolean;
   setOpen: (open: boolean) => void;
   openMobile: boolean;
-  isMobile: boolean;
   setOpenMobile: (open: boolean) => void;
+  isMobile: boolean;
   toggleSidebar: () => void;
 }
 
