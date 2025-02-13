@@ -80,7 +80,7 @@ const items = [
 
 export const Default: FC = () => (
   <SidebarProvider>
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>

@@ -44,10 +44,15 @@ export const Sidebar = forwardRef<
       return (
         <Drawer open={openMobile} onOpenChange={setOpenMobile} {...props}>
           <DrawerContent
-            className="w-nav bg-nav p-0 text-nav [&>button]:hidden"
+            className="w-[var(--width-nav)] bg-nav p-0 text-nav [&>button]:hidden"
             data-mobile="true"
             data-sidebar="sidebar"
             side={side}
+            style={
+              {
+                "--width-nav": "--width-nav-mobile",
+              } as any
+            }
           >
             <div className="flex h-full w-full flex-col">{children}</div>
           </DrawerContent>
@@ -71,8 +76,8 @@ export const Sidebar = forwardRef<
             "group-data-[collapsible=offcanvas]:w-0",
             "group-data-[side=right]:rotate-180",
             variant === "floating" || variant === "inset"
-              ? "group-data-[collapsible=icon]:w-[calc(var(--nav-width-icon)_+_theme(spacing.4))]"
-              : "group-data-[collapsible=icon]:w-nav-icon",
+              ? "group-data-[collapsible=icon]:w-[calc(var(--width-nav-icon)_+_theme(spacing.4))]"
+              : "group-data-[collapsible=icon]:w-[var(--width-nav-icon)]",
           )}
         />
         {/* 这是处理桌面侧边栏的布局 */}
@@ -80,12 +85,12 @@ export const Sidebar = forwardRef<
           className={twMerge(
             "fixed inset-y-0 z-10 hidden h-svh w-nav transition-[left,right,width] duration-200 ease-linear md:flex",
             side === "left"
-              ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--nav-width-icon)*-1)]"
+              ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--width-nav)*-1)]"
               : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--width-nav)*-1)]",
             // Adjust the padding for floating and inset variants.
             variant === "floating" || variant === "inset"
-              ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--nav-width-icon)_+_theme(spacing.4)_+2px)]"
-              : "group-data-[collapsible=icon]:w-nav-icon group-data-[side=left]:border-r group-data-[side=right]:border-l",
+              ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--width-nav-icon)_+_theme(spacing.4)_+2px)]"
+              : "group-data-[collapsible=icon]:w-[var(--width-nav-icon)] group-data-[side=left]:border-r group-data-[side=right]:border-l",
             className,
           )}
           {...props}

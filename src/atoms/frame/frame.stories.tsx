@@ -14,6 +14,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
+  SidebarTrigger,
 } from "../sidebar";
 import { Frame } from ".";
 
@@ -41,7 +42,8 @@ export const Base: FC = () => {
             </SidebarMenu>
           </SidebarContent>
         </Sidebar>
-        <div className="w-full">
+        <div className="flex-1">
+          <SidebarTrigger />
           <Page fullWidth primaryAction={{ content: "创建" }} title="页面">
             内容
           </Page>
