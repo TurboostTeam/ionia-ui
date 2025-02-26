@@ -33,12 +33,12 @@ export const badge = tv({
   variants: {
     color: {
       gray: {
-        baseBadge: "r bg-gray-50 text-gray-600 ring-gray-500/10",
+        baseBadge: "bg-gray-50 text-gray-600 ring-gray-500/10",
         removeButton: "hover:bg-gray-500/20",
         removeIconColor: "stroke-gray-700/50 group-hover:stroke-gray-700/75",
       },
       red: {
-        baseBadge: "r bg-red-50 text-red-700 ring-red-600/10",
+        baseBadge: "bg-red-50 text-red-700 ring-red-600/10",
         removeButton: "hover:bg-red-600/20",
         removeIconColor: "stroke-red-700/50 group-hover:stroke-red-700/75",
       },
