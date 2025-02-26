@@ -34,7 +34,7 @@ export const Card = forwardRef<CardProps, "div">(
                 ))}
               </ButtonGroup>
 
-              <div>{extra}</div>
+              {typeof extra !== "undefined" && <div>{extra}</div>}
             </div>
           </CardHeader>
         )}
