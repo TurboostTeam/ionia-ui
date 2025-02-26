@@ -100,6 +100,9 @@ export const Button = forwardRef<ButtonProps, "button">(
       disabled = false,
       loading = false,
       type = "button",
+      classNames,
+      rounded = false,
+      block = false,
     } = props;
 
     const { root, buttonSpinnerWarp, buttonSpinner, contentWarp, text } =
@@ -107,11 +110,14 @@ export const Button = forwardRef<ButtonProps, "button">(
 
     return (
       <Component
-        className={root({ class: props.classNames?.root })}
+        className={root({ class: classNames?.root })}
         disabled={disabled || loading}
         ref={ref}
         type={type}
         {...props}
+        block={block ? "true" : !block ? "false" : undefined}
+        loading={loading ? "true" : !loading ? "false" : undefined}
+        rounded={rounded ? "true" : !rounded ? "false" : undefined}
       >
         {loading && props.variant !== "link" && (
           <span className={buttonSpinnerWarp()}>
