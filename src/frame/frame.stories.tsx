@@ -111,10 +111,12 @@ export const Default: FC = () => {
             userMenu={
               <Dropdown
                 activator={
-                  <TopBarUserMenu
-                    avatar="https://avatars.githubusercontent.com/u/20628079"
-                    name="张三"
-                  />
+                  <div>
+                    <TopBarUserMenu
+                      avatar="https://avatars.githubusercontent.com/u/20628079"
+                      name="张三"
+                    />
+                  </div>
                 }
                 sections={[
                   {

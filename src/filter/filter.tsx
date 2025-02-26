@@ -195,7 +195,14 @@ export function Filter<T>({
               <Popover className="relative" key={field}>
                 {({ close }) => (
                   <>
-                    <Button rounded as={Popover.Button} size="sm">
+                    <Button
+                      rounded
+                      as={Popover.Button}
+                      classNames={{
+                        root: "outline-none",
+                      }}
+                      size="sm"
+                    >
                       <span className="flex items-center whitespace-nowrap">
                         {isEmpty(fieldValue) ? (
                           <>

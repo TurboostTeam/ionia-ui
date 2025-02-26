@@ -1,3 +1,4 @@
+import { type MouseEventHandler, useCallback } from "react";
 import { twMerge } from "tailwind-merge";
 import { tv } from "tailwind-variants";
 
@@ -18,7 +19,7 @@ export interface BadgeProps {
 
   disabled?: boolean;
 
-  onRemove?: () => void;
+  onRemove?: MouseEventHandler<HTMLButtonElement>;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -32,12 +33,12 @@ export const badge = tv({
   variants: {
     color: {
       gray: {
-        baseBadge: "r bg-gray-50 text-gray-600 ring-gray-500/10 ",
+        baseBadge: "r bg-gray-50 text-gray-600 ring-gray-500/10",
         removeButton: "hover:bg-gray-500/20",
         removeIconColor: "stroke-gray-700/50 group-hover:stroke-gray-700/75",
       },
       red: {
-        baseBadge: "r bg-red-50 text-red-700 ring-red-600/10 ",
+        baseBadge: "r bg-red-50 text-red-700 ring-red-600/10",
         removeButton: "hover:bg-red-600/20",
         removeIconColor: "stroke-red-700/50 group-hover:stroke-red-700/75",
       },
@@ -110,6 +111,14 @@ export const Badge = forwardRef<BadgeProps, "span">(
     },
     ref,
   ) => {
+    const handleRemove = useCallback(
+      (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+        onRemove?.(event);
+      },
+      [onRemove],
+    );
+
     const { baseBadge, removeButton, removeIconColor } = badge({
       color,
       disabled,
@@ -136,8 +145,7 @@ export const Badge = forwardRef<BadgeProps, "span">(
             type="button"
             onClick={(event) => {
               if (!disabled) {
-                event.stopPropagation();
-                onRemove?.();
+                handleRemove(event);
               }
             }}
           >

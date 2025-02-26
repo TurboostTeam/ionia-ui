@@ -20,8 +20,6 @@ export const Frame: FC<PropsWithChildren<FrameProps>> = ({
   showMobileNavigation,
   onNavigationDismiss,
 }) => {
-  // const [toasts, setToasts] = useState<FrameProps>([]);
-
   return (
     <div>
       {typeof topBar !== "undefined" && (

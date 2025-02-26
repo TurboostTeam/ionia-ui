@@ -14,12 +14,13 @@ import {
   type ReactNode,
   type RefObject,
   useCallback,
-  useEffect,
   useImperativeHandle,
   useMemo,
   useRef,
   useState,
 } from "react";
+import { useUpdateEffect } from "react-use";
+import { twMerge } from "tailwind-merge";
 
 import { type ActionProps } from "../action";
 import { Button } from "../button";
@@ -30,6 +31,7 @@ import {
   type FilterSearchConfig,
 } from "../filter";
 import { RadioGroup, type RadioGroupOption } from "../radio-group";
+import { Spinner } from "../spinner";
 import {
   Table,
   type TableActionType,
@@ -59,6 +61,10 @@ export interface IndexTableProps<Node, OrderField> {
     onSelectionChange?: (rows: Node[]) => void;
     bulkActions?: (rows: Node[], isSelectedAll: boolean) => ActionProps[];
   };
+  bodyHeight?: {
+    max?: number;
+    min?: number;
+  };
   emptyStateDescription?: EmptyStateProps["description"];
   actionRef?: RefObject<ActionType>;
   edges?: Array<IndexTableEdge<Node>>;
@@ -87,6 +93,7 @@ export function IndexTable<Node, OrderField extends string>({
   filters = [],
   columns = [],
   search,
+  bodyHeight,
   edges,
   orderOptions,
   pageSize = 10,
@@ -132,7 +139,7 @@ export function IndexTable<Node, OrderField extends string>({
 
           if (typeof filterValue !== "undefined") {
             if (typeof filterValue === "string") {
-              return `${result} ${filter.field}: "${filterValue}"`;
+              return `${result} ${filter.field}:"${filterValue}"`;
             }
 
             if (filterValue instanceof Array) {
@@ -158,10 +165,10 @@ export function IndexTable<Node, OrderField extends string>({
               return `${result} (${filterValue
                 .map((item) => {
                   if (typeof item === "string") {
-                    return `${filter.field}: "${item}"`;
+                    return `${filter.field}:"${item}"`;
                   }
 
-                  return `${filter.field}: "${item}"`;
+                  return `${filter.field}:"${item}"`;
                 })
                 .join(" OR ")})`;
             }
@@ -189,7 +196,7 @@ export function IndexTable<Node, OrderField extends string>({
     setPagination({ first: pageSize, after: pageInfo?.endCursor });
   }, [pageSize, pageInfo?.endCursor]);
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     onChange?.({
       query,
       ...(Object.keys(pagination).length > 0
@@ -206,18 +213,10 @@ export function IndexTable<Node, OrderField extends string>({
     });
 
     tableActionRef.current?.resetRowSelection?.();
-  }, [
-    onChange,
-    query,
-    pagination,
-    pageSize,
-    orderField,
-    orderDirection,
-    tableActionRef,
-  ]);
+  }, [query, pagination, pageSize, orderField, orderDirection, tableActionRef]);
 
   return (
-    <div className="divide-y divide-gray-300 rounded-md bg-white pt-3 shadow">
+    <div className="divide-y divide-gray-300 rounded-md bg-surface pt-3 shadow last-of-type:rounded-lg">
       <div>
         {typeof toolBarRender !== "undefined" && (
           <div className="px-3 pb-3">{toolBarRender()}</div>
@@ -243,7 +242,7 @@ export function IndexTable<Node, OrderField extends string>({
                       leaveTo="opacity-0 translate-y-1"
                     >
                       <Popover.Panel className="absolute right-0 z-[1010] mt-3 w-auto min-w-[160px] transform px-0">
-                        <div className="flex flex-col gap-1 divide-y overflow-hidden rounded-md bg-white p-3 shadow-md ring-1 ring-black ring-opacity-5">
+                        <div className="flex flex-col gap-1 divide-y overflow-hidden rounded-md bg-surface p-3 shadow-md ring-1 ring-black ring-opacity-5">
                           <RadioGroup
                             options={orderOptions}
                             value={orderField}
@@ -278,38 +277,51 @@ export function IndexTable<Node, OrderField extends string>({
         </div>
       </div>
 
-      {typeof edges !== "undefined" && edges.length > 0 ? (
-        <Table
-          columns={columns}
-          data={edges.map((edge) => edge.node)}
-          rowSelection={rowSelection}
-          tableActionRef={tableActionRef}
-          onRow={onRow}
-        />
-      ) : (
-        <EmptyState
-          className="py-10"
-          description={emptyStateDescription}
-          icon={emptyStateIcon}
-          title={emptyStateTitle}
-        />
-      )}
+      <div className={twMerge("relative", loading && "pointer-events-none")}>
+        {typeof edges !== "undefined" && edges.length > 0 ? (
+          <Table
+            bodyHeight={bodyHeight}
+            columns={columns}
+            data={edges.map((edge) => edge.node)}
+            rowSelection={rowSelection}
+            tableActionRef={tableActionRef}
+            onRow={onRow}
+          />
+        ) : (
+          <EmptyState
+            className="py-10"
+            description={emptyStateDescription}
+            icon={emptyStateIcon}
+            title={emptyStateTitle}
+          />
+        )}
 
-      {footer}
+        {loading && (
+          <>
+            <div className="absolute left-0 top-0 z-[2] h-full w-full bg-surface opacity-50" />
+            <Spinner className="absolute bottom-0 left-0 right-0 top-0 z-10 m-auto" />
+          </>
+        )}
+      </div>
+
+      {footer !== undefined && <div>{footer}</div>}
 
       {(pageInfo?.hasPreviousPage === true ||
         pageInfo?.hasNextPage === true) && (
         <div className="flex justify-center gap-2 p-5">
           <Button
-            className="p-2"
-            disabled={!pageInfo?.hasPreviousPage}
+            classNames={{ root: "p-2" }}
+            disabled={!pageInfo?.hasPreviousPage || loading}
+            variant="ghost"
             onClick={handlePrevClick}
           >
             <ChevronLeftIcon className="h-5 w-5" />
           </Button>
+
           <Button
-            className="p-2"
-            disabled={!pageInfo?.hasNextPage}
+            classNames={{ root: "p-2" }}
+            disabled={!pageInfo?.hasNextPage || loading}
+            variant="ghost"
             onClick={handleNextClick}
           >
             <ChevronRightIcon className="h-5 w-5" />

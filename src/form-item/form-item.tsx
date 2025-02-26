@@ -18,7 +18,7 @@ export const FormItem = forwardRef<FormItemProps, "div">(
         {typeof label !== "undefined" && (
           <label
             className={twMerge(
-              "block font-medium leading-6 text-default text-sm",
+              "block text-sm font-medium leading-6 text-default",
               className,
             )}
             htmlFor={label}
