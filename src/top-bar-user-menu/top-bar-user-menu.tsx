@@ -1,5 +1,5 @@
-import { type FC, useCallback } from "react";
-import { twMerge } from "tailwind-merge";
+import { type FC } from "react";
+import { tv } from "tailwind-variants";
 
 type BadgePlacement = "top-left" | "top-right" | "bottom-left" | "bottom-right";
 type BadgeColor =
@@ -27,43 +27,35 @@ export const TopBarUserMenu: FC<TopBarUserMenuProps> = ({
   avatar,
   badge,
 }) => {
-  const getBadgePosition = useCallback((placement: BadgePlacement) => {
-    switch (placement) {
-      case "top-left":
-        return "top-0 left-0 -translate-x-1/2 -translate-y-1/2";
-      case "top-right":
-        return "top-0 right-0 translate-x-1/2 -translate-y-1/2";
-      case "bottom-left":
-        return "bottom-0 left-0 -translate-x-1/2 translate-y-1/2";
-      case "bottom-right":
-        return "bottom-0 right-0 translate-x-1/2 translate-y-1/2";
-      default:
-        return "top-0 right-0 translate-x-1/2 -translate-y-1/2";
-    }
-  }, []);
-
-  const getBadgeColor = useCallback((color: BadgeColor) => {
-    switch (color) {
-      case "blue":
-        return "bg-blue-500";
-      case "green":
-        return "bg-green-500";
-      case "gray":
-        return "bg-gray-500";
-      case "indigo":
-        return "bg-indigo-500";
-      case "pink":
-        return "bg-pink-500";
-      case "purple":
-        return "bg-purple-500";
-      case "red":
-        return "bg-red-500";
-      case "yellow":
-        return "bg-yellow-500";
-      default:
-        return "bg-gray-500";
-    }
-  }, []);
+  const badgeVariants = tv({
+    base: "absolute rounded-full text-xs text-white",
+    variants: {
+      color: {
+        blue: "bg-blue-500",
+        green: "bg-green-500",
+        gray: "bg-gray-500",
+        indigo: "bg-indigo-500",
+        pink: "bg-pink-500",
+        purple: "bg-purple-500",
+        red: "bg-red-500",
+        yellow: "bg-yellow-500",
+      },
+      placement: {
+        "top-left": "left-0 top-0 -translate-x-1/2 -translate-y-1/2",
+        "top-right": "right-0 top-0 -translate-y-1/2 translate-x-1/2",
+        "bottom-left": "bottom-0 left-0 -translate-x-1/2 translate-y-1/2",
+        "bottom-right": "bottom-0 right-0 translate-x-1/2 translate-y-1/2",
+      },
+      content: {
+        true: "p-0.5",
+        false: "p-1",
+      },
+    },
+    defaultVariants: {
+      color: "gray",
+      placement: "top-right",
+    },
+  });
 
   return (
     <div className="flex cursor-pointer items-center justify-center gap-1 rounded p-0.5 text-sm hover:bg-gray-100">
@@ -80,12 +72,11 @@ export const TopBarUserMenu: FC<TopBarUserMenuProps> = ({
 
         {typeof badge !== "undefined" && (
           <span
-            className={twMerge(
-              "absolute rounded-full text-xs text-white",
-              getBadgePosition(badge?.placement ?? "top-right"),
-              typeof badge.content !== "undefined" ? "p-0.5" : "p-1",
-              getBadgeColor(badge?.color ?? "gray"),
-            )}
+            className={badgeVariants({
+              color: badge.color,
+              placement: badge.placement,
+              content: typeof badge.content !== "undefined",
+            })}
           >
             {badge.content}
           </span>
