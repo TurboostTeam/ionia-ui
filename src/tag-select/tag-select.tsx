@@ -25,6 +25,7 @@ export interface TagSelectOption<T> {
 export interface TagSelectProps<T> extends FormItemProps {
   className?: string;
   mode: "tag" | "multiple";
+  valueMode?: "append" | "replace";
   readOnly?: boolean;
   label?: string;
   helpText?: string;
@@ -42,6 +43,7 @@ export const TagSelect = forwardRef<TagSelectProps<string>, "input">(
     {
       className,
       mode,
+      valueMode = "append",
       readOnly = false,
       label,
       helpText,
@@ -96,8 +98,11 @@ export const TagSelect = forwardRef<TagSelectProps<string>, "input">(
             multiple
             disabled={disabled}
             value={value}
-            onChange={(val) => {
-              onChange?.(val);
+            onChange={(val: string[]) => {
+              onChange?.(
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                valueMode === "replace" && val.length > 0 ? [val.pop()!] : val,
+              );
 
               if (uniqInternalOptions.length > 0) {
                 setSearchValue(undefined);

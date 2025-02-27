@@ -20,6 +20,7 @@ import { twMerge } from "tailwind-merge";
 
 import { Action, type ActionProps } from "../action";
 import { Checkbox } from "../checkbox";
+import { EmptyState, type EmptyStateProps } from "../empty-state";
 import { Radio } from "../radio";
 import { Spinner } from "../spinner";
 
@@ -46,6 +47,9 @@ export type TableColumnProps<T> = ColumnDef<T> & {
 
 export interface TableProps<T> {
   tableActionRef?: RefObject<TableActionType>;
+  emptyStateIcon?: EmptyStateProps["icon"];
+  emptyStateTitle?: EmptyStateProps["title"];
+  emptyStateDescription?: EmptyStateProps["description"];
   columns: Array<TableColumnProps<T>>;
   rowSelection?: {
     single?: boolean;
@@ -54,7 +58,10 @@ export interface TableProps<T> {
     bulkActions?: (rows: T[], isSelectedAll: boolean) => ActionProps[];
   };
   data: T[];
-  bodyHeight?: number;
+  bodyHeight?: {
+    max?: number;
+    min?: number;
+  };
   loading?: boolean;
   onRow?: (record: T) => {
     onClick?: (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => void;
@@ -62,6 +69,9 @@ export interface TableProps<T> {
 }
 
 export function Table<T>({
+  emptyStateIcon,
+  emptyStateTitle,
+  emptyStateDescription,
   tableActionRef,
   columns,
   data,
@@ -245,8 +255,8 @@ export function Table<T>({
   return (
     <div
       className={twMerge(
-        "min-w-full relative",
-        loading && "overflow-hidden pointer-events-none select-none",
+        "relative min-w-full",
+        loading && "pointer-events-none select-none overflow-hidden",
       )}
     >
       <div className="overflow-hidden" ref={tableHeaderRef}>
@@ -270,8 +280,10 @@ export function Table<T>({
 
                   <td className="text-sm text-gray-500">
                     {isRowSelectedAll
-                      ? "已选择全部"
-                      : `已选择 ${Object.keys(internalRowSelection).length} 行`}
+                      ? "Selected all"
+                      : `Selected ${
+                          Object.keys(internalRowSelection).length
+                        } rows`}
                   </td>
 
                   {typeof rowSelection?.allowSelectAll !== "undefined" &&
@@ -290,7 +302,7 @@ export function Table<T>({
                           }
                         }}
                       >
-                        {isRowSelectedAll ? "取消" : "选择全部"}
+                        {isRowSelectedAll ? "Cancel" : "Select all"}
                       </td>
                     )}
 
@@ -317,7 +329,7 @@ export function Table<T>({
                   return (
                     <th
                       className={twMerge(
-                        "px-3 py-3.5 whitespace-nowrap bg-surface text-left text-sm font-semibold text-default",
+                        "whitespace-nowrap bg-surface px-3 py-3.5 text-left text-sm font-semibold text-default",
                         typeof (header.column.columnDef as TableColumnProps<T>)
                           ?.align !== "undefined" &&
                           columnAlignClass[
@@ -331,7 +343,7 @@ export function Table<T>({
                               .wordWrap as unknown as keyof typeof columnWrapClass
                           ],
                         header.column.getIsPinned() !== false &&
-                          "sticky bg-white z-[1]",
+                          "sticky z-[1] bg-surface",
                         header.column.getIsPinned() === "left" &&
                           header.column.getPinnedIndex() ===
                             table.getLeftLeafColumns().length - 1 &&
@@ -384,8 +396,14 @@ export function Table<T>({
             : "overflow-y-hidden",
         )}
         style={{
-          height:
-            typeof bodyHeight !== "undefined" ? `${bodyHeight}px` : undefined,
+          minHeight:
+            typeof bodyHeight?.min !== "undefined"
+              ? `${bodyHeight?.min}px`
+              : undefined,
+          maxHeight:
+            typeof bodyHeight?.max !== "undefined"
+              ? `${bodyHeight?.max}px`
+              : undefined,
         }}
         onScroll={(e) => {
           const scrollLeft = (e.target as HTMLElement).scrollLeft;
@@ -404,7 +422,7 @@ export function Table<T>({
             {table.getRowModel().rows.map((row) => (
               <tr
                 className={twMerge(
-                  "bg-white group hover:bg-gray-50",
+                  "group bg-surface hover:bg-gray-50",
                   onRow != null && "cursor-pointer",
                 )}
                 key={row.id}
@@ -415,7 +433,7 @@ export function Table<T>({
                 {row.getVisibleCells().map((cell) => (
                   <td
                     className={twMerge(
-                      "break-words group-hover:bg-gray-50 bg-white px-3 py-4 text-sm text-gray-500",
+                      "break-words bg-surface px-3 py-4 text-sm text-gray-500 group-hover:bg-gray-50",
                       typeof (cell.column.columnDef as TableColumnProps<T>)
                         ?.align !== "undefined" &&
                         columnAlignClass[
@@ -466,6 +484,15 @@ export function Table<T>({
             ))}
           </tbody>
         </table>
+
+        {data.length === 0 && (
+          <EmptyState
+            className="py-10"
+            description={emptyStateDescription}
+            icon={emptyStateIcon}
+            title={emptyStateTitle}
+          />
+        )}
       </div>
 
       {table.getAllColumns().filter((item) => item.columnDef?.footer).length >
@@ -478,7 +505,7 @@ export function Table<T>({
                   {footerGroup.headers.map((header) => (
                     <th
                       className={twMerge(
-                        "break-words bg-white px-3 py-4 text-sm text-gray-500",
+                        "break-words bg-surface px-3 py-4 text-sm text-gray-500",
                         typeof (header.column.columnDef as TableColumnProps<T>)
                           ?.align !== "undefined"
                           ? columnAlignClass[
@@ -493,7 +520,7 @@ export function Table<T>({
                               .wordWrap as unknown as keyof typeof columnWrapClass
                           ],
                         header.column.getIsPinned() !== false &&
-                          "sticky bg-white z-[1]",
+                          "sticky z-[1] bg-surface",
                         header.column.getIsPinned() === "left" &&
                           header.column.getPinnedIndex() ===
                             table.getLeftLeafColumns().length - 1 &&

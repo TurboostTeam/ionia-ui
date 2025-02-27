@@ -13,7 +13,7 @@ export const Radio = forwardRef<RadioProps, "input">(
       <div className={twMerge("relative flex items-start py-1", className)}>
         <div className="flex h-5 items-center">
           <input
-            className=" h-4 w-4 cursor-pointer border-secondary text-primary focus-within:ring-0"
+            className="h-4 w-4 cursor-pointer border-secondary text-primary focus-within:ring-0"
             ref={ref}
             type="radio"
             {...props}

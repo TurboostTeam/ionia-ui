@@ -68,7 +68,7 @@ export const Select = forwardRef<SelectProps, "div">(
             <div className="relative">
               <Listbox.Button
                 className={twMerge(
-                  "relative w-full cursor-default rounded-md pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-default-focus text-sm",
+                  "relative w-full cursor-default rounded-md pl-3 pr-10 text-left text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-default-focus",
                   sizeMap[size],
                   disabled || loading
                     ? "cursor-not-allowed bg-gray-50"
