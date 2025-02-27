@@ -85,6 +85,7 @@ module.exports = {
           },
         },
       },
+
       textColor: {
         // 用于填充背景颜色下的文本颜色。
         fill: {
@@ -214,6 +215,7 @@ module.exports = {
         // 黑体
         black: "var(--font-weight-black)",
       },
+
       width: {
         nav: "var(--width-nav)",
         "nav-mobile": "var(--width-nav-mobile)",

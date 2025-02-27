@@ -74,7 +74,7 @@ export const Day = memo(function Day({
   );
 
   const dayClassName = twMerge(
-    "block h-full w-full text-xs m-0 p-2 bg-surface-transparent border-none rounded outline-none text-center text-fill-secondary cursor-pointer hover:bg-fill-primary-hover hover:text-primary",
+    "block h-full w-full text-xs m-0 p-2 bg-surface-transparent border-none rounded outline-none text-center text-fill-secondary cursor-pointer hover:bg-fill-primary-hover hover:text-fill-primary",
     selected === true && "bg-fill-primary text-fill-primary",
     disabled === true &&
       "bg-surface-transparent text-disabled hover:bg-surface-transparent hover:text-disabled cursor-not-allowed",
