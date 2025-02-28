@@ -11,10 +11,12 @@ export interface PopoverTriggerProps
 export const PopoverTrigger = forwardRef<
   ElementRef<typeof PopoverPrimitive.Trigger>,
   PopoverTriggerProps
->(({ className, children, ...props }, ref) => {
+>(({ children, ...props }, ref) => {
   return (
     <PopoverPrimitive.Trigger ref={ref} {...props} asChild>
       {children}
     </PopoverPrimitive.Trigger>
   );
 });
+
+PopoverTrigger.displayName = "PopoverTrigger";
