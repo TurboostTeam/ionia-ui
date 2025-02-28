@@ -24,7 +24,6 @@ export const Default: FC = (args) => {
         activator={<Button>打开弹出窗口</Button>}
         sections={[
           {
-            title: "user@example.com",
             items: [
               {
                 content: "帮助中心",
@@ -40,7 +39,6 @@ export const Default: FC = (args) => {
               },
             ],
           },
-
           {
             title: "user@example.com",
             items: [

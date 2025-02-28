@@ -3,7 +3,7 @@ import React from "react";
 import { tv, type VariantProps } from "tailwind-variants";
 
 const popoverContent = tv({
-  base: "z-50 rounded-md border bg-surface p-4",
+  base: "z-50 rounded-md border bg-surface p-4 shadow-md",
   variants: {
     animation: {
       default:
