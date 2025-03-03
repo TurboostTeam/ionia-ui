@@ -49,9 +49,8 @@ export const Dropdown: FC<DropdownProps> = ({ sections, ...props }) => {
                 ? section.menuRender(menu)
                 : menu}
 
-              {(sectionIndex === 0 || sectionIndex !== sections.length - 1) && (
-                <hr className="my-2" />
-              )}
+              {/* Divider - only show between sections */}
+              {sectionIndex < sections.length - 1 && <hr className="my-2" />}
             </div>
           );
         })}
