@@ -12,12 +12,12 @@ import {
   type ReactNode,
   type RefObject,
   useCallback,
-  useEffect,
   useImperativeHandle,
   useMemo,
   useRef,
   useState,
 } from "react";
+import { useUpdateEffect } from "react-use";
 
 import { type ActionProps } from "../action";
 import { Button } from "../button";
@@ -184,7 +184,7 @@ export function IndexList<Node, OrderField extends string>({
     setPagination({ first: pageSize, after: pageInfo?.endCursor });
   }, [pageSize, pageInfo?.endCursor]);
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     onChange?.({
       query,
       ...(Object.keys(pagination).length > 0
