@@ -1,3 +1,4 @@
+import omit from "lodash-es/omit";
 import { type ReactElement } from "react";
 import { tv, type VariantProps } from "tailwind-variants";
 
@@ -114,7 +115,7 @@ export const Button = forwardRef<ButtonProps, "button">(
         disabled={disabled || loading}
         ref={ref}
         type={type}
-        {...props}
+        {...omit(props, ["classNames"])}
         block={block ? "true" : !block ? "false" : undefined}
         loading={loading ? "true" : !loading ? "false" : undefined}
         rounded={rounded ? "true" : !rounded ? "false" : undefined}
