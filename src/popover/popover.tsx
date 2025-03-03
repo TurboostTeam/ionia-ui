@@ -3,27 +3,27 @@ import { type FC, type PropsWithChildren, type ReactElement } from "react";
 import {
   Popover as PopoverRoot,
   PopoverContent,
+  type PopoverContentProps,
   PopoverTrigger,
+  type PopoverTriggerProps,
 } from "../atoms/popover";
 
 export interface PopoverProps {
   activator: ReactElement;
-  className?: string;
-  placement?: "top" | "right" | "bottom" | "left";
+  triggerConfig?: PopoverTriggerProps;
+  contentConfig?: PopoverContentProps;
 }
 
 export const Popover: FC<PropsWithChildren<PopoverProps>> = ({
   activator,
-  className,
   children,
-  placement = "bottom",
+  triggerConfig,
+  contentConfig,
 }) => {
   return (
     <PopoverRoot>
-      <PopoverTrigger>{activator}</PopoverTrigger>
-      <PopoverContent className={className} side={placement}>
-        {children}
-      </PopoverContent>
+      <PopoverTrigger {...triggerConfig}>{activator}</PopoverTrigger>
+      <PopoverContent {...contentConfig}>{children}</PopoverContent>
     </PopoverRoot>
   );
 };
