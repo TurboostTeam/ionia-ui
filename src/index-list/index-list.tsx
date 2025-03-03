@@ -201,15 +201,7 @@ export function IndexList<Node, OrderField extends string>({
     });
 
     tableActionRef.current?.resetRowSelection?.();
-  }, [
-    onChange,
-    query,
-    pagination,
-    pageSize,
-    orderField,
-    orderDirection,
-    tableActionRef,
-  ]);
+  }, [query, pagination, pageSize, orderField, orderDirection, tableActionRef]);
 
   return (
     <div className="divide-y divide-gray-300 rounded-md bg-white pt-3 shadow">
