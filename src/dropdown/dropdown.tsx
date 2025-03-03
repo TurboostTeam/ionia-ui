@@ -1,5 +1,4 @@
 import { type FC, type ReactNode } from "react";
-import { twMerge } from "tailwind-merge";
 
 import { type ActionProps } from "../action";
 import { Button } from "../button";
@@ -16,16 +15,10 @@ export interface DropdownProps extends PopoverProps {
   sections: DropdownSectionProps[];
 }
 
-export const Dropdown: FC<DropdownProps> = ({
-  className,
-  sections,
-  ...props
-}) => {
+export const Dropdown: FC<DropdownProps> = ({ sections, ...props }) => {
   return (
     <Popover {...props}>
-      <div
-        className={twMerge("flex cursor-default flex-col divide-y", className)}
-      >
+      <div className="flex cursor-default flex-col">
         {sections.map((section, sectionIndex) => {
           const menu = (
             <div className="flex flex-col gap-1">
@@ -47,14 +40,18 @@ export const Dropdown: FC<DropdownProps> = ({
           );
 
           return (
-            <div className="p-2" key={sectionIndex}>
+            <div key={sectionIndex}>
               {typeof section.title !== "undefined" && (
-                <div className="p-2 text-sm font-semibold">{section.title}</div>
+                <div className="text-sm font-semibold">{section.title}</div>
               )}
 
               {typeof section?.menuRender !== "undefined"
                 ? section.menuRender(menu)
                 : menu}
+
+              {(sectionIndex === 0 || sectionIndex !== sections.length - 1) && (
+                <hr className="my-2" />
+              )}
             </div>
           );
         })}
