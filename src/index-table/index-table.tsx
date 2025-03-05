@@ -14,12 +14,12 @@ import {
   type ReactNode,
   type RefObject,
   useCallback,
-  useEffect,
   useImperativeHandle,
   useMemo,
   useRef,
   useState,
 } from "react";
+import { useUpdateEffect } from "react-use";
 import { twMerge } from "tailwind-merge";
 
 import { type ActionProps } from "../action";
@@ -196,7 +196,7 @@ export function IndexTable<Node, OrderField extends string>({
     setPagination({ first: pageSize, after: pageInfo?.endCursor });
   }, [pageSize, pageInfo?.endCursor]);
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     onChange?.({
       query,
       ...(Object.keys(pagination).length > 0
