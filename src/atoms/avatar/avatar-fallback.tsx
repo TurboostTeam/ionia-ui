@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 import { tv } from "tailwind-variants";
 
 export const avatarFallback = tv({
-  base: "bg-muted flex h-full w-full items-center justify-center rounded-full",
+  base: "flex h-full w-full items-center justify-center rounded-full bg-surface-secondary",
 });
 
 export const AvatarFallback = forwardRef<
