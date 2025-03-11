@@ -136,6 +136,34 @@ export function Filter<T>({
     onChange?.(omitEmpty(flattenObject(watch())));
   }, [onChange, watch]);
 
+  // 设置筛选条件固定状态
+  const setFilterFieldPinnedStatus = useCallback(
+    (field: Field<T>, pinned: boolean) => {
+      setFilterGroups((prev) => {
+        return {
+          ...prev,
+          fixedFilters: pinned
+            ? [
+                ...prev.fixedFilters,
+                ...prev.unfixedFilters
+                  .filter((item) => item.field === field)
+                  .map((item) => ({ ...item, pinned })),
+              ]
+            : prev.fixedFilters.filter((item) => item.field !== field),
+          unfixedFilters: pinned
+            ? prev.unfixedFilters.filter((item) => item.field !== field)
+            : [
+                ...prev.unfixedFilters,
+                ...prev.fixedFilters
+                  .filter((item) => item.field === field)
+                  .map((item) => ({ ...item, pinned })),
+              ],
+        };
+      });
+    },
+    [],
+  );
+
   useEffect(() => {
     const oldValues = watch();
 
@@ -240,6 +268,7 @@ export function Filter<T>({
                                   (item) => item.field === field,
                                 );
 
+                                // 如果该筛选条件是非原固定筛选条件，则将其移除
                                 if (
                                   typeof originalFilter !== "undefined" &&
                                   (typeof originalFilter.pinned ===
@@ -248,23 +277,7 @@ export function Filter<T>({
                                       "undefined" &&
                                       !originalFilter.pinned))
                                 ) {
-                                  setFilterGroups((prev) => ({
-                                    ...prev,
-                                    fixedFilters: prev.fixedFilters.filter(
-                                      (item) => item.field !== field,
-                                    ),
-                                    unfixedFilters: [
-                                      ...prev.unfixedFilters,
-                                      {
-                                        field,
-                                        label,
-                                        renderValue,
-                                        render,
-                                        ...rest,
-                                        pinned: false,
-                                      },
-                                    ],
-                                  }));
+                                  setFilterFieldPinnedStatus(field, false);
                                 }
 
                                 handleChange();
@@ -275,6 +288,15 @@ export function Filter<T>({
                       </span>
                     </Button>
                   }
+                  config={{
+                    defaultOpen: true,
+                    onOpenChange: (open) => {
+                      // 关闭筛选弹窗的时候如果该筛选条件没有值，则将其移除固定项
+                      if (!open && typeof fieldValue === "undefined") {
+                        setFilterFieldPinnedStatus(field, false);
+                      }
+                    },
+                  }}
                   contentConfig={{
                     className: "p-3",
                   }}
@@ -314,21 +336,12 @@ export function Filter<T>({
               contentConfig={{ className: "p-3" }}
               sections={[
                 {
-                  items: unfixedFilters.map(({ field, label, ...rest }) => ({
+                  items: unfixedFilters.map(({ field, label }) => ({
                     key: field as string,
                     content: label,
                     size: "sm",
                     onClick: () => {
-                      setFilterGroups((prev) => ({
-                        ...prev,
-                        fixedFilters: [
-                          ...prev.fixedFilters,
-                          { ...rest, field, label, pinned: true },
-                        ],
-                        unfixedFilters: prev.unfixedFilters.filter(
-                          (item) => item.field !== field,
-                        ),
-                      }));
+                      setFilterFieldPinnedStatus(field, true);
                     },
                   })),
                 },

@@ -24,15 +24,12 @@ interface Task {
 
 export const Controlled: FC = () => {
   const today = new Date(new Date().setHours(0, 0, 0, 0));
-  const yesterday = new Date(
-    new Date(new Date().setDate(today.getDate() - 1)).setHours(0, 0, 0, 0),
-  );
 
   const [values, setValues] = useState({
     "user.id": "123",
     status: ["waiting"],
     commentedAt: today,
-    createdAt: [yesterday, today],
+    createdAt: undefined,
   });
 
   return (
