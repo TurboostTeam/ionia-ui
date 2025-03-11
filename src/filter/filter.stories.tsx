@@ -92,7 +92,6 @@ export const Controlled: FC = () => {
         {
           label: "评论时间",
           field: "commentedAt",
-          pinned: true,
           render: ({ field: { value, onChange } }) => {
             return <DateTimeInput value={value} onChange={onChange} />;
           },
@@ -100,7 +99,6 @@ export const Controlled: FC = () => {
         {
           label: "创建时间",
           field: "createdAt",
-          pinned: true,
           render: ({ field: { value, onChange } }) => {
             return <DateRangePicker range={value} onChange={onChange} />;
           },

@@ -1,4 +1,3 @@
-import { Popover, Transition } from "@headlessui/react";
 import {
   ChevronDownIcon,
   PlusIcon,
@@ -8,17 +7,18 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import dayjs from "dayjs";
 import { forEach, isPlainObject, omitBy, transform } from "lodash-es";
 import {
-  Fragment,
   type ReactElement,
   type ReactNode,
   useCallback,
   useEffect,
-  useMemo,
+  useState,
 } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import { Button } from "../button";
+import { Dropdown } from "../dropdown";
 import { Input } from "../input";
+import { Popover } from "../popover";
 import { Spinner } from "../spinner";
 import { type Field } from "../types";
 
@@ -124,15 +124,13 @@ export function Filter<T>({
 }: FilterProps<T>): ReactElement {
   const { control, setValue, watch } = useForm<any>();
 
-  const fixedFilters = useMemo(
-    () =>
-      filters
-        .filter((item) => item.pinned)
-        .map((item) => ({
-          ...item,
-        })),
-    [filters],
-  );
+  // 将筛选条件分组为固定和非固定两类
+  const [{ fixedFilters, unfixedFilters }, setFilterGroups] = useState({
+    fixedFilters: filters.filter((item) => item.pinned),
+    unfixedFilters: filters.filter(
+      (item) => typeof item.pinned === "undefined" || !item.pinned,
+    ),
+  });
 
   const handleChange = useCallback(() => {
     onChange?.(omitEmpty(flattenObject(watch())));
@@ -151,85 +149,124 @@ export function Filter<T>({
   }, [values, setValue, watch]);
 
   return (
-    <div>
-      <div className="flex gap-2">
-        {typeof search !== "undefined" && search !== false && (
-          <Controller<{ query: string }>
-            control={control}
-            name="query"
-            render={({ field }) => (
-              <Input
-                className="flex-1"
-                disabled={field?.disabled ?? search?.disabled}
-                placeholder={search?.queryPlaceholder}
-                prefix={
-                  search?.queryPrefix ?? (
-                    <MagnifyingGlassIcon className="h-5 w-5" />
-                  )
-                }
-                suffix={loading ? <Spinner /> : search?.querySuffix}
-                value={field.value}
-                onChange={(value) => {
-                  field.onChange(value);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && typeof search !== "undefined") {
-                    e.preventDefault();
-                    handleChange();
+    <div className="space-y-3">
+      {!(
+        (typeof search === "undefined" || search === false) &&
+        typeof extra === "undefined"
+      ) && (
+        <div className="flex items-center gap-2">
+          {typeof search !== "undefined" && search !== false && (
+            <Controller<{ query: string }>
+              control={control}
+              name="query"
+              render={({ field }) => (
+                <Input
+                  disabled={field?.disabled ?? search?.disabled}
+                  placeholder={search?.queryPlaceholder}
+                  prefix={
+                    search?.queryPrefix ?? (
+                      <MagnifyingGlassIcon className="h-5 w-5" />
+                    )
                   }
-                }}
-              />
-            )}
-          />
-        )}
+                  suffix={loading ? <Spinner /> : search?.querySuffix}
+                  value={field.value}
+                  onChange={(value) => {
+                    field.onChange(value);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && typeof search !== "undefined") {
+                      e.preventDefault();
+                      handleChange();
+                    }
+                  }}
+                />
+              )}
+            />
+          )}
 
-        {extra}
-      </div>
+          {extra}
+        </div>
+      )}
 
-      {filters.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-2">
-          {fixedFilters.map(({ field, label, render, renderValue }) => {
-            const fieldValue = watch(field);
+      {fixedFilters.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {fixedFilters.map(
+            ({ field, label, render, renderValue, ...rest }) => {
+              const fieldValue = watch(field);
 
-            return (
-              <Popover className="relative" key={field}>
-                {({ close }) => (
-                  <>
+              return (
+                <Popover
+                  activator={
                     <Button
                       rounded
-                      as={Popover.Button}
                       classNames={{
                         root: "outline-none",
                       }}
                       size="sm"
                     >
-                      <span className="flex items-center whitespace-nowrap">
+                      <span className="flex items-center gap-1 whitespace-nowrap">
                         {isEmpty(fieldValue) ? (
                           <>
-                            {label}
+                            <span>{label}</span>
+
                             <ChevronDownIcon className="h-4 w-4" />
                           </>
                         ) : (
                           <>
-                            {`${label}: ${String(
-                              typeof renderValue !== "undefined"
-                                ? renderValue({
-                                    field,
-                                    label,
-                                    value: formatRenderValue({
-                                      [field]: fieldValue,
-                                    })[field],
-                                  })
-                                : formatRenderValue({ [field]: fieldValue })[
-                                    field
-                                  ],
-                            )}`}
+                            <span>
+                              {`${label}: ${String(
+                                typeof renderValue !== "undefined"
+                                  ? renderValue({
+                                      field,
+                                      label,
+                                      value: formatRenderValue({
+                                        [field]: fieldValue,
+                                      })[field],
+                                    })
+                                  : formatRenderValue({ [field]: fieldValue })[
+                                      field
+                                    ],
+                              )}`}
+                            </span>
+
                             <XMarkIcon
                               className="h-4 w-4"
                               onClick={(event) => {
                                 event.stopPropagation();
                                 close();
                                 setValue(field, undefined as any);
+
+                                const originalFilter = filters.find(
+                                  (item) => item.field === field,
+                                );
+
+                                if (
+                                  typeof originalFilter !== "undefined" &&
+                                  (typeof originalFilter.pinned ===
+                                    "undefined" ||
+                                    (typeof originalFilter.pinned !==
+                                      "undefined" &&
+                                      !originalFilter.pinned))
+                                ) {
+                                  setFilterGroups((prev) => ({
+                                    ...prev,
+                                    fixedFilters: prev.fixedFilters.filter(
+                                      (item) => item.field !== field,
+                                    ),
+                                    unfixedFilters: [
+                                      ...prev.unfixedFilters,
+                                      {
+                                        field,
+                                        label,
+                                        renderValue,
+                                        render,
+                                        ...rest,
+                                        pinned: false,
+                                      },
+                                    ],
+                                  }));
+                                }
+
                                 handleChange();
                               }}
                             />
@@ -237,50 +274,66 @@ export function Filter<T>({
                         )}
                       </span>
                     </Button>
+                  }
+                  contentConfig={{
+                    className: "p-3",
+                  }}
+                  key={field}
+                >
+                  <Controller
+                    control={control}
+                    name={field}
+                    render={(renderProps) =>
+                      render({
+                        ...renderProps,
+                        field: {
+                          ...renderProps.field,
+                          onChange: (value) => {
+                            renderProps.field.onChange(value);
+                            handleChange();
+                          },
+                        },
+                      })
+                    }
+                  />
+                </Popover>
+              );
+            },
+          )}
 
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-200"
-                      enterFrom="opacity-0 translate-y-1"
-                      enterTo="opacity-100 translate-y-0"
-                      leave="transition ease-in duration-150"
-                      leaveFrom="opacity-100 translate-y-0"
-                      leaveTo="opacity-0 translate-y-1"
-                    >
-                      <Popover.Panel className="absolute z-10 mt-2 w-auto transform px-0">
-                        <div className="whitespace-nowrap rounded-md bg-surface p-3 shadow-md ring-1 ring-black ring-opacity-5">
-                          <Controller
-                            control={control}
-                            name={field}
-                            render={(renderProps) =>
-                              render({
-                                ...renderProps,
-                                field: {
-                                  ...renderProps.field,
-                                  onChange: (value) => {
-                                    renderProps.field.onChange(value);
-                                    handleChange();
-                                  },
-                                },
-                              })
-                            }
-                          />
-                        </div>
-                      </Popover.Panel>
-                    </Transition>
-                  </>
-                )}
-              </Popover>
-            );
-          })}
-
-          {filters?.length > fixedFilters.length && (
-            <Button rounded size="sm">
-              <span className="flex items-center">
-                添加筛选条件
-                <PlusIcon className="h-4 w-4" />
-              </span>
-            </Button>
+          {unfixedFilters.length > 0 && (
+            <Dropdown
+              activator={
+                <Button rounded size="sm">
+                  <span className="flex items-center">
+                    Add filter
+                    <PlusIcon className="h-4 w-4" />
+                  </span>
+                </Button>
+              }
+              contentConfig={{ className: "p-3" }}
+              sections={[
+                {
+                  items: unfixedFilters.map(({ field, label, ...rest }) => ({
+                    key: field as string,
+                    content: label,
+                    size: "sm",
+                    onClick: () => {
+                      setFilterGroups((prev) => ({
+                        ...prev,
+                        fixedFilters: [
+                          ...prev.fixedFilters,
+                          { ...rest, field, label, pinned: true },
+                        ],
+                        unfixedFilters: prev.unfixedFilters.filter(
+                          (item) => item.field !== field,
+                        ),
+                      }));
+                    },
+                  })),
+                },
+              ]}
+            />
           )}
         </div>
       )}
