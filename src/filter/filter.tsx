@@ -218,110 +218,102 @@ export function Filter<T>({
 
       {fixedFilters.length > 0 && (
         <div className="flex flex-wrap gap-2">
-          {fixedFilters.map(
-            ({ field, label, render, renderValue, ...rest }) => {
-              const fieldValue = watch(field);
+          {fixedFilters.map(({ field, label, render, renderValue }) => {
+            const originalFilter = filters.find((item) => item.field === field);
+            const fieldValue = watch(field);
 
-              return (
-                <Popover
-                  activator={
-                    <Button
-                      rounded
-                      classNames={{
-                        root: "outline-none",
-                      }}
-                      size="sm"
-                    >
-                      <span className="flex items-center gap-1 whitespace-nowrap">
-                        {isEmpty(fieldValue) ? (
-                          <>
-                            <span>{label}</span>
+            return (
+              <Popover
+                activator={
+                  <Button
+                    rounded
+                    classNames={{
+                      root: "outline-none",
+                    }}
+                    size="sm"
+                  >
+                    <span className="flex items-center gap-1 whitespace-nowrap">
+                      {isEmpty(fieldValue) ? (
+                        <>
+                          <span>{label}</span>
 
-                            <ChevronDownIcon className="h-4 w-4" />
-                          </>
-                        ) : (
-                          <>
-                            <span>
-                              {`${label}: ${String(
-                                typeof renderValue !== "undefined"
-                                  ? renderValue({
-                                      field,
-                                      label,
-                                      value: formatRenderValue({
-                                        [field]: fieldValue,
-                                      })[field],
-                                    })
-                                  : formatRenderValue({ [field]: fieldValue })[
-                                      field
-                                    ],
-                              )}`}
-                            </span>
+                          <ChevronDownIcon className="h-4 w-4" />
+                        </>
+                      ) : (
+                        <>
+                          <span>
+                            {`${label}: ${String(
+                              typeof renderValue !== "undefined"
+                                ? renderValue({
+                                    field,
+                                    label,
+                                    value: formatRenderValue({
+                                      [field]: fieldValue,
+                                    })[field],
+                                  })
+                                : formatRenderValue({ [field]: fieldValue })[
+                                    field
+                                  ],
+                            )}`}
+                          </span>
 
-                            <XMarkIcon
-                              className="h-4 w-4"
-                              onClick={(event) => {
-                                event.stopPropagation();
-                                close();
-                                setValue(field, undefined as any);
+                          <XMarkIcon
+                            className="h-4 w-4"
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              close();
+                              setValue(field, undefined as any);
 
-                                const originalFilter = filters.find(
-                                  (item) => item.field === field,
-                                );
+                              // 如果该筛选条件是非原固定筛选条件，则将其移除
+                              if (originalFilter?.pinned !== true) {
+                                setFilterFieldPinnedStatus(field, false);
+                              }
 
-                                // 如果该筛选条件是非原固定筛选条件，则将其移除
-                                if (
-                                  typeof originalFilter !== "undefined" &&
-                                  (typeof originalFilter.pinned ===
-                                    "undefined" ||
-                                    (typeof originalFilter.pinned !==
-                                      "undefined" &&
-                                      !originalFilter.pinned))
-                                ) {
-                                  setFilterFieldPinnedStatus(field, false);
-                                }
-
-                                handleChange();
-                              }}
-                            />
-                          </>
-                        )}
-                      </span>
-                    </Button>
-                  }
-                  config={{
-                    defaultOpen: true,
-                    onOpenChange: (open) => {
-                      // 关闭筛选弹窗的时候如果该筛选条件没有值，则将其移除固定项
-                      if (!open && typeof fieldValue === "undefined") {
-                        setFilterFieldPinnedStatus(field, false);
-                      }
-                    },
-                  }}
-                  contentConfig={{
-                    className: "p-3",
-                  }}
-                  key={field}
-                >
-                  <Controller
-                    control={control}
-                    name={field}
-                    render={(renderProps) =>
-                      render({
-                        ...renderProps,
-                        field: {
-                          ...renderProps.field,
-                          onChange: (value) => {
-                            renderProps.field.onChange(value);
-                            handleChange();
-                          },
-                        },
-                      })
+                              handleChange();
+                            }}
+                          />
+                        </>
+                      )}
+                    </span>
+                  </Button>
+                }
+                config={{
+                  defaultOpen: originalFilter?.pinned !== true,
+                  onOpenChange: (open) => {
+                    // 关闭筛选弹窗的时候如果该筛选条件没有值，则将其移除固定项
+                    if (
+                      !open &&
+                      typeof fieldValue === "undefined" &&
+                      originalFilter?.pinned !== true
+                    ) {
+                      setFilterFieldPinnedStatus(field, false);
                     }
-                  />
-                </Popover>
-              );
-            },
-          )}
+                  },
+                }}
+                contentConfig={{
+                  className: "p-3",
+                }}
+                key={field}
+              >
+                <Controller
+                  control={control}
+                  name={field}
+                  render={(renderProps) =>
+                    render({
+                      ...renderProps,
+                      field: {
+                        ...renderProps.field,
+                        onChange: (value) => {
+                          renderProps.field.onChange(value);
+                          handleChange();
+                        },
+                      },
+                    })
+                  }
+                />
+              </Popover>
+            );
+          })}
 
           {unfixedFilters.length > 0 && (
             <Dropdown
@@ -337,7 +329,7 @@ export function Filter<T>({
               sections={[
                 {
                   items: unfixedFilters.map(({ field, label }) => ({
-                    key: field as string,
+                    key: field,
                     content: label,
                     size: "sm",
                     onClick: () => {

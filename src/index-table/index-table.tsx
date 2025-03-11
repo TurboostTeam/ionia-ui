@@ -105,6 +105,8 @@ export function IndexTable<Node, OrderField extends string>({
   onChange,
   onRow,
 }: IndexTableProps<Node, OrderField>): ReactElement {
+  console.log(111, filters);
+
   const [filterValues, setFilterValues] = useState<
     Record<Field<Node>, any> | undefined
   >(defaultFilterValue);
