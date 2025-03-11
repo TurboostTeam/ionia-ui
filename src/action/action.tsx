@@ -1,4 +1,8 @@
-import { type ReactElement, type ReactNode } from "react";
+import {
+  type MouseEventHandler,
+  type ReactElement,
+  type ReactNode,
+} from "react";
 
 import { Button } from "../button";
 import { type As, type PropsOf, type RightJoinProps } from "../types";
@@ -9,7 +13,7 @@ export type ActionProps<ActionComponent extends As = typeof Button> =
     {
       as?: ActionComponent;
       content?: ReactNode;
-      onAction?: () => Promise<void> | void;
+      onAction?: MouseEventHandler<HTMLButtonElement>;
     }
   >;
 

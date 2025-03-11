@@ -325,7 +325,9 @@ export function Filter<T>({
                   </span>
                 </Button>
               }
-              contentConfig={{ className: "p-3" }}
+              contentConfig={{
+                className: "p-3",
+              }}
               sections={[
                 {
                   items: unfixedFilters.map(({ field, label }) => ({
@@ -334,6 +336,8 @@ export function Filter<T>({
                     size: "sm",
                     onClick: () => {
                       setFilterFieldPinnedStatus(field, true);
+
+                      (document.activeElement as HTMLElement)?.blur();
                     },
                   })),
                 },
