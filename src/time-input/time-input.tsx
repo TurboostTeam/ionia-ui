@@ -58,14 +58,9 @@ export const TimeInput = forwardRef<TimeInputProps, "input">(
             onChange={setInputValue}
           />
         }
+        contentConfig={{ sideOffset: 14 }}
       >
-        <TimePicker
-          className="p-1"
-          max={max}
-          min={min}
-          value={value}
-          onChange={onChange}
-        />
+        <TimePicker max={max} min={min} value={value} onChange={onChange} />
       </Popover>
     );
   },

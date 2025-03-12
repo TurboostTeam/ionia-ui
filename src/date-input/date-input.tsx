@@ -41,8 +41,9 @@ export const DateInput = forwardRef<DateInputProps, "input">(
             {...props}
           />
         }
+        contentConfig={{ sideOffset: 14 }}
       >
-        <div className="max-w-md p-2">
+        <div className="w-[230px]">
           <DatePicker
             disableDatesAfter={max}
             disableDatesBefore={min}

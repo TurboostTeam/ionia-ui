@@ -161,7 +161,7 @@ export const Month = ({
       >
         <caption
           className={twMerge(
-            "flex-1 pb-1 text-center space-x-1",
+            "flex-1 space-x-1 pb-1 text-center",
             current && "font-semibold",
           )}
         >

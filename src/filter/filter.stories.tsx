@@ -23,12 +23,10 @@ interface Task {
 }
 
 export const Controlled: FC = () => {
-  const today = new Date(new Date().setHours(0, 0, 0, 0));
-
   const [values, setValues] = useState({
     "user.id": "123",
     status: ["waiting"],
-    commentedAt: today,
+    commentedAt: undefined,
     createdAt: undefined,
   });
 

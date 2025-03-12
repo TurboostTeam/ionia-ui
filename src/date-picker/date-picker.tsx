@@ -228,7 +228,7 @@ export const DatePicker: FC<DatePickerProps> = ({
 
   return (
     <div
-      className="relative"
+      className="relative min-w-[230px]"
       id={id}
       onKeyDown={handleKeyDown}
       onKeyUp={handleKeyUp}
@@ -252,7 +252,8 @@ export const DatePicker: FC<DatePickerProps> = ({
           }}
         />
       </div>
-      <div className="flex flex-wrap space-x-2">
+
+      <div className="flex flex-wrap gap-2">
         <Month
           allowRange={allowRange}
           disableDatesAfter={disableDatesAfter}
