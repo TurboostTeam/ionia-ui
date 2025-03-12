@@ -1,4 +1,9 @@
-import { type FC, type PropsWithChildren, type ReactElement } from "react";
+import {
+  type ComponentPropsWithoutRef,
+  type FC,
+  type PropsWithChildren,
+  type ReactElement,
+} from "react";
 
 import {
   Popover as PopoverRoot,
@@ -10,6 +15,7 @@ import {
 
 export interface PopoverProps {
   activator: ReactElement;
+  config?: ComponentPropsWithoutRef<typeof PopoverRoot>;
   triggerConfig?: PopoverTriggerProps;
   contentConfig?: PopoverContentProps;
 }
@@ -17,11 +23,12 @@ export interface PopoverProps {
 export const Popover: FC<PropsWithChildren<PopoverProps>> = ({
   activator,
   children,
+  config,
   triggerConfig,
   contentConfig,
 }) => {
   return (
-    <PopoverRoot>
+    <PopoverRoot {...config}>
       <PopoverTrigger {...triggerConfig}>{activator}</PopoverTrigger>
       <PopoverContent {...contentConfig}>{children}</PopoverContent>
     </PopoverRoot>

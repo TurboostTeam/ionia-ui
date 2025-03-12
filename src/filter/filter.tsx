@@ -1,4 +1,3 @@
-import { Popover, Transition } from "@headlessui/react";
 import {
   ChevronDownIcon,
   PlusIcon,
@@ -8,17 +7,18 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import dayjs from "dayjs";
 import { forEach, isPlainObject, omitBy, transform } from "lodash-es";
 import {
-  Fragment,
   type ReactElement,
   type ReactNode,
   useCallback,
   useEffect,
-  useMemo,
+  useState,
 } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import { Button } from "../button";
+import { Dropdown } from "../dropdown";
 import { Input } from "../input";
+import { Popover } from "../popover";
 import { Spinner } from "../spinner";
 import { type Field } from "../types";
 
@@ -124,19 +124,43 @@ export function Filter<T>({
 }: FilterProps<T>): ReactElement {
   const { control, setValue, watch } = useForm<any>();
 
-  const fixedFilters = useMemo(
-    () =>
-      filters
-        .filter((item) => item.pinned)
-        .map((item) => ({
-          ...item,
-        })),
-    [filters],
-  );
+  // 将筛选条件分组为固定和非固定两类
+  const [{ fixedFilters, unfixedFilters }, setFilterGroups] = useState({
+    fixedFilters: filters.filter((item) => item.pinned),
+    unfixedFilters: filters.filter((item) => item.pinned !== true),
+  });
 
   const handleChange = useCallback(() => {
     onChange?.(omitEmpty(flattenObject(watch())));
   }, [onChange, watch]);
+
+  // 设置筛选条件固定状态
+  const setFilterFieldPinnedStatus = useCallback(
+    (field: Field<T>, pinned: boolean) => {
+      setFilterGroups((prev) => {
+        return {
+          ...prev,
+          fixedFilters: pinned
+            ? [
+                ...prev.fixedFilters,
+                ...prev.unfixedFilters
+                  .filter((item) => item.field === field)
+                  .map((item) => ({ ...item, pinned })),
+              ]
+            : prev.fixedFilters.filter((item) => item.field !== field),
+          unfixedFilters: pinned
+            ? prev.unfixedFilters.filter((item) => item.field !== field)
+            : [
+                ...prev.unfixedFilters,
+                ...prev.fixedFilters
+                  .filter((item) => item.field === field)
+                  .map((item) => ({ ...item, pinned })),
+              ],
+        };
+      });
+    },
+    [],
+  );
 
   useEffect(() => {
     const oldValues = watch();
@@ -151,66 +175,71 @@ export function Filter<T>({
   }, [values, setValue, watch]);
 
   return (
-    <div>
-      <div className="flex gap-2">
-        {typeof search !== "undefined" && search !== false && (
-          <Controller<{ query: string }>
-            control={control}
-            name="query"
-            render={({ field }) => (
-              <Input
-                className="flex-1"
-                disabled={field?.disabled ?? search?.disabled}
-                placeholder={search?.queryPlaceholder}
-                prefix={
-                  search?.queryPrefix ?? (
-                    <MagnifyingGlassIcon className="h-5 w-5" />
-                  )
-                }
-                suffix={loading ? <Spinner /> : search?.querySuffix}
-                value={field.value}
-                onChange={(value) => {
-                  field.onChange(value);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && typeof search !== "undefined") {
-                    e.preventDefault();
-                    handleChange();
+    <div className="space-y-3">
+      {!(
+        (typeof search === "undefined" || search === false) &&
+        typeof extra === "undefined"
+      ) && (
+        <div className="flex items-center gap-2">
+          {typeof search !== "undefined" && search !== false && (
+            <Controller<{ query: string }>
+              control={control}
+              name="query"
+              render={({ field }) => (
+                <Input
+                  disabled={field?.disabled ?? search?.disabled}
+                  placeholder={search?.queryPlaceholder}
+                  prefix={
+                    search?.queryPrefix ?? (
+                      <MagnifyingGlassIcon className="h-5 w-5" />
+                    )
                   }
-                }}
-              />
-            )}
-          />
-        )}
+                  suffix={loading ? <Spinner /> : search?.querySuffix}
+                  value={field.value}
+                  onChange={(value) => {
+                    field.onChange(value);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && typeof search !== "undefined") {
+                      e.preventDefault();
+                      handleChange();
+                    }
+                  }}
+                />
+              )}
+            />
+          )}
 
-        {extra}
-      </div>
+          {extra}
+        </div>
+      )}
 
-      {filters.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-2">
+      {fixedFilters.length > 0 && (
+        <div className="flex flex-wrap gap-2">
           {fixedFilters.map(({ field, label, render, renderValue }) => {
+            const originalFilter = filters.find((item) => item.field === field);
             const fieldValue = watch(field);
 
             return (
-              <Popover className="relative" key={field}>
-                {({ close }) => (
-                  <>
-                    <Button
-                      rounded
-                      as={Popover.Button}
-                      classNames={{
-                        root: "outline-none",
-                      }}
-                      size="sm"
-                    >
-                      <span className="flex items-center whitespace-nowrap">
-                        {isEmpty(fieldValue) ? (
-                          <>
-                            {label}
-                            <ChevronDownIcon className="h-4 w-4" />
-                          </>
-                        ) : (
-                          <>
+              <Popover
+                activator={
+                  <Button
+                    rounded
+                    classNames={{
+                      root: "outline-none",
+                    }}
+                    size="sm"
+                  >
+                    <span className="flex items-center gap-1 whitespace-nowrap">
+                      {isEmpty(fieldValue) ? (
+                        <>
+                          <span>{label}</span>
+
+                          <ChevronDownIcon className="h-4 w-4" />
+                        </>
+                      ) : (
+                        <>
+                          <span>
                             {`${label}: ${String(
                               typeof renderValue !== "undefined"
                                 ? renderValue({
@@ -224,63 +253,99 @@ export function Filter<T>({
                                     field
                                   ],
                             )}`}
-                            <XMarkIcon
-                              className="h-4 w-4"
-                              onClick={(event) => {
-                                event.stopPropagation();
-                                close();
-                                setValue(field, undefined as any);
-                                handleChange();
-                              }}
-                            />
-                          </>
-                        )}
-                      </span>
-                    </Button>
+                          </span>
 
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-200"
-                      enterFrom="opacity-0 translate-y-1"
-                      enterTo="opacity-100 translate-y-0"
-                      leave="transition ease-in duration-150"
-                      leaveFrom="opacity-100 translate-y-0"
-                      leaveTo="opacity-0 translate-y-1"
-                    >
-                      <Popover.Panel className="absolute z-10 mt-2 w-auto transform px-0">
-                        <div className="whitespace-nowrap rounded-md bg-surface p-3 shadow-md ring-1 ring-black ring-opacity-5">
-                          <Controller
-                            control={control}
-                            name={field}
-                            render={(renderProps) =>
-                              render({
-                                ...renderProps,
-                                field: {
-                                  ...renderProps.field,
-                                  onChange: (value) => {
-                                    renderProps.field.onChange(value);
-                                    handleChange();
-                                  },
-                                },
-                              })
-                            }
+                          <XMarkIcon
+                            className="h-4 w-4"
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              close();
+                              setValue(field, undefined as any);
+
+                              // 如果该筛选条件是非原固定筛选条件，则将其移除
+                              if (originalFilter?.pinned !== true) {
+                                setFilterFieldPinnedStatus(field, false);
+                              }
+
+                              handleChange();
+                            }}
                           />
-                        </div>
-                      </Popover.Panel>
-                    </Transition>
-                  </>
-                )}
+                        </>
+                      )}
+                    </span>
+                  </Button>
+                }
+                config={{
+                  defaultOpen: originalFilter?.pinned !== true,
+                  onOpenChange: (open) => {
+                    // 关闭筛选弹窗的时候如果该筛选条件没有值，则将其移除固定项
+                    if (
+                      !open &&
+                      typeof fieldValue === "undefined" &&
+                      originalFilter?.pinned !== true
+                    ) {
+                      setFilterFieldPinnedStatus(field, false);
+                    }
+                  },
+                }}
+                contentConfig={{
+                  className: "p-3",
+                }}
+                key={field}
+              >
+                <Controller
+                  control={control}
+                  name={field}
+                  render={(renderProps) =>
+                    render({
+                      ...renderProps,
+                      field: {
+                        ...renderProps.field,
+                        onChange: (value) => {
+                          renderProps.field.onChange(value);
+                          handleChange();
+                        },
+                      },
+                    })
+                  }
+                />
               </Popover>
             );
           })}
 
-          {filters?.length > fixedFilters.length && (
-            <Button rounded size="sm">
-              <span className="flex items-center">
-                添加筛选条件
-                <PlusIcon className="h-4 w-4" />
-              </span>
-            </Button>
+          {unfixedFilters.length > 0 && (
+            <Dropdown
+              activator={
+                <Button rounded size="sm">
+                  <span className="flex items-center">
+                    Add filter
+                    <PlusIcon className="h-4 w-4" />
+                  </span>
+                </Button>
+              }
+              contentConfig={{
+                className: "p-3",
+              }}
+              sections={[
+                {
+                  items: unfixedFilters.map(({ field, label }) => ({
+                    key: field,
+                    content: label,
+                    size: "sm",
+                    onClick: () => {
+                      setFilterFieldPinnedStatus(field, true);
+
+                      /**
+                       * 指的是 sections 中点击的当前按钮。
+                       * 因为点击 session 按钮后，新的筛选项会出来，但是老的 Popover 没有关闭。
+                       * 所以暂时通过 blur 来关闭老的 Popover。
+                       **/
+                      (document.activeElement as HTMLElement)?.blur();
+                    },
+                  })),
+                },
+              ]}
+            />
           )}
         </div>
       )}

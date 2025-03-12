@@ -7,9 +7,9 @@ import {
 } from "date-fns";
 import { useEffect, useState } from "react";
 
-import { Popover, PopoverContent, PopoverTrigger } from "../atoms";
 import { DatePicker } from "../date-picker";
 import { Input, type InputProps } from "../input";
+import { Popover } from "../popover";
 import { TimePicker } from "../time-picker";
 import { forwardRef } from "../utils";
 
@@ -52,8 +52,8 @@ export const DateTimeInput = forwardRef<DateTimeInputProps, "input">(
     }, [format, value]);
 
     return (
-      <Popover>
-        <PopoverTrigger className="w-full">
+      <Popover
+        activator={
           <Input
             disabled={disabled}
             prefix={<CalendarIcon className="h-5 w-5" />}
@@ -61,55 +61,53 @@ export const DateTimeInput = forwardRef<DateTimeInputProps, "input">(
             value={inputValue}
             onChange={setInputValue}
             {...props}
+            className="min-w-[180px]"
           />
-        </PopoverTrigger>
-        <PopoverContent className="w-full">
-          <div className="flex max-w-md gap-2 divide-x p-2">
-            <DatePicker
-              disableDatesAfter={max}
-              disableDatesBefore={
-                // eslint-disable-next-line no-void
-                typeof min !== "undefined" ? subDays(min, 1) : void 0
+        }
+        contentConfig={{
+          sideOffset: 14,
+        }}
+      >
+        <div className="flex max-w-md gap-2 divide-x">
+          <DatePicker
+            disableDatesAfter={max}
+            disableDatesBefore={
+              // eslint-disable-next-line no-void
+              typeof min !== "undefined" ? subDays(min, 1) : void 0
+            }
+            month={month}
+            selected={value}
+            year={year}
+            onChange={({ end }) => {
+              setDate({
+                month: end.getMonth(),
+                year: end.getFullYear(),
+              });
+
+              let newValue = new Date(value ?? end);
+              newValue.setFullYear(end.getFullYear());
+              newValue.setMonth(end.getMonth());
+              newValue.setDate(end.getDate());
+
+              if (typeof min !== "undefined") {
+                newValue = maxFn([min, newValue]);
               }
-              month={month}
-              selected={value}
-              year={year}
-              onChange={({ end }) => {
-                setDate({
-                  month: end.getMonth(),
-                  year: end.getFullYear(),
-                });
 
-                let newValue = new Date(value ?? end);
-                newValue.setFullYear(end.getFullYear());
-                newValue.setMonth(end.getMonth());
-                newValue.setDate(end.getDate());
+              if (typeof max !== "undefined") {
+                newValue = minFn([max, newValue]);
+              }
 
-                if (typeof min !== "undefined") {
-                  newValue = maxFn([min, newValue]);
-                }
+              onChange?.(newValue);
+            }}
+            onMonthChange={(month, year) => {
+              setDate({ month, year });
+            }}
+          />
 
-                if (typeof max !== "undefined") {
-                  newValue = minFn([max, newValue]);
-                }
-
-                onChange?.(newValue);
-              }}
-              onMonthChange={(month, year) => {
-                setDate({ month, year });
-              }}
-            />
-
-            <div className="flex items-end justify-end pl-2">
-              <TimePicker
-                max={max}
-                min={min}
-                value={value}
-                onChange={onChange}
-              />
-            </div>
+          <div className="flex items-center pl-2">
+            <TimePicker max={max} min={min} value={value} onChange={onChange} />
           </div>
-        </PopoverContent>
+        </div>
       </Popover>
     );
   },
