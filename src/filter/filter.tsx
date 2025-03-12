@@ -127,9 +127,7 @@ export function Filter<T>({
   // 将筛选条件分组为固定和非固定两类
   const [{ fixedFilters, unfixedFilters }, setFilterGroups] = useState({
     fixedFilters: filters.filter((item) => item.pinned),
-    unfixedFilters: filters.filter(
-      (item) => typeof item.pinned === "undefined" || !item.pinned,
-    ),
+    unfixedFilters: filters.filter((item) => item.pinned !== true),
   });
 
   const handleChange = useCallback(() => {
@@ -337,6 +335,11 @@ export function Filter<T>({
                     onClick: () => {
                       setFilterFieldPinnedStatus(field, true);
 
+                      /**
+                       * 指的是 sections 中点击的当前按钮。
+                       * 因为点击 session 按钮后，新的筛选项会出来，但是老的 Popover 没有关闭。
+                       * 所以暂时通过 blur 来关闭老的 Popover。
+                       **/
                       (document.activeElement as HTMLElement)?.blur();
                     },
                   })),

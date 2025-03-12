@@ -42,13 +42,11 @@ export const Controlled: FC = () => {
           {
             label: "编号",
             field: "user.id",
-            pinned: true,
             render: ({ field }) => <Input {...field} value={field.value} />,
           },
           {
             label: "状态",
             field: "status",
-            pinned: true,
             render: ({ field: { value, onChange } }) => (
               <CheckboxGroup
                 options={[
