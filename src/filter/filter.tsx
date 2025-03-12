@@ -214,7 +214,7 @@ export function Filter<T>({
         </div>
       )}
 
-      {fixedFilters.length > 0 && (
+      {filters.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {fixedFilters.map(({ field, label, render, renderValue }) => {
             const originalFilter = filters.find((item) => item.field === field);
