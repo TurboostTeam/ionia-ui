@@ -14,6 +14,7 @@ import {
   useState,
 } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { twMerge } from "tailwind-merge";
 
 import { Button } from "../button";
 import { Dropdown } from "../dropdown";
@@ -111,6 +112,7 @@ export interface FilterProps<T> {
   extra?: ReactNode;
   search?: false | FilterSearchConfig;
   values?: Record<Field<T>, any> & { query?: string };
+  showFilterItems?: boolean;
   onChange?: (value: Record<Field<T>, any> & { query?: string }) => void;
 }
 
@@ -120,6 +122,7 @@ export function Filter<T>({
   extra,
   search,
   values,
+  showFilterItems = true,
   onChange,
 }: FilterProps<T>): ReactElement {
   const { control, setValue, watch } = useForm<any>();
@@ -175,7 +178,7 @@ export function Filter<T>({
   }, [values, setValue, watch]);
 
   return (
-    <div className="space-y-3">
+    <div className={twMerge("space-y-3", showFilterItems && "flex-1")}>
       {!(
         (typeof search === "undefined" || search === false) &&
         typeof extra === "undefined"
@@ -187,6 +190,7 @@ export function Filter<T>({
               name="query"
               render={({ field }) => (
                 <Input
+                  className="w-full"
                   disabled={field?.disabled ?? search?.disabled}
                   placeholder={search?.queryPlaceholder}
                   prefix={
@@ -214,7 +218,7 @@ export function Filter<T>({
         </div>
       )}
 
-      {filters.length > 0 && (
+      {showFilterItems && filters.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {fixedFilters.map(({ field, label, render, renderValue }) => {
             const originalFilter = filters.find((item) => item.field === field);

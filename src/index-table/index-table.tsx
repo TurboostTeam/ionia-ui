@@ -1,15 +1,14 @@
 "use client";
 
-import { Popover, Transition } from "@headlessui/react";
 import {
   ArrowsUpDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  FunnelIcon,
 } from "@heroicons/react/24/outline";
 import dayjs from "dayjs";
 import { compact, get, omit, pick, trim } from "lodash-es";
 import {
-  Fragment,
   type ReactElement,
   type ReactNode,
   type RefObject,
@@ -24,12 +23,14 @@ import { twMerge } from "tailwind-merge";
 
 import { type ActionProps } from "../action";
 import { Button } from "../button";
+import { ButtonGroup } from "../button-group";
 import { EmptyState, type EmptyStateProps } from "../empty-state";
 import {
   Filter,
   type FilterItemProps,
   type FilterSearchConfig,
 } from "../filter";
+import { Popover } from "../popover";
 import { RadioGroup, type RadioGroupOption } from "../radio-group";
 import { Spinner } from "../spinner";
 import {
@@ -38,7 +39,9 @@ import {
   type TableColumnProps,
   type TableProps,
 } from "../table";
+import { Tooltip } from "../tooltip";
 import { type Field } from "../types";
+import { View } from "../view";
 import { OrderDirection } from "./order-direction";
 import { OrderDirectionList } from "./order-direction-list";
 import {
@@ -115,6 +118,13 @@ export function IndexTable<Node, OrderField extends string>({
   const [orderDirection, setOrderDirection] = useState(
     value?.orderBy?.direction,
   );
+  const [enableFilter, setEnableFilter] = useState(false);
+
+  console.log({
+    filterValues,
+    orderField,
+    orderDirection,
+  });
 
   const tableActionRef = useRef<TableActionType>(null);
 
@@ -131,6 +141,8 @@ export function IndexTable<Node, OrderField extends string>({
 
   /* eslint-disable @typescript-eslint/restrict-template-expressions */
   const query = useMemo(() => {
+    console.count("query 更新");
+
     return compact([
       trim((filterValues as any)?.query),
       trim(
@@ -197,6 +209,8 @@ export function IndexTable<Node, OrderField extends string>({
   }, [pageSize, pageInfo?.endCursor]);
 
   useUpdateEffect(() => {
+    console.count("触发请求");
+
     onChange?.({
       query,
       ...(Object.keys(pagination).length > 0
@@ -222,56 +236,103 @@ export function IndexTable<Node, OrderField extends string>({
           <div className="px-3 pb-3">{toolBarRender()}</div>
         )}
 
-        <div className="w-full px-3 pb-3">
+        <div className="flex items-center px-3 pb-3">
+          {!enableFilter && (
+            <div className="mr-2 flex-1 overflow-x-auto">
+              <View
+                items={[
+                  { id: "1", name: "ALL", canEdit: false },
+                  { id: "2", name: "MY" },
+                  { id: "3", name: "OTHER" },
+                ]}
+              />
+            </div>
+          )}
+
           <Filter<Node>
             extra={
-              typeof orderOptions !== "undefined" && orderOptions.length > 0 ? (
-                <Popover className="relative">
-                  <>
-                    <Button as={Popover.Button} className="p-2">
-                      <ArrowsUpDownIcon className="h-5 w-5" />
-                    </Button>
-
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-200"
-                      enterFrom="opacity-0 translate-y-1"
-                      enterTo="opacity-100 translate-y-0"
-                      leave="transition ease-in duration-150"
-                      leaveFrom="opacity-100 translate-y-0"
-                      leaveTo="opacity-0 translate-y-1"
+              <>
+                {enableFilter ? (
+                  <ButtonGroup>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => {
+                        setEnableFilter(false);
+                      }}
                     >
-                      <Popover.Panel className="absolute right-0 z-[1010] mt-3 w-auto min-w-[160px] transform px-0">
-                        <div className="flex flex-col gap-1 divide-y overflow-hidden rounded-md bg-surface p-3 shadow-md ring-1 ring-black ring-opacity-5">
-                          <RadioGroup
-                            options={orderOptions}
-                            value={orderField}
-                            onChange={(value) => {
-                              setPagination({});
-                              setOrderField(value as OrderField);
-                            }}
-                          />
-                          <OrderDirectionList
-                            value={orderDirection}
-                            onChange={(value) => {
-                              setPagination({});
-                              setOrderDirection(value);
-                            }}
-                          />
-                        </div>
-                      </Popover.Panel>
-                    </Transition>
-                  </>
-                </Popover>
-              ) : undefined
+                      Cancel
+                    </Button>
+                    <Button
+                      classNames={{
+                        root: "[&>span>span]:flex-shrink-0",
+                      }}
+                      size="sm"
+                      variant="ghost"
+                    >
+                      Save as
+                    </Button>
+                  </ButtonGroup>
+                ) : (
+                  <Tooltip content="Search and filter">
+                    <Button
+                      classNames={{ root: "p-2" }}
+                      icon={FunnelIcon}
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => {
+                        setEnableFilter(true);
+                      }}
+                    />
+                  </Tooltip>
+                )}
+
+                {typeof orderOptions !== "undefined" &&
+                orderOptions.length > 0 ? (
+                  <Popover
+                    activator={
+                      <Tooltip content="Sort">
+                        <Button
+                          classNames={{ root: "p-2" }}
+                          icon={ArrowsUpDownIcon}
+                          size="sm"
+                          variant="ghost"
+                        />
+                      </Tooltip>
+                    }
+                    contentConfig={{
+                      className: "p-2",
+                    }}
+                  >
+                    <RadioGroup
+                      options={orderOptions}
+                      value={orderField}
+                      onChange={(value) => {
+                        setPagination({});
+                        setOrderField(value as OrderField);
+                      }}
+                    />
+                    <OrderDirectionList
+                      value={orderDirection}
+                      onChange={(value) => {
+                        setPagination({});
+                        setOrderDirection(value);
+                      }}
+                    />
+                  </Popover>
+                ) : undefined}
+              </>
             }
             filters={filters}
             loading={loading}
-            search={search}
+            search={enableFilter ? search : false}
+            showFilterItems={enableFilter}
             values={filterValues}
             onChange={(result) => {
               setFilterValues(result);
-              setPagination((prev) => ({ ...omit(prev, ["before", "after"]) }));
+              setPagination((prev) => ({
+                ...omit(prev, ["before", "after"]),
+              }));
             }}
           />
         </div>

@@ -6,8 +6,8 @@ import { Button } from "../button";
 import { OrderDirection } from "./order-direction";
 
 const options = [
-  { label: "正序", value: OrderDirection.ASC },
-  { label: "倒序", value: OrderDirection.DESC },
+  { label: "Oldest first", value: OrderDirection.ASC },
+  { label: "Newest first", value: OrderDirection.DESC },
 ];
 
 export interface OrderDirectionListProps {
@@ -29,21 +29,21 @@ export const OrderDirectionList: FC<OrderDirectionListProps> = ({
 
         return (
           <Button
-            className={twMerge(
-              "px-0.5 py-1 text-left text-sm shadow-none ring-0",
-              ((typeof value === "undefined" &&
-                option.value === OrderDirection.ASC) ||
-                value === option.value) &&
-                "bg-blue-50 text-blue-600 hover:bg-blue-50",
-            )}
+            classNames={{
+              root: twMerge(
+                "pl-0 [&>span]:justify-start",
+                option.value === value
+                  ? "bg-fill-transparent-hover text-primary"
+                  : undefined,
+              ),
+            }}
+            icon={Icon}
             key={option.value}
             size="sm"
+            variant="ghost"
             onClick={() => onChange?.(option.value)}
           >
-            <span className="flex items-center">
-              <Icon className="h-3.5 w-3.5" />
-              <span className="ml-2">{option.label}</span>
-            </span>
+            {option.label}
           </Button>
         );
       })}

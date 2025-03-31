@@ -90,6 +90,7 @@ export const Controlled: FC = () => {
           },
         ]}
         footer={<div>summary</div>}
+        orderOptions={[{ label: "编号", value: "user.id" }]}
         rowSelection={{
           allowSelectAll: true,
           // single: false,
