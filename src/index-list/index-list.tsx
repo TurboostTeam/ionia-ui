@@ -55,7 +55,7 @@ export interface IndexListProps<Node, OrderField> {
     bulkActions?: (rows: Node[], isSelectedAll: boolean) => ActionProps[];
   };
   emptyStateDescription?: EmptyStateProps["description"];
-  actionRef?: RefObject<ActionType>;
+  actionRef?: RefObject<ActionType<Node>>;
   edges?: Array<IndexTableEdge<Node>>;
   filters?: Array<FilterItemProps<Node>>;
   search?: false | FilterSearchConfig;
@@ -113,6 +113,7 @@ export function IndexList<Node, OrderField extends string>({
       reloadAndRest: () => {
         setPagination((prev) => ({ ...omit(prev, ["before", "after"]) }));
       },
+      setFilterValues: () => {},
     }),
     [],
   );

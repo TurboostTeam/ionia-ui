@@ -7,12 +7,13 @@ import {
   FunnelIcon,
 } from "@heroicons/react/24/outline";
 import dayjs from "dayjs";
-import { compact, get, omit, pick, trim } from "lodash-es";
+import { compact, get, isEmpty, isEqual, pick, trim } from "lodash-es";
 import {
   type ReactElement,
   type ReactNode,
   type RefObject,
   useCallback,
+  useEffect,
   useImperativeHandle,
   useMemo,
   useRef,
@@ -30,6 +31,7 @@ import {
   type FilterItemProps,
   type FilterSearchConfig,
 } from "../filter";
+import { useUrlSearchParams } from "../hooks/use-url-search-params";
 import { Popover } from "../popover";
 import { RadioGroup, type RadioGroupOption } from "../radio-group";
 import { Spinner } from "../spinner";
@@ -41,7 +43,7 @@ import {
 } from "../table";
 import { Tooltip } from "../tooltip";
 import { type Field } from "../types";
-import { View } from "../view";
+import { View, type ViewProps } from "../view";
 import { OrderDirection } from "./order-direction";
 import { OrderDirectionList } from "./order-direction-list";
 import {
@@ -51,8 +53,18 @@ import {
   type IndexTableValue,
 } from "./types";
 
-export interface ActionType {
+export interface SaveViewConfig<OrderField> {
+  filter?: Record<Field<Node>, any>;
+  query?: string;
+  order?: {
+    field: OrderField;
+    direction: OrderDirection;
+  };
+}
+
+export interface ActionType<Node> {
   reloadAndRest: () => void;
+  setFilterValues: (filterValues: Record<Field<Node>, any>) => void;
 }
 
 export interface IndexTableProps<Node, OrderField> {
@@ -69,7 +81,7 @@ export interface IndexTableProps<Node, OrderField> {
     min?: number;
   };
   emptyStateDescription?: EmptyStateProps["description"];
-  actionRef?: RefObject<ActionType>;
+  actionRef?: RefObject<ActionType<Node>>;
   edges?: Array<IndexTableEdge<Node>>;
   filters?: Array<FilterItemProps<Node>>;
   search?: false | FilterSearchConfig;
@@ -81,6 +93,9 @@ export interface IndexTableProps<Node, OrderField> {
   loading?: boolean;
   value?: IndexTableValue<OrderField>;
   defaultFilterValue?: Record<Field<Node>, any>;
+  viewConfig?: ViewProps & {
+    onSaveView?: (config: SaveViewConfig<OrderField>) => void;
+  };
   toolBarRender?: () => ReactNode;
   onChange?: (value: IndexTableValue<OrderField>) => void;
   onRow?: TableProps<Node>["onRow"];
@@ -104,39 +119,76 @@ export function IndexTable<Node, OrderField extends string>({
   loading = false,
   value = {},
   rowSelection,
+  viewConfig,
   toolBarRender,
   onChange,
   onRow,
 }: IndexTableProps<Node, OrderField>): ReactElement {
+  // 在视图模式下，是否显示过滤组件
+  const [showFilterComponent, setShowFilterComponent] = useState(false);
   const [filterValues, setFilterValues] = useState<
     Record<Field<Node>, any> | undefined
   >(defaultFilterValue);
+
   const [pagination, setPagination] = useState<IndexTablePagination>(
     pick(value, ["first", "after", "last", "before"]),
   );
+
   const [orderField, setOrderField] = useState(value?.orderBy?.field);
   const [orderDirection, setOrderDirection] = useState(
     value?.orderBy?.direction,
   );
-  const [enableFilter, setEnableFilter] = useState(false);
 
-  console.log({
+  // 是否启用视图
+  const enabledView = useMemo(() => {
+    if (typeof viewConfig === "undefined" || viewConfig.items.length === 0) {
+      return false;
+    }
+
+    return true;
+  }, [viewConfig]);
+
+  const [searchParams, setSearchParams] = useUrlSearchParams();
+
+  console.log("过滤项", {
+    filters,
+    defaultFilterValue,
     filterValues,
+  });
+
+  console.log("排序项", {
     orderField,
     orderDirection,
   });
 
+  console.log("分页项", {
+    pagination,
+    pageSize,
+  });
+
+  console.log("url 参数", {
+    searchParams,
+    filterValues,
+  });
+
   const tableActionRef = useRef<TableActionType>(null);
+
+  const reloadAndRest = useCallback(() => {
+    setPagination((prev) => (isEqual(prev, {}) ? prev : {}));
+  }, []);
 
   // 一些可以手动触发的特殊操作
   useImperativeHandle(
     actionRef,
     () => ({
-      reloadAndRest: () => {
-        setPagination((prev) => ({ ...omit(prev, ["before", "after"]) }));
+      reloadAndRest,
+      setFilterValues: (filterValues: Record<Field<Node>, any>) => {
+        enabledView
+          ? setSearchParams(filterValues)
+          : setFilterValues(filterValues);
       },
     }),
-    [],
+    [enabledView, setSearchParams, reloadAndRest, setFilterValues],
   );
 
   /* eslint-disable @typescript-eslint/restrict-template-expressions */
@@ -208,6 +260,33 @@ export function IndexTable<Node, OrderField extends string>({
     setPagination({ first: pageSize, after: pageInfo?.endCursor });
   }, [pageSize, pageInfo?.endCursor]);
 
+  // 处理视图保存
+  const handleViewSave = useCallback(() => {
+    const config: SaveViewConfig<OrderField> = {};
+
+    // const omitQueryFilter = omit(filterValues, "query");
+
+    // if (typeof filterValues?.query !== "undefined") {
+    //   config.query = filterValues.query;
+    // }
+
+    // if (typeof omitQueryFilter !== "undefined" && !isEmpty(omitQueryFilter)) {
+    //   config.filter = omitQueryFilter;
+    // }
+
+    if (
+      typeof orderField !== "undefined" &&
+      typeof orderDirection !== "undefined"
+    ) {
+      config.order = {
+        field: orderField,
+        direction: orderDirection,
+      };
+    }
+
+    viewConfig?.onSaveView?.(config);
+  }, [viewConfig, filterValues, orderDirection, orderField]);
+
   useUpdateEffect(() => {
     console.count("触发请求");
 
@@ -229,76 +308,110 @@ export function IndexTable<Node, OrderField extends string>({
     tableActionRef.current?.resetRowSelection?.();
   }, [query, pagination, pageSize, orderField, orderDirection, tableActionRef]);
 
+  // 当启用视图并且 searchParams 发生变化的时候，更新 filterValues
+  useEffect(() => {
+    console.log("比较参数", {
+      searchParams,
+      filterValues,
+      isEqual: isEqual(searchParams, filterValues),
+    });
+
+    if (
+      enabledView &&
+      typeof searchParams !== "undefined" &&
+      !isEmpty(searchParams) &&
+      !isEqual(searchParams, filterValues)
+    ) {
+      console.log("url 参数已更新");
+
+      setFilterValues(searchParams);
+    }
+  }, [enabledView, searchParams, filterValues]);
+
   return (
     <div className="divide-y divide-gray-300 rounded-md bg-surface pt-3 shadow last-of-type:rounded-lg">
+      <Button
+        onClick={() => {
+          setSearchParams({
+            createdAt: new Date(),
+            commentedAt: [new Date(), new Date()],
+            status: ["waiting", "progress"],
+            query: "123",
+            "user.id": "aaa",
+          });
+        }}
+      >
+        测试
+      </Button>
+
       <div>
         {typeof toolBarRender !== "undefined" && (
           <div className="px-3 pb-3">{toolBarRender()}</div>
         )}
 
         <div className="flex items-center px-3 pb-3">
-          {!enableFilter && (
+          {enabledView && !showFilterComponent && (
             <div className="mr-2 flex-1 overflow-x-auto">
-              <View
-                items={[
-                  { id: "1", name: "ALL", canEdit: false },
-                  { id: "2", name: "MY" },
-                  { id: "3", name: "OTHER" },
-                ]}
-              />
+              {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
+              <View {...viewConfig!} />
             </div>
           )}
 
           <Filter<Node>
             extra={
               <>
-                {enableFilter ? (
-                  <ButtonGroup>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => {
-                        setEnableFilter(false);
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      classNames={{
-                        root: "[&>span>span]:flex-shrink-0",
-                      }}
-                      size="sm"
-                      variant="ghost"
-                    >
-                      Save as
-                    </Button>
-                  </ButtonGroup>
-                ) : (
-                  <Tooltip content="Search and filter">
-                    <Button
-                      classNames={{ root: "p-2" }}
-                      icon={FunnelIcon}
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => {
-                        setEnableFilter(true);
-                      }}
-                    />
-                  </Tooltip>
-                )}
+                {enabledView ? (
+                  showFilterComponent ? (
+                    <ButtonGroup>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => {
+                          setShowFilterComponent(false);
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        classNames={{
+                          root: "[&>span>span]:flex-shrink-0",
+                        }}
+                        size="sm"
+                        variant="ghost"
+                        onClick={handleViewSave}
+                      >
+                        Save as
+                      </Button>
+                    </ButtonGroup>
+                  ) : (
+                    <Tooltip content="Search and filter">
+                      <Button
+                        classNames={{ root: "p-2" }}
+                        icon={FunnelIcon}
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => {
+                          setShowFilterComponent(true);
+                        }}
+                      />
+                    </Tooltip>
+                  )
+                ) : undefined}
 
                 {typeof orderOptions !== "undefined" &&
                 orderOptions.length > 0 ? (
                   <Popover
                     activator={
-                      <Tooltip content="Sort">
-                        <Button
-                          classNames={{ root: "p-2" }}
-                          icon={ArrowsUpDownIcon}
-                          size="sm"
-                          variant="ghost"
-                        />
-                      </Tooltip>
+                      <div>
+                        <Tooltip content="Sort">
+                          <Button
+                            classNames={{ root: "p-2" }}
+                            icon={ArrowsUpDownIcon}
+                            size="sm"
+                            variant="ghost"
+                          />
+                        </Tooltip>
+                      </div>
                     }
                     contentConfig={{
                       className: "p-2",
@@ -308,14 +421,14 @@ export function IndexTable<Node, OrderField extends string>({
                       options={orderOptions}
                       value={orderField}
                       onChange={(value) => {
-                        setPagination({});
+                        reloadAndRest();
                         setOrderField(value as OrderField);
                       }}
                     />
                     <OrderDirectionList
                       value={orderDirection}
                       onChange={(value) => {
-                        setPagination({});
+                        reloadAndRest();
                         setOrderDirection(value);
                       }}
                     />
@@ -325,14 +438,21 @@ export function IndexTable<Node, OrderField extends string>({
             }
             filters={filters}
             loading={loading}
-            search={enableFilter ? search : false}
-            showFilterItems={enableFilter}
+            search={
+              !enabledView || (enabledView && showFilterComponent)
+                ? search
+                : false
+            }
+            showFilterItems={
+              !enabledView || (enabledView && showFilterComponent)
+            }
             values={filterValues}
             onChange={(result) => {
-              setFilterValues(result);
-              setPagination((prev) => ({
-                ...omit(prev, ["before", "after"]),
-              }));
+              console.log("新的过滤项", result);
+              reloadAndRest();
+
+              // 根据是否开启视图来决定如何更新过滤项
+              enabledView ? setSearchParams(result) : setFilterValues(result);
             }}
           />
         </div>

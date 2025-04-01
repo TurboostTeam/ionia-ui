@@ -20,10 +20,20 @@ export const useModal = (): ModalFunction => {
       }
 
       const onClose = (): void => {
-        context.setModalProps({ ...options, open: false, onClose });
+        context.setModalProps({
+          ...options,
+          open: false,
+          onClose,
+          children: options.content,
+        });
       };
 
-      context.setModalProps({ ...options, open: true, onClose });
+      context.setModalProps({
+        ...options,
+        open: true,
+        onClose,
+        children: options.content,
+      });
 
       return onClose;
     },
