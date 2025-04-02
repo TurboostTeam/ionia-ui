@@ -1,5 +1,5 @@
 import { type Meta } from "@storybook/react";
-import { type FC, useMemo, useRef, useState } from "react";
+import { type FC, useEffect, useMemo, useRef, useState } from "react";
 
 import { Button } from "../button";
 import { CheckboxGroup } from "../checkbox-group";
@@ -94,6 +94,17 @@ export const Controlled: FC = () => {
     [],
   );
 
+  useEffect(() => {
+    console.log("挂载触发设置参数");
+    actionRef.current?.setFilterValues({
+      commentedAt: new Date(),
+      createdAt: [new Date(), new Date()],
+      status: ["waiting", "progress"],
+      query: "123",
+      "user.id": "aaa",
+    });
+  }, []);
+
   return (
     <div>
       <IndexTable
@@ -143,6 +154,9 @@ export const Controlled: FC = () => {
           },
           onSaveView: (config) => {
             console.log("视图保存", config);
+          },
+          onEdit: (key, type, payload) => {
+            console.log("视图编辑", key, type, payload);
           },
         }}
         onChange={(variables) => {

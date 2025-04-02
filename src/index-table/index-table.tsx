@@ -151,26 +151,6 @@ export function IndexTable<Node, OrderField extends string>({
 
   const [searchParams, setSearchParams] = useUrlSearchParams();
 
-  console.log({
-    过滤项: {
-      filters,
-      defaultFilterValue,
-      filterValues,
-    },
-    排序项: {
-      orderField,
-      orderDirection,
-    },
-    分页项: {
-      pagination,
-      pageSize,
-    },
-    "url 参数": {
-      searchParams,
-      filterValues,
-    },
-  });
-
   const tableActionRef = useRef<TableActionType>(null);
 
   const reloadAndRest = useCallback(() => {
@@ -193,8 +173,6 @@ export function IndexTable<Node, OrderField extends string>({
 
   /* eslint-disable @typescript-eslint/restrict-template-expressions */
   const query = useMemo(() => {
-    console.count("query 更新");
-
     return compact([
       trim((filterValues as any)?.query),
       trim(
@@ -287,27 +265,6 @@ export function IndexTable<Node, OrderField extends string>({
     viewConfig?.onSaveView?.(config);
   }, [viewConfig, filterValues, orderDirection, orderField]);
 
-  useUpdateEffect(() => {
-    console.count("触发请求");
-
-    onChange?.({
-      query,
-      ...(Object.keys(pagination).length > 0
-        ? pagination
-        : { first: pageSize }),
-      ...(typeof orderField !== "undefined"
-        ? {
-            orderBy: {
-              field: orderField,
-              direction: orderDirection ?? OrderDirection.ASC,
-            },
-          }
-        : {}),
-    });
-
-    tableActionRef.current?.resetRowSelection?.();
-  }, [query, pagination, pageSize, orderField, orderDirection, tableActionRef]);
-
   // 处理 url 参数
   const transformedParams = useMemo(() => {
     // 如果启用视图，并且 url 参数存在，则将 url 参数转换为对应的类型
@@ -335,11 +292,28 @@ export function IndexTable<Node, OrderField extends string>({
   // 当启用视图并且 searchParams 发生变化的时候，更新 filterValues
   useEffect(() => {
     if (!isEqual(transformedParams, filterValues)) {
-      console.log("参数发生变化", transformedParams, filterValues);
-
       setFilterValues(transformedParams as any);
     }
   }, [filterValues, transformedParams]);
+
+  useUpdateEffect(() => {
+    onChange?.({
+      query,
+      ...(Object.keys(pagination).length > 0
+        ? pagination
+        : { first: pageSize }),
+      ...(typeof orderField !== "undefined"
+        ? {
+            orderBy: {
+              field: orderField,
+              direction: orderDirection ?? OrderDirection.ASC,
+            },
+          }
+        : {}),
+    });
+
+    tableActionRef.current?.resetRowSelection?.();
+  }, [query, pagination, pageSize, orderField, orderDirection, tableActionRef]);
 
   return (
     <div className="divide-y divide-gray-300 rounded-md bg-surface pt-3 shadow last-of-type:rounded-lg">
@@ -461,7 +435,6 @@ export function IndexTable<Node, OrderField extends string>({
             }
             values={filterValues}
             onChange={(result) => {
-              console.log("新的过滤项", result);
               reloadAndRest();
 
               // 根据是否开启视图来决定如何更新过滤项
