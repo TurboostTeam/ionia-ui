@@ -141,13 +141,10 @@ export function IndexTable<Node, OrderField extends string>({
   );
 
   // 是否启用视图
-  const enabledView = useMemo(() => {
-    if (typeof viewConfig === "undefined" || viewConfig.items.length === 0) {
-      return false;
-    }
-
-    return true;
-  }, [viewConfig]);
+  const enabledView = useMemo(
+    () => Boolean(viewConfig?.items?.length),
+    [viewConfig],
+  );
 
   const [searchParams, setSearchParams] = useUrlSearchParams();
 

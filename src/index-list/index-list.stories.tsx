@@ -123,7 +123,6 @@ export const Base: FC = () => {
   );
 
   useEffect(() => {
-    console.log("挂载触发设置参数");
     actionRef.current?.setFilterValues({
       commentedAt: new Date(),
       createdAt: [new Date(), new Date()],
