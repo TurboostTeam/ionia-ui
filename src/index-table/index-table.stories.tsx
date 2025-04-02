@@ -147,7 +147,7 @@ export const Controlled: FC = () => {
             setActiveViewKey(key);
           },
           onAdd: (label) => {
-            const newKey = Math.random().toString();
+            const newKey = `${views.length + 1}`;
 
             setViews([...views, { key: newKey, label }]);
             setActiveViewKey(newKey);
