@@ -7,7 +7,7 @@ import {
   FunnelIcon,
 } from "@heroicons/react/24/outline";
 import dayjs from "dayjs";
-import { compact, get, isEmpty, isEqual, pick, trim } from "lodash-es";
+import { compact, get, isEmpty, isEqual, omit, pick, trim } from "lodash-es";
 import {
   type ReactElement,
   type ReactNode,
@@ -43,6 +43,7 @@ import {
 } from "../table";
 import { Tooltip } from "../tooltip";
 import { type Field } from "../types";
+import { transformTypeValue } from "../utils/transform-type-value";
 import { View, type ViewProps } from "../view";
 import { OrderDirection } from "./order-direction";
 import { OrderDirectionList } from "./order-direction-list";
@@ -150,25 +151,24 @@ export function IndexTable<Node, OrderField extends string>({
 
   const [searchParams, setSearchParams] = useUrlSearchParams();
 
-  console.log("过滤项", {
-    filters,
-    defaultFilterValue,
-    filterValues,
-  });
-
-  console.log("排序项", {
-    orderField,
-    orderDirection,
-  });
-
-  console.log("分页项", {
-    pagination,
-    pageSize,
-  });
-
-  console.log("url 参数", {
-    searchParams,
-    filterValues,
+  console.log({
+    过滤项: {
+      filters,
+      defaultFilterValue,
+      filterValues,
+    },
+    排序项: {
+      orderField,
+      orderDirection,
+    },
+    分页项: {
+      pagination,
+      pageSize,
+    },
+    "url 参数": {
+      searchParams,
+      filterValues,
+    },
   });
 
   const tableActionRef = useRef<TableActionType>(null);
@@ -264,15 +264,15 @@ export function IndexTable<Node, OrderField extends string>({
   const handleViewSave = useCallback(() => {
     const config: SaveViewConfig<OrderField> = {};
 
-    // const omitQueryFilter = omit(filterValues, "query");
+    const omitQueryFilter = omit(filterValues, "query");
 
-    // if (typeof filterValues?.query !== "undefined") {
-    //   config.query = filterValues.query;
-    // }
+    if (typeof (filterValues as Record<string, any>)?.query !== "undefined") {
+      config.query = (filterValues as Record<string, any>).query;
+    }
 
-    // if (typeof omitQueryFilter !== "undefined" && !isEmpty(omitQueryFilter)) {
-    //   config.filter = omitQueryFilter;
-    // }
+    if (typeof omitQueryFilter !== "undefined" && !isEmpty(omitQueryFilter)) {
+      config.filter = omitQueryFilter as any;
+    }
 
     if (
       typeof orderField !== "undefined" &&
@@ -308,33 +308,46 @@ export function IndexTable<Node, OrderField extends string>({
     tableActionRef.current?.resetRowSelection?.();
   }, [query, pagination, pageSize, orderField, orderDirection, tableActionRef]);
 
-  // 当启用视图并且 searchParams 发生变化的时候，更新 filterValues
-  useEffect(() => {
-    console.log("比较参数", {
-      searchParams,
-      filterValues,
-      isEqual: isEqual(searchParams, filterValues),
-    });
-
+  // 处理 url 参数
+  const transformedParams = useMemo(() => {
+    // 如果启用视图，并且 url 参数存在，则将 url 参数转换为对应的类型
     if (
       enabledView &&
       typeof searchParams !== "undefined" &&
-      !isEmpty(searchParams) &&
-      !isEqual(searchParams, filterValues)
+      !isEmpty(searchParams)
     ) {
-      console.log("url 参数已更新");
+      const result = { ...searchParams };
 
-      setFilterValues(searchParams);
+      filters.forEach((filterItem) => {
+        const { field, type, itemType } = filterItem;
+
+        if (field in result && type != null) {
+          result[field] = transformTypeValue(result[field], type, itemType);
+        }
+      });
+
+      return result;
+    } else {
+      return filterValues;
     }
-  }, [enabledView, searchParams, filterValues]);
+  }, [enabledView, searchParams, filters, filterValues]);
+
+  // 当启用视图并且 searchParams 发生变化的时候，更新 filterValues
+  useEffect(() => {
+    if (!isEqual(transformedParams, filterValues)) {
+      console.log("参数发生变化", transformedParams, filterValues);
+
+      setFilterValues(transformedParams as any);
+    }
+  }, [filterValues, transformedParams]);
 
   return (
     <div className="divide-y divide-gray-300 rounded-md bg-surface pt-3 shadow last-of-type:rounded-lg">
       <Button
         onClick={() => {
           setSearchParams({
-            createdAt: new Date(),
-            commentedAt: [new Date(), new Date()],
+            commentedAt: new Date(),
+            createdAt: [new Date(), new Date()],
             status: ["waiting", "progress"],
             query: "123",
             "user.id": "aaa",

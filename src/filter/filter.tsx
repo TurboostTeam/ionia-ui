@@ -22,6 +22,7 @@ import { Input } from "../input";
 import { Popover } from "../popover";
 import { Spinner } from "../spinner";
 import { type Field } from "../types";
+import { type TypeValue } from "../utils/transform-type-value";
 
 const isEmpty = (value: unknown): boolean => {
   return (
@@ -97,6 +98,8 @@ export interface FilterItemProps<T> {
     value: any;
   }) => ReactNode;
   pinned?: boolean;
+  type?: TypeValue;
+  itemType?: TypeValue;
 }
 
 export interface FilterSearchConfig {

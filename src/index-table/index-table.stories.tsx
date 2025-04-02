@@ -75,6 +75,7 @@ export const Controlled: FC = () => {
         label: "评论时间",
         field: "commentedAt",
         pinned: true,
+        type: Date,
         render: ({ field: { value, onChange } }) => {
           return <DateTimeInput value={value} onChange={onChange} />;
         },
@@ -82,6 +83,8 @@ export const Controlled: FC = () => {
       {
         label: "创建时间",
         field: "createdAt",
+        type: Array,
+        itemType: Date,
         pinned: true,
         render: ({ field: { value, onChange } }) => {
           return <DateRangePicker range={value} onChange={onChange} />;
@@ -93,17 +96,6 @@ export const Controlled: FC = () => {
 
   return (
     <div>
-      <h2
-        onClick={() => {
-          actionRef.current?.setFilterValues({
-            query: "456",
-            commentedAt: new Date(),
-          });
-        }}
-      >
-        改变 defaultFilterValue
-      </h2>
-
       <IndexTable
         actionRef={actionRef}
         columns={columns}

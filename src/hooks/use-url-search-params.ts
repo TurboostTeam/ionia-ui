@@ -7,7 +7,7 @@ export const useUrlSearchParams = (): [
 ] => {
   // 获取当前 URL 参数并解析
   const getParams = useCallback(() => {
-    return qs.parse(window.location.search.slice(1));
+    return qs.parse(window.location.search, { ignoreQueryPrefix: true });
   }, []);
 
   // 获取当前 searchParams
@@ -27,13 +27,17 @@ export const useUrlSearchParams = (): [
   }, [getParams]);
 
   // 更新 URL 的 searchParams
-  const updateSearchParams = (newParams: Record<string, any>): void => {
-    const stringified = qs.stringify(newParams);
+  const updateSearchParams = useCallback(
+    (newParams: Record<string, any>): void => {
+      const stringified = qs.stringify(newParams, { addQueryPrefix: true });
+      const newUrl = `${window.location.pathname}${stringified}`;
 
-    const newUrl = `${window.location.pathname}?${stringified}`;
-    window.history.pushState({}, "", newUrl);
-    setSearchParams(newParams);
-  };
+      window.history.pushState({}, "", newUrl);
+
+      setSearchParams(newParams);
+    },
+    [setSearchParams],
+  );
 
   return [searchParams, updateSearchParams];
 };
