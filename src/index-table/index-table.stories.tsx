@@ -95,6 +95,7 @@ export const Controlled: FC = () => {
   );
 
   useEffect(() => {
+    // Set initial filter values when component mounts
     actionRef.current?.setFilterValues({
       commentedAt: new Date(),
       createdAt: [new Date(), new Date()],
@@ -146,7 +147,7 @@ export const Controlled: FC = () => {
             setActiveViewKey(key);
           },
           onAdd: (label) => {
-            const newKey = `${views.length + 1}`;
+            const newKey = `view_${Date.now()}`;
 
             setViews([...views, { key: newKey, label }]);
             setActiveViewKey(newKey);
