@@ -317,20 +317,6 @@ export function IndexTable<Node, OrderField extends string>({
 
   return (
     <div className="divide-y divide-gray-300 rounded-md bg-surface pt-3 shadow last-of-type:rounded-lg">
-      <Button
-        onClick={() => {
-          setSearchParams({
-            commentedAt: new Date(),
-            createdAt: [new Date(), new Date()],
-            status: ["waiting", "progress"],
-            query: "123",
-            "user.id": "aaa",
-          });
-        }}
-      >
-        测试
-      </Button>
-
       <div>
         {typeof toolBarRender !== "undefined" && (
           <div className="px-3 pb-3">{toolBarRender()}</div>
