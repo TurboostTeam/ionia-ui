@@ -126,7 +126,7 @@ export function IndexList<Node, OrderField extends string>({
   const [searchParams, setSearchParams] = useUrlSearchParams();
 
   const reloadAndRest = useCallback(() => {
-    setPagination((prev) => (isEqual(prev, {}) ? prev : {}));
+    setPagination({});
   }, []);
 
   const tableActionRef = useRef<TableActionType>(null);
@@ -223,7 +223,7 @@ export function IndexList<Node, OrderField extends string>({
     }
 
     if (typeof omitQueryFilter !== "undefined" && !isEmpty(omitQueryFilter)) {
-      config.filter = omitQueryFilter as any;
+      config.filters = omitQueryFilter as any;
     }
 
     if (

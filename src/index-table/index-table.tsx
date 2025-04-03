@@ -55,7 +55,7 @@ import {
 } from "./types";
 
 export interface SaveViewConfig<OrderField> {
-  filter?: Record<Field<Node>, any>;
+  filters?: Record<Field<Node>, any>;
   query?: string;
   order?: {
     field: OrderField;
@@ -151,7 +151,7 @@ export function IndexTable<Node, OrderField extends string>({
   const tableActionRef = useRef<TableActionType>(null);
 
   const reloadAndRest = useCallback(() => {
-    setPagination((prev) => (isEqual(prev, {}) ? prev : {}));
+    setPagination({});
   }, []);
 
   // 一些可以手动触发的特殊操作
@@ -246,7 +246,7 @@ export function IndexTable<Node, OrderField extends string>({
     }
 
     if (typeof omitQueryFilter !== "undefined" && !isEmpty(omitQueryFilter)) {
-      config.filter = omitQueryFilter as any;
+      config.filters = omitQueryFilter as any;
     }
 
     if (

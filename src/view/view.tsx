@@ -27,13 +27,13 @@ export interface ViewProps {
   activeKey?: string;
   defaultActiveKey?: string;
   canAdd?: boolean;
-  onActiveChange?: (key: string) => void;
+  onAdd?: (label: string) => void;
   onEdit?: (
     key: string,
     type: ViewItemEditType,
     payload?: { label: string },
   ) => void;
-  onAdd?: (label: string) => void;
+  onActiveChange?: (key: string) => void;
 }
 
 export function View({
@@ -41,9 +41,9 @@ export function View({
   activeKey,
   defaultActiveKey,
   canAdd = false,
-  onActiveChange,
-  onEdit,
   onAdd,
+  onEdit,
+  onActiveChange,
 }: ViewProps): ReactElement {
   const modal = useModal();
   const { control, getValues, trigger, setValue } = useForm();
@@ -124,7 +124,10 @@ export function View({
       if (canDelete) {
         sections[0].items.push({
           content: "Delete view",
-          variant: "destructive",
+          variant: "ghost",
+          classNames: {
+            root: "text-destructive",
+          },
           size: "sm",
           onClick: () => {
             const close = modal({
