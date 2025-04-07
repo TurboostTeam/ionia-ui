@@ -76,7 +76,7 @@ export interface IndexListProps<Node, OrderField> {
   value?: IndexTableValue<OrderField>;
   defaultFilterValue?: Record<Field<Node>, any>;
   viewConfig?: ViewProps & {
-    saveLoading?: boolean;
+    saveViewLoading?: boolean;
     onSaveView?: (config: SaveViewConfig) => void;
   };
   toolBarRender?: () => ReactNode;
@@ -235,14 +235,14 @@ export function IndexList<Node, OrderField extends string>({
   const handleViewSave = useCallback(() => {
     const config: SaveViewConfig = {};
 
-    const omitQueryFilter = omit(filterValues, "query");
+    const omitQueryFilters = omit(filterValues, "query");
 
     if (typeof (filterValues as Record<string, any>)?.query !== "undefined") {
       config.query = (filterValues as Record<string, any>).query;
     }
 
-    if (typeof omitQueryFilter !== "undefined" && !isEmpty(omitQueryFilter)) {
-      config.filters = omitQueryFilter;
+    if (typeof omitQueryFilters !== "undefined" && !isEmpty(omitQueryFilters)) {
+      config.filters = omitQueryFilters;
     }
 
     const generateNewView = (): void => {
@@ -293,10 +293,10 @@ export function IndexList<Node, OrderField extends string>({
     if (typeof currentSelectedViewKey !== "undefined") {
       if (
         typeof viewConfig !== "undefined" &&
-        viewConfig.items.some(
+        typeof viewConfig.items.find(
           (item) =>
             item.key === currentSelectedViewKey && item.canEdit !== false,
-        )
+        ) !== "undefined"
       ) {
         viewConfig?.onSaveView?.(config);
         setShowFilterComponent(false);
@@ -317,11 +317,24 @@ export function IndexList<Node, OrderField extends string>({
     viewConfig,
   ]);
 
+  // 跳转至视图
+  const jumpRouteToView = useCallback((viewName?: string) => {
+    if (typeof window !== "undefined" && typeof viewName !== "undefined") {
+      window.history.pushState(
+        {},
+        "",
+        `${window.location.pathname}?selectedView=${viewName}`,
+      );
+    }
+  }, []);
+
   // 处理 url 参数
   const transformedParams = useMemo(() => {
-    // 如果启用视图，并且 url 参数存在，则将 url 参数转换为对应的类型
+    // 如果启用视图，并且 url 不存在 selectedView 参数，则将 url 参数转换为对应的类型
     if (enabledView && typeof searchParams?.selectedView === "undefined") {
-      const result = { ...searchParams };
+      const result = {
+        ...pick(searchParams, [...filters.map((item) => item.field)], "query"),
+      };
 
       filters.forEach((filterItem) => {
         const { field, type, itemType } = filterItem;
@@ -364,24 +377,28 @@ export function IndexList<Node, OrderField extends string>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, pagination, pageSize, orderField, orderDirection, tableActionRef]);
 
-  /**
-   * 条件：
-   * 1. 开启视图
-   * 2. url 参数不包含 selectedView
-   * 3. url 参数包含 filters 项 或者 url 参数包含 query
-   */
   useEffect(() => {
-    if (
-      enabledView &&
-      typeof searchParams?.selectedView === "undefined" &&
-      (filters.some(
-        (item) => typeof searchParams?.[item.field] !== "undefined",
-      ) ||
-        typeof searchParams?.query !== "undefined")
-    ) {
-      setShowFilterComponent(true);
+    if (enabledView) {
+      // 如果 url 不存在 selectedView 参数，则根据过滤项和查询条件来决定是否显示过滤组件
+      if (typeof searchParams?.selectedView === "undefined") {
+        if (
+          filters.some(
+            (item) => typeof searchParams?.[item.field] !== "undefined",
+          ) ||
+          typeof searchParams?.query !== "undefined"
+        ) {
+          setShowFilterComponent(true);
+        } else {
+          jumpRouteToView(viewConfig?.items[0].key);
+        }
+      } else if (
+        typeof viewConfig !== "undefined" &&
+        !viewConfig.items.some((item) => item.key === searchParams.selectedView)
+      ) {
+        jumpRouteToView(viewConfig.items[0].key);
+      }
     }
-  }, [searchParams, enabledView, filters]);
+  }, [searchParams, enabledView, filters, viewConfig, jumpRouteToView]);
 
   return (
     <div className="divide-y divide-gray-300 rounded-md bg-white pt-3 shadow">
@@ -410,13 +427,11 @@ export function IndexList<Node, OrderField extends string>({
                         onClick={() => {
                           setShowFilterComponent(false);
 
-                          if (typeof window !== "undefined") {
-                            window.history.pushState(
-                              {},
-                              "",
-                              `${window.location.pathname}?selectedView=${currentSelectedViewKey}`,
-                            );
-                          }
+                          jumpRouteToView(
+                            typeof currentSelectedViewKey !== "undefined"
+                              ? currentSelectedViewKey
+                              : viewConfig?.items[0].key,
+                          );
 
                           setCurrentSelectedViewKey(undefined);
                         }}
@@ -427,7 +442,7 @@ export function IndexList<Node, OrderField extends string>({
                         classNames={{
                           root: "[&>span>span]:flex-shrink-0",
                         }}
-                        loading={viewConfig?.saveLoading}
+                        loading={viewConfig?.saveViewLoading}
                         size="sm"
                         variant="ghost"
                         onClick={handleViewSave}
