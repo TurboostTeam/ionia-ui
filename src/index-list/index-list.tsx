@@ -17,6 +17,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { Controller, useForm } from "react-hook-form";
 
 import { type ActionProps } from "../action";
 import { Button } from "../button";
@@ -31,6 +32,8 @@ import { useUrlSearchParams } from "../hooks";
 import { type ActionType, type SaveViewConfig } from "../index-table";
 import { OrderDirection } from "../index-table/order-direction";
 import { OrderDirectionList } from "../index-table/order-direction-list";
+import { Input } from "../input";
+import { useModal } from "../modal";
 import { Popover } from "../popover";
 import { RadioGroup, type RadioGroupOption } from "../radio-group";
 import {
@@ -60,7 +63,7 @@ export interface IndexListProps<Node, OrderField> {
     bulkActions?: (rows: Node[], isSelectedAll: boolean) => ActionProps[];
   };
   emptyStateDescription?: EmptyStateProps["description"];
-  actionRef?: RefObject<ActionType<Node>>;
+  actionRef?: RefObject<ActionType>;
   edges?: Array<IndexTableEdge<Node>>;
   filters?: Array<FilterItemProps<Node>>;
   search?: false | FilterSearchConfig;
@@ -73,7 +76,8 @@ export interface IndexListProps<Node, OrderField> {
   value?: IndexTableValue<OrderField>;
   defaultFilterValue?: Record<Field<Node>, any>;
   viewConfig?: ViewProps & {
-    onSaveView?: (config: SaveViewConfig<OrderField>) => void;
+    saveLoading?: boolean;
+    onSaveView?: (config: SaveViewConfig) => void;
   };
   toolBarRender?: () => ReactNode;
   onChange?: (value: IndexTableValue<OrderField>) => void;
@@ -102,8 +106,16 @@ export function IndexList<Node, OrderField extends string>({
   onChange,
   onRow,
 }: IndexListProps<Node, OrderField>): ReactElement {
+  const modal = useModal();
+  const { control, getValues, trigger } = useForm();
+
   // 在视图模式下，是否显示过滤组件
   const [showFilterComponent, setShowFilterComponent] = useState(false);
+
+  // 当前选中的视图 key
+  const [currentSelectedViewKey, setCurrentSelectedViewKey] =
+    useState<string>();
+
   const [filterValues, setFilterValues] = useState<
     Record<Field<Node>, any> | undefined
   >(defaultFilterValue);
@@ -123,26 +135,33 @@ export function IndexList<Node, OrderField extends string>({
     [viewConfig],
   );
 
-  const [searchParams, setSearchParams] = useUrlSearchParams();
+  const [searchParams, setSearchParams] = useUrlSearchParams([
+    "selectedView",
+    "query",
+    ...filters.map((item) => item.field),
+  ]);
+
+  const tableActionRef = useRef<TableActionType>(null);
 
   const reloadAndRest = useCallback(() => {
     setPagination({});
   }, []);
-
-  const tableActionRef = useRef<TableActionType>(null);
 
   // 一些可以手动触发的特殊操作
   useImperativeHandle(
     actionRef,
     () => ({
       reloadAndRest,
-      setFilterValues: (filterValues: Record<Field<Node>, any>) => {
-        enabledView
+      setFilterValues: (
+        filterValues: Record<Field<Node>, any>,
+        syncToUrl = false,
+      ) => {
+        syncToUrl
           ? setSearchParams(filterValues)
           : setFilterValues(filterValues);
       },
     }),
-    [enabledView, reloadAndRest, setFilterValues, setSearchParams],
+    [reloadAndRest, setFilterValues, setSearchParams],
   );
 
   /* eslint-disable @typescript-eslint/restrict-template-expressions */
@@ -214,7 +233,7 @@ export function IndexList<Node, OrderField extends string>({
 
   // 处理视图保存
   const handleViewSave = useCallback(() => {
-    const config: SaveViewConfig<OrderField> = {};
+    const config: SaveViewConfig = {};
 
     const omitQueryFilter = omit(filterValues, "query");
 
@@ -223,26 +242,83 @@ export function IndexList<Node, OrderField extends string>({
     }
 
     if (typeof omitQueryFilter !== "undefined" && !isEmpty(omitQueryFilter)) {
-      config.filters = omitQueryFilter as any;
+      config.filters = omitQueryFilter;
     }
 
-    if (
-      typeof orderField !== "undefined" &&
-      typeof orderDirection !== "undefined"
-    ) {
-      config.order = {
-        field: orderField,
-        direction: orderDirection,
-      };
-    }
+    const generateNewView = (): void => {
+      const viewNameInputMarker = "new_view_name";
 
-    viewConfig?.onSaveView?.(config);
-  }, [viewConfig, filterValues, orderDirection, orderField]);
+      const close = modal({
+        title: "Create new View",
+        content: (
+          <Controller
+            control={control}
+            name={viewNameInputMarker}
+            render={({ field, fieldState: { error } }) => (
+              <Input
+                label="Name"
+                maxLength={40}
+                {...field}
+                error={error?.message}
+                onChange={(e) => {
+                  field.onChange(e);
+
+                  // 如果存在错误，输入的时候触发验证
+                  if (typeof error !== "undefined") {
+                    trigger(viewNameInputMarker).catch(() => {});
+                  }
+                }}
+              />
+            )}
+            rules={{
+              required: "view name is required",
+            }}
+          />
+        ),
+        primaryAction: {
+          content: "Save",
+          onClick: async () => {
+            const validatedPass = await trigger(viewNameInputMarker);
+
+            if (validatedPass) {
+              viewConfig?.onAdd?.(getValues(viewNameInputMarker), filterValues);
+              close();
+              setShowFilterComponent(false);
+            }
+          },
+        },
+      });
+    };
+
+    if (typeof currentSelectedViewKey !== "undefined") {
+      const viewItem = viewConfig?.items.find(
+        (item) => item.key === currentSelectedViewKey,
+      );
+
+      if (typeof viewItem !== "undefined" && viewItem.canEdit === true) {
+        viewConfig?.onSaveView?.(config);
+        setShowFilterComponent(false);
+        setCurrentSelectedViewKey(undefined);
+      } else {
+        generateNewView();
+      }
+    } else {
+      generateNewView();
+    }
+  }, [
+    filterValues,
+    currentSelectedViewKey,
+    viewConfig,
+    modal,
+    control,
+    trigger,
+    getValues,
+  ]);
 
   // 处理 url 参数
   const transformedParams = useMemo(() => {
     // 如果启用视图，并且 url 参数存在，则将 url 参数转换为对应的类型
-    if (enabledView) {
+    if (enabledView && typeof searchParams?.selectedView === "undefined") {
       const result = { ...searchParams };
 
       filters.forEach((filterItem) => {
@@ -312,6 +388,7 @@ export function IndexList<Node, OrderField extends string>({
                         variant="ghost"
                         onClick={() => {
                           setShowFilterComponent(false);
+                          setCurrentSelectedViewKey(undefined);
                         }}
                       >
                         Cancel
@@ -320,11 +397,12 @@ export function IndexList<Node, OrderField extends string>({
                         classNames={{
                           root: "[&>span>span]:flex-shrink-0",
                         }}
+                        loading={viewConfig?.saveLoading}
                         size="sm"
                         variant="ghost"
                         onClick={handleViewSave}
                       >
-                        Save as
+                        Save
                       </Button>
                     </ButtonGroup>
                   ) : (
@@ -336,6 +414,7 @@ export function IndexList<Node, OrderField extends string>({
                         variant="ghost"
                         onClick={() => {
                           setShowFilterComponent(true);
+                          setCurrentSelectedViewKey(searchParams?.selectedView);
                         }}
                       />
                     </Tooltip>

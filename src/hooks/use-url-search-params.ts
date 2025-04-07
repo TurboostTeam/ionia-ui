@@ -1,17 +1,23 @@
+import { pick } from "lodash-es";
 import qs from "qs";
 import { useCallback, useEffect, useState } from "react";
 
-export const useUrlSearchParams = (): [
-  Record<string, any>,
-  (params: Record<string, any>) => void,
-] => {
+export const useUrlSearchParams = (
+  monitorProps?: string[],
+): [Record<string, any>, (params: Record<string, any>) => void] => {
   // 获取当前 URL 参数并解析
   const getParams = useCallback(() => {
-    return qs.parse(
+    const result = qs.parse(
       typeof window !== "undefined" ? window.location.search : "",
       { ignoreQueryPrefix: true },
     );
-  }, []);
+
+    if (typeof monitorProps !== "undefined" && monitorProps.length > 0) {
+      return pick(result, monitorProps);
+    }
+
+    return result;
+  }, [monitorProps]);
 
   // 获取当前 searchParams
   const [searchParams, setSearchParams] =

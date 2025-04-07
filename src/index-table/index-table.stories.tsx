@@ -1,5 +1,5 @@
 import { type Meta } from "@storybook/react";
-import { type FC, useEffect, useMemo, useRef, useState } from "react";
+import { type FC, useMemo, useRef, useState } from "react";
 
 import { Button } from "../button";
 import { CheckboxGroup } from "../checkbox-group";
@@ -19,13 +19,13 @@ const meta = {
 export default meta;
 
 export const Controlled: FC = () => {
-  const actionRef = useRef<ActionType<any>>(null);
+  const actionRef = useRef<ActionType>(null);
 
   const [views, setViews] = useState<ViewItem[]>([
     { key: "1", label: "ALL", canEdit: false },
     { key: "2", label: "DRAFT" },
   ]);
-  const [activeViewKey, setActiveViewKey] = useState<string | undefined>("2");
+  const [activeViewKey, setActiveViewKey] = useState<string | undefined>("1");
 
   const columns: Array<TableColumnProps<any>> = useMemo(
     () => [
@@ -93,17 +93,6 @@ export const Controlled: FC = () => {
     ],
     [],
   );
-
-  useEffect(() => {
-    // Set initial filter values when component mounts
-    actionRef.current?.setFilterValues({
-      commentedAt: new Date(),
-      createdAt: [new Date(), new Date()],
-      status: ["waiting", "progress"],
-      query: "123",
-      "user.id": "aaa",
-    });
-  }, []);
 
   return (
     <div>
