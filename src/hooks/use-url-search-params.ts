@@ -7,7 +7,10 @@ export const useUrlSearchParams = (): [
 ] => {
   // 获取当前 URL 参数并解析
   const getParams = useCallback(() => {
-    return qs.parse(window.location.search, { ignoreQueryPrefix: true });
+    return qs.parse(
+      typeof window !== "undefined" ? window.location.search : "",
+      { ignoreQueryPrefix: true },
+    );
   }, []);
 
   // 获取当前 searchParams
