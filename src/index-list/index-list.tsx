@@ -425,14 +425,13 @@ export function IndexList<Node, OrderField extends string>({
                         size="sm"
                         variant="ghost"
                         onClick={() => {
-                          setShowFilterComponent(false);
-
                           jumpRouteToView(
                             typeof currentSelectedViewKey !== "undefined"
                               ? currentSelectedViewKey
                               : viewConfig?.items[0].key,
                           );
 
+                          setShowFilterComponent(false);
                           setCurrentSelectedViewKey(undefined);
                         }}
                       >
