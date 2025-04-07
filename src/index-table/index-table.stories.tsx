@@ -1,12 +1,14 @@
 import { type Meta } from "@storybook/react";
-import { type FC, useRef } from "react";
+import { type FC, useEffect, useMemo, useRef, useState } from "react";
 
 import { Button } from "../button";
 import { CheckboxGroup } from "../checkbox-group";
 import { DateRangePicker } from "../date-range-picker";
 import { DateTimeInput } from "../date-time-input";
+import { type FilterItemProps } from "../filter";
 import { Input } from "../input";
 import { type TableColumnProps } from "../table";
+import { type ViewItem } from "../view";
 import { type ActionType, IndexTable } from "./index-table";
 
 const meta = {
@@ -17,13 +19,91 @@ const meta = {
 export default meta;
 
 export const Controlled: FC = () => {
-  const actionRef = useRef<ActionType>(null);
+  const actionRef = useRef<ActionType<any>>(null);
 
-  const columns: Array<TableColumnProps<any>> = [
-    { accessorKey: "name" },
-    { accessorKey: "age" },
-    { accessorKey: "year", pin: "right", footer: () => "123" },
-  ];
+  const [views, setViews] = useState<ViewItem[]>([
+    { key: "1", label: "ALL", canEdit: false },
+    { key: "2", label: "DRAFT" },
+  ]);
+  const [activeViewKey, setActiveViewKey] = useState<string | undefined>("2");
+
+  const columns: Array<TableColumnProps<any>> = useMemo(
+    () => [
+      { accessorKey: "name" },
+      { accessorKey: "age" },
+      { accessorKey: "year", pin: "right", footer: () => "123" },
+    ],
+    [],
+  );
+
+  const filters: Array<FilterItemProps<any>> = useMemo(
+    () => [
+      {
+        label: "编号",
+        field: "user.id",
+        render: ({ field }) => <Input {...field} value={field.value} />,
+      },
+      {
+        label: "状态",
+        field: "status",
+        render: ({ field: { value, onChange } }) => (
+          <CheckboxGroup
+            options={[
+              {
+                label: "等待中",
+                value: "waiting",
+              },
+              {
+                label: "进行中",
+                value: "progress",
+              },
+              {
+                label: "已完成",
+                value: "completed",
+              },
+              {
+                label: "已失败",
+                value: "failed",
+              },
+            ]}
+            value={value}
+            onChange={onChange}
+          />
+        ),
+      },
+      {
+        label: "评论时间",
+        field: "commentedAt",
+        pinned: true,
+        type: Date,
+        render: ({ field: { value, onChange } }) => {
+          return <DateTimeInput value={value} onChange={onChange} />;
+        },
+      },
+      {
+        label: "创建时间",
+        field: "createdAt",
+        type: Array,
+        itemType: Date,
+        pinned: true,
+        render: ({ field: { value, onChange } }) => {
+          return <DateRangePicker range={value} onChange={onChange} />;
+        },
+      },
+    ],
+    [],
+  );
+
+  useEffect(() => {
+    // Set initial filter values when component mounts
+    actionRef.current?.setFilterValues({
+      commentedAt: new Date(),
+      createdAt: [new Date(), new Date()],
+      status: ["waiting", "progress"],
+      query: "123",
+      "user.id": "aaa",
+    });
+  }, []);
 
   return (
     <div>
@@ -38,58 +118,9 @@ export const Controlled: FC = () => {
         ]}
         emptyStateDescription="没有找到相关记录"
         emptyStateTitle="暂无数据"
-        filters={[
-          {
-            label: "编号",
-            field: "user.id",
-            render: ({ field }) => <Input {...field} value={field.value} />,
-          },
-          {
-            label: "状态",
-            field: "status",
-            render: ({ field: { value, onChange } }) => (
-              <CheckboxGroup
-                options={[
-                  {
-                    label: "等待中",
-                    value: "waiting",
-                  },
-                  {
-                    label: "进行中",
-                    value: "progress",
-                  },
-                  {
-                    label: "已完成",
-                    value: "completed",
-                  },
-                  {
-                    label: "已失败",
-                    value: "failed",
-                  },
-                ]}
-                value={value}
-                onChange={onChange}
-              />
-            ),
-          },
-          {
-            label: "评论时间",
-            field: "commentedAt",
-            pinned: true,
-            render: ({ field: { value, onChange } }) => {
-              return <DateTimeInput value={value} onChange={onChange} />;
-            },
-          },
-          {
-            label: "创建时间",
-            field: "createdAt",
-            pinned: true,
-            render: ({ field: { value, onChange } }) => {
-              return <DateRangePicker range={value} onChange={onChange} />;
-            },
-          },
-        ]}
+        filters={filters}
         footer={<div>summary</div>}
+        orderOptions={[{ label: "编号", value: "user.id" }]}
         rowSelection={{
           allowSelectAll: true,
           // single: false,
@@ -108,13 +139,33 @@ export const Controlled: FC = () => {
         }}
         search={{ queryPlaceholder: "search" }}
         toolBarRender={() => <div>toolbar</div>}
+        viewConfig={{
+          items: views,
+          activeKey: activeViewKey,
+          canAdd: true,
+          onActiveChange: (key) => {
+            setActiveViewKey(key);
+          },
+          onAdd: (label) => {
+            const newKey = `view_${Date.now()}`;
+
+            setViews([...views, { key: newKey, label }]);
+            setActiveViewKey(newKey);
+          },
+          onSaveView: (config) => {
+            console.log("视图保存", config);
+          },
+          onEdit: (key, type, payload) => {
+            console.log("视图编辑", key, type, payload);
+          },
+        }}
         onChange={(variables) => {
-          console.log(variables);
+          console.log({ variables });
         }}
         onRow={(record) => {
           return {
             onClick: () => {
-              console.log(record);
+              console.log({ record });
             },
           };
         }}
