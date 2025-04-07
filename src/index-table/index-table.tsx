@@ -354,7 +354,7 @@ export function IndexTable<Node, OrderField extends string>({
     // 如果启用视图，并且 url 不存在 selectedView 参数，则将 url 参数转换为对应的类型
     if (enabledView && typeof searchParams?.selectedView === "undefined") {
       const result = {
-        ...pick(searchParams, [...filters.map((item) => item.field)], "query"),
+        ...pick(searchParams, [...filters.map((item) => item.field), "query"]),
       };
 
       filters.forEach((filterItem) => {
