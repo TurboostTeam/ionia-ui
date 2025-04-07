@@ -183,9 +183,11 @@ export function View({
             variant="ghost"
             onClick={() => {
               if (effectiveActiveKey !== key) {
-                typeof activeKey !== "undefined"
-                  ? onActiveChange?.(key)
-                  : setInternalActiveKey(key);
+                if (typeof activeKey === "undefined") {
+                  setInternalActiveKey(key);
+                }
+
+                onActiveChange?.(key);
               }
             }}
           >
