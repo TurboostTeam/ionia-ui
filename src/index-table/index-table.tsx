@@ -19,7 +19,6 @@ import {
   useRef,
   useState,
 } from "react";
-import { useUpdateEffect } from "react-use";
 import { twMerge } from "tailwind-merge";
 
 import { type ActionProps } from "../action";
@@ -293,7 +292,7 @@ export function IndexTable<Node, OrderField extends string>({
     }
   }, [filterValues, transformedParams]);
 
-  useUpdateEffect(() => {
+  useEffect(() => {
     onChange?.({
       query,
       ...(Object.keys(pagination).length > 0
@@ -310,6 +309,7 @@ export function IndexTable<Node, OrderField extends string>({
     });
 
     tableActionRef.current?.resetRowSelection?.();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, pagination, pageSize, orderField, orderDirection, tableActionRef]);
 
   return (
