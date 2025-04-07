@@ -23,7 +23,7 @@ const meta = {
 export default meta;
 
 export const Base: FC = () => {
-  const actionRef = useRef<ActionType<any>>(null);
+  const actionRef = useRef<ActionType>(null);
 
   const [views, setViews] = useState<ViewItem[]>([
     { key: "1", label: "All", canEdit: false },

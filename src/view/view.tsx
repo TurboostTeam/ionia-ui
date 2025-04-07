@@ -27,7 +27,7 @@ export interface ViewProps {
   activeKey?: string;
   defaultActiveKey?: string;
   canAdd?: boolean;
-  onAdd?: (label: string) => void;
+  onAdd?: (label: string, payload?: any) => void;
   onEdit?: (
     key: string,
     type: ViewItemEditType,
