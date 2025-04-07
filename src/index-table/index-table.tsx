@@ -264,11 +264,7 @@ export function IndexTable<Node, OrderField extends string>({
   // 处理 url 参数
   const transformedParams = useMemo(() => {
     // 如果启用视图，并且 url 参数存在，则将 url 参数转换为对应的类型
-    if (
-      enabledView &&
-      typeof searchParams !== "undefined" &&
-      !isEmpty(searchParams)
-    ) {
+    if (enabledView) {
       const result = { ...searchParams };
 
       filters.forEach((filterItem) => {

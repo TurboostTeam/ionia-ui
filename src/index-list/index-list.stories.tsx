@@ -26,8 +26,8 @@ export const Base: FC = () => {
   const actionRef = useRef<ActionType<any>>(null);
 
   const [views, setViews] = useState<ViewItem[]>([
-    { key: "1", label: "ALL", canEdit: false },
-    { key: "2", label: "DRAFT" },
+    { key: "1", label: "All", canEdit: false },
+    { key: "2", label: "Draft" },
   ]);
   const [activeViewKey, setActiveViewKey] = useState<string | undefined>("2");
 
