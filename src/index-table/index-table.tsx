@@ -312,11 +312,13 @@ export function IndexTable<Node, OrderField extends string>({
     };
 
     if (typeof currentSelectedViewKey !== "undefined") {
-      const viewItem = viewConfig?.items.find(
-        (item) => item.key === currentSelectedViewKey,
-      );
-
-      if (typeof viewItem !== "undefined" && viewItem.canEdit === true) {
+      if (
+        typeof viewConfig !== "undefined" &&
+        viewConfig.items.some(
+          (item) =>
+            item.key === currentSelectedViewKey && item.canEdit !== false,
+        )
+      ) {
         viewConfig?.onSaveView?.(config);
         setShowFilterComponent(false);
         setCurrentSelectedViewKey(undefined);
@@ -383,6 +385,25 @@ export function IndexTable<Node, OrderField extends string>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, pagination, pageSize, orderField, orderDirection, tableActionRef]);
 
+  /**
+   * 条件：
+   * 1. 开启视图
+   * 2. url 参数不包含 selectedView
+   * 3. url 参数包含 filters 项 或者 url 参数包含 query
+   */
+  useEffect(() => {
+    if (
+      enabledView &&
+      typeof searchParams?.selectedView === "undefined" &&
+      (filters.some(
+        (item) => typeof searchParams?.[item.field] !== "undefined",
+      ) ||
+        typeof searchParams?.query !== "undefined")
+    ) {
+      setShowFilterComponent(true);
+    }
+  }, [searchParams, enabledView, filters]);
+
   return (
     <div className="divide-y divide-gray-300 rounded-md bg-surface pt-3 shadow last-of-type:rounded-lg">
       <div>
@@ -409,6 +430,15 @@ export function IndexTable<Node, OrderField extends string>({
                         variant="ghost"
                         onClick={() => {
                           setShowFilterComponent(false);
+
+                          if (typeof window !== "undefined") {
+                            window.history.pushState(
+                              {},
+                              "",
+                              `${window.location.pathname}?selectedView=${currentSelectedViewKey}`,
+                            );
+                          }
+
                           setCurrentSelectedViewKey(undefined);
                         }}
                       >
