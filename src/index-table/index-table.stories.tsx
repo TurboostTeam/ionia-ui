@@ -147,6 +147,7 @@ export const Controlled: FC = () => {
           activeKey: searchParams?.selectedView,
           canAdd: true,
           onActiveChange: (key) => {
+            window.history.pushState(null, "", `?selectedView=${key}`);
             /**
              * 1. 路由到新视图
              */
