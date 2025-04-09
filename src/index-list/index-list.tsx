@@ -77,7 +77,7 @@ export interface IndexListProps<Node, OrderField> {
   defaultFilterValue?: Record<Field<Node>, any>;
   viewConfig?: ViewProps & {
     saveViewLoading?: boolean;
-    onSaveView?: (config: SaveViewConfig) => void;
+    onSaveView?: (viewKey: string, config: SaveViewConfig) => void;
   };
   toolBarRender?: () => ReactNode;
   onChange?: (value: IndexTableValue<OrderField>) => void;
@@ -112,57 +112,12 @@ export function IndexList<Node, OrderField extends string>({
   // 在视图模式下，是否显示过滤组件
   const [showFilterComponent, setShowFilterComponent] = useState(false);
 
-  // 当前选中的视图 key
-  const [currentSelectedViewKey, setCurrentSelectedViewKey] =
-    useState<string>();
+  // 当前进行过滤操作时选中的视图 key
+  const currentSelectedViewKeyRef = useRef<string | undefined>();
 
   const [filterValues, setFilterValues] = useState<
     Record<Field<Node>, any> | undefined
   >(defaultFilterValue);
-
-  const [pagination, setPagination] = useState<IndexTablePagination>(
-    pick(value, ["first", "after", "last", "before"]),
-  );
-
-  const [orderField, setOrderField] = useState(value?.orderBy?.field);
-  const [orderDirection, setOrderDirection] = useState(
-    value?.orderBy?.direction,
-  );
-
-  // 是否启用视图
-  const enabledView = useMemo(
-    () => Boolean(viewConfig?.items?.length),
-    [viewConfig],
-  );
-
-  const [searchParams, setSearchParams] = useUrlSearchParams([
-    "selectedView",
-    "query",
-    ...filters.map((item) => item.field),
-  ]);
-
-  const tableActionRef = useRef<TableActionType>(null);
-
-  const reloadAndRest = useCallback(() => {
-    setPagination({});
-  }, []);
-
-  // 一些可以手动触发的特殊操作
-  useImperativeHandle(
-    actionRef,
-    () => ({
-      reloadAndRest,
-      setFilterValues: (
-        filterValues: Record<Field<Node>, any>,
-        syncToUrl = false,
-      ) => {
-        syncToUrl
-          ? setSearchParams(filterValues)
-          : setFilterValues(filterValues);
-      },
-    }),
-    [reloadAndRest, setFilterValues, setSearchParams],
-  );
 
   /* eslint-disable @typescript-eslint/restrict-template-expressions */
   const query = useMemo(() => {
@@ -223,6 +178,47 @@ export function IndexList<Node, OrderField extends string>({
       .join(" ");
   }, [filterValues, filters]);
 
+  const [pagination, setPagination] = useState<IndexTablePagination>(
+    pick(value, ["first", "after", "last", "before"]),
+  );
+
+  const [orderField, setOrderField] = useState(value?.orderBy?.field);
+  const [orderDirection, setOrderDirection] = useState(
+    value?.orderBy?.direction,
+  );
+
+  // 是否启用视图
+  const enabledView = useMemo(
+    () => Boolean(viewConfig?.items?.length),
+    [viewConfig],
+  );
+
+  const [searchParams, setSearchParams] = useUrlSearchParams(
+    ["selectedView", "query", ...filters.map((item) => item.field)],
+    !enabledView,
+  );
+
+  const tableActionRef = useRef<TableActionType>(null);
+
+  // 一些可以手动触发的特殊操作
+  useImperativeHandle(
+    actionRef,
+    () => ({
+      reloadAndRest: () => {
+        setPagination({});
+      },
+      setFilterValues: (
+        filterValues: Record<Field<Node>, any>,
+        syncToUrl = false,
+      ) => {
+        syncToUrl
+          ? setSearchParams(filterValues)
+          : setFilterValues(filterValues);
+      },
+    }),
+    [setFilterValues, setSearchParams],
+  );
+
   const handlePrevClick = useCallback(() => {
     setPagination({ last: pageSize, before: pageInfo?.startCursor });
   }, [pageSize, pageInfo?.startCursor]);
@@ -281,8 +277,10 @@ export function IndexList<Node, OrderField extends string>({
             const validatedPass = await trigger(viewNameInputMarker);
 
             if (validatedPass) {
-              viewConfig?.onAdd?.(getValues(viewNameInputMarker), filterValues);
+              viewConfig?.onAdd?.(getValues(viewNameInputMarker), config);
+
               close();
+
               setShowFilterComponent(false);
             }
           },
@@ -290,43 +288,25 @@ export function IndexList<Node, OrderField extends string>({
       });
     };
 
-    if (typeof currentSelectedViewKey !== "undefined") {
+    if (typeof currentSelectedViewKeyRef.current !== "undefined") {
       if (
         typeof viewConfig !== "undefined" &&
         typeof viewConfig.items.find(
           (item) =>
-            item.key === currentSelectedViewKey && item.canEdit !== false,
+            item.key === currentSelectedViewKeyRef.current &&
+            item.canEdit !== false,
         ) !== "undefined"
       ) {
-        viewConfig?.onSaveView?.(config);
+        viewConfig?.onSaveView?.(currentSelectedViewKeyRef.current, config);
         setShowFilterComponent(false);
-        setCurrentSelectedViewKey(undefined);
+        currentSelectedViewKeyRef.current = undefined;
       } else {
         generateNewView();
       }
     } else {
       generateNewView();
     }
-  }, [
-    control,
-    currentSelectedViewKey,
-    filterValues,
-    getValues,
-    modal,
-    trigger,
-    viewConfig,
-  ]);
-
-  // 跳转至视图
-  const jumpRouteToView = useCallback((viewName?: string) => {
-    if (typeof window !== "undefined" && typeof viewName !== "undefined") {
-      window.history.pushState(
-        {},
-        "",
-        `${window.location.pathname}?selectedView=${viewName}`,
-      );
-    }
-  }, []);
+  }, [control, filterValues, getValues, modal, trigger, viewConfig]);
 
   // 处理 url 参数
   const transformedParams = useMemo(() => {
@@ -354,8 +334,45 @@ export function IndexList<Node, OrderField extends string>({
   useEffect(() => {
     if (!isEqual(transformedParams, filterValues)) {
       setFilterValues(transformedParams as any);
+      setPagination({});
     }
   }, [filterValues, transformedParams]);
+
+  // 如果 url 不存在 selectedView 参数，则根据过滤项和查询条件来决定是否显示过滤组件
+  useEffect(() => {
+    if (enabledView && typeof searchParams?.selectedView === "undefined") {
+      if (
+        filters.some(
+          (item) => typeof searchParams?.[item.field] !== "undefined",
+        ) ||
+        typeof searchParams?.query !== "undefined"
+      ) {
+        if (!showFilterComponent) {
+          setShowFilterComponent(true);
+        }
+      } else {
+        setSearchParams({
+          selectedView: viewConfig?.items[0].key,
+        });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enabledView, filters, searchParams, viewConfig, showFilterComponent]);
+
+  // 当视图参数存在，但是视图参数不包含在配置项里面时，则将视图参数设置为第一个视图
+  useEffect(() => {
+    if (
+      enabledView &&
+      typeof searchParams?.selectedView !== "undefined" &&
+      typeof viewConfig !== "undefined" &&
+      !viewConfig.items.some((item) => item.key === searchParams.selectedView)
+    ) {
+      setSearchParams({
+        selectedView: viewConfig.items[0].key,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enabledView, viewConfig, searchParams]);
 
   useEffect(() => {
     onChange?.({
@@ -376,29 +393,6 @@ export function IndexList<Node, OrderField extends string>({
     tableActionRef.current?.resetRowSelection?.();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, pagination, pageSize, orderField, orderDirection, tableActionRef]);
-
-  useEffect(() => {
-    if (enabledView) {
-      // 如果 url 不存在 selectedView 参数，则根据过滤项和查询条件来决定是否显示过滤组件
-      if (typeof searchParams?.selectedView === "undefined") {
-        if (
-          filters.some(
-            (item) => typeof searchParams?.[item.field] !== "undefined",
-          ) ||
-          typeof searchParams?.query !== "undefined"
-        ) {
-          setShowFilterComponent(true);
-        } else {
-          jumpRouteToView(viewConfig?.items[0].key);
-        }
-      } else if (
-        typeof viewConfig !== "undefined" &&
-        !viewConfig.items.some((item) => item.key === searchParams.selectedView)
-      ) {
-        jumpRouteToView(viewConfig.items[0].key);
-      }
-    }
-  }, [searchParams, enabledView, filters, viewConfig, jumpRouteToView]);
 
   return (
     <div className="divide-y divide-gray-300 rounded-md bg-white pt-3 shadow">
@@ -425,14 +419,17 @@ export function IndexList<Node, OrderField extends string>({
                         size="sm"
                         variant="ghost"
                         onClick={() => {
-                          jumpRouteToView(
-                            typeof currentSelectedViewKey !== "undefined"
-                              ? currentSelectedViewKey
-                              : viewConfig?.items[0].key,
-                          );
-
                           setShowFilterComponent(false);
-                          setCurrentSelectedViewKey(undefined);
+
+                          setSearchParams({
+                            selectedView:
+                              typeof currentSelectedViewKeyRef.current !==
+                              "undefined"
+                                ? currentSelectedViewKeyRef.current
+                                : viewConfig?.items[0].key,
+                          });
+
+                          currentSelectedViewKeyRef.current = undefined;
                         }}
                       >
                         Cancel
@@ -458,7 +455,8 @@ export function IndexList<Node, OrderField extends string>({
                         variant="ghost"
                         onClick={() => {
                           setShowFilterComponent(true);
-                          setCurrentSelectedViewKey(searchParams?.selectedView);
+                          currentSelectedViewKeyRef.current =
+                            searchParams?.selectedView;
                         }}
                       />
                     </Tooltip>
@@ -488,14 +486,14 @@ export function IndexList<Node, OrderField extends string>({
                       options={orderOptions}
                       value={orderField}
                       onChange={(value) => {
-                        reloadAndRest();
+                        setPagination({});
                         setOrderField(value as OrderField);
                       }}
                     />
                     <OrderDirectionList
                       value={orderDirection}
                       onChange={(value) => {
-                        reloadAndRest();
+                        setPagination({});
                         setOrderDirection(value);
                       }}
                     />
@@ -515,10 +513,13 @@ export function IndexList<Node, OrderField extends string>({
             }
             values={filterValues}
             onChange={(result) => {
-              reloadAndRest();
-
               // 根据是否开启视图来决定如何更新过滤项
-              enabledView ? setSearchParams(result) : setFilterValues(result);
+              if (enabledView) {
+                setSearchParams(result);
+              } else {
+                setFilterValues(result);
+                setPagination({});
+              }
             }}
           />
         </div>

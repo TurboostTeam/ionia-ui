@@ -1,5 +1,5 @@
 import { type Meta } from "@storybook/react";
-import { type FC, useEffect, useMemo, useRef, useState } from "react";
+import { type FC, useMemo, useRef } from "react";
 
 import { Badge } from "../badge";
 import { Button } from "../button";
@@ -9,7 +9,6 @@ import { DateTimeInput } from "../date-time-input";
 import { type FilterItemProps } from "../filter";
 import { type ActionType } from "../index-table";
 import { Input } from "../input";
-import { type ViewItem } from "../view";
 import { IndexList } from "./index-list";
 import { type TableColumnProps } from "./list-table";
 
@@ -24,12 +23,6 @@ export default meta;
 
 export const Base: FC = () => {
   const actionRef = useRef<ActionType>(null);
-
-  const [views, setViews] = useState<ViewItem[]>([
-    { key: "1", label: "All", canEdit: false },
-    { key: "2", label: "Draft" },
-  ]);
-  const [activeViewKey, setActiveViewKey] = useState<string | undefined>("2");
 
   const columns: Array<TableColumnProps<any>> = useMemo(
     () => [
@@ -124,17 +117,6 @@ export const Base: FC = () => {
     [],
   );
 
-  useEffect(() => {
-    // Set initial filter values when component mounts
-    actionRef.current?.setFilterValues({
-      commentedAt: new Date(),
-      createdAt: [new Date(), new Date()],
-      status: ["waiting", "progress"],
-      query: "123",
-      "user.id": "aaa",
-    });
-  }, []);
-
   return (
     <div>
       <IndexList
@@ -172,26 +154,6 @@ export const Base: FC = () => {
         }}
         search={{ queryPlaceholder: "search" }}
         toolBarRender={() => <div>toolbar</div>}
-        viewConfig={{
-          items: views,
-          activeKey: activeViewKey,
-          canAdd: true,
-          onActiveChange: (key) => {
-            setActiveViewKey(key);
-          },
-          onAdd: (label) => {
-            const newKey = `view_${Date.now()}`;
-
-            setViews([...views, { key: newKey, label }]);
-            setActiveViewKey(newKey);
-          },
-          onSaveView: (config) => {
-            console.log("视图保存", config);
-          },
-          onEdit: (key, type, payload) => {
-            console.log("视图编辑", key, type, payload);
-          },
-        }}
         onChange={(variables) => {
           console.log(variables);
         }}
