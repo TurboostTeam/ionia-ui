@@ -1,11 +1,13 @@
 import { type Meta } from "@storybook/react";
-import { type FC, useMemo, useRef, useState } from "react";
+import { omit } from "lodash-es";
+import { type FC, useEffect, useMemo, useRef, useState } from "react";
 
 import { Button } from "../button";
 import { CheckboxGroup } from "../checkbox-group";
 import { DateRangePicker } from "../date-range-picker";
 import { DateTimeInput } from "../date-time-input";
 import { type FilterItemProps } from "../filter";
+import { useUrlSearchParams } from "../hooks";
 import { Input } from "../input";
 import { type TableColumnProps } from "../table";
 import { type ViewItem } from "../view";
@@ -18,14 +20,20 @@ const meta = {
 
 export default meta;
 
+interface SearchViewItem extends ViewItem {
+  query?: string;
+  filters?: Record<string, string>;
+}
+
 export const Controlled: FC = () => {
+  const [searchParams] = useUrlSearchParams();
+
   const actionRef = useRef<ActionType>(null);
 
-  const [views, setViews] = useState<ViewItem[]>([
+  const [viewItems, setViewItems] = useState<SearchViewItem[]>([
     { key: "1", label: "ALL", canEdit: false },
-    { key: "2", label: "DRAFT" },
+    { key: "2", label: "DRAFT", query: "2" },
   ]);
-  const [activeViewKey, setActiveViewKey] = useState<string | undefined>("1");
 
   const columns: Array<TableColumnProps<any>> = useMemo(
     () => [
@@ -94,6 +102,12 @@ export const Controlled: FC = () => {
     [],
   );
 
+  useEffect(() => {
+    /**
+     * 当视图发生变化时，应用视图的过滤项，用 actionRef 的 setFilterValues 方法
+     */
+  }, []);
+
   return (
     <div>
       <IndexTable
@@ -109,7 +123,7 @@ export const Controlled: FC = () => {
         emptyStateTitle="暂无数据"
         filters={filters}
         footer={<div>summary</div>}
-        orderOptions={[{ label: "编号", value: "user.id" }]}
+        // orderOptions={[{ label: "编号", value: "user.id" }]}
         rowSelection={{
           allowSelectAll: true,
           // single: false,
@@ -129,27 +143,47 @@ export const Controlled: FC = () => {
         search={{ queryPlaceholder: "search" }}
         toolBarRender={() => <div>toolbar</div>}
         viewConfig={{
-          items: views,
-          activeKey: activeViewKey,
+          items: viewItems,
+          activeKey: searchParams?.selectedView,
           canAdd: true,
           onActiveChange: (key) => {
-            setActiveViewKey(key);
+            /**
+             * 1. 路由到新视图
+             */
           },
-          onAdd: (label) => {
+          onAdd: (label, payload) => {
+            /**
+             * 1. 创建新视图
+             * 2. 保存新视图到 viewItems
+             * 3. 路由到新视图
+             */
             const newKey = `view_${Date.now()}`;
 
-            setViews([...views, { key: newKey, label }]);
-            setActiveViewKey(newKey);
+            console.log("创建新视图", { label, payload });
+
+            setViewItems([
+              ...viewItems,
+              {
+                key: newKey,
+                label,
+                filters: omit(payload, "query"),
+                query: payload?.query,
+              },
+            ]);
           },
-          onSaveView: (config) => {
-            console.log("视图保存", config);
+          onSaveView: (viewKey, config) => {
+            /**
+             * 1. 保存视图
+             * 2. 路由到新视图
+             */
+            console.log("视图保存", { viewKey, config });
           },
           onEdit: (key, type, payload) => {
             console.log("视图编辑", key, type, payload);
           },
         }}
         onChange={(variables) => {
-          console.log({ variables });
+          console.log("触发请求 variables", variables);
         }}
         onRow={(record) => {
           return {
