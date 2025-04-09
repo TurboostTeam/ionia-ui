@@ -375,7 +375,11 @@ function InternalIndexList<Node, OrderField extends string>({
             item.canEdit !== false,
         ) !== "undefined"
       ) {
-        viewConfig?.onSaveView?.(currentSelectedViewKeyRef.current, config);
+        void viewConfig?.onSaveView?.(
+          currentSelectedViewKeyRef.current,
+          config,
+        );
+
         setShowFilterComponent(false);
         currentSelectedViewKeyRef.current = undefined;
       } else {

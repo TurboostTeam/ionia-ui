@@ -1,5 +1,6 @@
 import { type Meta } from "@storybook/react";
 import { omit } from "lodash-es";
+import { useQueryState } from "nuqs";
 import { type FC, useEffect, useMemo, useRef, useState } from "react";
 
 import { Button } from "../button";
@@ -7,7 +8,6 @@ import { CheckboxGroup } from "../checkbox-group";
 import { DateRangePicker } from "../date-range-picker";
 import { DateTimeInput } from "../date-time-input";
 import { type FilterItemProps } from "../filter";
-import { useUrlSearchParams } from "../hooks";
 import { Input } from "../input";
 import { type TableColumnProps } from "../table";
 import { type ViewItem } from "../view";
@@ -26,7 +26,7 @@ interface SearchViewItem extends ViewItem {
 }
 
 export const Controlled: FC = () => {
-  const [searchParams] = useUrlSearchParams();
+  const [currentView, setCurrentView] = useQueryState("selectedView");
 
   const actionRef = useRef<ActionType>(null);
 
@@ -144,10 +144,10 @@ export const Controlled: FC = () => {
         toolBarRender={() => <div>toolbar</div>}
         viewConfig={{
           items: viewItems,
-          activeKey: searchParams?.selectedView,
+          activeKey: currentView ?? undefined,
           canAdd: true,
           onActiveChange: (key) => {
-            window.history.pushState(null, "", `?selectedView=${key}`);
+            void setCurrentView(key);
             /**
              * 1. 路由到新视图
              */
@@ -171,6 +171,8 @@ export const Controlled: FC = () => {
                 query: payload?.query,
               },
             ]);
+
+            void setCurrentView(newKey);
           },
           onSaveView: (viewKey, config) => {
             /**
@@ -178,6 +180,19 @@ export const Controlled: FC = () => {
              * 2. 路由到新视图
              */
             console.log("视图保存", { viewKey, config });
+
+            setViewItems((prev) => {
+              return prev.map((item) => {
+                if (item.key === viewKey) {
+                  return { ...item, ...config };
+                }
+
+                return item;
+              });
+            });
+
+            window.history.pushState(null, "", window.location.pathname);
+            void setCurrentView(viewKey);
           },
           onEdit: (key, type, payload) => {
             console.log("视图编辑", key, type, payload);

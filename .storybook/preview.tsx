@@ -1,5 +1,5 @@
 import "../src/styles.css";
-
+import { NuqsAdapter } from "nuqs/adapters/react";
 import type { Preview } from "@storybook/react";
 import { AppProvider } from "../src";
 import React, { FC } from "react";
@@ -8,7 +8,9 @@ export default {
   decorators: [
     (Story: FC) => (
       <AppProvider>
-        <Story />
+        <NuqsAdapter>
+          <Story />
+        </NuqsAdapter>
       </AppProvider>
     ),
   ],

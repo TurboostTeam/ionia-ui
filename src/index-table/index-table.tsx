@@ -397,6 +397,7 @@ function InternalIndexTable<Node, OrderField extends string>({
         ) !== "undefined"
       ) {
         viewConfig?.onSaveView?.(currentSelectedViewKeyRef.current, config);
+
         setShowFilterComponent(false);
         currentSelectedViewKeyRef.current = undefined;
       } else {
