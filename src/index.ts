@@ -18,7 +18,6 @@ export * from "./form";
 export * from "./form-group";
 export * from "./form-item";
 export * from "./frame";
-export * from "./hooks";
 export * from "./icon";
 export * from "./index-list";
 export * from "./index-table";

@@ -22,7 +22,6 @@ import { Input } from "../input";
 import { Popover } from "../popover";
 import { Spinner } from "../spinner";
 import { type Field } from "../types";
-import { type TypeValue } from "../utils/transform-type-value";
 
 const isEmpty = (value: unknown): boolean => {
   return (
@@ -81,6 +80,13 @@ const flattenObject = (obj: any): any => {
   );
 };
 
+export type FilterTypeValue =
+  | StringConstructor
+  | NumberConstructor
+  | BooleanConstructor
+  | DateConstructor
+  | ArrayConstructor;
+
 export interface FilterItemProps<T> {
   label: string;
   field: Field<T>;
@@ -98,8 +104,8 @@ export interface FilterItemProps<T> {
     value: any;
   }) => ReactNode;
   pinned?: boolean;
-  type?: TypeValue;
-  itemType?: TypeValue;
+  type?: FilterTypeValue;
+  itemType?: FilterTypeValue;
 }
 
 export interface FilterSearchConfig {
@@ -128,7 +134,7 @@ export function Filter<T>({
   showFilterItems = true,
   onChange,
 }: FilterProps<T>): ReactElement {
-  const { control, setValue, watch } = useForm<any>();
+  const { control, setValue, watch, reset } = useForm<any>();
 
   // 将筛选条件分组为固定和非固定两类
   const [{ fixedFilters, unfixedFilters }, setFilterGroups] = useState({
@@ -169,16 +175,8 @@ export function Filter<T>({
   );
 
   useEffect(() => {
-    const oldValues = watch();
-
-    if (typeof values !== "undefined") {
-      for (const key in values) {
-        if ((values as any)[key] !== oldValues[key]) {
-          setValue(key, (values as any)[key]);
-        }
-      }
-    }
-  }, [values, setValue, watch]);
+    reset(values);
+  }, [values, reset]);
 
   return (
     <div className={twMerge("space-y-3", showFilterItems && "flex-1")}>

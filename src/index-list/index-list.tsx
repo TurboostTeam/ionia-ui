@@ -5,7 +5,27 @@ import {
   FunnelIcon,
 } from "@heroicons/react/24/outline";
 import dayjs from "dayjs";
-import { compact, get, isEmpty, isEqual, omit, pick, trim } from "lodash-es";
+import {
+  compact,
+  get,
+  isEmpty,
+  isEqual,
+  isNil,
+  omit,
+  omitBy,
+  pick,
+  trim,
+} from "lodash-es";
+import {
+  parseAsArrayOf,
+  parseAsBoolean,
+  parseAsInteger,
+  parseAsIsoDateTime,
+  parseAsString,
+  type ParserBuilder,
+  useQueryStates,
+} from "nuqs";
+import { NuqsAdapter } from "nuqs/adapters/react";
 import {
   type ReactElement,
   type ReactNode,
@@ -27,8 +47,8 @@ import {
   Filter,
   type FilterItemProps,
   type FilterSearchConfig,
+  type FilterTypeValue,
 } from "../filter";
-import { useUrlSearchParams } from "../hooks";
 import { type ActionType, type SaveViewConfig } from "../index-table";
 import { OrderDirection } from "../index-table/order-direction";
 import { OrderDirectionList } from "../index-table/order-direction-list";
@@ -43,7 +63,6 @@ import {
 } from "../table";
 import { Tooltip } from "../tooltip";
 import { type Field } from "../types";
-import { transformTypeValue } from "../utils";
 import { View, type ViewProps } from "../view";
 import { ListTable } from "./list-table";
 import {
@@ -52,6 +71,32 @@ import {
   type IndexTablePagination,
   type IndexTableValue,
 } from "./types";
+
+const getFilterFiledTypeParse = (
+  type: FilterTypeValue,
+  itemType?: FilterTypeValue,
+): ParserBuilder<any> => {
+  switch (type) {
+    case String:
+      return parseAsString;
+    case Number:
+      return parseAsInteger;
+    case Boolean:
+      return parseAsBoolean;
+    case Date:
+      return parseAsIsoDateTime;
+    case Array:
+      return parseAsArrayOf(
+        typeof itemType === "undefined"
+          ? parseAsString
+          : itemType === Date
+          ? (parseAsIsoDateTime as unknown as ParserBuilder<string>)
+          : getFilterFiledTypeParse(itemType),
+      );
+    default:
+      return parseAsString;
+  }
+};
 
 export interface IndexListProps<Node, OrderField> {
   emptyStateIcon?: EmptyStateProps["icon"];
@@ -84,7 +129,7 @@ export interface IndexListProps<Node, OrderField> {
   onRow?: TableProps<Node>["onRow"];
 }
 
-export function IndexList<Node, OrderField extends string>({
+function InternalIndexList<Node, OrderField extends string>({
   emptyStateIcon,
   emptyStateTitle,
   actionRef,
@@ -107,7 +152,7 @@ export function IndexList<Node, OrderField extends string>({
   onRow,
 }: IndexListProps<Node, OrderField>): ReactElement {
   const modal = useModal();
-  const { control, getValues, trigger } = useForm();
+  const { control, getValues, trigger, setValue } = useForm();
 
   // 在视图模式下，是否显示过滤组件
   const [showFilterComponent, setShowFilterComponent] = useState(false);
@@ -193,10 +238,40 @@ export function IndexList<Node, OrderField extends string>({
     [viewConfig],
   );
 
-  const [searchParams, setSearchParams] = useUrlSearchParams(
-    ["selectedView", "query", ...filters.map((item) => item.field)],
-    !enabledView,
-  );
+  const [urlQueryStates, setUrlQueryStates] = useQueryStates({
+    query: parseAsString,
+    selectedView: parseAsString,
+    ...filters.reduce<Record<string, ParserBuilder<any>>>(
+      (result, currentFilter) => {
+        result[currentFilter.field] =
+          typeof currentFilter?.type === "undefined"
+            ? parseAsString
+            : getFilterFiledTypeParse(
+                currentFilter.type,
+                currentFilter.itemType,
+              );
+
+        return result;
+      },
+      {},
+    ),
+  });
+
+  // nuqs 包对监听的属性值默认设置为 null（无论是否存在于 url 上），所以需要过滤掉 null 和 undefined 的 url 查询参数，供过滤组件使用
+  const usefulQueryStates = useMemo(() => {
+    return omitBy(urlQueryStates, isNil);
+  }, [urlQueryStates]);
+
+  /**
+   * 之所以不使用 setUrlQueryStates(null) 清除所有 url 参数是因为会触发一次状态更新
+   * setUrlQueryStates 不支持直接覆盖所有 url 参数，所以需要手动清除
+   * 后面设置 url 参数的时候选择 replace 这条路由记录，保持路由堆栈的正确
+   */
+  const clearUrlQueryStates = useCallback(() => {
+    if (typeof window !== "undefined") {
+      window.history.pushState({}, "", window.location.pathname);
+    }
+  }, []);
 
   const tableActionRef = useRef<TableActionType>(null);
 
@@ -207,16 +282,19 @@ export function IndexList<Node, OrderField extends string>({
       reloadAndRest: () => {
         setPagination({});
       },
-      setFilterValues: (
+      setFilterValues: async (
         filterValues: Record<Field<Node>, any>,
         syncToUrl = false,
       ) => {
-        syncToUrl
-          ? setSearchParams(filterValues)
-          : setFilterValues(filterValues);
+        if (syncToUrl) {
+          clearUrlQueryStates();
+          await setUrlQueryStates(filterValues);
+        } else {
+          setFilterValues(filterValues);
+        }
       },
     }),
-    [setFilterValues, setSearchParams],
+    [clearUrlQueryStates, setUrlQueryStates],
   );
 
   const handlePrevClick = useCallback(() => {
@@ -277,11 +355,15 @@ export function IndexList<Node, OrderField extends string>({
             const validatedPass = await trigger(viewNameInputMarker);
 
             if (validatedPass) {
-              viewConfig?.onAdd?.(getValues(viewNameInputMarker), config);
+              clearUrlQueryStates();
 
-              close();
+              viewConfig?.onAdd?.(getValues(viewNameInputMarker), config);
+              setValue(viewNameInputMarker, undefined);
 
               setShowFilterComponent(false);
+              currentSelectedViewKeyRef.current = undefined;
+
+              close();
             }
           },
         },
@@ -297,7 +379,11 @@ export function IndexList<Node, OrderField extends string>({
             item.canEdit !== false,
         ) !== "undefined"
       ) {
-        viewConfig?.onSaveView?.(currentSelectedViewKeyRef.current, config);
+        void viewConfig?.onSaveView?.(
+          currentSelectedViewKeyRef.current,
+          config,
+        );
+
         setShowFilterComponent(false);
         currentSelectedViewKeyRef.current = undefined;
       } else {
@@ -306,29 +392,26 @@ export function IndexList<Node, OrderField extends string>({
     } else {
       generateNewView();
     }
-  }, [control, filterValues, getValues, modal, trigger, viewConfig]);
+  }, [
+    filterValues,
+    modal,
+    control,
+    trigger,
+    clearUrlQueryStates,
+    viewConfig,
+    getValues,
+    setValue,
+  ]);
 
   // 处理 url 参数
   const transformedParams = useMemo(() => {
     // 如果启用视图，并且 url 不存在 selectedView 参数，则将 url 参数转换为对应的类型
-    if (enabledView && typeof searchParams?.selectedView === "undefined") {
-      const result = {
-        ...pick(searchParams, [...filters.map((item) => item.field), "query"]),
-      };
-
-      filters.forEach((filterItem) => {
-        const { field, type, itemType } = filterItem;
-
-        if (field in result && type != null) {
-          result[field] = transformTypeValue(result[field], type, itemType);
-        }
-      });
-
-      return result;
-    } else {
-      return filterValues;
+    if (enabledView && typeof usefulQueryStates?.selectedView === "undefined") {
+      return usefulQueryStates;
     }
-  }, [enabledView, searchParams, filters, filterValues]);
+
+    return filterValues;
+  }, [enabledView, usefulQueryStates, filterValues]);
 
   // 当启用视图并且 searchParams 发生变化的时候，更新 filterValues
   useEffect(() => {
@@ -340,39 +423,56 @@ export function IndexList<Node, OrderField extends string>({
 
   // 如果 url 不存在 selectedView 参数，则根据过滤项和查询条件来决定是否显示过滤组件
   useEffect(() => {
-    if (enabledView && typeof searchParams?.selectedView === "undefined") {
+    if (enabledView && typeof usefulQueryStates?.selectedView === "undefined") {
       if (
         filters.some(
-          (item) => typeof searchParams?.[item.field] !== "undefined",
+          (item) => typeof usefulQueryStates?.[item.field] !== "undefined",
         ) ||
-        typeof searchParams?.query !== "undefined"
+        typeof usefulQueryStates?.query !== "undefined"
       ) {
         if (!showFilterComponent) {
           setShowFilterComponent(true);
         }
       } else {
-        setSearchParams({
+        // 没有符合的过滤项，则将视图参数设置为第一个视图
+        clearUrlQueryStates();
+        setUrlQueryStates({
           selectedView: viewConfig?.items[0].key,
-        });
+        }).catch(() => {});
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enabledView, filters, searchParams, viewConfig, showFilterComponent]);
+  }, [
+    enabledView,
+    filters,
+    usefulQueryStates,
+    viewConfig,
+    showFilterComponent,
+    clearUrlQueryStates,
+    setUrlQueryStates,
+  ]);
 
   // 当视图参数存在，但是视图参数不包含在配置项里面时，则将视图参数设置为第一个视图
   useEffect(() => {
     if (
       enabledView &&
-      typeof searchParams?.selectedView !== "undefined" &&
+      typeof usefulQueryStates?.selectedView !== "undefined" &&
       typeof viewConfig !== "undefined" &&
-      !viewConfig.items.some((item) => item.key === searchParams.selectedView)
+      !viewConfig.items.some(
+        (item) => item.key === usefulQueryStates.selectedView,
+      )
     ) {
-      setSearchParams({
+      clearUrlQueryStates();
+      setUrlQueryStates({
         selectedView: viewConfig.items[0].key,
-      });
+      }).catch(() => {});
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enabledView, viewConfig, searchParams]);
+  }, [
+    enabledView,
+    viewConfig,
+    usefulQueryStates,
+    clearUrlQueryStates,
+    setUrlQueryStates,
+  ]);
 
   useEffect(() => {
     onChange?.({
@@ -419,17 +519,30 @@ export function IndexList<Node, OrderField extends string>({
                         size="sm"
                         variant="ghost"
                         onClick={() => {
-                          setShowFilterComponent(false);
-
-                          setSearchParams({
-                            selectedView:
-                              typeof currentSelectedViewKeyRef.current !==
-                              "undefined"
-                                ? currentSelectedViewKeyRef.current
-                                : viewConfig?.items[0].key,
-                          });
-
-                          currentSelectedViewKeyRef.current = undefined;
+                          if (
+                            currentSelectedViewKeyRef.current !==
+                            usefulQueryStates?.selectedView
+                          ) {
+                            clearUrlQueryStates();
+                            void setUrlQueryStates({
+                              selectedView:
+                                typeof currentSelectedViewKeyRef.current !==
+                                "undefined"
+                                  ? currentSelectedViewKeyRef.current
+                                  : viewConfig?.items[0].key,
+                            }).then(() => {
+                              setShowFilterComponent(false);
+                              currentSelectedViewKeyRef.current = undefined;
+                            });
+                          } else {
+                            setFilterValues(
+                              typeof filterValues === "undefined"
+                                ? undefined
+                                : { ...filterValues },
+                            );
+                            setShowFilterComponent(false);
+                            currentSelectedViewKeyRef.current = undefined;
+                          }
                         }}
                       >
                         Cancel
@@ -438,6 +551,9 @@ export function IndexList<Node, OrderField extends string>({
                         classNames={{
                           root: "[&>span>span]:flex-shrink-0",
                         }}
+                        disabled={
+                          typeof usefulQueryStates?.selectedView !== "undefined"
+                        }
                         loading={viewConfig?.saveViewLoading}
                         size="sm"
                         variant="ghost"
@@ -456,7 +572,7 @@ export function IndexList<Node, OrderField extends string>({
                         onClick={() => {
                           setShowFilterComponent(true);
                           currentSelectedViewKeyRef.current =
-                            searchParams?.selectedView;
+                            urlQueryStates?.selectedView ?? undefined;
                         }}
                       />
                     </Tooltip>
@@ -515,7 +631,10 @@ export function IndexList<Node, OrderField extends string>({
             onChange={(result) => {
               // 根据是否开启视图来决定如何更新过滤项
               if (enabledView) {
-                setSearchParams(result);
+                if (!isEqual(result, filterValues)) {
+                  clearUrlQueryStates();
+                  void setUrlQueryStates(isEmpty(result) ? null : result);
+                }
               } else {
                 setFilterValues(result);
                 setPagination({});
@@ -564,5 +683,15 @@ export function IndexList<Node, OrderField extends string>({
         </div>
       )}
     </div>
+  );
+}
+
+export function IndexList<Node, OrderField extends string>(
+  props: IndexListProps<Node, OrderField>,
+): ReactElement {
+  return (
+    <NuqsAdapter>
+      <InternalIndexList {...props} />
+    </NuqsAdapter>
   );
 }

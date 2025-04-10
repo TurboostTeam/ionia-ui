@@ -1,5 +1,5 @@
 import { type Meta } from "@storybook/react";
-import { omit } from "lodash-es";
+import { useQueryState } from "nuqs";
 import { type FC, useEffect, useMemo, useRef, useState } from "react";
 
 import { Button } from "../button";
@@ -7,7 +7,6 @@ import { CheckboxGroup } from "../checkbox-group";
 import { DateRangePicker } from "../date-range-picker";
 import { DateTimeInput } from "../date-time-input";
 import { type FilterItemProps } from "../filter";
-import { useUrlSearchParams } from "../hooks";
 import { Input } from "../input";
 import { type TableColumnProps } from "../table";
 import { type ViewItem } from "../view";
@@ -21,18 +20,21 @@ const meta = {
 export default meta;
 
 interface SearchViewItem extends ViewItem {
-  query?: string;
-  filters?: Record<string, string>;
+  search?: Record<string, any>;
 }
 
 export const Controlled: FC = () => {
-  const [searchParams] = useUrlSearchParams();
+  const [currentView, setCurrentView] = useQueryState("selectedView");
 
   const actionRef = useRef<ActionType>(null);
 
   const [viewItems, setViewItems] = useState<SearchViewItem[]>([
     { key: "1", label: "ALL", canEdit: false },
-    { key: "2", label: "DRAFT", query: "2" },
+    {
+      key: "2",
+      label: "DRAFT",
+      search: { query: "123", commentedAt: new Date() },
+    },
   ]);
 
   const columns: Array<TableColumnProps<any>> = useMemo(
@@ -106,7 +108,16 @@ export const Controlled: FC = () => {
     /**
      * 当视图发生变化时，应用视图的过滤项，用 actionRef 的 setFilterValues 方法
      */
-  }, []);
+    const view = viewItems.find((item) => item.key === currentView);
+
+    if (typeof view !== "undefined") {
+      actionRef.current?.setFilterValues(
+        typeof view?.search !== "undefined" ? view.search : {},
+      );
+
+      console.log("外部应用视图的过滤项", view);
+    }
+  }, [currentView, viewItems]);
 
   return (
     <div>
@@ -144,9 +155,10 @@ export const Controlled: FC = () => {
         toolBarRender={() => <div>toolbar</div>}
         viewConfig={{
           items: viewItems,
-          activeKey: searchParams?.selectedView,
+          activeKey: currentView ?? undefined,
           canAdd: true,
           onActiveChange: (key) => {
+            void setCurrentView(key);
             /**
              * 1. 路由到新视图
              */
@@ -166,10 +178,11 @@ export const Controlled: FC = () => {
               {
                 key: newKey,
                 label,
-                filters: omit(payload, "query"),
-                query: payload?.query,
+                search: payload,
               },
             ]);
+
+            void setCurrentView(newKey);
           },
           onSaveView: (viewKey, config) => {
             /**
@@ -177,6 +190,19 @@ export const Controlled: FC = () => {
              * 2. 路由到新视图
              */
             console.log("视图保存", { viewKey, config });
+
+            setViewItems((prev) => {
+              return prev.map((item) => {
+                if (item.key === viewKey) {
+                  return { ...item, ...config };
+                }
+
+                return item;
+              });
+            });
+
+            window.history.pushState(null, "", window.location.pathname);
+            void setCurrentView(viewKey);
           },
           onEdit: (key, type, payload) => {
             console.log("视图编辑", key, type, payload);
