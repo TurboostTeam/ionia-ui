@@ -25,7 +25,6 @@ import {
   type ParserBuilder,
   useQueryStates,
 } from "nuqs";
-import { NuqsAdapter } from "nuqs/adapters/react";
 import {
   type ReactElement,
   type ReactNode,
@@ -129,7 +128,7 @@ export interface IndexListProps<Node, OrderField> {
   onRow?: TableProps<Node>["onRow"];
 }
 
-function InternalIndexList<Node, OrderField extends string>({
+export function IndexList<Node, OrderField extends string>({
   emptyStateIcon,
   emptyStateTitle,
   actionRef,
@@ -306,7 +305,7 @@ function InternalIndexList<Node, OrderField extends string>({
   }, [pageSize, pageInfo?.endCursor]);
 
   // 处理视图保存
-  const handleViewSave = useCallback(() => {
+  const handleViewSave = useCallback(async () => {
     const config: SaveViewConfig = {};
 
     const omitQueryFilters = omit(filterValues, "query");
@@ -357,7 +356,8 @@ function InternalIndexList<Node, OrderField extends string>({
             if (validatedPass) {
               clearUrlQueryStates();
 
-              viewConfig?.onAdd?.(getValues(viewNameInputMarker), config);
+              // eslint-disable-next-line @typescript-eslint/await-thenable
+              await viewConfig?.onAdd?.(getValues(viewNameInputMarker), config);
               setValue(viewNameInputMarker, undefined);
 
               setShowFilterComponent(false);
@@ -379,12 +379,12 @@ function InternalIndexList<Node, OrderField extends string>({
             item.canEdit !== false,
         ) !== "undefined"
       ) {
-        void viewConfig?.onSaveView?.(
+        // eslint-disable-next-line @typescript-eslint/await-thenable
+        await viewConfig?.onSaveView?.(
           currentSelectedViewKeyRef.current,
           config,
         );
 
-        setShowFilterComponent(false);
         currentSelectedViewKeyRef.current = undefined;
       } else {
         generateNewView();
@@ -453,18 +453,20 @@ function InternalIndexList<Node, OrderField extends string>({
 
   // 当视图参数存在，但是视图参数不包含在配置项里面时，则将视图参数设置为第一个视图
   useEffect(() => {
-    if (
-      enabledView &&
-      typeof usefulQueryStates?.selectedView !== "undefined" &&
-      typeof viewConfig !== "undefined" &&
-      !viewConfig.items.some(
-        (item) => item.key === usefulQueryStates.selectedView,
-      )
-    ) {
-      clearUrlQueryStates();
-      setUrlQueryStates({
-        selectedView: viewConfig.items[0].key,
-      }).catch(() => {});
+    if (enabledView && typeof usefulQueryStates?.selectedView !== "undefined") {
+      if (
+        typeof viewConfig !== "undefined" &&
+        !viewConfig.items.some(
+          (item) => item.key === usefulQueryStates.selectedView,
+        )
+      ) {
+        clearUrlQueryStates();
+        setUrlQueryStates({
+          selectedView: viewConfig.items[0].key,
+        }).catch(() => {});
+      } else if (typeof currentSelectedViewKeyRef.current === "undefined") {
+        setShowFilterComponent(false);
+      }
     }
   }, [
     enabledView,
@@ -520,8 +522,12 @@ function InternalIndexList<Node, OrderField extends string>({
                         variant="ghost"
                         onClick={() => {
                           if (
+                            (typeof currentSelectedViewKeyRef.current ===
+                              "undefined" &&
+                              typeof usefulQueryStates?.selectedView ===
+                                "undefined") ||
                             currentSelectedViewKeyRef.current !==
-                            usefulQueryStates?.selectedView
+                              usefulQueryStates?.selectedView
                           ) {
                             clearUrlQueryStates();
                             void setUrlQueryStates({
@@ -557,7 +563,9 @@ function InternalIndexList<Node, OrderField extends string>({
                         loading={viewConfig?.saveViewLoading}
                         size="sm"
                         variant="ghost"
-                        onClick={handleViewSave}
+                        onClick={() => {
+                          void handleViewSave();
+                        }}
                       >
                         Save
                       </Button>
@@ -683,15 +691,5 @@ function InternalIndexList<Node, OrderField extends string>({
         </div>
       )}
     </div>
-  );
-}
-
-export function IndexList<Node, OrderField extends string>(
-  props: IndexListProps<Node, OrderField>,
-): ReactElement {
-  return (
-    <NuqsAdapter>
-      <InternalIndexList {...props} />
-    </NuqsAdapter>
   );
 }

@@ -175,8 +175,32 @@ export function Filter<T>({
   );
 
   useEffect(() => {
-    reset(values);
-  }, [values, reset]);
+    // 获取当前表单中所有字段的值
+    const currentFormValues = watch();
+    // 准备新的表单值
+    const newFormValues = { ...currentFormValues };
+
+    // 将所有在 watch() 中但不在 values 中的字段设置为 undefined
+    Object.keys(currentFormValues).forEach((key) => {
+      if (
+        typeof values !== "undefined" &&
+        !Object.prototype.hasOwnProperty.call(values, key)
+      ) {
+        newFormValues[key] = undefined;
+      }
+    });
+
+    // 将 values 中的值应用到表单
+    if (typeof values !== "undefined") {
+      Object.keys(values).forEach((key) => {
+        newFormValues[key as keyof typeof values] =
+          values[key as keyof typeof values];
+      });
+    }
+
+    // 重置表单，应用新的值
+    reset(newFormValues);
+  }, [values, watch, reset]);
 
   return (
     <div className={twMerge("space-y-3", showFilterItems && "flex-1")}>
