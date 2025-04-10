@@ -173,7 +173,7 @@ function InternalIndexTable<Node, OrderField extends string>({
   onRow,
 }: IndexTableProps<Node, OrderField>): ReactElement {
   const modal = useModal();
-  const { control, getValues, trigger } = useForm();
+  const { control, getValues, trigger, setValue } = useForm();
 
   // 在视图模式下，是否显示过滤组件
   const [showFilterComponent, setShowFilterComponent] = useState(false);
@@ -376,8 +376,12 @@ function InternalIndexTable<Node, OrderField extends string>({
             const validatedPass = await trigger(viewNameInputMarker);
 
             if (validatedPass) {
-              viewConfig?.onAdd?.(getValues(viewNameInputMarker), config);
+              clearUrlQueryStates();
 
+              viewConfig?.onAdd?.(getValues(viewNameInputMarker), config);
+              setValue(viewNameInputMarker, undefined);
+
+              setShowFilterComponent(false);
               currentSelectedViewKeyRef.current = undefined;
 
               close();
@@ -406,7 +410,16 @@ function InternalIndexTable<Node, OrderField extends string>({
     } else {
       generateNewView();
     }
-  }, [filterValues, viewConfig, control, getValues, trigger, modal]);
+  }, [
+    filterValues,
+    modal,
+    control,
+    trigger,
+    clearUrlQueryStates,
+    viewConfig,
+    getValues,
+    setValue,
+  ]);
 
   // 处理 url 参数
   const transformedParams = useMemo(() => {
@@ -524,17 +537,30 @@ function InternalIndexTable<Node, OrderField extends string>({
                         size="sm"
                         variant="ghost"
                         onClick={() => {
-                          clearUrlQueryStates();
-                          void setUrlQueryStates({
-                            selectedView:
-                              typeof currentSelectedViewKeyRef.current !==
-                              "undefined"
-                                ? currentSelectedViewKeyRef.current
-                                : viewConfig?.items[0].key,
-                          }).then(() => {
+                          if (
+                            currentSelectedViewKeyRef.current !==
+                            usefulQueryStates?.selectedView
+                          ) {
+                            clearUrlQueryStates();
+                            void setUrlQueryStates({
+                              selectedView:
+                                typeof currentSelectedViewKeyRef.current !==
+                                "undefined"
+                                  ? currentSelectedViewKeyRef.current
+                                  : viewConfig?.items[0].key,
+                            }).then(() => {
+                              setShowFilterComponent(false);
+                              currentSelectedViewKeyRef.current = undefined;
+                            });
+                          } else {
+                            setFilterValues(
+                              typeof filterValues === "undefined"
+                                ? undefined
+                                : { ...filterValues },
+                            );
                             setShowFilterComponent(false);
                             currentSelectedViewKeyRef.current = undefined;
-                          });
+                          }
                         }}
                       >
                         Cancel
@@ -543,6 +569,9 @@ function InternalIndexTable<Node, OrderField extends string>({
                         classNames={{
                           root: "[&>span>span]:flex-shrink-0",
                         }}
+                        disabled={
+                          typeof usefulQueryStates?.selectedView !== "undefined"
+                        }
                         loading={viewConfig?.saveViewLoading}
                         size="sm"
                         variant="ghost"
@@ -620,8 +649,10 @@ function InternalIndexTable<Node, OrderField extends string>({
             onChange={(result) => {
               // 根据是否开启视图来决定如何更新过滤项
               if (enabledView) {
-                clearUrlQueryStates();
-                void setUrlQueryStates(isEmpty(result) ? null : result);
+                if (!isEqual(result, filterValues)) {
+                  clearUrlQueryStates();
+                  void setUrlQueryStates(isEmpty(result) ? null : result);
+                }
               } else {
                 setFilterValues(result);
                 setPagination({});

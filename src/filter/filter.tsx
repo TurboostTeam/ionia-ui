@@ -134,7 +134,7 @@ export function Filter<T>({
   showFilterItems = true,
   onChange,
 }: FilterProps<T>): ReactElement {
-  const { control, setValue, watch } = useForm<any>();
+  const { control, setValue, watch, reset } = useForm<any>();
 
   // 将筛选条件分组为固定和非固定两类
   const [{ fixedFilters, unfixedFilters }, setFilterGroups] = useState({
@@ -175,16 +175,8 @@ export function Filter<T>({
   );
 
   useEffect(() => {
-    const oldValues = watch();
-
-    if (typeof values !== "undefined") {
-      for (const key in values) {
-        if ((values as any)[key] !== oldValues[key]) {
-          setValue(key, (values as any)[key]);
-        }
-      }
-    }
-  }, [values, setValue, watch]);
+    reset(values);
+  }, [values, reset]);
 
   return (
     <div className={twMerge("space-y-3", showFilterItems && "flex-1")}>

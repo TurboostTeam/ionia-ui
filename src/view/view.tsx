@@ -110,6 +110,8 @@ export function View({
                         onEdit?.(key, ViewItemEditType.RENAME, {
                           label: getValues(keyMarker),
                         });
+
+                        setValue(keyMarker, undefined);
                         close();
                       }
                     },
@@ -250,6 +252,7 @@ export function View({
 
                     if (validatedPass) {
                       onAdd?.(getValues(viewNameInputMarker));
+                      setValue(viewNameInputMarker, undefined);
                       close();
                     }
                   },
