@@ -140,8 +140,8 @@ export interface IndexTableProps<Node, OrderField> {
   value?: IndexTableValue<OrderField>;
   defaultFilterValue?: Record<Field<Node>, any>;
   viewConfig?: ViewProps & {
-    saveViewLoading?: boolean;
-    onSaveView?: (viewKey: string, config: SaveViewConfig) => void;
+    saveLoading?: boolean;
+    onSave?: (viewKey: string, config: SaveViewConfig) => void;
   };
   toolBarRender?: () => ReactNode;
   onChange?: (value: IndexTableValue<OrderField>) => void;
@@ -402,10 +402,7 @@ export function IndexTable<Node, OrderField extends string>({
         ) !== "undefined"
       ) {
         // eslint-disable-next-line @typescript-eslint/await-thenable
-        await viewConfig?.onSaveView?.(
-          currentSelectedViewKeyRef.current,
-          config,
-        );
+        await viewConfig?.onSave?.(currentSelectedViewKeyRef.current, config);
 
         currentSelectedViewKeyRef.current = undefined;
       } else {
@@ -582,7 +579,7 @@ export function IndexTable<Node, OrderField extends string>({
                         disabled={
                           typeof usefulQueryStates?.selectedView !== "undefined"
                         }
-                        loading={viewConfig?.saveViewLoading}
+                        loading={viewConfig?.saveLoading}
                         size="sm"
                         variant="ghost"
                         onClick={() => {
