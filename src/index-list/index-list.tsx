@@ -37,6 +37,7 @@ import {
   useState,
 } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { twMerge } from "tailwind-merge";
 
 import { type ActionProps } from "../action";
 import { Button } from "../button";
@@ -55,6 +56,7 @@ import { Input } from "../input";
 import { useModal } from "../modal";
 import { Popover } from "../popover";
 import { RadioGroup, type RadioGroupOption } from "../radio-group";
+import { Spinner } from "../spinner";
 import {
   type TableActionType,
   type TableColumnProps,
@@ -649,22 +651,31 @@ export function IndexList<Node, OrderField extends string>({
         </div>
       </div>
 
-      {typeof edges !== "undefined" && edges.length > 0 ? (
-        <ListTable
-          columns={columns}
-          data={edges.map((edge) => edge.node)}
-          rowSelection={rowSelection}
-          tableActionRef={tableActionRef}
-          onRow={onRow}
-        />
-      ) : (
-        <EmptyState
-          className="py-10"
-          description={emptyStateDescription}
-          icon={emptyStateIcon}
-          title={emptyStateTitle}
-        />
-      )}
+      <div className={twMerge("relative", loading && "pointer-events-none")}>
+        {typeof edges !== "undefined" && edges.length > 0 ? (
+          <ListTable
+            columns={columns}
+            data={edges.map((edge) => edge.node)}
+            rowSelection={rowSelection}
+            tableActionRef={tableActionRef}
+            onRow={onRow}
+          />
+        ) : (
+          <EmptyState
+            className="py-10"
+            description={emptyStateDescription}
+            icon={emptyStateIcon}
+            title={emptyStateTitle}
+          />
+        )}
+
+        {loading && (
+          <>
+            <div className="absolute left-0 top-0 z-[2] h-full w-full bg-surface opacity-50" />
+            <Spinner className="absolute bottom-0 left-0 right-0 top-0 z-10 m-auto" />
+          </>
+        )}
+      </div>
 
       {footer}
 
