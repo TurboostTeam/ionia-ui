@@ -293,9 +293,10 @@ export function IndexList<Node, OrderField extends string>({
         } else {
           setFilterValues(filterValues);
         }
+        setPagination({});
       },
     }),
-    [clearUrlQueryStates, setUrlQueryStates],
+    [clearUrlQueryStates, setUrlQueryStates, setPagination],
   );
 
   const handlePrevClick = useCallback(() => {
@@ -685,17 +686,15 @@ export function IndexList<Node, OrderField extends string>({
           <Button
             className="p-2"
             disabled={!pageInfo?.hasPreviousPage}
+            icon={ChevronLeftIcon}
             onClick={handlePrevClick}
-          >
-            <ChevronLeftIcon className="h-5 w-5" />
-          </Button>
+          />
           <Button
             className="p-2"
             disabled={!pageInfo?.hasNextPage}
+            icon={ChevronRightIcon}
             onClick={handleNextClick}
-          >
-            <ChevronRightIcon className="h-5 w-5" />
-          </Button>
+          />
         </div>
       )}
     </div>
