@@ -312,10 +312,9 @@ export function IndexTable<Node, OrderField extends string>({
         } else {
           setFilterValues(filterValues);
         }
-        setPagination({});
       },
     }),
-    [clearUrlQueryStates, setUrlQueryStates, setPagination],
+    [clearUrlQueryStates, setUrlQueryStates],
   );
 
   const handlePrevClick = useCallback(() => {
