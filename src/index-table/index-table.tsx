@@ -312,9 +312,10 @@ export function IndexTable<Node, OrderField extends string>({
         } else {
           setFilterValues(filterValues);
         }
+        setPagination({});
       },
     }),
-    [clearUrlQueryStates, setUrlQueryStates],
+    [clearUrlQueryStates, setUrlQueryStates, setPagination],
   );
 
   const handlePrevClick = useCallback(() => {
@@ -706,20 +707,18 @@ export function IndexTable<Node, OrderField extends string>({
           <Button
             classNames={{ root: "p-2" }}
             disabled={!pageInfo?.hasPreviousPage || loading}
+            icon={ChevronLeftIcon}
             variant="ghost"
             onClick={handlePrevClick}
-          >
-            <ChevronLeftIcon className="h-5 w-5" />
-          </Button>
+          />
 
           <Button
             classNames={{ root: "p-2" }}
             disabled={!pageInfo?.hasNextPage || loading}
+            icon={ChevronRightIcon}
             variant="ghost"
             onClick={handleNextClick}
-          >
-            <ChevronRightIcon className="h-5 w-5" />
-          </Button>
+          />
         </div>
       )}
     </div>
