@@ -684,14 +684,16 @@ export function IndexList<Node, OrderField extends string>({
         <div className="flex justify-center gap-2 p-5">
           <Button
             classNames={{ root: "p-2" }}
-            disabled={!pageInfo?.hasPreviousPage}
+            disabled={!pageInfo?.hasPreviousPage || loading}
             icon={ChevronLeftIcon}
+            variant="ghost"
             onClick={handlePrevClick}
           />
           <Button
             classNames={{ root: "p-2" }}
-            disabled={!pageInfo?.hasNextPage}
+            disabled={!pageInfo?.hasNextPage || loading}
             icon={ChevronRightIcon}
+            variant="ghost"
             onClick={handleNextClick}
           />
         </div>
