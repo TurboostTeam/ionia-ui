@@ -37,6 +37,7 @@ const columnWrapClass = {
 
 export interface TableActionType {
   resetRowSelection: () => void;
+  setRowSelection: (rowSelection: RowSelectionState) => void;
 }
 
 export type TableColumnProps<T> = ColumnDef<T> & {
@@ -247,6 +248,9 @@ export function Table<T>({
     () => ({
       resetRowSelection: () => {
         table.resetRowSelection();
+      },
+      setRowSelection: (rowSelection: RowSelectionState) => {
+        table.setRowSelection(rowSelection);
       },
     }),
     [table],
