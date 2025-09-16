@@ -165,6 +165,7 @@ export function Table<T>({
   const table = useReactTable({
     data,
     columns: memoColumns as Array<ColumnDef<T>>,
+    getRowId: (row) => (row as any)?.id,
     state: {
       rowSelection: internalRowSelection,
       columnPinning: reduce(
