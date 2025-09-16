@@ -4,6 +4,7 @@ import {
   ChevronRightIcon,
   FunnelIcon,
 } from "@heroicons/react/24/outline";
+import { type RowSelectionState } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import {
   compact,
@@ -293,6 +294,12 @@ export function IndexList<Node, OrderField extends string>({
         } else {
           setFilterValues(filterValues);
         }
+      },
+      resetRowSelection: () => {
+        tableActionRef.current?.resetRowSelection();
+      },
+      setRowSelection: (rowSelection: RowSelectionState) => {
+        tableActionRef.current?.setRowSelection(rowSelection);
       },
     }),
     [clearUrlQueryStates, setUrlQueryStates],
